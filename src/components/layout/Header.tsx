@@ -84,36 +84,53 @@ export function Header() {
                 <Search className="w-5 h-5" />
               </motion.button>
               {isSearchOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  className="absolute top-full right-0 mt-4 w-96 bg-background border border-border rounded-lg shadow-xl z-50 overflow-hidden"
-                >
-                  <div className="p-4 border-b border-border/50">
-                    <input
-                      type="text"
-                      placeholder={t("search")}
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          window.location.href = `/catalog?search=${encodeURIComponent(searchQuery)}`;
-                          setIsSearchOpen(false);
-                        }
-                        if (e.key === "Escape") {
-                          setIsSearchOpen(false);
-                        }
-                      }}
-                      className="w-full bg-transparent outline-none text-foreground placeholder-muted-foreground text-sm"
-                      autoFocus
+                <>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="fixed inset-0 z-40"
+                    onClick={() => setIsSearchOpen(false)}
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, scaleX: 0, scaleY: 0 }}
+                    animate={{ opacity: 1, scaleX: 1, scaleY: 1 }}
+                    exit={{ opacity: 0, scaleX: 0, scaleY: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="absolute top-full right-0 mt-2 bg-background border border-foreground/20 rounded-lg shadow-2xl z-50 w-80 origin-top-right"
+                  >
+                    <motion.div
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      exit={{ scaleX: 0 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 40, delay: 0.05 }}
+                      className="absolute -top-0.5 right-12 w-0.5 h-1.5 bg-gradient-to-b from-foreground/30 to-transparent origin-top"
                     />
-                  </div>
-                  <div className="px-4 py-2 text-xs text-muted-foreground/80 bg-background/50">
-                    {t("pressEnter")}
-                  </div>
-                </motion.div>
+                    <div className="p-4 border-b border-foreground/10">
+                      <input
+                        type="text"
+                        placeholder={t("search")}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            window.location.href = `/catalog?search=${encodeURIComponent(searchQuery)}`;
+                            setIsSearchOpen(false);
+                          }
+                          if (e.key === "Escape") {
+                            setIsSearchOpen(false);
+                          }
+                        }}
+                        className="w-full bg-transparent outline-none text-foreground placeholder-muted-foreground text-base font-light"
+                        autoFocus
+                      />
+                    </div>
+                    <div className="px-4 py-3 text-xs text-muted-foreground/70">
+                      {t("pressEnter")}
+                    </div>
+                  </motion.div>
+                </>
               )}
             </div>
 
