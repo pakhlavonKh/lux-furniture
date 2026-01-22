@@ -1,0 +1,120 @@
+{
+  "navigation": {
+    "home": "Bosh sahifa",
+    "catalog": "Katalog",
+    "collections": "Kolleksiyalar",
+    "about": "Biz haqida",
+    "contact": "Aloqa",
+    "admin": "Admin kirish"
+  },
+  "header": {
+    "search": "Qidirish",
+    "pressEnter": "Qidirish uchun Enter bosing yoki yopish uchun Esc"
+  },
+  "footer": {
+    "tagline": "Biz uyalarni raffinlangan yaşash tomorqalari bo'lgan istisnoi mebel parçalarini tuzathiromiz. Har bir parça hunarmandlik va abadiy dizayn hikoyasini aytadi.",
+    "explore": "Koʻrish",
+    "company": "Kompaniya",
+    "support": "Qoʻllab-quvvatlash",
+    "legal": "Huquqiy",
+    "catalog": "Katalog",
+    "newArrivals": "Yangi kelganlari",
+    "featured": "Tanlanglani",
+    "aboutUs": "Biz haqida",
+    "craftsmanship": "Bizning hunarmandlik",
+    "sustainability": "Barqarorlik",
+    "shipping": "Yetkazib berish va yetkazib berish",
+    "returns": "Qaytarish",
+    "careGuide": "Parvarishlash bo'yicha qo'llanma",
+    "privacy": "Maxfiylik siyosati",
+    "terms": "Xizmat shartlari",
+    "copyright": "© {year} Maison Luxe. Barcha huquqlar himoyalangan.",
+    "newsletter": "Bizning yangiliklarimizga obuna boʻling",
+    "emailPlaceholder": "Elektron pochta manzilingizni kiriting",
+    "subscribe": "Obuna boʻling",
+    "subscriptionSuccess": "Obunalik uchun rahmat!"
+  },
+  "hero": {
+    "discover": "Kashf etish",
+    "luxuryRedefined": "Luxus qayta belgilangan",
+    "tagline": "Hayotni ko'taruvchi qo'l ishlab chiqarish"
+  },
+  "featured": {
+    "title": "Tanlangan tanlov",
+    "subtitle": "Tanlangan parçalar",
+    "viewAll": "Barcha mahsulotlarni koʻrish"
+  },
+  "philosophy": {
+    "section": "Bizning falsafa",
+    "title": "Hunarmandlik abadiy dizaynni uchrashtiradigan joy",
+    "description": "Maison Luxe-da biz aytamanki, ajoyib mebellik faqat estetika emas, bu hayot tarzi. Bizning kollekciyamizning har bir parçasi biliml dizaynning tavakkali turalargi, barqarorlik va izchil go'zalini alohida ko'nnasini ifodalaydi.",
+    "yearsOfExcellence": "Yil ajoyib",
+    "masterArtisans": "Usta hunarmandlar",
+    "countriesServed": "Xizmat koʻrsatilgan davlatlar"
+  },
+  "products": {
+    "ariaLounge": "Aria Lounge kursisi",
+    "tavola": "Tavola ovqat stoli",
+    "luce": "Luce zamin chirogʻi",
+    "livingCollection": "Yasashning kolleksiyasi",
+    "bedroomCollection": "Yotog'ning kolleksiyasi",
+    "livingDesc": "Zamonaviy yasashuvchi bo'shliqlar uchun sun'iy sofalar va soliha o'tirish",
+    "bedroomDesc": "Dam olish va qayta tiklash uchun mo'ljallangan tinch narsalar",
+    "category": {
+      "seating": "O'tirish",
+      "dining": "Ovqatlanish",
+      "lighting": "Yoritish"
+    }
+  },
+  "about": {
+    "story": "Bizning hikoya",
+    "title": "Maison Luxe falsafasi",
+    "introduction": "1998 yilda Milanoda asosilgan Maison Luxe oddiy e'tiqoddan kelib chiqdi: mebel chiroyli va maʼnoli bo'lishi kerak. Kichik masterlabdan boshlangan narsalar xalqaro tan olingan brendga aylandi, uni sezimdor dizayner va uy egalari ishoncha qoʻyadilar.",
+    "heritage": "Ajoyib meros",
+    "heritageSub": "Hunarmandlikni avlodlar",
+    "craftsmanship": "Har bir parça o'z hayotini an'anaviy texnikalarni ustalanishga bagʻishlagan mohir hunarmandlar tomonidan ishlab chiqariladi. Biz aytamanki, chinchli luxus insoniy teginish—har bir parçani noyobini qiladigan nozik nomutanosiblikda.",
+    "materials": "Material yaxlitligi",
+    "materialsSub": "Maqsad bilan buyurtma",
+    "materialsDesc": "Biz faqat mas'ul yetkazuvchilardan eng yaxshi materiallarni manba qilamiz. Barqaror hosilalangan yog'ochdan etik ishlab chiqarilgan charm va materiallargacha, har bir komponent uning sifati va kelib chiqishiga ko'ra tanlanadi.",
+    "design": "Abadiy dizayn",
+    "designSub": "Avlodlar uchun yaratish",
+    "designDesc": "Bizning dizaynlari trends dan chiqadi. Biz mebel yaratamiz, bu ellik yildan keyin bugun kabi muhim va go'zal bo'ladi. Bu abadiylikka sadoqat estetik va atrof-muhit tanlashdir.",
+    "experience": "Maison Luxe-ni sinab koʻring",
+    "visitUs": "Bizni ziyorat qiling",
+    "experienceDesc": "Biz sizni Milando samlik koʻrgazmamizni ziyorat qilishga daʼvat qilamiz, bu yerda siz bizning kollekciyamizni birinchi qo'lda ko'rishingiz va bizning dizayn maslahatchilarimizdan shaxsiy rahbarlik olishingiz mumkin.",
+    "scheduleVisit": "Safarni rejalashtiring"
+  },
+  "admin": {
+    "dashboard": "Admin paneli",
+    "totalProducts": "Jami mahsulotlar",
+    "categories": "Kategoriyalar",
+    "collections": "Kolleksiyalar",
+    "inquiries": "So'rovlar",
+    "logout": "Chiqish",
+    "loading": "Yuklanmoqda..."
+  },
+  "catalog": {
+    "title": "Bizning kolleksiyalar",
+    "filterByCategory": "Toifaga ko'ra filtrlash",
+    "filterByPrice": "Narxga ko'ra filtrlash",
+    "sortBy": "Saralash",
+    "noResults": "Mahsulotlar topilmadi"
+  },
+  "contact": {
+    "title": "Biz bilan bog'laning",
+    "subtitle": "Biz siz uchun xursand ekanmiz",
+    "name": "Sizning ismingiz",
+    "email": "Sizning elektron pochtangiz",
+    "message": "Sizning xabaringiz",
+    "send": "Xabar jo'natish",
+    "messageSent": "Xabar muvaffaqiyatli yuborildi!",
+    "addressTitle": "Bizning joylashuv",
+    "phoneTitle": "Bog'lanish",
+    "hoursTitle": "Soatlar"
+  },
+  "errors": {
+    "notFound": "Sahifa topilmadi",
+    "notFoundDesc": "Siz izlayotgan sahifa mavjud emas",
+    "goHome": "Uyga boring"
+  }
+}

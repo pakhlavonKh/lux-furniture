@@ -1,0 +1,120 @@
+{
+  "navigation": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "collections": "Collections",
+    "about": "About",
+    "contact": "Contact",
+    "admin": "Admin Login"
+  },
+  "header": {
+    "search": "Search",
+    "pressEnter": "Press Enter to search or Esc to close"
+  },
+  "footer": {
+    "tagline": "Curating exceptional furniture pieces that transform spaces into sanctuaries of refined living. Each piece tells a story of craftsmanship and timeless design.",
+    "explore": "Explore",
+    "company": "Company",
+    "support": "Support",
+    "legal": "Legal",
+    "catalog": "Catalog",
+    "newArrivals": "New Arrivals",
+    "featured": "Featured",
+    "aboutUs": "About Us",
+    "craftsmanship": "Our Craftsmanship",
+    "sustainability": "Sustainability",
+    "shipping": "Shipping & Delivery",
+    "returns": "Returns",
+    "careGuide": "Care Guide",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© {year} Maison Luxe. All rights reserved.",
+    "newsletter": "Subscribe to our newsletter",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "subscriptionSuccess": "Thank you for subscribing!"
+  },
+  "hero": {
+    "discover": "Discover",
+    "luxuryRedefined": "Luxury Redefined",
+    "tagline": "Handcrafted furniture that elevates living"
+  },
+  "featured": {
+    "title": "Featured Selection",
+    "subtitle": "Curated Pieces",
+    "viewAll": "View All Products"
+  },
+  "philosophy": {
+    "section": "Our Philosophy",
+    "title": "Where Craftsmanship Meets Timeless Design",
+    "description": "At Maison Luxe, we believe that great furniture is more than aesthetics—it's a way of life. Every piece in our collection represents a commitment to excellence, sustainability, and the enduring beauty of thoughtful design.",
+    "yearsOfExcellence": "Years of Excellence",
+    "masterArtisans": "Master Artisans",
+    "countriesServed": "Countries Served"
+  },
+  "products": {
+    "ariaLounge": "Aria Lounge Chair",
+    "tavola": "Tavola Dining Table",
+    "luce": "Luce Floor Lamp",
+    "livingCollection": "Living Collection",
+    "bedroomCollection": "Bedroom Collection",
+    "livingDesc": "Sculptural sofas and refined seating for modern living spaces",
+    "bedroomDesc": "Serene pieces designed for rest and rejuvenation",
+    "category": {
+      "seating": "Seating",
+      "dining": "Dining",
+      "lighting": "Lighting"
+    }
+  },
+  "about": {
+    "story": "Our Story",
+    "title": "The Maison Luxe Philosophy",
+    "introduction": "Founded in 1998 in Milan, Maison Luxe emerged from a simple belief: that furniture should be both beautiful and meaningful. What started as a small atelier has evolved into an internationally recognized brand, trusted by designers and homeowners who appreciate the intersection of art and functionality.",
+    "heritage": "A Heritage of Excellence",
+    "heritageSub": "Generations of Craftsmanship",
+    "craftsmanship": "Every piece is crafted by skilled artisans who have dedicated their lives to mastering traditional techniques. We believe that true luxury lies in the human touch—the subtle imperfections that make each piece unique.",
+    "materials": "Material Integrity",
+    "materialsSub": "Sourcing with Purpose",
+    "materialsDesc": "We source only the finest materials from responsible suppliers. From sustainably harvested hardwoods to ethically produced leathers and fabrics, every component is selected for its quality and provenance.",
+    "design": "Timeless Design",
+    "designSub": "Creating for Generations",
+    "designDesc": "Our designs transcend trends. We create furniture that will be just as relevant and beautiful in fifty years as it is today. This commitment to timelessness is both an aesthetic and environmental choice.",
+    "experience": "Experience Maison Luxe",
+    "visitUs": "Visit Us",
+    "experienceDesc": "We invite you to visit our flagship showroom in Milan, where you can experience our collection firsthand and receive personalized guidance from our design consultants.",
+    "scheduleVisit": "Schedule a Visit"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "totalProducts": "Total Products",
+    "categories": "Categories",
+    "collections": "Collections",
+    "inquiries": "Inquiries",
+    "logout": "Logout",
+    "loading": "Loading..."
+  },
+  "catalog": {
+    "title": "Our Collections",
+    "filterByCategory": "Filter by Category",
+    "filterByPrice": "Filter by Price",
+    "sortBy": "Sort By",
+    "noResults": "No products found"
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "We'd love to hear from you",
+    "name": "Your Name",
+    "email": "Your Email",
+    "message": "Your Message",
+    "send": "Send Message",
+    "messageSent": "Message sent successfully!",
+    "addressTitle": "Our Location",
+    "phoneTitle": "Contact",
+    "hoursTitle": "Hours"
+  },
+  "errors": {
+    "notFound": "Page Not Found",
+    "notFoundDesc": "The page you're looking for doesn't exist",
+    "goHome": "Go Home"
+  }
+}
