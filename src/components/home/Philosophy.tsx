@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/useLanguageHook";
 
 interface PhilosophyProps {
   image: string;
 }
 
 export function Philosophy({ image }: PhilosophyProps) {
+  const { t } = useLanguage();
   return (
     <section className="section-padding">
       <div className="container-luxury">
@@ -32,46 +34,32 @@ export function Philosophy({ image }: PhilosophyProps) {
             viewport={{ once: true }}
             className="lg:pl-8"
           >
-            <p className="text-caption mb-6">Our Philosophy</p>
+            <p className="text-caption mb-6">{t("philosophy.section")}</p>
             <h2 className="heading-section mb-8">
-              Where Craftsmanship
+              {t("philosophy.title")}
               <br />
-              <span className="italic">Meets Vision</span>
+              <span className="italic">{t("philosophy.section")}</span>
             </h2>
 
             <div className="space-y-6 text-body">
-              <p>
-                At Maison Luxe, we believe that furniture is more than function
-                — it's an expression of how we choose to live. Each piece in our
-                collection represents a dialogue between traditional
-                craftsmanship and contemporary design.
-              </p>
-              <p>
-                We partner with master artisans across Italy and Europe who
-                share our uncompromising commitment to quality. From the
-                selection of premium materials to the final hand-finishing,
-                every step is executed with precision and care.
-              </p>
-              <p>
-                The result is furniture that doesn't just fill a space — it
-                transforms it. Pieces that age gracefully, develop character,
-                and become cherished elements of your home for generations.
-              </p>
+              <p>{t("philosophy.description")}</p>
+              <p>{t("philosophy.description2")}</p>
+              <p>{t("philosophy.description3")}</p>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 mt-12 pt-12 border-t border-border">
               <div>
                 <p className="font-serif text-3xl md:text-4xl mb-2">25+</p>
-                <p className="text-caption">Years of Excellence</p>
+                <p className="text-caption">{t("philosophy.yearsOfExcellence")}</p>
               </div>
               <div>
                 <p className="font-serif text-3xl md:text-4xl mb-2">150+</p>
-                <p className="text-caption">Master Artisans</p>
+                <p className="text-caption">{t("philosophy.masterArtisans")}</p>
               </div>
               <div>
                 <p className="font-serif text-3xl md:text-4xl mb-2">40+</p>
-                <p className="text-caption">Countries Served</p>
+                <p className="text-caption">{t("philosophy.countriesServed")}</p>
               </div>
             </div>
           </motion.div>

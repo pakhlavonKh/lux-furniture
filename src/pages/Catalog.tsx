@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/ui/ProductCard";
 import { motion } from "framer-motion";
 import { Filter, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/useLanguageHook";
 
 // Import product images
 import armchairImage from "@/assets/product-armchair.jpg";
@@ -99,6 +100,7 @@ const Catalog = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState(priceRanges[0]);
   const [selectedMaterial, setSelectedMaterial] = useState("All");
   const [selectedStyle, setSelectedStyle] = useState("All");
+  const { t } = useLanguage();
 
   const filteredProducts = useMemo(() => {
     return allProducts.filter((product) => {
@@ -136,11 +138,10 @@ const Catalog = () => {
             transition={{ duration: 0.6 }}
             className="text-center max-w-2xl mx-auto"
           >
-            <p className="text-caption mb-4">Our Collection</p>
-            <h1 className="heading-display mb-6">Catalog</h1>
+            <p className="text-caption mb-4">{t("catalog.subtitle")}</p>
+            <h1 className="heading-display mb-6">{t("catalog.title")}</h1>
             <p className="text-body text-lg">
-              Explore our curated selection of furniture pieces, each designed to
-              bring timeless elegance to your space.
+              {t("catalog.description")}
             </p>
           </motion.div>
         </div>
@@ -160,7 +161,7 @@ const Catalog = () => {
                 )}
               >
                 <Filter className="w-4 h-4" />
-                <span className="text-sm uppercase tracking-wider">Filters</span>
+                <span className="text-sm uppercase tracking-wider">{t("catalog.filters")}</span>
                 {activeFiltersCount > 0 && (
                   <span className="ml-1 w-5 h-5 bg-foreground text-background text-xs flex items-center justify-center rounded-full">
                     {activeFiltersCount}
@@ -174,13 +175,13 @@ const Catalog = () => {
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
                 >
                   <X className="w-4 h-4" />
-                  Clear all
+                  {t("catalog.clearAll")}
                 </button>
               )}
             </div>
 
             <p className="text-sm text-muted-foreground">
-              {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
+              {filteredProducts.length} {filteredProducts.length === 1 ? t("catalog.product") : t("catalog.products")}
             </p>
           </div>
 
@@ -194,7 +195,7 @@ const Catalog = () => {
             >
               {/* Category Filter */}
               <div>
-                <h3 className="text-caption mb-4">Category</h3>
+                <h3 className="text-caption mb-4">{t("catalog.category")}</h3>
                 <div className="space-y-2">
                   {categories.map((category) => (
                     <button
@@ -215,7 +216,7 @@ const Catalog = () => {
 
               {/* Price Filter */}
               <div>
-                <h3 className="text-caption mb-4">Price</h3>
+                <h3 className="text-caption mb-4">{t("catalog.price")}</h3>
                 <div className="space-y-2">
                   {priceRanges.map((range) => (
                     <button
@@ -236,7 +237,7 @@ const Catalog = () => {
 
               {/* Material Filter */}
               <div>
-                <h3 className="text-caption mb-4">Material</h3>
+                <h3 className="text-caption mb-4">{t("catalog.material")}</h3>
                 <div className="space-y-2">
                   {materials.map((material) => (
                     <button
@@ -257,7 +258,7 @@ const Catalog = () => {
 
               {/* Style Filter */}
               <div>
-                <h3 className="text-caption mb-4">Style</h3>
+                <h3 className="text-caption mb-4">{t("catalog.style")}</h3>
                 <div className="space-y-2">
                   {styles.map((style) => (
                     <button
@@ -295,12 +296,12 @@ const Catalog = () => {
             </div>
           ) : (
             <div className="text-center py-20">
-              <p className="text-muted-foreground mb-4">No products match your filters.</p>
+              <p className="text-muted-foreground mb-4">{t("catalog.noProducts")}</p>
               <button
                 onClick={clearFilters}
                 className="text-sm underline hover:no-underline"
               >
-                Clear all filters
+                {t("catalog.clearAll")}
               </button>
             </div>
           )}

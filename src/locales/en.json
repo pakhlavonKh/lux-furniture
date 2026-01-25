@@ -1,6 +1,6 @@
 {
   "navigation": {
-    "home": "Home",
+    "showcase": "Showcase",
     "catalog": "Catalog",
     "collections": "Collections",
     "about": "About",
@@ -37,7 +37,11 @@
   "hero": {
     "discover": "Discover",
     "luxuryRedefined": "Luxury Redefined",
-    "tagline": "Handcrafted furniture that elevates living"
+    "tagline": "Handcrafted furniture that elevates living",
+    "curatedCollection": "Curated Collection 2026",
+    "artOfLiving": "The Art of Refined Living",
+    "refinedLiving": "Refined Living",
+    "subtitle": "Discover the intersection of Italian craftsmanship and contemporary design."
   },
   "featured": {
     "title": "Featured Selection",
@@ -46,11 +50,16 @@
   },
   "philosophy": {
     "section": "Our Philosophy",
-    "title": "Where Craftsmanship Meets Timeless Design",
-    "description": "At Maison Luxe, we believe that great furniture is more than aesthetics—it's a way of life. Every piece in our collection represents a commitment to excellence, sustainability, and the enduring beauty of thoughtful design.",
+    "title": "Where Craftsmanship Meets Vision",
+    "description": "At Maison Luxe, we believe that furniture is more than function — it's an expression of how we choose to live. Each piece in our collection represents a dialogue between traditional craftsmanship and contemporary design.",
+    "description2": "We partner with master artisans across Italy and Europe who share our uncompromising commitment to quality. From the selection of premium materials to the final hand-finishing, every step is executed with precision and care.",
+    "description3": "The result is furniture that doesn't just fill a space — it transforms it. Pieces that age gracefully, develop character, and become cherished elements of your home for generations.",
     "yearsOfExcellence": "Years of Excellence",
     "masterArtisans": "Master Artisans",
     "countriesServed": "Countries Served"
+  },
+  "showcase": {
+    "title": "Showcase"
   },
   "products": {
     "ariaLounge": "Aria Lounge Chair",
@@ -68,8 +77,11 @@
   },
   "about": {
     "story": "Our Story",
-    "title": "The Maison Luxe Philosophy",
-    "introduction": "Founded in 1998 in Milan, Maison Luxe emerged from a simple belief: that furniture should be both beautiful and meaningful. What started as a small atelier has evolved into an internationally recognized brand, trusted by designers and homeowners who appreciate the intersection of art and functionality.",
+    "title": "A Legacy of Refined Craftsmanship",
+    "heading": "Born from a Passion for Excellence",
+    "paragraph1": "Maison Luxe was founded on a simple yet profound belief: that the spaces we inhabit should reflect our highest aspirations for beauty and quality. What began as a small atelier in Milan has grown into a globally recognized purveyor of exceptional furniture.",
+    "paragraph2": "Our journey started over two decades ago when our founder, inspired by generations of Italian furniture-making tradition, set out to create pieces that would stand the test of time—both in durability and design.",
+    "paragraph3": "Today, we continue this legacy by partnering with the finest craftspeople across Europe, using only the most select materials, and maintaining an unwavering commitment to excellence in every detail.",
     "heritage": "A Heritage of Excellence",
     "heritageSub": "Generations of Craftsmanship",
     "craftsmanship": "Every piece is crafted by skilled artisans who have dedicated their lives to mastering traditional techniques. We believe that true luxury lies in the human touch—the subtle imperfections that make each piece unique.",
@@ -82,7 +94,8 @@
     "experience": "Experience Maison Luxe",
     "visitUs": "Visit Us",
     "experienceDesc": "We invite you to visit our flagship showroom in Milan, where you can experience our collection firsthand and receive personalized guidance from our design consultants.",
-    "scheduleVisit": "Schedule a Visit"
+    "scheduleVisit": "Schedule a Visit",
+    "introduction": "Founded in 1998 in Milan, Maison Luxe emerged from a simple belief: that furniture should be both beautiful and meaningful. What started as a small atelier has evolved into an internationally recognized brand, trusted by designers and homeowners who appreciate the intersection of art and functionality."
   },
   "admin": {
     "dashboard": "Admin Dashboard",
@@ -94,20 +107,46 @@
     "loading": "Loading..."
   },
   "catalog": {
-    "title": "Our Collections",
-    "filterByCategory": "Filter by Category",
-    "filterByPrice": "Filter by Price",
-    "sortBy": "Sort By",
-    "noResults": "No products found"
+    "title": "Catalog",
+    "subtitle": "Our Collection",
+    "description": "Explore our curated selection of furniture pieces, each designed to bring timeless elegance to your space.",
+    "filters": "Filters",
+    "category": "Category",
+    "price": "Price",
+    "material": "Material",
+    "style": "Style",
+    "allPrices": "All Prices",
+    "under2000": "Under €2,000",
+    "price2000to5000": "€2,000 - €5,000",
+    "price5000to10000": "€5,000 - €10,000",
+    "over10000": "Over €10,000",
+    "clearAll": "Clear all",
+    "noProducts": "No products match your filters.",
+    "product": "product",
+    "products": "products"
+  },
+  "collections": {
+    "title": "Collections",
+    "subtitle": "Curated Selections",
+    "description": "Explore our thoughtfully curated collections, each designed to inspire and elevate your living spaces.",
+    "cta": "Discover Your Perfect Piece",
+    "ctaDesc": "Each collection tells a unique story. Browse through our selections to find the pieces that resonate with your personal style.",
+    "viewFullCatalog": "View Full Catalog",
+    "products": "products"
   },
   "contact": {
-    "title": "Get in Touch",
-    "subtitle": "We'd love to hear from you",
-    "name": "Your Name",
-    "email": "Your Email",
+    "title": "Contact Us",
+    "subtitle": "Get in Touch",
+    "description": "We'd love to hear from you. Whether you have a question about our collection, need design advice, or want to schedule a showroom visit, our team is here to help.",
+    "formTitle": "Send Us a Message",
+    "name": "Name *",
+    "email": "Email *",
+    "phone": "Phone",
+    "subject": "Subject",
     "message": "Your Message",
     "send": "Send Message",
-    "messageSent": "Message sent successfully!",
+    "messageSent": "Message Sent",
+    "messageDescription": "Thank you for your inquiry. We'll be in touch within 24 hours.",
     "addressTitle": "Our Location",
     "phoneTitle": "Contact",
     "hoursTitle": "Hours"

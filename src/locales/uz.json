@@ -1,6 +1,6 @@
 {
   "navigation": {
-    "home": "Bosh sahifa",
+    "showcase": "Ko'rgazma",
     "catalog": "Katalog",
     "collections": "Kolleksiyalar",
     "about": "Biz haqida",
@@ -94,11 +94,32 @@
     "loading": "Yuklanmoqda..."
   },
   "catalog": {
-    "title": "Bizning kolleksiyalar",
-    "filterByCategory": "Toifaga ko'ra filtrlash",
-    "filterByPrice": "Narxga ko'ra filtrlash",
-    "sortBy": "Saralash",
-    "noResults": "Mahsulotlar topilmadi"
+    "title": "Katalog",
+    "subtitle": "Bizning Kolleksiya",
+    "description": "Bizning tanlangi mebel parçalarining kolleksiyasini ko'ring, ularning har biri sizning makoningizga abadiy sharafat olib kelib berish uchun ishlab chiqilgan.",
+    "filters": "Filterlar",
+    "category": "Kategoriya",
+    "price": "Narx",
+    "material": "Material",
+    "style": "Uslub",
+    "allPrices": "Barcha narxlar",
+    "under2000": "€2 000 dan kam",
+    "price2000to5000": "€2 000 - €5 000",
+    "price5000to10000": "€5 000 - €10 000",
+    "over10000": "€10 000 dan ko'p",
+    "clearAll": "Hammasini o'chirish",
+    "noProducts": "Sizning filterlaringizga mos keladigan mahsulotlar yo'q.",
+    "product": "mahsulot",
+    "products": "mahsulotlar"
+  },
+  "collections": {
+    "title": "Kolleksiyalar",
+    "subtitle": "Tanlangli Tanlovlar",
+    "description": "Bizning tanlangli kolleksiyalarni ko'ring, ularning har biri sizning yashaydigan makonlarni ilhomlantirish va o'naltirish uchun ishlab chiqilgan.",
+    "cta": "O'zingizning Mukammal Parçangizni Kashf Etish",
+    "ctaDesc": "Har bir kolleksiya noyob voqeani aytadi. Sizning shaxsiy uslubingiz bilan gapdashuvchi parçalarni topish uchun bizning tanlovlarni ko'rb chiqing.",
+    "viewFullCatalog": "To'liq Katalogni Ko'rish",
+    "products": "mahsulotlar"
   },
   "contact": {
     "title": "Biz bilan bog'laning",

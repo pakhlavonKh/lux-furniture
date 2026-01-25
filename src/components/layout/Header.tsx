@@ -7,11 +7,11 @@ import { useLanguage } from "@/contexts/useLanguageHook";
 import type { Language } from "@/locales";
 
 const navigation = [
-  { name: "Home", key: "home", href: "/" },
-  { name: "Catalog", key: "catalog", href: "/catalog" },
-  { name: "Collections", key: "collections", href: "/catalog?view=collections" },
-  { name: "About", key: "about", href: "/about" },
-  { name: "Contact", key: "contact", href: "/contact" },
+  { name: "Showcase", key: "navigation.showcase", href: "/showcase" },
+  { name: "Catalog", key: "navigation.catalog", href: "/" },
+  { name: "Collections", key: "navigation.collections", href: "/collections" },
+  { name: "About", key: "navigation.about", href: "/about" },
+  { name: "Contact", key: "navigation.contact", href: "/contact" },
 ];
 
 export function Header() {

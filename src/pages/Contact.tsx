@@ -3,9 +3,11 @@ import { Layout } from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/useLanguageHook";
 
 const Contact = () => {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,8 +31,8 @@ const Contact = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast({
-      title: "Message Sent",
-      description: "Thank you for your inquiry. We'll be in touch within 24 hours.",
+      title: t("contact.messageSent"),
+      description: t("contact.messageDescription"),
     });
 
     setFormData({
@@ -54,12 +56,10 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             className="text-center max-w-2xl mx-auto"
           >
-            <p className="text-caption mb-4">Get in Touch</p>
-            <h1 className="heading-display mb-6">Contact Us</h1>
+            <p className="text-caption mb-4">{t("contact.subtitle")}</p>
+            <h1 className="heading-display mb-6">{t("contact.title")}</h1>
             <p className="text-body text-lg">
-              We'd love to hear from you. Whether you have a question about our
-              collection, need design advice, or want to schedule a showroom visit,
-              our team is here to help.
+              {t("contact.description")}
             </p>
           </motion.div>
         </div>
@@ -76,12 +76,12 @@ const Contact = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="heading-card mb-8">Send Us a Message</h2>
+              <h2 className="heading-card mb-8">{t("contact.formTitle")}</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="text-caption mb-2 block">
-                      Name *
+                      {t("contact.name")}
                     </label>
                     <input
                       type="text"
@@ -95,7 +95,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <label htmlFor="email" className="text-caption mb-2 block">
-                      Email *
+                      {t("contact.email")}
                     </label>
                     <input
                       type="email"
@@ -112,7 +112,7 @@ const Contact = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="phone" className="text-caption mb-2 block">
-                      Phone
+                      {t("contact.phone")}
                     </label>
                     <input
                       type="tel"
@@ -125,7 +125,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <label htmlFor="subject" className="text-caption mb-2 block">
-                      Subject *
+                      {t("contact.subject")} *
                     </label>
                     <select
                       id="subject"
@@ -147,7 +147,7 @@ const Contact = () => {
 
                 <div>
                   <label htmlFor="message" className="text-caption mb-2 block">
-                    Message *
+                    {t("contact.message")} *
                   </label>
                   <textarea
                     id="message"
@@ -165,7 +165,7 @@ const Contact = () => {
                   disabled={isSubmitting}
                   className="btn-luxury w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? "Sending..." : t("contact.send")}
                 </button>
               </form>
             </motion.div>

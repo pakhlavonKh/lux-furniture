@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/contexts/useLanguageHook";
 
 interface HeroProps {
   heroImage: string;
 }
 
 export function Hero({ heroImage }: HeroProps) {
+  const { t } = useLanguage();
   return (
     <section className="relative h-screen min-h-[700px] flex items-center">
       {/* Background Image */}
@@ -30,7 +32,7 @@ export function Hero({ heroImage }: HeroProps) {
             transition={{ duration: 0.6 }}
             className="text-caption mb-6"
           >
-            Curated Collection 2026
+            {t("hero.curatedCollection")}
           </motion.p>
 
           <motion.h1
@@ -39,9 +41,9 @@ export function Hero({ heroImage }: HeroProps) {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="heading-display mb-8"
           >
-            The Art of
+            {t("hero.artOfLiving")}
             <br />
-            <span className="italic">Refined Living</span>
+            <span className="italic">{t("hero.refinedLiving")}</span>
           </motion.h1>
 
           <motion.p
@@ -50,9 +52,7 @@ export function Hero({ heroImage }: HeroProps) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-body text-lg max-w-lg mb-10"
           >
-            Discover furniture that transcends time. Each piece crafted with
-            meticulous attention to detail, designed to elevate your space into
-            a sanctuary of elegance.
+            {t("hero.subtitle")}
           </motion.p>
 
           <motion.div

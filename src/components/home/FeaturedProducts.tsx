@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/contexts/useLanguageHook";
 
 interface Product {
   id: string;
@@ -16,6 +17,7 @@ interface FeaturedProductsProps {
 }
 
 export function FeaturedProducts({ products }: FeaturedProductsProps) {
+  const { t } = useLanguage();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -41,14 +43,14 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
-            <p className="text-caption mb-4">Featured Selection</p>
-            <h2 className="heading-section">Curated Pieces</h2>
+            <p className="text-caption mb-4">{t("featured.title")}</p>
+            <h2 className="heading-section">{t("featured.subtitle")}</h2>
           </div>
           <Link
-            to="/catalog"
+            to="/"
             className="link-underline text-sm uppercase tracking-[0.15em] font-medium inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
-            View All Products
+            {t("featured.viewAll")}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

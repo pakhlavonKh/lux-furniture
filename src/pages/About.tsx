@@ -1,11 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/useLanguageHook";
 
 // Import images
 import craftsmanshipImage from "@/assets/craftsmanship.jpg";
 import heroImage from "@/assets/hero-living-room.jpg";
 
 const About = () => {
+  const { t } = useLanguage();
   return (
     <Layout>
       {/* Hero Section */}
@@ -25,11 +27,11 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-caption text-primary-foreground/80 mb-4">Our Story</p>
+            <p className="text-caption text-primary-foreground/80 mb-4">{t("about.story")}</p>
             <h1 className="heading-display text-primary-foreground mb-6">
-              A Legacy of
+              {t("about.title")}
               <br />
-              <span className="italic">Refined Craftsmanship</span>
+              <span className="italic">{t("about.heading")}</span>
             </h1>
           </motion.div>
         </div>
@@ -46,29 +48,12 @@ const About = () => {
               viewport={{ once: true }}
             >
               <h2 className="heading-section mb-8">
-                Born from a Passion
-                <br />
-                for Excellence
+                {t("about.heading")}
               </h2>
               <div className="space-y-6 text-body">
-                <p>
-                  Maison Luxe was founded on a simple yet profound belief: that the
-                  spaces we inhabit should reflect our highest aspirations for beauty
-                  and quality. What began as a small atelier in Milan has grown into
-                  a globally recognized purveyor of exceptional furniture.
-                </p>
-                <p>
-                  Our journey started over two decades ago when our founder, inspired
-                  by generations of Italian furniture-making tradition, set out to
-                  create pieces that would stand the test of time—both in durability
-                  and design.
-                </p>
-                <p>
-                  Today, we continue this legacy by partnering with the finest
-                  craftspeople across Europe, using only the most select materials,
-                  and maintaining an unwavering commitment to excellence in every
-                  detail.
-                </p>
+                <p>{t("about.paragraph1")}</p>
+                <p>{t("about.paragraph2")}</p>
+                <p>{t("about.paragraph3")}</p>
               </div>
             </motion.div>
 
