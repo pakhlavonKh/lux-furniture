@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/useLanguageHook";
-import type { Language } from "@/locales";
+import manakuLogo from "@/assets/manaku_logo.png";
 
 const navigation = [
   { name: "Showcase", key: "navigation.showcase", href: "/showcase" },
@@ -17,8 +17,6 @@ const navigation = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
 
@@ -47,10 +45,18 @@ export function Header() {
       <nav className="container-luxury">
         <div className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
-          <Link to="/" className="relative z-10">
-            <h1 className="font-serif text-xl md:text-2xl tracking-[0.1em] text-foreground">
-              MAISON LUXE
-            </h1>
+          <Link to="/" className="relative z-10" style={{ pointerEvents: 'auto' }}>
+            <img 
+              src={manakuLogo} 
+              alt="Manaku" 
+              className="h-10 md:h-12 w-auto object-contain !no-underline"
+              style={{ 
+                transition: 'none !important', 
+                opacity: '1 !important',
+                filter: 'none !important',
+                textDecoration: 'none !important'
+              }}
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -73,75 +79,14 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-8">
-            <div className="relative">
-              <motion.button
-                whileHover={{ opacity: 0.7 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="btn-search"
-                title={t("search")}
-              >
-                <Search className="w-5 h-5" />
-              </motion.button>
-              {isSearchOpen && (
-                <>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="fixed inset-0 z-40"
-                    onClick={() => setIsSearchOpen(false)}
-                  />
-                  <motion.div
-                    initial={{ opacity: 0, scaleX: 0, scaleY: 0 }}
-                    animate={{ opacity: 1, scaleX: 1, scaleY: 1 }}
-                    exit={{ opacity: 0, scaleX: 0, scaleY: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="absolute top-full right-0 mt-2 bg-background border border-foreground/20 rounded-lg shadow-2xl z-50 w-80 origin-top-right"
-                  >
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      exit={{ scaleX: 0 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 40, delay: 0.05 }}
-                      className="absolute -top-0.5 right-12 w-0.5 h-1.5 bg-gradient-to-b from-foreground/30 to-transparent origin-top"
-                    />
-                    <div className="p-4 border-b border-foreground/10">
-                      <input
-                        type="text"
-                        placeholder={t("search")}
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            window.location.href = `/catalog?search=${encodeURIComponent(searchQuery)}`;
-                            setIsSearchOpen(false);
-                          }
-                          if (e.key === "Escape") {
-                            setIsSearchOpen(false);
-                          }
-                        }}
-                        className="w-full bg-transparent outline-none text-foreground placeholder-muted-foreground text-base font-light"
-                        autoFocus
-                      />
-                    </div>
-                    <div className="px-4 py-3 text-xs text-muted-foreground/70">
-                      {t("pressEnter")}
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </div>
-
             {/* Language Switcher */}
-            <div className="flex items-center gap-6 pl-8">
+            <div className="flex items-center gap-6">
               {["en", "ru", "uz"].map((lang) => (
                 <motion.button
                   key={lang}
                   whileHover={{ opacity: 0.7 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setLanguage(lang as Language)}
+                  onClick={() => setLanguage(lang as "en" | "ru" | "uz")}
                   className={cn(
                     "btn-lang",
                     language === lang && "active"
@@ -216,7 +161,7 @@ export function Header() {
                   {["en", "ru", "uz"].map((lang) => (
                     <button
                       key={lang}
-                      onClick={() => setLanguage(lang as Language)}
+                      onClick={() => setLanguage(lang as "en" | "ru" | "uz")}
                       className={cn(
                         "btn-lang",
                         language === lang && "active"

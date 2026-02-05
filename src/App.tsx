@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/contexts/useLanguageHook";
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import Collections from "./pages/Collections";
@@ -15,8 +17,15 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <LanguageProvider>
+function AppWithLanguage() {
+  const { language } = useLanguage();
+
+  useEffect(() => {
+    // Update HTML lang attribute
+    document.documentElement.lang = language;
+  }, [language]);
+
+  return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
@@ -35,6 +44,12 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
+  );
+}
+
+const App = () => (
+  <LanguageProvider>
+    <AppWithLanguage />
   </LanguageProvider>
 );
 

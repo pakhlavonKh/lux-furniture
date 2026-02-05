@@ -244,3 +244,47 @@
     @apply scale-110;
   }
 }
+
+/* Updated color scheme for teal theme */
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 200 20% 15%;
+    --card: 0 0% 97%;
+    --card-foreground: 200 20% 15%;
+    --popover: 0 0% 98%;
+    --popover-foreground: 200 20% 15%;
+    --primary: 195 74% 38%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 195 60% 60%;
+    --secondary-foreground: 200 20% 15%;
+    --muted: 200 10% 88%;
+    --muted-foreground: 200 10% 45%;
+    --accent: 195 75% 32%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 15% 85%;
+    --input: 200 15% 90%;
+    --ring: 195 74% 38%;
+    --radius: 0.25rem;
+    --cream: 0 0% 98%;
+    --sand: 195 30% 85%;
+    --stone: 195 20% 70%;
+    --charcoal: 200 20% 15%;
+    --taupe: 200 15% 55%;
+    --espresso: 200 20% 12%;
+  }
+
+  .dark {
+    --background: 200 15% 10%;
+    --foreground: 0 0% 95%;
+    --card: 200 15% 12%;
+    --card-foreground: 0 0% 95%;
+    --primary: 195 70% 50%;
+    --primary-foreground: 200 15% 10%;
+    --secondary: 195 65% 60%;
+    --secondary-foreground: 0 0% 95%;
+  }
+}

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - API_URL=https://api.lux-furniture.com
+      - FRONTEND_URL=https://lux-furniture.com
+      - FRONTEND_URL_PROD=https://lux-furniture.com
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - PAYME_MERCHANT_ID=${PAYME_MERCHANT_ID}
+      - PAYME_API_KEY=${PAYME_API_KEY}
+      - PAYME_SECRET_KEY=${PAYME_SECRET_KEY}
+      - CLICK_MERCHANT_ID=${CLICK_MERCHANT_ID}
+      - CLICK_SERVICE_ID=${CLICK_SERVICE_ID}
+      - CLICK_API_KEY=${CLICK_API_KEY}
+      - CLICK_SECRET_KEY=${CLICK_SECRET_KEY}
+      - UZUM_MERCHANT_ID=${UZUM_MERCHANT_ID}
+      - UZUM_API_KEY=${UZUM_API_KEY}
+      - UZUM_SECRET_KEY=${UZUM_SECRET_KEY}
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - API_URL=http://localhost:5000
+      - FRONTEND_URL=http://localhost:5173
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - PAYME_MERCHANT_ID=${PAYME_MERCHANT_ID}
+      - PAYME_API_KEY=${PAYME_API_KEY}
+      - PAYME_SECRET_KEY=${PAYME_SECRET_KEY}
+      - CLICK_MERCHANT_ID=${CLICK_MERCHANT_ID}
+      - CLICK_SERVICE_ID=${CLICK_SERVICE_ID}
+      - CLICK_API_KEY=${CLICK_API_KEY}
+      - CLICK_SECRET_KEY=${CLICK_SECRET_KEY}
+      - UZUM_MERCHANT_ID=${UZUM_MERCHANT_ID}
+      - UZUM_API_KEY=${UZUM_API_KEY}
+      - UZUM_SECRET_KEY=${UZUM_SECRET_KEY}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev:watch
+    restart: unless-stopped

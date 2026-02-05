@@ -11,6 +11,18 @@
     "search": "Search",
     "pressEnter": "Press Enter to search or Esc to close"
   },
+  "index": {
+    "searchPlaceholder": "Search furniture, collections, or styles...",
+    "shopByCategory": "Shop by Category",
+    "viewAll": "View All",
+    "furniture": "Furniture",
+    "seating": "Seating",
+    "dining": "Dining",
+    "lighting": "Lighting",
+    "tables": "Tables",
+    "bedroom": "Bedroom",
+    "accessories": "Accessories"
+  },
   "footer": {
     "tagline": "Curating exceptional furniture pieces that transform spaces into sanctuaries of refined living. Each piece tells a story of craftsmanship and timeless design.",
     "explore": "Explore",

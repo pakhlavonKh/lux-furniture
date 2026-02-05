@@ -39,17 +39,31 @@ export function getNestedTranslation(
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
-    // Get language from localStorage or default to "en"
+    // Get language from localStorage, browser language, or default to "en"
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("language") as Language | null;
-      return saved || "en";
+      if (saved) return saved;
+
+      // Auto-detect from browser language with Uzbek priority
+      const browserLang = navigator.language.toLowerCase();
+      
+      // Priority order: uz (Uzbek) > ru (Russian) > en (English)
+      if (browserLang.startsWith("uz")) return "uz";
+      if (browserLang.startsWith("ru")) return "ru";
+      if (browserLang.startsWith("en")) return "en";
+      
+      // Default to English if no match
+      return "en";
     }
     return "en";
   });
 
-  // Save language to localStorage whenever it changes
+  // Save language to localStorage and update HTML lang attribute whenever it changes
   useEffect(() => {
     localStorage.setItem("language", language);
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = language;
+    }
   }, [language]);
 
   const t = (key: string): string => {

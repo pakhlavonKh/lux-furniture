@@ -2,8 +2,9 @@ import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { SEO } from "@/components/SEO";
 import { motion } from "framer-motion";
-import { Filter, ChevronDown, X } from "lucide-react";
+import { Filter, ChevronDown, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/useLanguageHook";
 
@@ -93,8 +94,20 @@ const priceRanges = [
 const materials = ["All", "Bouclé Fabric", "Walnut Wood", "Brass", "Leather", "Oak Wood", "Ceramic"];
 const styles = ["All", "Contemporary", "Modern", "Classic", "Minimalist"];
 
+// Category tiles for shopping
+const categoryTiles = [
+  { key: "furniture", label: "Furniture" },
+  { key: "seating", label: "Seating" },
+  { key: "dining", label: "Dining" },
+  { key: "lighting", label: "Lighting" },
+  { key: "tables", label: "Tables" },
+  { key: "bedroom", label: "Bedroom" },
+  { key: "accessories", label: "Accessories" },
+];
+
 const Catalog = () => {
   const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedPriceRange, setSelectedPriceRange] = useState(priceRanges[0]);
@@ -102,16 +115,32 @@ const Catalog = () => {
   const [selectedStyle, setSelectedStyle] = useState("All");
   const { t } = useLanguage();
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Filter products by search query
+  };
+
+  const handleCategoryClick = (category: string) => {
+    if (category === "Furniture") {
+      setSelectedCategory("All");
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
   const filteredProducts = useMemo(() => {
     return allProducts.filter((product) => {
+      const searchMatch = searchQuery === "" || 
+        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase());
       const categoryMatch = selectedCategory === "All" || product.category === selectedCategory;
       const priceMatch = product.price >= selectedPriceRange.min && product.price <= selectedPriceRange.max;
       const materialMatch = selectedMaterial === "All" || product.material === selectedMaterial;
       const styleMatch = selectedStyle === "All" || product.style === selectedStyle;
 
-      return categoryMatch && priceMatch && materialMatch && styleMatch;
+      return searchMatch && categoryMatch && priceMatch && materialMatch && styleMatch;
     });
-  }, [selectedCategory, selectedPriceRange, selectedMaterial, selectedStyle]);
+  }, [searchQuery, selectedCategory, selectedPriceRange, selectedMaterial, selectedStyle]);
 
   const activeFiltersCount = [
     selectedCategory !== "All",
@@ -121,6 +150,7 @@ const Catalog = () => {
   ].filter(Boolean).length;
 
   const clearFilters = () => {
+    setSearchQuery("");
     setSelectedCategory("All");
     setSelectedPriceRange(priceRanges[0]);
     setSelectedMaterial("All");
@@ -129,20 +159,83 @@ const Catalog = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-secondary/30">
+      <SEO 
+        title="Manaku | Premium Furniture Catalog" 
+        description="Explore our exclusive collection of luxury furniture. Handcrafted pieces featuring contemporary and classic designs for refined living."
+        url="https://lux-furniture-demo.netlify.app/"
+      />
+
+      {/* Search and Categories Section */}
+      <section className="pt-28 pb-12 bg-background">
         <div className="container-luxury">
+          {/* Search Bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-2xl mx-auto"
+            className="mb-10"
           >
-            <p className="text-caption mb-4">{t("catalog.subtitle")}</p>
-            <h1 className="heading-display mb-6">{t("catalog.title")}</h1>
-            <p className="text-body text-lg">
-              {t("catalog.description")}
-            </p>
+            <form
+              onSubmit={handleSearch}
+              className="relative max-w-3xl mx-auto"
+            >
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  placeholder={t("index.searchPlaceholder")}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-white border border-border rounded-lg px-6 py-4 pr-12 text-foreground placeholder-muted-foreground focus:outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-4 text-muted-foreground hover:text-foreground transition-colors"
+                  title={t("header.search")}
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+              </div>
+            </form>
+          </motion.div>
+
+          {/* Category Tiles */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <h2 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">
+              {t("index.shopByCategory")}
+            </h2>
+            <div className="overflow-x-auto pb-4 mb-8 -mx-4 px-4 scrollbar-hide">
+              <div className="flex gap-4 min-w-min">
+                {categoryTiles.map((category, index) => (
+                  <motion.button
+                    key={category.key}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, delay: 0.15 + index * 0.05 }}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.92 }}
+                    onClick={() => handleCategoryClick(category.label)}
+                    className={cn(
+                      "flex flex-col items-center justify-center p-0 rounded-2xl transition-all cursor-pointer flex-shrink-0",
+                      "w-28 h-28 md:w-32 md:h-32 border-2 font-medium",
+                      selectedCategory === category.label || (category.label === "Furniture" && selectedCategory === "All")
+                        ? "bg-foreground border-foreground text-background shadow-lg"
+                        : "bg-background border-border hover:border-foreground hover:shadow-md",
+                      "group"
+                    )}
+                  >
+                    <div className="text-center px-2">
+                      <p className="text-sm md:text-base font-semibold leading-snug tracking-tight">
+                        {t(`index.${category.key}`)}
+                      </p>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -191,88 +284,100 @@ const Catalog = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 pb-12 border-b border-border"
+              className="mb-12 pb-12 border-b border-border"
             >
               {/* Category Filter */}
-              <div>
-                <h3 className="text-caption mb-4">{t("catalog.category")}</h3>
-                <div className="space-y-2">
+              <div className="mb-12">
+                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.category")}</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                   {categories.map((category) => (
-                    <button
+                    <motion.button
                       key={category}
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
                       onClick={() => setSelectedCategory(category)}
                       className={cn(
-                        "block text-sm transition-colors",
+                        "flex items-center justify-center p-0 rounded-2xl transition-all cursor-pointer",
+                        "w-full aspect-square border-2 font-medium text-sm",
                         selectedCategory === category
-                          ? "text-foreground font-medium"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "bg-foreground border-foreground text-background shadow-lg"
+                          : "bg-background border-border hover:border-foreground hover:shadow-md"
                       )}
                     >
                       {category}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>
 
               {/* Price Filter */}
-              <div>
-                <h3 className="text-caption mb-4">{t("catalog.price")}</h3>
-                <div className="space-y-2">
+              <div className="mb-12">
+                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.price")}</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {priceRanges.map((range) => (
-                    <button
+                    <motion.button
                       key={range.label}
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
                       onClick={() => setSelectedPriceRange(range)}
                       className={cn(
-                        "block text-sm transition-colors",
+                        "flex items-center justify-center p-4 rounded-2xl transition-all cursor-pointer",
+                        "w-full aspect-square border-2 font-medium text-xs text-center",
                         selectedPriceRange.label === range.label
-                          ? "text-foreground font-medium"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "bg-foreground border-foreground text-background shadow-lg"
+                          : "bg-background border-border hover:border-foreground hover:shadow-md"
                       )}
                     >
                       {range.label}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>
 
               {/* Material Filter */}
-              <div>
-                <h3 className="text-caption mb-4">{t("catalog.material")}</h3>
-                <div className="space-y-2">
+              <div className="mb-12">
+                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.material")}</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
                   {materials.map((material) => (
-                    <button
+                    <motion.button
                       key={material}
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
                       onClick={() => setSelectedMaterial(material)}
                       className={cn(
-                        "block text-sm transition-colors",
+                        "flex items-center justify-center p-4 rounded-2xl transition-all cursor-pointer",
+                        "w-full aspect-square border-2 font-medium text-xs text-center",
                         selectedMaterial === material
-                          ? "text-foreground font-medium"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "bg-foreground border-foreground text-background shadow-lg"
+                          : "bg-background border-border hover:border-foreground hover:shadow-md"
                       )}
                     >
                       {material}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>
 
               {/* Style Filter */}
               <div>
-                <h3 className="text-caption mb-4">{t("catalog.style")}</h3>
-                <div className="space-y-2">
+                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.style")}</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {styles.map((style) => (
-                    <button
+                    <motion.button
                       key={style}
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
                       onClick={() => setSelectedStyle(style)}
                       className={cn(
-                        "block text-sm transition-colors",
+                        "flex items-center justify-center p-0 rounded-2xl transition-all cursor-pointer",
+                        "w-full aspect-square border-2 font-medium text-sm",
                         selectedStyle === style
-                          ? "text-foreground font-medium"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "bg-foreground border-foreground text-background shadow-lg"
+                          : "bg-background border-border hover:border-foreground hover:shadow-md"
                       )}
                     >
                       {style}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>

@@ -11,6 +11,18 @@
     "search": "Qidirish",
     "pressEnter": "Qidirish uchun Enter bosing yoki yopish uchun Esc"
   },
+  "index": {
+    "searchPlaceholder": "Mebel, kolleksiya yoki uslublarni qidiring...",
+    "shopByCategory": "Kategoriya bo'yicha sotib oling",
+    "viewAll": "Hammasini ko'ring",
+    "furniture": "Mebel",
+    "seating": "O'tirish",
+    "dining": "Ovqatlanish",
+    "lighting": "Yoritish",
+    "tables": "Stollar",
+    "bedroom": "Yotog'",
+    "accessories": "Aksessuar"
+  },
   "footer": {
     "tagline": "Biz uyalarni raffinlangan yaşash tomorqalari bo'lgan istisnoi mebel parçalarini tuzathiromiz. Har bir parça hunarmandlik va abadiy dizayn hikoyasini aytadi.",
     "explore": "Koʻrish",
