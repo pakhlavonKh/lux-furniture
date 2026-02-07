@@ -16,16 +16,16 @@ export const config = {
   JWT_SECRET: process.env.JWT_SECRET || 'your-super-secret-jwt-key',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
 
-  // Supabase
-  SUPABASE_URL: process.env.SUPABASE_URL || '',
-  SUPABASE_KEY: process.env.SUPABASE_KEY || '',
-  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  // MongoDB Atlas
+  MONGODB_URI: process.env.MONGODB_URI || 'mongodb+srv://user:password@cluster.mongodb.net/lux-furniture',
+  MONGODB_DB_NAME: process.env.MONGODB_DB_NAME || 'lux-furniture',
 
   // Payment Systems
   payments: {
     payme: {
       merchantId: process.env.PAYME_MERCHANT_ID || '',
-      apiKey: process.env.PAYME_API_KEY || '',
+      username: process.env.PAYME_USERNAME || '',
+      password: process.env.PAYME_PASSWORD || '',
       secretKey: process.env.PAYME_SECRET_KEY || '',
       callbackUrl: process.env.PAYME_CALLBACK_URL || '',
       isDev: process.env.NODE_ENV !== 'production',
@@ -44,17 +44,14 @@ export const config = {
     },
     uzum: {
       merchantId: process.env.UZUM_MERCHANT_ID || '',
-      apiKey: process.env.UZUM_API_KEY || '',
+      username: process.env.UZUM_USERNAME || '',
+      password: process.env.UZUM_PASSWORD || '',
       secretKey: process.env.UZUM_SECRET_KEY || '',
+      apiKey: process.env.UZUM_API_KEY || '',
       callbackUrl: process.env.UZUM_CALLBACK_URL || '',
       isDev: process.env.NODE_ENV !== 'production',
       devApiUrl: 'https://sandbox-api.uzumbank.uz',
       prodApiUrl: 'https://api.uzumbank.uz'
     }
-  },
-
-  // Logging
-  LOG_LEVEL: process.env.LOG_LEVEL || 'debug'
+  }
 };
-
-export default config;

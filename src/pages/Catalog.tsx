@@ -4,7 +4,7 @@ import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { SEO } from "@/components/SEO";
 import { motion } from "framer-motion";
-import { Filter, ChevronDown, X, Search } from "lucide-react";
+import { X, Search, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/useLanguageHook";
 
@@ -157,6 +157,107 @@ const Catalog = () => {
     setSelectedStyle("All");
   };
 
+  // Render filter section
+  const renderFilters = () => (
+    <div>
+      {/* Category Filter */}
+      <div className="filter-section">
+        <h3>{t("catalog.category")}</h3>
+        <div className="filter-buttons">
+          {categories.map((category) => (
+            <motion.button
+              key={category}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSelectedCategory(category)}
+              className={cn(
+                "filter-button",
+                selectedCategory === category && "active"
+              )}
+            >
+              {category}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      {/* Price Filter */}
+      <div className="filter-section">
+        <h3>{t("catalog.price")}</h3>
+        <div className="filter-buttons">
+          {priceRanges.map((range) => (
+            <motion.button
+              key={range.label}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSelectedPriceRange(range)}
+              className={cn(
+                "filter-button",
+                selectedPriceRange.label === range.label && "active"
+              )}
+            >
+              {range.label}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      {/* Material Filter */}
+      <div className="filter-section">
+        <h3>{t("catalog.material")}</h3>
+        <div className="filter-buttons">
+          {materials.map((material) => (
+            <motion.button
+              key={material}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSelectedMaterial(material)}
+              className={cn(
+                "filter-button",
+                selectedMaterial === material && "active"
+              )}
+            >
+              {material}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      {/* Style Filter */}
+      <div className="filter-section">
+        <h3>{t("catalog.style")}</h3>
+        <div className="filter-buttons">
+          {styles.map((style) => (
+            <motion.button
+              key={style}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setSelectedStyle(style)}
+              className={cn(
+                "filter-button",
+                selectedStyle === style && "active"
+              )}
+            >
+              {style}
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      {/* Clear Filters Button */}
+      {activeFiltersCount > 0 && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={clearFilters}
+          className="filter-clear-btn"
+        >
+          {t("catalog.clearAll")}
+        </motion.button>
+      )}
+    </div>
+  );
+
   return (
     <Layout>
       <SEO 
@@ -165,19 +266,19 @@ const Catalog = () => {
         url="https://lux-furniture-demo.netlify.app/"
       />
 
-      {/* Search and Categories Section */}
-      <section className="pt-28 pb-12 bg-background">
+      {/* Hero & Search Section */}
+      <section className="pt-28 pb-12 bg-background border-b border-neutral-200">
         <div className="container-luxury">
           {/* Search Bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-10"
+            className="mb-12"
           >
             <form
               onSubmit={handleSearch}
-              className="relative max-w-3xl mx-auto"
+              className="relative max-w-4xl mx-auto"
             >
               <div className="relative flex items-center">
                 <input
@@ -185,11 +286,11 @@ const Catalog = () => {
                   placeholder={t("index.searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white border border-border rounded-lg px-6 py-4 pr-12 text-foreground placeholder-muted-foreground focus:outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all"
+                  className="w-full bg-white border border-neutral-300 rounded-lg px-6 py-4 pr-12 text-foreground placeholder-neutral-500 focus:outline-none focus:border-foreground focus:ring-2 focus:ring-foreground/10 transition-all shadow-sm"
                 />
                 <button
                   type="submit"
-                  className="absolute right-4 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-4 bg-transparent border-none text-neutral-400 hover:text-foreground transition-colors duration-300 cursor-pointer p-0"
                   title={t("header.search")}
                 >
                   <Search className="w-5 h-5" />
@@ -204,34 +305,31 @@ const Catalog = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h2 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">
+            <h2 className="text-xs uppercase tracking-widest mb-6 text-muted-foreground font-semibold">
               {t("index.shopByCategory")}
             </h2>
-            <div className="overflow-x-auto pb-4 mb-8 -mx-4 px-4 scrollbar-hide">
-              <div className="flex gap-4 min-w-min">
+            <div className="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
+              <div className="flex gap-3 min-w-min">
                 {categoryTiles.map((category, index) => (
                   <motion.button
                     key={category.key}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: 0.15 + index * 0.05 }}
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.92 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => handleCategoryClick(category.label)}
                     className={cn(
-                      "flex flex-col items-center justify-center p-0 rounded-2xl transition-all cursor-pointer flex-shrink-0",
-                      "w-28 h-28 md:w-32 md:h-32 border-2 font-medium",
+                      "flex flex-col items-center justify-center p-2 cursor-pointer flex-shrink-0 border rounded transition-all duration-300 hover:-translate-y-1",
+                      "w-24 h-24 font-semibold text-xs text-center aspect-square",
                       selectedCategory === category.label || (category.label === "Furniture" && selectedCategory === "All")
                         ? "bg-foreground border-foreground text-background shadow-lg"
-                        : "bg-background border-border hover:border-foreground hover:shadow-md",
-                      "group"
+                        : "bg-white border-neutral-300 hover:border-foreground hover:shadow-md text-foreground"
                     )}
                   >
-                    <div className="text-center px-2">
-                      <p className="text-sm md:text-base font-semibold leading-snug tracking-tight">
-                        {t(`index.${category.key}`)}
-                      </p>
-                    </div>
+                    <span className="px-2 leading-tight break-words">
+                      {t(`index.${category.key}`)}
+                    </span>
                   </motion.button>
                 ))}
               </div>
@@ -240,176 +338,109 @@ const Catalog = () => {
         </div>
       </section>
 
-      {/* Catalog Section */}
-      <section className="section-padding">
+      {/* Main Catalog: 2-Column Layout */}
+      <section className="section-padding bg-background">
         <div className="container-luxury">
-          {/* Filter Bar */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-12 pb-8 border-b border-border">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={cn(
-                  "flex items-center gap-2 px-4 py-2 border transition-colors",
-                  showFilters ? "bg-primary text-primary-foreground border-primary" : "border-border hover:border-foreground"
-                )}
-              >
-                <Filter className="w-4 h-4" />
-                <span className="text-sm uppercase tracking-wider">{t("catalog.filters")}</span>
-                {activeFiltersCount > 0 && (
-                  <span className="ml-1 w-5 h-5 bg-foreground text-background text-xs flex items-center justify-center rounded-full">
-                    {activeFiltersCount}
-                  </span>
-                )}
-              </button>
-
-              {activeFiltersCount > 0 && (
-                <button
-                  onClick={clearFilters}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-                >
-                  <X className="w-4 h-4" />
-                  {t("catalog.clearAll")}
-                </button>
-              )}
-            </div>
-
-            <p className="text-sm text-muted-foreground">
+          {/* Mobile: Filter Toggle */}
+          <div className="catalog-filter-toggle">
+            <p>
               {filteredProducts.length} {filteredProducts.length === 1 ? t("catalog.product") : t("catalog.products")}
             </p>
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={cn(
+                "catalog-filter-toggle-btn",
+                showFilters && "active"
+              )}
+            >
+              <Menu className="w-4 h-4" />
+              <span>
+                {t("catalog.filters")}
+                {activeFiltersCount > 0 && ` (${activeFiltersCount})`}
+              </span>
+            </button>
           </div>
 
-          {/* Filters Panel */}
-          {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mb-12 pb-12 border-b border-border"
-            >
-              {/* Category Filter */}
-              <div className="mb-12">
-                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.category")}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                  {categories.map((category) => (
-                    <motion.button
-                      key={category}
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.92 }}
-                      onClick={() => setSelectedCategory(category)}
-                      className={cn(
-                        "flex items-center justify-center p-0 rounded-2xl transition-all cursor-pointer",
-                        "w-full aspect-square border-2 font-medium text-sm",
-                        selectedCategory === category
-                          ? "bg-foreground border-foreground text-background shadow-lg"
-                          : "bg-background border-border hover:border-foreground hover:shadow-md"
-                      )}
-                    >
-                      {category}
-                    </motion.button>
-                  ))}
-                </div>
+          {/* 2-Column Layout Grid */}
+          <div className="catalog-layout">
+            {/* Left Sidebar: Filters (Desktop Only) */}
+            <aside className="catalog-sidebar">
+              {renderFilters()}
+            </aside>
+
+            {/* Right Side: Products Grid */}
+            <div className="catalog-products">
+              {/* Mobile Filters (Conditional) */}
+              {showFilters && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  transition={{ duration: 0.3 }}
+                  className="catalog-filters-mobile"
+                >
+                  {renderFilters()}
+                </motion.div>
+              )}
+
+              {/* Header with Result Count */}
+              <div className="catalog-header">
+                <p>
+                  {filteredProducts.length} {filteredProducts.length === 1 ? t("catalog.product") : t("catalog.products")}
+                </p>
+                {activeFiltersCount > 0 && (
+                  <button
+                    onClick={clearFilters}
+                    className="catalog-header-clear"
+                  >
+                    <X className="w-3 h-3" />
+                    {t("catalog.clearAll")}
+                  </button>
+                )}
               </div>
 
-              {/* Price Filter */}
-              <div className="mb-12">
-                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.price")}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  {priceRanges.map((range) => (
-                    <motion.button
-                      key={range.label}
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.92 }}
-                      onClick={() => setSelectedPriceRange(range)}
-                      className={cn(
-                        "flex items-center justify-center p-4 rounded-2xl transition-all cursor-pointer",
-                        "w-full aspect-square border-2 font-medium text-xs text-center",
-                        selectedPriceRange.label === range.label
-                          ? "bg-foreground border-foreground text-background shadow-lg"
-                          : "bg-background border-border hover:border-foreground hover:shadow-md"
-                      )}
+              {/* Products Grid */}
+              {filteredProducts.length > 0 ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="product-grid"
+                >
+                  {filteredProducts.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.05 }}
                     >
-                      {range.label}
-                    </motion.button>
+                      <ProductCard
+                        id={product.id}
+                        title={product.title}
+                        slug={product.slug}
+                        price={product.price}
+                        image={product.image}
+                        category={product.category}
+                      />
+                    </motion.div>
                   ))}
-                </div>
-              </div>
-
-              {/* Material Filter */}
-              <div className="mb-12">
-                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.material")}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
-                  {materials.map((material) => (
-                    <motion.button
-                      key={material}
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.92 }}
-                      onClick={() => setSelectedMaterial(material)}
-                      className={cn(
-                        "flex items-center justify-center p-4 rounded-2xl transition-all cursor-pointer",
-                        "w-full aspect-square border-2 font-medium text-xs text-center",
-                        selectedMaterial === material
-                          ? "bg-foreground border-foreground text-background shadow-lg"
-                          : "bg-background border-border hover:border-foreground hover:shadow-md"
-                      )}
-                    >
-                      {material}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Style Filter */}
-              <div>
-                <h3 className="text-sm uppercase tracking-widest mb-6 text-muted-foreground">{t("catalog.style")}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  {styles.map((style) => (
-                    <motion.button
-                      key={style}
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.92 }}
-                      onClick={() => setSelectedStyle(style)}
-                      className={cn(
-                        "flex items-center justify-center p-0 rounded-2xl transition-all cursor-pointer",
-                        "w-full aspect-square border-2 font-medium text-sm",
-                        selectedStyle === style
-                          ? "bg-foreground border-foreground text-background shadow-lg"
-                          : "bg-background border-border hover:border-foreground hover:shadow-md"
-                      )}
-                    >
-                      {style}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Products Grid */}
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  title={product.title}
-                  slug={product.slug}
-                  price={product.price}
-                  image={product.image}
-                  category={product.category}
-                />
-              ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="catalog-empty"
+                >
+                  <p>{t("catalog.noProducts")}</p>
+                  <button
+                    onClick={clearFilters}
+                    className="catalog-empty-btn"
+                  >
+                    {t("catalog.clearAll")}
+                  </button>
+                </motion.div>
+              )}
             </div>
-          ) : (
-            <div className="text-center py-20">
-              <p className="text-muted-foreground mb-4">{t("catalog.noProducts")}</p>
-              <button
-                onClick={clearFilters}
-                className="text-sm underline hover:no-underline"
-              >
-                {t("catalog.clearAll")}
-              </button>
-            </div>
-          )}
+          </div>
         </div>
       </section>
     </Layout>

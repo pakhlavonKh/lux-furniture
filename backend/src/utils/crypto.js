@@ -6,43 +6,43 @@ const SALT_ROUNDS = 10;
 /**
  * Hash password using bcrypt
  */
-export const hashPassword = async (password: string): Promise<string> => {
+export const hash_password = async (password) => {
   return bcrypt.hash(password, SALT_ROUNDS);
 };
 
 /**
  * Compare password with hash
  */
-export const comparePassword = async (password: string, hash: string): Promise<boolean> => {
+export const compare_password = async (password, hash) => {
   return bcrypt.compare(password, hash);
 };
 
 /**
  * Generate UUID
  */
-export const generateId = (): string => {
+export const generate_id = () => {
   return uuidv4();
 };
 
 /**
  * Generate transaction ID
  */
-export const generateTransactionId = (): string => {
+export const generate_transaction_id = () => {
   return `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 };
 
 /**
  * Validate email format
  */
-export const isValidEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+export const is_valid_email = (email) => {
+  const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return email_regex.test(email);
 };
 
 /**
  * Validate password strength
  */
-export const isValidPassword = (password: string): { valid: boolean; message?: string } => {
+export const is_valid_password = (password) => {
   if (password.length < 8) {
     return { valid: false, message: 'Password must be at least 8 characters long' };
   }
@@ -61,16 +61,16 @@ export const isValidPassword = (password: string): { valid: boolean; message?: s
 /**
  * Validate phone number (Uzbekistan format)
  */
-export const isValidPhoneUz = (phone: string): boolean => {
+export const is_valid_phone_uz = (phone) => {
   // Uzbek phone format: +998xxxxxxxxx or 998xxxxxxxxx
-  const phoneRegex = /^(\+?998|0)[0-9]{9}$/;
-  return phoneRegex.test(phone.replace(/\s|-/g, ''));
+  const phone_regex = /^(\+?998|0)[0-9]{9}$/;
+  return phone_regex.test(phone.replace(/\s|-/g, ''));
 };
 
 /**
  * Format phone number to standard format
  */
-export const formatPhoneUz = (phone: string): string => {
+export const format_phone_uz = (phone) => {
   const cleaned = phone.replace(/\D/g, '');
   if (cleaned.length === 12 && cleaned.startsWith('998')) {
     return '+' + cleaned;
@@ -84,8 +84,8 @@ export const formatPhoneUz = (phone: string): string => {
 /**
  * Mask email for display
  */
-export const maskEmail = (email: string): string => {
+export const mask_email = (email) => {
   const [name, domain] = email.split('@');
-  const maskedName = name.charAt(0) + '*'.repeat(name.length - 2) + name.charAt(name.length - 1);
-  return `${maskedName}@${domain}`;
+  const masked_name = name.charAt(0) + '*'.repeat(name.length - 2) + name.charAt(name.length - 1);
+  return `${masked_name}@${domain}`;
 };

@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { User, Session } from "@supabase/supabase-js";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+interface User {
+  email: string;
+  id?: string;
+}
 
 const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -22,23 +24,16 @@ const Admin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
+    // Check if user is already logged in
+    const savedUser = localStorage.getItem("adminUser");
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        localStorage.removeItem("adminUser");
       }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    }
+    setLoading(false);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,12 +46,27 @@ const Admin = () => {
 
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
+        // Call backend login API
+        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
         });
 
-        if (error) throw error;
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || "Login failed");
+        }
+
+        const data = await response.json();
+        const userData: User = { email: formData.email, id: data.userId };
+        
+        localStorage.setItem("adminUser", JSON.stringify(userData));
+        localStorage.setItem("authToken", data.token);
+        setUser(userData);
 
         toast({
           title: "Welcome back!",
@@ -73,21 +83,31 @@ const Admin = () => {
           return;
         }
 
-        const redirectUrl = `${window.location.origin}/admin`;
-
-        const { error } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            emailRedirectTo: redirectUrl,
-          },
+        // Call backend register API
+        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/auth/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
         });
 
-        if (error) throw error;
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || "Registration failed");
+        }
+
+        const data = await response.json();
+        const userData: User = { email: formData.email, id: data.userId };
+        
+        localStorage.setItem("adminUser", JSON.stringify(userData));
+        localStorage.setItem("authToken", data.token);
+        setUser(userData);
 
         toast({
           title: "Account created!",
-          description: "Please check your email to verify your account.",
+          description: "You have successfully registered.",
         });
       }
     } catch (error: unknown) {
@@ -103,7 +123,10 @@ const Admin = () => {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem("adminUser");
+    localStorage.removeItem("authToken");
+    setUser(null);
+    setFormData({ email: "", password: "", confirmPassword: "" });
     toast({
       title: "Logged out",
       description: "You have been logged out successfully.",

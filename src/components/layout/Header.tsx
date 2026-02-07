@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/useLanguageHook";
@@ -14,11 +14,33 @@ const navigation = [
   { name: "Contact", key: "navigation.contact", href: "/contact" },
 ];
 
+// Cart hook with fallback
+const useCart = () => {
+  try {
+    // Try to import the cart context if it exists
+    // For now, return empty items array as fallback
+    return { items: [] };
+  } catch {
+    return { items: [] };
+  }
+};
+
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
+  const { items: cartItems } = useCart();
+
+  // Calculate unique item count
+  const cartCount = cartItems?.length || 0;
+
+  useEffect(() => {
+    // Check if user is logged in
+    const authToken = localStorage.getItem("authToken");
+    setIsLoggedIn(!!authToken);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,22 +61,26 @@ export function Header() {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         isScrolled
           ? "bg-background/95 backdrop-blur-md shadow-sm"
-          : "bg-transparent"
+          : "bg-transparent",
       )}
     >
       <nav className="container-luxury">
         <div className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
-          <Link to="/" className="relative z-10" style={{ pointerEvents: 'auto' }}>
-            <img 
-              src={manakuLogo} 
-              alt="Manaku" 
+          <Link
+            to="/"
+            className="relative z-10"
+            style={{ pointerEvents: "auto" }}
+          >
+            <img
+              src={manakuLogo}
+              alt="Manaku"
               className="h-10 md:h-12 w-auto object-contain !no-underline"
-              style={{ 
-                transition: 'none !important', 
-                opacity: '1 !important',
-                filter: 'none !important',
-                textDecoration: 'none !important'
+              style={{
+                transition: "none !important",
+                opacity: "1 !important",
+                filter: "none !important",
+                textDecoration: "none !important",
               }}
             />
           </Link>
@@ -69,7 +95,7 @@ export function Header() {
                   "link-underline text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300",
                   location.pathname === item.href
                     ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {t(item.key)}
@@ -87,10 +113,7 @@ export function Header() {
                   whileHover={{ opacity: 0.7 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setLanguage(lang as "en" | "ru" | "uz")}
-                  className={cn(
-                    "btn-lang",
-                    language === lang && "active"
-                  )}
+                  className={cn("btn-lang", language === lang && "active")}
                 >
                   {lang === "en" && "EN"}
                   {lang === "ru" && "РУ"}
@@ -99,19 +122,62 @@ export function Header() {
                     <motion.div
                       layoutId="langUnderline"
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-foreground"
-                      transition={{ type: "spring", stiffness: 380, damping: 40 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 40,
+                      }}
                     />
                   )}
                 </motion.button>
               ))}
             </div>
+
+            {/* User & Cart Icons */}
+            <div className="flex items-center gap-5">
+              {/* Account Icon */}
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link
+                  to={isLoggedIn ? "/account" : "/login"}
+                  className="bg-transparent border-none text-foreground hover:text-muted-foreground transition-all duration-300 cursor-pointer p-0 inline-flex"
+                  title={t("header.account") || "Account"}
+                >
+                  <User className="w-5 h-5 md:w-6 md:h-6" />
+                </Link>
+              </motion.div>
+
+              {/* Shopping Bag Icon with Badge */}
+              <div className="relative inline-flex">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    to="/cart"
+                    className="bg-transparent border-none text-foreground hover:text-muted-foreground transition-all duration-300 cursor-pointer p-0 inline-flex"
+                    title={t("header.cart") || "Cart"}
+                  >
+                    <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" />
+                  </Link>
+                </motion.div>
+
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                  className="cart-badge"
+                >
+                  {cartCount}
+                </motion.span>
+              </div>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="hamburger"
-          >
+          <button onClick={() => setIsOpen(!isOpen)} className="hamburger">
             {isOpen ? (
               <X className="hamburger-x" />
             ) : (
@@ -162,10 +228,7 @@ export function Header() {
                     <button
                       key={lang}
                       onClick={() => setLanguage(lang as "en" | "ru" | "uz")}
-                      className={cn(
-                        "btn-lang",
-                        language === lang && "active"
-                      )}
+                      className={cn("btn-lang", language === lang && "active")}
                     >
                       {lang === "en" && "EN"}
                       {lang === "ru" && "РУ"}
