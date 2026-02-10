@@ -1215,7 +1215,7 @@ button[class*="bg-transparent"] {
   padding: 0 5px;
   border-radius: 9999px;
   background-color: transparent;
-  color: hsl(var(--foreground));
+  color: hsl(var(--primary));
   font-size: 13px;
   font-weight: 600;
   line-height: 1;
