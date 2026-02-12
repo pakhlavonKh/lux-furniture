@@ -1,3 +1,4 @@
+@import "./montserrat-font.css";
 @import "@fontsource/playfair-display/400.css";
 @import "@fontsource/playfair-display/500.css";
 @import "@fontsource/playfair-display/600.css";
@@ -150,13 +151,13 @@ html {
 body {
   background-color: hsl(var(--background)) !important;
   color: hsl(var(--foreground)) !important;
-  font-family: Inter, system-ui, sans-serif !important;
+  font-family: 'Montserrat', system-ui, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Playfair Display", Georgia, serif !important;
+  font-family: 'Montserrat', system-ui, sans-serif !important;
   letter-spacing: -0.01em !important;
   font-weight: 400 !important;
 }
@@ -355,7 +356,7 @@ a img:hover {
 /* ===== TYPOGRAPHY UTILITIES ===== */
 
 .heading-display {
-  font-family: "Playfair Display", Georgia, serif !important;
+  font-family: 'Montserrat', system-ui, sans-serif !important;
   font-size: 2.25rem !important;
   font-weight: 400 !important;
   line-height: 1.1 !important;
@@ -381,7 +382,7 @@ a img:hover {
 }
 
 .heading-section {
-  font-family: "Playfair Display", Georgia, serif !important;
+  font-family: 'Montserrat', system-ui, sans-serif !important;
   font-size: 1.875rem !important;
   font-weight: 400 !important;
   line-height: 1.15 !important;
@@ -401,7 +402,7 @@ a img:hover {
 }
 
 .heading-card {
-  font-family: "Playfair Display", Georgia, serif !important;
+  font-family: 'Montserrat', system-ui, sans-serif !important;
   font-size: 1.25rem !important;
   font-weight: 400 !important;
   line-height: 1.25 !important;
@@ -414,7 +415,7 @@ a img:hover {
 }
 
 .text-body {
-  font-family: Inter, system-ui, sans-serif !important;
+  font-family: 'Montserrat', system-ui, sans-serif !important;
   font-size: 1rem !important;
   font-weight: 300 !important;
   line-height: 1.625 !important;
@@ -422,7 +423,7 @@ a img:hover {
 }
 
 .text-caption {
-  font-family: Inter, system-ui, sans-serif !important;
+  font-family: 'Montserrat', system-ui, sans-serif !important;
   font-size: 0.75rem !important;
   font-weight: 500 !important;
   letter-spacing: 0.2em !important;
@@ -720,8 +721,8 @@ a img:hover {
 .font-semibold { font-weight: 600; }
 .font-bold { font-weight: 700; }
 
-.font-serif { font-family: "Playfair Display", Georgia, serif; }
-.font-sans { font-family: Inter, system-ui, sans-serif; }
+.font-serif { font-family: 'Montserrat', system-ui, sans-serif; }
+.font-sans { font-family: 'Montserrat', system-ui, sans-serif; }
 
 .italic { font-style: italic; }
 
