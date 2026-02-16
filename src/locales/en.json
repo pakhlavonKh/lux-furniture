@@ -11,6 +11,19 @@
     "search": "Search",
     "pressEnter": "Press Enter to search or Esc to close"
   },
+
+"categories": {
+  "storage": "Shelving",
+  "kitchen": "Kitchen furniture",
+  "garden": "Garden furniture",
+  "office": "Office furniture",
+  "children": "Children's furniture",
+  "industrial": "Industrial furniture",
+  "accessories": "Interior accessories"
+},
+
+
+
   "index": {
     "searchPlaceholder": "Search furniture, collections, or styles...",
     "shopByCategory": "Shop by Category",
@@ -24,10 +37,31 @@
     "accessories": "Accessories"
   },
   "footer": {
-    "tagline": "Curating exceptional furniture pieces that transform spaces into sanctuaries of refined living. Each piece tells a story of craftsmanship and timeless design.",
-    "explore": "Explore",
-    "company": "Company",
-    "support": "Support",
+    "description": "Curating exceptional furniture pieces that transform spaces into sanctuaries of refined living. Each piece tells a story of craftsmanship and timeless design.",
+    "explore": {
+    "title": "Explore",
+    "catalog": "Catalog",
+    "collections": "Collections",
+    "newArrivals": "New Arrivals",
+    "featured": "Featured"
+    },
+    "company": {
+    "title": "Company",
+    "about": "About Us",
+    "craftsmanship": "Our Craftsmanship",
+    "sustainability": "Sustainability",
+    "contact": "Contact"
+    },
+    "support": {
+    "title": "Support",
+    "shipping": "Shipping & Delivery",
+    "returns": "Returns",
+    "careGuide": "Care Guide",
+    "faq": "FAQ"
+    },
+    "rights": "Manaku. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
     "legal": "Legal",
     "catalog": "Catalog",
     "newArrivals": "New Arrivals",
@@ -38,9 +72,7 @@
     "shipping": "Shipping & Delivery",
     "returns": "Returns",
     "careGuide": "Care Guide",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "copyright": "© {year} Maison Luxe. All rights reserved.",
+    "copyright": "© {year} Manaku. All rights reserved.",
     "newsletter": "Subscribe to our newsletter",
     "emailPlaceholder": "Enter your email",
     "subscribe": "Subscribe",
@@ -53,7 +85,10 @@
     "curatedCollection": "Curated Collection 2026",
     "artOfLiving": "The Art of Refined Living",
     "refinedLiving": "Refined Living",
-    "subtitle": "Discover the intersection of Italian craftsmanship and contemporary design."
+    "subtitle": "Discover the intersection of Italian craftsmanship and contemporary design.",
+    "exploreCollection": "Explore Collection",
+    "ourStory": "Our Story",
+    "scroll": "Scroll"
   },
   "featured": {
     "title": "Featured Selection",
@@ -63,7 +98,7 @@
   "philosophy": {
     "section": "Our Philosophy",
     "title": "Where Craftsmanship Meets Vision",
-    "description": "At Maison Luxe, we believe that furniture is more than function — it's an expression of how we choose to live. Each piece in our collection represents a dialogue between traditional craftsmanship and contemporary design.",
+    "description": "At Manaku, we believe that furniture is more than function — it's an expression of how we choose to live. Each piece in our collection represents a dialogue between traditional craftsmanship and contemporary design.",
     "description2": "We partner with master artisans across Italy and Europe who share our uncompromising commitment to quality. From the selection of premium materials to the final hand-finishing, every step is executed with precision and care.",
     "description3": "The result is furniture that doesn't just fill a space — it transforms it. Pieces that age gracefully, develop character, and become cherished elements of your home for generations.",
     "yearsOfExcellence": "Years of Excellence",
@@ -91,7 +126,7 @@
     "story": "Our Story",
     "title": "A Legacy of Refined Craftsmanship",
     "heading": "Born from a Passion for Excellence",
-    "paragraph1": "Maison Luxe was founded on a simple yet profound belief: that the spaces we inhabit should reflect our highest aspirations for beauty and quality. What began as a small atelier in Milan has grown into a globally recognized purveyor of exceptional furniture.",
+    "paragraph1": "Manaku was founded on a simple yet profound belief: that the spaces we inhabit should reflect our highest aspirations for beauty and quality. What began as a small atelier in Milan has grown into a globally recognized purveyor of exceptional furniture.",
     "paragraph2": "Our journey started over two decades ago when our founder, inspired by generations of Italian furniture-making tradition, set out to create pieces that would stand the test of time—both in durability and design.",
     "paragraph3": "Today, we continue this legacy by partnering with the finest craftspeople across Europe, using only the most select materials, and maintaining an unwavering commitment to excellence in every detail.",
     "heritage": "A Heritage of Excellence",
@@ -103,11 +138,11 @@
     "design": "Timeless Design",
     "designSub": "Creating for Generations",
     "designDesc": "Our designs transcend trends. We create furniture that will be just as relevant and beautiful in fifty years as it is today. This commitment to timelessness is both an aesthetic and environmental choice.",
-    "experience": "Experience Maison Luxe",
+    "experience": "Experience Manaku",
     "visitUs": "Visit Us",
     "experienceDesc": "We invite you to visit our flagship showroom in Milan, where you can experience our collection firsthand and receive personalized guidance from our design consultants.",
     "scheduleVisit": "Schedule a Visit",
-    "introduction": "Founded in 1998 in Milan, Maison Luxe emerged from a simple belief: that furniture should be both beautiful and meaningful. What started as a small atelier has evolved into an internationally recognized brand, trusted by designers and homeowners who appreciate the intersection of art and functionality."
+    "introduction": "Founded in 1998 in Milan, Manaku emerged from a simple belief: that furniture should be both beautiful and meaningful. What started as a small atelier has evolved into an internationally recognized brand, trusted by designers and homeowners who appreciate the intersection of art and functionality."
   },
   "admin": {
     "dashboard": "Admin Dashboard",
@@ -135,9 +170,41 @@
     "clearAll": "Clear all",
     "noProducts": "No products match your filters.",
     "product": "product",
-    "products": "products"
+    "products": "products",
+    "seo": {
+    "title": "Catalog | Manaku Furniture",
+    "description": "Browse furniture categories"
+  },
+  "allProducts": "All Products"
   },
   "collections": {
+    "explore": "Explore",
+    "items": {
+      "living": {
+        "name": "Living Room Collection",
+        "description": "Sculptural sofas and refined seating for modern living spaces"
+      },
+      "bedroom": {
+        "name": "Bedroom Collection",
+        "description": "Tranquil pieces designed for rest and rejuvenation"
+      },
+      "dining": {
+        "name": "Dining Room Collection",
+        "description": "Elegant tables and chairs for refined gatherings"
+      },
+      "lighting": {
+        "name": "Lighting Collection",
+        "description": "Atmospheric and sculptural lighting for any space"
+      },
+      "contemporary": {
+        "name": "Contemporary Collection",
+        "description": "Modern design with clean lines and innovative materials"
+      },
+      "classic": {
+        "name": "Classic Collection",
+        "description": "Timeless elegance and traditional craftsmanship"
+      }
+    },
     "title": "Collections",
     "subtitle": "Curated Selections",
     "description": "Explore our thoughtfully curated collections, each designed to inspire and elevate your living spaces.",
@@ -146,23 +213,35 @@
     "viewFullCatalog": "View Full Catalog",
     "products": "products"
   },
+
   "contact": {
     "title": "Contact Us",
     "subtitle": "Get in Touch",
     "description": "We'd love to hear from you. Whether you have a question about our collection, need design advice, or want to schedule a showroom visit, our team is here to help.",
     "formTitle": "Send Us a Message",
-    "name": "Name *",
-    "email": "Email *",
-    "phone": "Phone",
+    "name": "Your Name",
+    "email": "Your Email",
+    "phone": "Your Phone",
     "subject": "Subject",
     "message": "Your Message",
     "send": "Send Message",
+    "sending": "Sending...",
     "messageSent": "Message Sent",
-    "messageDescription": "Thank you for your inquiry. We'll be in touch within 24 hours.",
+    "messageDescription": "We will get back to you shortly.",
     "addressTitle": "Our Location",
-    "phoneTitle": "Contact",
-    "hoursTitle": "Hours"
+    "showroomInfo": "Showroom Information",
+    "showroomName": "Flagship Showroom in Tashkent",
+    "addressLine1": "Tashkent",
+    "addressLine2": "2021 Tashkent, Uzbekistan",
+    "phoneTitle": "Phone",
+    "emailTitle": "Email",
+    "hoursTitle": "Hours",
+    "hoursWeekdays": "Monday – Friday: 10:00 – 19:00",
+    "hoursSaturday": "Saturday: 10:00 – 18:00",
+    "hoursSunday": "Sunday: By Appointment",
+    "map": "Interactive Map"
   },
+
   "errors": {
     "notFound": "Page Not Found",
     "notFoundDesc": "The page you're looking for doesn't exist",

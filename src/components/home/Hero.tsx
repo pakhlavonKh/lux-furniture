@@ -62,11 +62,12 @@ export function Hero({ heroImage }: HeroProps) {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Link to="/catalog" className="btn-luxury group">
-              Explore Collection
+              {t("hero.exploreCollection")}
               <ArrowRight className="ml-3 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
+
             <Link to="/about" className="btn-outline-luxury">
-              Our Story
+              {t("hero.ourStory")}
             </Link>
           </motion.div>
         </div>
@@ -81,7 +82,7 @@ export function Hero({ heroImage }: HeroProps) {
       >
         <div className="flex flex-col items-center gap-3">
           <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Scroll
+            {t("hero.scroll")}
           </span>
           <div className="w-px h-12 bg-gradient-to-b from-muted-foreground to-transparent" />
         </div>

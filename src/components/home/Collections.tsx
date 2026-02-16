@@ -1,12 +1,13 @@
+// collections.tsx / home
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/contexts/useLanguageHook";
 
 interface Collection {
   id: string;
-  name: string;
+  key: string;
   slug: string;
-  description: string;
   image: string;
 }
 
@@ -15,18 +16,23 @@ interface CollectionsProps {
 }
 
 export function Collections({ collections }: CollectionsProps) {
+  const { t } = useLanguage();
+
   return (
     <section className="section-padding bg-primary text-primary-foreground">
       <div className="container-luxury">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="text-caption mb-4 text-primary-foreground/60">
-            Explore
+            {t("collections.explore")}
           </p>
-          <h2 className="heading-section mb-6">Our Collections</h2>
+
+          <h2 className="heading-section mb-6">
+            {t("collections.title")}
+          </h2>
+
           <p className="text-primary-foreground/70">
-            Each collection tells a unique story, bringing together pieces that
-            share a design philosophy and aesthetic vision.
+            {t("collections.description")}
           </p>
         </div>
 
@@ -46,7 +52,7 @@ export function Collections({ collections }: CollectionsProps) {
               >
                 <img
                   src={collection.image}
-                  alt={collection.name}
+                  alt={t(`collections.items.${collection.key}.name`)}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -56,10 +62,11 @@ export function Collections({ collections }: CollectionsProps) {
                   <div className="flex items-end justify-between">
                     <div>
                       <h3 className="font-serif text-2xl md:text-3xl text-white mb-2">
-                        {collection.name}
+                        {t(`collections.items.${collection.key}.name`)}
                       </h3>
+
                       <p className="text-white/70 text-sm max-w-xs">
-                        {collection.description}
+                        {t(`collections.items.${collection.key}.description`)}
                       </p>
                     </div>
                     <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:text-black">

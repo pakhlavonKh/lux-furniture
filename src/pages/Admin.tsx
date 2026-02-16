@@ -147,7 +147,7 @@ const Admin = () => {
       <div className="min-h-screen bg-background">
         <header className="border-b border-border">
           <div className="container-luxury py-4 flex items-center justify-between">
-            <h1 className="font-serif text-xl tracking-[0.1em]">MAISON LUXE</h1>
+            <h1 className="font-serif text-xl tracking-[0.1em]">Manaku</h1>
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">{user.email}</span>
               <button
@@ -229,7 +229,7 @@ const Admin = () => {
         className="w-full max-w-md"
       >
         <div className="text-center mb-12">
-          <h1 className="font-serif text-2xl tracking-[0.1em] mb-2">MAISON LUXE</h1>
+          <h1 className="font-serif text-2xl tracking-[0.1em] mb-2">Manaku</h1>
           <p className="text-muted-foreground text-sm">Admin Portal</p>
         </div>
 

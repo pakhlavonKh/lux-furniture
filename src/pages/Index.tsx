@@ -1,3 +1,4 @@
+// index.tsx
 import { Layout } from "@/components/layout/Layout";
 import { Hero } from "@/components/home/Hero";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
@@ -45,16 +46,14 @@ const featuredProducts = [
 const collections = [
   {
     id: "1",
-    name: "Living Collection",
-    slug: "living",
-    description: "Sculptural sofas and refined seating for modern living spaces",
+    key: "living",
+    slug: "living-collection",
     image: collectionLivingImage,
   },
   {
     id: "2",
-    name: "Bedroom Collection",
-    slug: "bedroom",
-    description: "Serene pieces designed for rest and rejuvenation",
+    key: "bedroom",
+    slug: "bedroom-collection",
     image: collectionBedroomImage,
   },
 ];

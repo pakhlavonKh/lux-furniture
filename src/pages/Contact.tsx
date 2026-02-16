@@ -165,7 +165,7 @@ const Contact = () => {
                   disabled={isSubmitting}
                   className="btn-luxury w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Sending..." : t("contact.send")}
+                  {isSubmitting ? t("contact.sending") : t("contact.send")}
                 </button>
               </form>
             </motion.div>
@@ -177,7 +177,9 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h2 className="heading-card mb-8">Showroom Information</h2>
+              <h2 className="heading-card mb-8">
+                {t("contact.showroomInfo")}
+              </h2>
 
               <div className="space-y-8">
                 {/* Address */}
@@ -186,11 +188,13 @@ const Contact = () => {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-medium mb-2">Milan Flagship Showroom</h3>
+                    <h3 className="font-medium mb-2">
+                      {t("contact.showroomName")}
+                    </h3>
                     <p className="text-body">
-                      Via Monte Napoleone 23
+                      {t("contact.addressLine1")}
                       <br />
-                      20121 Milano, Italy
+                      {t("contact.addressLine2")}
                     </p>
                   </div>
                 </div>
@@ -201,7 +205,9 @@ const Contact = () => {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-medium mb-2">Phone</h3>
+                    <h3 className="font-medium mb-2">
+                      {t("contact.phoneTitle")}
+                    </h3>
                     <p className="text-body">
                       <a href="tel:+390212345678" className="hover:text-foreground transition-colors">
                         +39 02 1234 5678
@@ -216,7 +222,9 @@ const Contact = () => {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-medium mb-2">Email</h3>
+                    <h3 className="font-medium mb-2">
+                      {t("contact.emailTitle")}
+                    </h3>
                     <p className="text-body">
                       <a href="mailto:info@maisonluxe.com" className="hover:text-foreground transition-colors">
                         info@maisonluxe.com
@@ -231,11 +239,13 @@ const Contact = () => {
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-medium mb-2">Opening Hours</h3>
+                    <h3 className="font-medium mb-2">
+                      {t("contact.hoursTitle")}
+                    </h3>
                     <div className="text-body space-y-1">
-                      <p>Monday – Friday: 10:00 – 19:00</p>
-                      <p>Saturday: 10:00 – 18:00</p>
-                      <p>Sunday: By appointment only</p>
+                      <p>{t("contact.hoursWeekdays")}</p>
+                      <p>{t("contact.hoursSaturday")}</p>
+                      <p>{t("contact.hoursSunday")}</p>
                     </div>
                   </div>
                 </div>
@@ -244,7 +254,7 @@ const Contact = () => {
               {/* Map Placeholder */}
               <div className="mt-12 aspect-[4/3] bg-muted flex items-center justify-center">
                 <p className="text-muted-foreground text-sm">
-                  Interactive Map
+                  {t("contact.map")}
                 </p>
               </div>
             </motion.div>

@@ -15,7 +15,7 @@ const About = () => {
         <div className="absolute inset-0">
           <img
             src={heroImage}
-            alt="Maison Luxe showroom"
+            alt="Manaku showroom"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-foreground/40" />
@@ -196,7 +196,7 @@ const About = () => {
               viewport={{ once: true }}
             >
               <p className="text-caption mb-4 text-primary-foreground/60">Visit Us</p>
-              <h2 className="heading-section mb-8">Experience Maison Luxe</h2>
+              <h2 className="heading-section mb-8">Experience Manaku</h2>
               <p className="text-primary-foreground/80 mb-8">
                 We invite you to visit our flagship showroom in Milan, where you can
                 experience our collection firsthand and receive personalized guidance

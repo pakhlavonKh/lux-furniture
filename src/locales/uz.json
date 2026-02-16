@@ -11,6 +11,17 @@
     "search": "Qidirish",
     "pressEnter": "Qidirish uchun Enter bosing yoki yopish uchun Esc"
   },
+
+"categories": {
+  "storage": "Saqlash",
+  "kitchen": "Oshxona mebellari",
+  "garden": "Bog' mebellari",
+  "office": "Ofis mebellari",
+  "children": "Bolalar mebellari",
+  "industrial": "Sanoat mebellari",
+  "accessories": "Ichki aksessuarlar"
+},
+
   "index": {
     "searchPlaceholder": "Mebel, kolleksiya yoki uslublarni qidiring...",
     "shopByCategory": "Kategoriya bo'yicha sotib oling",
@@ -24,23 +35,42 @@
     "accessories": "Aksessuar"
   },
   "footer": {
-    "tagline": "Biz uyalarni raffinlangan yaşash tomorqalari bo'lgan istisnoi mebel parçalarini tuzathiromiz. Har bir parça hunarmandlik va abadiy dizayn hikoyasini aytadi.",
-    "explore": "Koʻrish",
-    "company": "Kompaniya",
-    "support": "Qoʻllab-quvvatlash",
+    "description": "Biz uyalarni raffinlangan yaşash tomorqalari bo'lgan istisnoi mebel parçalarini tuzathiromiz. Har bir parça hunarmandlik va abadiy dizayn hikoyasini aytadi.",
+    "explore": {
+    "title": "O'rganing",
+    "catalog": "Katalog",
+    "collections": "Kolleksiyalar",
+    "newArrivals": "Yangi kelganlari",
+    "featured": "Tanlangan"
+    },
+    "company": {
+    "title": "Kompaniya",
+    "about": "Biz haqida",
+    "craftsmanship": "Bizning hunarmandlik",
+    "sustainability": "Barqarorlik",
+    "contact": "Aloqa"
+    },
+    "support": {
+    "title": "Qo'llab-quvvatlash",
+    "shipping": "Yetkazib berish va yetkazib berish",
+    "returns": "Qaytarish",
+    "careGuide": "Parvarishlash bo'yicha qo'llanma",
+    "faq": "FAQ"
+    },
+    "rights": "Manaku. Barcha huquqlar himoyalangan.",
+    "privacy": "Maxfiylik siyosati",
+    "terms": "Xizmat shartlari",
     "legal": "Huquqiy",
     "catalog": "Katalog",
     "newArrivals": "Yangi kelganlari",
-    "featured": "Tanlanglani",
+    "featured": "Tanlangan",
     "aboutUs": "Biz haqida",
     "craftsmanship": "Bizning hunarmandlik",
     "sustainability": "Barqarorlik",
     "shipping": "Yetkazib berish va yetkazib berish",
     "returns": "Qaytarish",
     "careGuide": "Parvarishlash bo'yicha qo'llanma",
-    "privacy": "Maxfiylik siyosati",
-    "terms": "Xizmat shartlari",
-    "copyright": "© {year} Maison Luxe. Barcha huquqlar himoyalangan.",
+    "copyright": "© {year} Manaku. Barcha huquqlar himoyalangan.",
     "newsletter": "Bizning yangiliklarimizga obuna boʻling",
     "emailPlaceholder": "Elektron pochta manzilingizni kiriting",
     "subscribe": "Obuna boʻling",
@@ -49,7 +79,14 @@
   "hero": {
     "discover": "Kashf etish",
     "luxuryRedefined": "Luxus qayta belgilangan",
-    "tagline": "Hayotni ko'taruvchi qo'l ishlab chiqarish"
+    "tagline": "Hayotni ko'taruvchi qo'l ishlab chiqarish",
+    "curatedCollection": "Курируемая коллекция 2026",
+    "artOfLiving": "Hayot san'ati",
+    "refinedLiving": "Rafinlangan hayot",
+    "subtitle": "Italiya hunarmandligi va zamonaviy dizaynning kesishishini kashf eting.",
+    "exploreCollection": "Kolleksiyani ko‘rish",
+    "ourStory": "Bizning hikoyamiz",
+    "scroll": "Pastga surish"
   },
   "featured": {
     "title": "Tanlangan tanlov",
@@ -59,7 +96,7 @@
   "philosophy": {
     "section": "Bizning falsafa",
     "title": "Hunarmandlik abadiy dizaynni uchrashtiradigan joy",
-    "description": "Maison Luxe-da biz aytamanki, ajoyib mebellik faqat estetika emas, bu hayot tarzi. Bizning kollekciyamizning har bir parçasi biliml dizaynning tavakkali turalargi, barqarorlik va izchil go'zalini alohida ko'nnasini ifodalaydi.",
+    "description": "Manaku-da biz aytamanki, ajoyib mebellik faqat estetika emas, bu hayot tarzi. Bizning kollekciyamizning har bir parçasi biliml dizaynning tavakkali turalargi, barqarorlik va izchil go'zalini alohida ko'nnasini ifodalaydi.",
     "yearsOfExcellence": "Yil ajoyib",
     "masterArtisans": "Usta hunarmandlar",
     "countriesServed": "Xizmat koʻrsatilgan davlatlar"
@@ -80,8 +117,8 @@
   },
   "about": {
     "story": "Bizning hikoya",
-    "title": "Maison Luxe falsafasi",
-    "introduction": "1998 yilda Milanoda asosilgan Maison Luxe oddiy e'tiqoddan kelib chiqdi: mebel chiroyli va maʼnoli bo'lishi kerak. Kichik masterlabdan boshlangan narsalar xalqaro tan olingan brendga aylandi, uni sezimdor dizayner va uy egalari ishoncha qoʻyadilar.",
+    "title": "Manaku falsafasi",
+    "introduction": "1998 yilda Milanoda asoslangan Manaku oddiy e'tiqoddan kelib chiqdi: mebel chiroyli va maʼnoli bo'lishi kerak. Kichik masterlabdan boshlangan narsalar xalqaro tan olingan brendga aylandi, uni sezimdor dizayner va uy egalari ishoncha qoʻyadilar.",
     "heritage": "Ajoyib meros",
     "heritageSub": "Hunarmandlikni avlodlar",
     "craftsmanship": "Har bir parça o'z hayotini an'anaviy texnikalarni ustalanishga bagʻishlagan mohir hunarmandlar tomonidan ishlab chiqariladi. Biz aytamanki, chinchli luxus insoniy teginish—har bir parçani noyobini qiladigan nozik nomutanosiblikda.",
@@ -91,7 +128,7 @@
     "design": "Abadiy dizayn",
     "designSub": "Avlodlar uchun yaratish",
     "designDesc": "Bizning dizaynlari trends dan chiqadi. Biz mebel yaratamiz, bu ellik yildan keyin bugun kabi muhim va go'zal bo'ladi. Bu abadiylikka sadoqat estetik va atrof-muhit tanlashdir.",
-    "experience": "Maison Luxe-ni sinab koʻring",
+    "experience": "Manaku-ni sinab koʻring",
     "visitUs": "Bizni ziyorat qiling",
     "experienceDesc": "Biz sizni Milando samlik koʻrgazmamizni ziyorat qilishga daʼvat qilamiz, bu yerda siz bizning kollekciyamizni birinchi qo'lda ko'rishingiz va bizning dizayn maslahatchilarimizdan shaxsiy rahbarlik olishingiz mumkin.",
     "scheduleVisit": "Safarni rejalashtiring"
@@ -122,9 +159,41 @@
     "clearAll": "Hammasini o'chirish",
     "noProducts": "Sizning filterlaringizga mos keladigan mahsulotlar yo'q.",
     "product": "mahsulot",
-    "products": "mahsulotlar"
+    "products": "mahsulotlar",
+    "seo": {
+    "title": "Katalog | Manaku Mebel",
+    "description": "Mebel kategoriyalarini ko'rib chiqing"
+    },
+    "allProducts": "Barcha mahsulotlar"
   },
   "collections": {
+    "explore": "O'rganing",
+    "items": {
+      "living": {
+        "name": "Kollektsiya yashash xonasi uchun",
+        "description": "Zamonaviy yashash joylari uchun haykaltaroshlik divanlar va nozik o'tirish joylari"
+      },
+      "bedroom": {
+        "name": "Kollektsiya yotoq xonasi uchun",
+        "description": "Dam olish va tiklanish uchun mo'ljallangan tinch predmetlar"
+      },
+      "dining": {
+        "name": "Kollektsiya ovqat xonasi uchun",
+        "description": "Nozik qabul qilishlar uchun nafis stollar va stullar"
+      },
+      "lighting": {
+        "name": "Kollektsiya yoritish uchun",
+        "description": "Har qanday makon uchun atmosferik va haykaltaroshlik yoritish"
+      },
+      "contemporary": {
+        "name": "Zamonaviy kollektsiya",
+        "description": "Toza chiziqlar va innovatsion materiallar bilan zamonaviy dizayn"
+      },
+      "classic": {
+        "name": "Klassik kollektsiya",
+        "description": "Abadiy nafislik va an'anaviy mahorat bilan klassik dizayn"
+      }
+    },
     "title": "Kolleksiyalar",
     "subtitle": "Tanlangli Tanlovlar",
     "description": "Bizning tanlangli kolleksiyalarni ko'ring, ularning har biri sizning yashaydigan makonlarni ilhomlantirish va o'naltirish uchun ishlab chiqilgan.",
@@ -133,18 +202,35 @@
     "viewFullCatalog": "To'liq Katalogni Ko'rish",
     "products": "mahsulotlar"
   },
+
   "contact": {
     "title": "Biz bilan bog'laning",
-    "subtitle": "Biz siz uchun xursand ekanmiz",
+    "subtitle": "Biz bilan bog'laning",
+    "description": "Savollaringizga javob berishdan va sizga yordam berishdan mamnunmiz.",
+    "formTitle": "Aloqa formasi",
     "name": "Sizning ismingiz",
     "email": "Sizning elektron pochtangiz",
+    "phone": "Sizning telefoningiz",
+    "subject": "Mavzu",
     "message": "Sizning xabaringiz",
     "send": "Xabar jo'natish",
+    "sending": "Yuborilmoqda...",
     "messageSent": "Xabar muvaffaqiyatli yuborildi!",
+    "messageDescription": "Tez orada siz bilan bog'lanamiz.",
     "addressTitle": "Bizning joylashuv",
-    "phoneTitle": "Bog'lanish",
-    "hoursTitle": "Soatlar"
+    "showroomInfo": "Shourum haqida ma'lumot",
+    "showroomName": "Flagman shourumi Toshkentda",
+    "addressLine1": "Toshkent",
+    "addressLine2": "20121 Toshkent, O'zbekiston",
+    "phoneTitle": "Telefon",
+    "emailTitle": "Pochta",
+    "hoursTitle": "Ish vaqti",
+    "hoursWeekdays": "Dushanba – Juma: 10:00 – 19:00",
+    "hoursSaturday": "Shanba: 10:00 – 18:00",
+    "hoursSunday": "Yakshanba: Oldindan buyurtma bilan",
+    "map": "Interaktiv xarita"
   },
+
   "errors": {
     "notFound": "Sahifa topilmadi",
     "notFoundDesc": "Siz izlayotgan sahifa mavjud emas",
