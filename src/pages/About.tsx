@@ -2,12 +2,27 @@ import { Layout } from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/useLanguageHook";
 
-// Import images
 import craftsmanshipImage from "@/assets/craftsmanship.jpg";
 import heroImage from "@/assets/hero-living-room.jpg";
 
 const About = () => {
   const { t } = useLanguage();
+
+  const values = [
+    {
+      title: t("about.artisanalTitle"),
+      description: t("about.artisanalDesc"),
+    },
+    {
+      title: t("about.materialsTitle"),
+      description: t("about.materialsDesc"),
+    },
+    {
+      title: t("about.designTitle"),
+      description: t("about.designDesc"),
+    },
+  ];
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -21,17 +36,17 @@ const About = () => {
           <div className="absolute inset-0 bg-foreground/40" />
         </div>
 
-        <div className="container-luxury relative z-10 text-center">
+        <div className="container-luxury relative z-10 text-center pt-32">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-caption text-primary-foreground/80 mb-4">{t("about.story")}</p>
+            <p className="text-caption text-primary-foreground/80 mb-4">
+              {t("about.story")}
+            </p>
             <h1 className="heading-display text-primary-foreground mb-6">
               {t("about.title")}
-              <br />
-              <span className="italic">{t("about.heading")}</span>
             </h1>
           </motion.div>
         </div>
@@ -50,6 +65,7 @@ const About = () => {
               <h2 className="heading-section mb-8">
                 {t("about.heading")}
               </h2>
+
               <div className="space-y-6 text-body">
                 <p>{t("about.paragraph1")}</p>
                 <p>{t("about.paragraph2")}</p>
@@ -75,7 +91,10 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="section-padding bg-secondary/30" id="craftsmanship">
+      <section
+        className="section-padding bg-secondary/30"
+        id="craftsmanship"
+      >
         <div className="container-luxury">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <motion.div
@@ -84,33 +103,19 @@ const About = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <p className="text-caption mb-4">Our Values</p>
+              <p className="text-caption mb-4">
+                {t("about.valuesSection")}
+              </p>
               <h2 className="heading-section">
-                The Pillars of Our Craft
+                {t("about.valuesTitle")}
               </h2>
             </motion.div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              {
-                title: "Artisanal Excellence",
-                description:
-                  "Every piece is crafted by skilled artisans who have dedicated their lives to mastering traditional techniques. We believe that true luxury lies in the human touch—the subtle imperfections that make each piece unique.",
-              },
-              {
-                title: "Material Integrity",
-                description:
-                  "We source only the finest materials from responsible suppliers. From sustainably harvested hardwoods to ethically produced leathers and fabrics, every component is selected for its quality and provenance.",
-              },
-              {
-                title: "Timeless Design",
-                description:
-                  "Our designs transcend trends. We create furniture that will be just as relevant and beautiful in fifty years as it is today. This commitment to timelessness is both an aesthetic and environmental choice.",
-              },
-            ].map((value, index) => (
+            {values.map((value, index) => (
               <motion.div
-                key={value.title}
+                key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -118,8 +123,12 @@ const About = () => {
                 className="text-center"
               >
                 <div className="w-16 h-px bg-foreground mx-auto mb-8" />
-                <h3 className="font-serif text-2xl mb-4">{value.title}</h3>
-                <p className="text-body">{value.description}</p>
+                <h3 className="font-serif text-2xl mb-4">
+                  {value.title}
+                </h3>
+                <p className="text-body">
+                  {value.description}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -127,7 +136,10 @@ const About = () => {
       </section>
 
       {/* Sustainability Section */}
-      <section className="section-padding" id="sustainability">
+      <section
+        className="section-padding"
+        id="sustainability"
+      >
         <div className="container-luxury">
           <div className="max-w-3xl mx-auto text-center">
             <motion.div
@@ -136,23 +148,17 @@ const About = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <p className="text-caption mb-4">Sustainability</p>
+              <p className="text-caption mb-4">
+                {t("about.sustainabilitySection")}
+              </p>
+
               <h2 className="heading-section mb-8">
-                Crafting a Better Future
+                {t("about.sustainabilityTitle")}
               </h2>
+
               <div className="space-y-6 text-body text-lg">
-                <p>
-                  We believe that true luxury must be sustainable. Our commitment to
-                  the environment is woven into every aspect of our operations—from
-                  sourcing certified sustainable woods to minimizing waste in our
-                  workshops.
-                </p>
-                <p>
-                  By creating furniture designed to last generations, we offer an
-                  alternative to the disposable culture of fast furniture. Each piece
-                  we make is an investment in quality that reduces the need for
-                  replacement and the associated environmental impact.
-                </p>
+                <p>{t("about.sustainabilityText1")}</p>
+                <p>{t("about.sustainabilityText2")}</p>
               </div>
             </motion.div>
 
@@ -166,26 +172,37 @@ const About = () => {
             >
               <div>
                 <p className="font-serif text-4xl mb-2">100%</p>
-                <p className="text-caption">Sustainable Materials</p>
+                <p className="text-caption">
+                  {t("about.statMaterials")}
+                </p>
               </div>
+
               <div>
                 <p className="font-serif text-4xl mb-2">Zero</p>
-                <p className="text-caption">Landfill Waste</p>
+                <p className="text-caption">
+                  {t("about.statWaste")}
+                </p>
               </div>
+
               <div>
                 <p className="font-serif text-4xl mb-2">50+</p>
-                <p className="text-caption">Year Average Lifespan</p>
+                <p className="text-caption">
+                  {t("about.statLifespan")}
+                </p>
               </div>
+
               <div>
                 <p className="font-serif text-4xl mb-2">Carbon</p>
-                <p className="text-caption">Neutral by 2025</p>
+                <p className="text-caption">
+                  {t("about.statCarbon")}
+                </p>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* Visit Section */}
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container-luxury">
           <div className="text-center max-w-2xl mx-auto">
@@ -195,15 +212,23 @@ const About = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <p className="text-caption mb-4 text-primary-foreground/60">Visit Us</p>
-              <h2 className="heading-section mb-8">Experience Manaku</h2>
-              <p className="text-primary-foreground/80 mb-8">
-                We invite you to visit our flagship showroom in Milan, where you can
-                experience our collection firsthand and receive personalized guidance
-                from our design consultants.
+              <p className="text-caption mb-4 text-primary-foreground/60">
+                {t("about.experienceSection")}
               </p>
-              <a href="/contact" className="btn-outline-luxury border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                Schedule a Visit
+
+              <h2 className="heading-section mb-8">
+                {t("about.experienceTitle")}
+              </h2>
+
+              <p className="text-primary-foreground/80 mb-8">
+                {t("about.experienceDesc")}
+              </p>
+
+              <a
+                href="/contact"
+                className="btn-outline-luxury border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              >
+                {t("about.scheduleVisit")}
               </a>
             </motion.div>
           </div>

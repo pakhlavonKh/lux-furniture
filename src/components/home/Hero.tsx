@@ -18,14 +18,13 @@ export function Hero({ heroImage }: HeroProps) {
           alt="Luxury living room interior"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(135deg, rgba(150, 90, 40, 0.25) 0%, rgba(120, 70, 30, 0.1) 50%, transparent 100%)' }} />
+        <div className="absolute inset-0 bg-black/30" />
+
       </div>
 
       {/* Content */}
-      <div className="container-luxury relative z-10 w-full max-w-full overflow-hidden">
-        <div className="max-w-2xl">
+      <div className="container-luxury relative z-10 w-full max-w-full overflow-hidden flex justify-center">
+        <div className="w-full flex flex-col items-center">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,18 +38,16 @@ export function Hero({ heroImage }: HeroProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="heading-display mb-8"
+            className="mb-4 text-center text-[clamp(3rem,8vw,10rem)] leading-[0.95] font-normal"
           >
             {t("hero.artOfLiving")}
-            <br />
-            <span className="italic">{t("hero.refinedLiving")}</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-body text-lg max-w-lg mb-10"
+            className="text-lg mb-10 w-full text-center text-neutral-900"
           >
             {t("hero.subtitle")}
           </motion.p>

@@ -209,8 +209,8 @@ const Contact = () => {
                       {t("contact.phoneTitle")}
                     </h3>
                     <p className="text-body">
-                      <a href="tel:+390212345678" className="hover:text-foreground transition-colors">
-                        +39 02 1234 5678
+                      <a href="tel:+998955215050" className="hover:text-foreground transition-colors">
+                        +998 95 521 50 50
                       </a>
                     </p>
                   </div>
@@ -226,8 +226,8 @@ const Contact = () => {
                       {t("contact.emailTitle")}
                     </h3>
                     <p className="text-body">
-                      <a href="mailto:info@maisonluxe.com" className="hover:text-foreground transition-colors">
-                        info@maisonluxe.com
+                      <a href="mailto:info@manaku.com" className="hover:text-foreground transition-colors">
+                        info@manaku.com
                       </a>
                     </p>
                   </div>

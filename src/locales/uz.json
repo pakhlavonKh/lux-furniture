@@ -80,10 +80,9 @@
     "discover": "Kashf etish",
     "luxuryRedefined": "Luxus qayta belgilangan",
     "tagline": "Hayotni ko'taruvchi qo'l ishlab chiqarish",
-    "curatedCollection": "Курируемая коллекция 2026",
-    "artOfLiving": "Hayot san'ati",
-    "refinedLiving": "Rafinlangan hayot",
-    "subtitle": "Italiya hunarmandligi va zamonaviy dizaynning kesishishini kashf eting.",
+    "curatedCollection": "Kuratlangan kolleksiya 2026",
+    "artOfLiving": "Toshkentda korpus va ofis mebellarini ishlab chiqarish",
+    "subtitle": "Biz xususiy mijozlar va korxonalar bilan ishlaymiz. O'zimizda ishlab chiqarish. 3 yilgacha kafolat.",
     "exploreCollection": "Kolleksiyani ko‘rish",
     "ourStory": "Bizning hikoyamiz",
     "scroll": "Pastga surish"
@@ -116,23 +115,41 @@
     }
   },
   "about": {
-    "story": "Bizning hikoya",
-    "title": "Manaku falsafasi",
-    "introduction": "1998 yilda Milanoda asoslangan Manaku oddiy e'tiqoddan kelib chiqdi: mebel chiroyli va maʼnoli bo'lishi kerak. Kichik masterlabdan boshlangan narsalar xalqaro tan olingan brendga aylandi, uni sezimdor dizayner va uy egalari ishoncha qoʻyadilar.",
-    "heritage": "Ajoyib meros",
-    "heritageSub": "Hunarmandlikni avlodlar",
-    "craftsmanship": "Har bir parça o'z hayotini an'anaviy texnikalarni ustalanishga bagʻishlagan mohir hunarmandlar tomonidan ishlab chiqariladi. Biz aytamanki, chinchli luxus insoniy teginish—har bir parçani noyobini qiladigan nozik nomutanosiblikda.",
-    "materials": "Material yaxlitligi",
-    "materialsSub": "Maqsad bilan buyurtma",
-    "materialsDesc": "Biz faqat mas'ul yetkazuvchilardan eng yaxshi materiallarni manba qilamiz. Barqaror hosilalangan yog'ochdan etik ishlab chiqarilgan charm va materiallargacha, har bir komponent uning sifati va kelib chiqishiga ko'ra tanlanadi.",
-    "design": "Abadiy dizayn",
-    "designSub": "Avlodlar uchun yaratish",
-    "designDesc": "Bizning dizaynlari trends dan chiqadi. Biz mebel yaratamiz, bu ellik yildan keyin bugun kabi muhim va go'zal bo'ladi. Bu abadiylikka sadoqat estetik va atrof-muhit tanlashdir.",
-    "experience": "Manaku-ni sinab koʻring",
-    "visitUs": "Bizni ziyorat qiling",
-    "experienceDesc": "Biz sizni Milando samlik koʻrgazmamizni ziyorat qilishga daʼvat qilamiz, bu yerda siz bizning kollekciyamizni birinchi qo'lda ko'rishingiz va bizning dizayn maslahatchilarimizdan shaxsiy rahbarlik olishingiz mumkin.",
-    "scheduleVisit": "Safarni rejalashtiring"
+    "story": "Bizning tariximiz",
+    "title": "Xususiy mijozlar va biznes uchun ishlaymiz.\nO‘z ishlab chiqarish. Shartnoma. 3 yilgacha kafolat.",
+    "heading": "Kompaniya haqida",
+    "paragraph1": "Manaku go‘zallik va sifat inson yashaydigan makonning asosiy qadriyatlari bo‘lishi kerak degan ishonch asosida tashkil etilgan.",
+    "paragraph2": "Biz Toshkent shahrida korpus va ofis mebellarini ishlab chiqaramiz, xususiy mijozlar hamda biznes bilan hamkorlik qilamiz.",
+    "paragraph3": "O‘z ishlab chiqarishimiz va har bir bosqichdagi nazorat tufayli mahsulotlarimiz uzoq muddat xizmat qiladi.",
+
+    "valuesSection": "Qadriyatlarimiz",
+    "valuesTitle": "Mahoratning asoslari",
+
+    "artisanalTitle": "Ijro mahorati",
+    "artisanalDesc": "Har bir mahsulot tajribali ustalar tomonidan yaratiladi. Sifat detallarda namoyon bo‘ladi.",
+
+    "materialsTitle": "Material yaxlitligi",
+    "materialsDesc": "Ishonchli yetkazib beruvchilardan sifatli materiallar tanlanadi. Har bir qism mustahkamlik va estetika asosida saralanadi.",
+
+    "designTitle": "Vaqtdan ustun dizayn",
+    "designDesc": "Biz trendlardan mustaqil dizayn yaratamiz. U yillar davomida dolzarbligini saqlaydi.",
+
+    "sustainabilitySection": "Barqarorlik",
+    "sustainabilityTitle": "Kelajak uchun yaratamiz",
+    "sustainabilityText1": "Javobgarlikli ishlab chiqarish — bizning tamoyilimiz. Chiqindilarni kamaytirishga e’tibor beramiz.",
+    "sustainabilityText2": "Uzoq xizmat qiladigan mebel yaratish orqali tez almashtirish madaniyatiga muqobil taklif qilamiz.",
+
+    "statMaterials": "Ekologik materiallar",
+    "statWaste": "Poligon chiqindisi",
+    "statLifespan": "O‘rtacha xizmat muddati",
+    "statCarbon": "Uglerod neytral",
+
+    "experienceSection": "Bizni ko‘ring",
+    "experienceTitle": "Manaku tajribasi",
+    "experienceDesc": "Toshkentdagi shourumimizga tashrif buyurib, sifatni shaxsan baholang.",
+    "scheduleVisit": "Tashrifni rejalashtirish"
   },
+
   "admin": {
     "dashboard": "Admin paneli",
     "totalProducts": "Jami mahsulotlar",
@@ -220,13 +237,13 @@
     "addressTitle": "Bizning joylashuv",
     "showroomInfo": "Shourum haqida ma'lumot",
     "showroomName": "Flagman shourumi Toshkentda",
-    "addressLine1": "Toshkent",
-    "addressLine2": "20121 Toshkent, O'zbekiston",
+    "addressLine1": "Toshkent, Mirobod tumani, Ko'shko'prik ko'chasi, 30",
+    "addressLine2": "Alfraganus Savdo Markazi, 2-qavat",
     "phoneTitle": "Telefon",
-    "emailTitle": "Pochta",
+    "emailTitle": "Elektron pochta",
     "hoursTitle": "Ish vaqti",
-    "hoursWeekdays": "Dushanba – Juma: 10:00 – 19:00",
-    "hoursSaturday": "Shanba: 10:00 – 18:00",
+    "hoursWeekdays": "Dushanba – Juma: 10:00 – 20:00",
+    "hoursSaturday": "Shanba: 10:00 – 19:00",
     "hoursSunday": "Yakshanba: Oldindan buyurtma bilan",
     "map": "Interaktiv xarita"
   },
