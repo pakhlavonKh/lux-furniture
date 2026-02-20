@@ -58,7 +58,7 @@ export function Hero({ heroImage }: HeroProps) {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Link to="/catalog" className="btn-luxury group">
+            <Link to="/" className="btn-luxury group">
               {t("hero.exploreCollection")}
               <ArrowRight className="ml-3 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>

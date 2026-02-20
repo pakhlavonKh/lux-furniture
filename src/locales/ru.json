@@ -254,6 +254,44 @@
     "map": "Интерактивная карта"
   },
 
+  "login": {
+    "title": "Вход | Manaku",
+    "heading": "Вход",
+    "subtitle": "Добро пожаловать в вашу учётную запись",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "rememberMe": "Помните обо мне",
+    "signIn": "Войти",
+    "signingIn": "Вход выполняется...",
+    "forgotPassword": "Забыли пароль?",
+    "dontHaveAccount": "У вас нет учётной записи?",
+    "signupLink": "Зарегистрируйтесь",
+    "welcomeBackTitle": "Добро пожаловать!",
+    "welcomeBackDesc": "Вы успешно вошли в систему.",
+    "errorTitle": "Ошибка",
+    "errorDesc": "Произошла ошибка",
+    "loginFailedErr": "Ошибка входа"
+  },
+
+  "signup": {
+    "title": "Создать учётную запись | Manaku",
+    "heading": "Создать учётную запись",
+    "subtitle": "Присоединитесь к нашему сообществу любителей роскошной мебели",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "createAccount": "Создать учётную запись",
+    "creatingAccount": "Создание учётной записи...",
+    "haveAccount": "Уже есть учётная запись?",
+    "signinLink": "Войти",
+    "passwordsMismatch": "Пароли не совпадают.",
+    "registrationFailed": "Ошибка регистрации",
+    "accountCreatedTitle": "Учётная запись создана!",
+    "accountCreatedDesc": "Вы успешно зарегистрировались.",
+    "errorTitle": "Ошибка",
+    "errorDesc": "Произошла ошибка"
+  },
+
   "errors": {
     "notFound": "Страница не найдена",
     "notFoundDesc": "Страница, которую вы ищете, не существует",

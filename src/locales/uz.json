@@ -248,6 +248,44 @@
     "map": "Interaktiv xarita"
   },
 
+  "login": {
+    "title": "Kirish | Manaku",
+    "heading": "Kirish",
+    "subtitle": "Hisobingizga xush kelibsiz",
+    "email": "Email",
+    "password": "Parol",
+    "rememberMe": "Meni eslang",
+    "signIn": "Kirish",
+    "signingIn": "Kirish olinmoqda...",
+    "forgotPassword": "Parolni unutdingizmi?",
+    "dontHaveAccount": "Hisobingiz yo'qmi?",
+    "signupLink": "Ro'yxatdan o'ting",
+    "welcomeBackTitle": "Xosh kelibsiz!",
+    "welcomeBackDesc": "Siz muvaffaqiyatli kirdingiz.",
+    "errorTitle": "Xato",
+    "errorDesc": "Xatolik yuz berdi",
+    "loginFailedErr": "Kirish muvaffaq bo'lmadi"
+  },
+
+  "signup": {
+    "title": "Hisob yaratish | Manaku",
+    "heading": "Hisob yaratish",
+    "subtitle": "Bizning hashamatli mebel jamiyatiga qo'shiling",
+    "email": "Email",
+    "password": "Parol",
+    "confirmPassword": "Parolni tasdiqlang",
+    "createAccount": "Hisob yaratish",
+    "creatingAccount": "Hisob yaratilmoqda...",
+    "haveAccount": "Allaqachon hisobingiz bor?",
+    "signinLink": "Kirish",
+    "passwordsMismatch": "Parollar mos kelmaydi.",
+    "registrationFailed": "Ro'yxatdan o'tish muvaffaq bo'lmadi",
+    "accountCreatedTitle": "Hisob yaratildi!",
+    "accountCreatedDesc": "Siz muvaffaqiyatli ro'yxatdan o'tdingiz.",
+    "errorTitle": "Xato",
+    "errorDesc": "Xatolik yuz berdi"
+  },
+
   "errors": {
     "notFound": "Sahifa topilmadi",
     "notFoundDesc": "Siz izlayotgan sahifa mavjud emas",

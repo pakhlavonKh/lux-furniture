@@ -65,17 +65,17 @@ export function Header() {
       )}
     >
       <nav className="container-luxury">
-        <div className="flex items-center justify-between h-20 md:h-24">
+        <div className="flex items-center justify-between h-20 md:h-24 sm:py-2">
           {/* Logo */}
           <Link
             to="/"
-            className="relative z-10"
+            className="relative z-10 my-auto h-10"
             style={{ pointerEvents: "auto" }}
           >
             <img
               src={manakuLogo}
               alt="Manaku"
-              className="h-10 md:h-12 w-auto object-contain !no-underline"
+              className="h-10 md:h-12 w-auto object-contain !no-underline my-auto"
               style={{
                 transition: "none !important",
                 opacity: "1 !important",

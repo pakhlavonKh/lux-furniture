@@ -39,7 +39,7 @@ export default function Login() {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || "Login failed");
+        throw new Error(error.message || t("login.loginFailedErr"));
       }
 
       const data = await response.json();
@@ -47,8 +47,8 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       toast({
-        title: "Welcome back!",
-        description: "You have successfully logged in.",
+        title: t("login.welcomeBackTitle"),
+        description: t("login.welcomeBackDesc"),
       });
 
       // Redirect to account page
@@ -57,7 +57,7 @@ export default function Login() {
       const errorMessage =
         error instanceof Error ? error.message : "An error occurred";
       toast({
-        title: "Error",
+        title: t("login.errorTitle"),
         description: errorMessage,
         variant: "destructive",
       });
@@ -69,7 +69,7 @@ export default function Login() {
   return (
     <Layout>
       <SEO
-        title="Sign In | Manaku"
+        title={t("login.title")}
         description="Log in to your Manaku account to access your orders and favorites."
         url="https://lux-furniture-demo.netlify.app/login"
       />
@@ -80,22 +80,22 @@ export default function Login() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="w-full max-w-md mx-auto"
+            className="auth-container"
           >
             <div className="text-center mb-12">
               <h1 className="font-serif text-3xl tracking-[0.1em] mb-2">
-                SIGN IN
+                {t("login.heading").toUpperCase()}
               </h1>
               <p className="text-muted-foreground">
-                Welcome back to your account
+                {t("login.subtitle")}
               </p>
             </div>
 
-            <div className="bg-card border border-border p-8">
+            <div className="auth-card">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="email" className="text-caption mb-2 block">
-                    Email
+                    {t("login.email")}
                   </label>
                   <input
                     type="email"
@@ -104,7 +104,7 @@ export default function Login() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
+                    className="form-input"
                   />
                 </div>
 
@@ -113,7 +113,7 @@ export default function Login() {
                     htmlFor="password"
                     className="text-caption mb-2 block"
                   >
-                    Password
+                    {t("login.password")}
                   </label>
                   <div className="relative">
                     <input
@@ -123,17 +123,17 @@ export default function Login() {
                       required
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors pr-12"
+                      className="form-input form-input--with-icon"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      className="password-toggle"
                     >
                       {showPassword ? (
-                        <EyeOff className="w-4 h-4" />
+                        <EyeOff className="icon-eye" />
                       ) : (
-                        <Eye className="w-4 h-4" />
+                        <Eye className="icon-eye" />
                       )}
                     </button>
                   </div>
@@ -142,14 +142,14 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-luxury w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-luxury auth-submit"
                 >
                   {isSubmitting ? (
-                    "Signing in..."
+                    t("login.signingIn")
                   ) : (
                     <>
                       <LogIn className="w-4 h-4 mr-2" />
-                      Sign In
+                      {t("login.signIn")}
                     </>
                   )}
                 </button>
@@ -157,9 +157,9 @@ export default function Login() {
 
               <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
-                  Don't have an account?{" "}
+                  {t("login.dontHaveAccount")}{" "}
                   <a href="/signup" className="text-foreground hover:underline">
-                    Sign up
+                    {t("login.signupLink")}
                   </a>
                 </p>
               </div>

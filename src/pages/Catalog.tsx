@@ -34,25 +34,19 @@ export default function Catalog() {
       {/* Categories Section */}
       <section className="pt-28 pb-8 bg-background border-b border-neutral-200">
         <div className="container-luxury">
-          <div className="flex gap-6 overflow-x-auto pb-4 -mx-2 px-2 scrollbar-hide">
+          <div className="categories-scroll">
             {categories.map((cat) => (
               <div
                 key={cat.key}
-                className="flex flex-col items-center bg-white rounded-xl shadow p-3 w-36 min-w-[9rem] cursor-pointer border border-neutral-200 hover:border-foreground transition-all"
+                className="category-card"
               >
                 <img
                   src={cat.image}
                   alt={t(`categories.${cat.key}`)}
-                  style={{
-                    width: "96px",
-                    height: "96px",
-                    objectFit: "contain",
-                    marginBottom: "0.75rem",
-                    borderRadius: "0.5rem",
-                  }}
+                  className="category-card__image"
                 />
 
-                <span className="text-center text-base font-medium text-foreground mt-auto">
+                <span className="category-card__title">
                   {t(`categories.${cat.key}`)}
                 </span>
               </div>
@@ -72,21 +66,21 @@ export default function Catalog() {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-xl shadow p-4 flex flex-col items-center border border-neutral-200 hover:border-foreground transition-all"
+                className="product-card"
               >
-                <div className="w-full aspect-square mb-4 rounded overflow-hidden flex items-center justify-center bg-neutral-100">
+                <div className="product-card__image-wrap">
                   <img
                     src={product.image}
                     alt={t(`products.${product.id}.name`)}
-                    className="w-full h-full object-cover"
+                    className="product-card__image"
                   />
                 </div>
 
-                <div className="text-lg font-medium text-foreground mb-2 text-center">
+                <div className="product-card__title">
                   {t(`products.${product.id}.name`)}
                 </div>
 
-                <div className="text-primary font-semibold text-base">
+                <div className="product-card__price">
                   {product.price}
                 </div>
               </div>

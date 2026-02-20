@@ -256,6 +256,44 @@
     "map": "Interactive Map"
   },
 
+  "login": {
+    "title": "Sign In | Manaku",
+    "heading": "Sign In",
+    "subtitle": "Welcome back to your account",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "forgotPassword": "Forgot your password?",
+    "dontHaveAccount": "Don't have an account?",
+    "signupLink": "Sign up",
+    "welcomeBackTitle": "Welcome back!",
+    "welcomeBackDesc": "You have successfully logged in.",
+    "errorTitle": "Error",
+    "errorDesc": "An error occurred",
+    "loginFailedErr": "Login failed"
+  },
+
+  "signup": {
+    "title": "Create Account | Manaku",
+    "heading": "Create Account",
+    "subtitle": "Join our luxury furniture community",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "createAccount": "Create Account",
+    "creatingAccount": "Creating Account...",
+    "haveAccount": "Already have an account?",
+    "signinLink": "Sign in",
+    "passwordsMismatch": "Passwords do not match.",
+    "registrationFailed": "Registration failed",
+    "accountCreatedTitle": "Account created!",
+    "accountCreatedDesc": "You have successfully registered.",
+    "errorTitle": "Error",
+    "errorDesc": "An error occurred"
+  },
+
   "errors": {
     "notFound": "Page Not Found",
     "notFoundDesc": "The page you're looking for doesn't exist",

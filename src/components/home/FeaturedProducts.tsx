@@ -66,7 +66,7 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
           {products.map((product) => (
             <motion.div key={product.id} variants={itemVariants}>
               <Link to={`/product/${product.slug}`} className="group block">
-                <div className="product-card aspect-[4/5] mb-6 bg-muted">
+                <div className="aspect-[4/5] mb-6 bg-muted">
                   <img
                     src={product.image}
                     alt={product.title}

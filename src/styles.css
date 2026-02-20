@@ -15,7 +15,7 @@
 
 :root {
   /* Core palette - teal/turquoise theme */
-  --background: 0 0% 98%;
+  --background: 0 0% 100%;
   --foreground: 200 20% 15%;
 
   /* Card surfaces */
@@ -241,6 +241,7 @@ a img:hover {
   background-color: transparent;
   color: hsl(var(--primary));
   border: 1px solid hsl(var(--primary));
+  border-radius: 1.25rem;
   transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
 }
 .btn-outline-luxury:hover {
@@ -249,35 +250,6 @@ a img:hover {
   border-color: hsl(var(--primary));
 }
 
-/* ===== PRODUCT CARD ===== */
-
-.product-card {
-  position: relative;
-  overflow: hidden;
-  transition: all 500ms ease;
-  transform-origin: center;
-}
-
-.product-card:hover {
-  transform: translateY(-4px);
-}
-
-.product-card:hover .product-image {
-  transform: scale(1.05);
-}
-
-.product-card:hover .product-overlay {
-  opacity: 1;
-}
-
-.product-image {
-  transition: transform 700ms ease-out;
-}
-
-.product-overlay {
-  opacity: 0;
-  transition: opacity 300ms ease;
-}
 
 /* ===== LINK UNDERLINE ANIMATION ===== */
 
@@ -335,8 +307,7 @@ a img:hover {
 .container-luxury {
   max-width: 1400px;
   margin: 0 auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -1394,6 +1365,132 @@ button[class*="bg-transparent"] {
   }
 }
 
+/* Full-width horizontal scroller */
+.categories-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+
+  overflow-x: scroll;       
+  overflow-y: hidden;
+  padding: 0 0 0.75rem;   /* side padding + space for bar */
+
+  /* scrollbar-gutter: stable;  reserve space for scrollbar (where supported) */
+  -webkit-overflow-scrolling: touch;
+}
+/* Remove scrollbar arrows (buttons) */
+.categories-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Optional: style the scrollbar itself */
+.categories-scroll::-webkit-scrollbar {
+  height: 8px;              /* scrollbar thickness */
+}
+
+.categories-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.categories-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;      /* light gray thumb */
+  border-radius: 999px;
+}
+
+
+/* Tablet and up */
+@media (min-width: 640px) {
+  .categories-scroll {
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .category-card {
+    min-width: 9rem;
+  }
+}
+
+/* Card */
+.category-card {
+  flex: 0 0 auto;
+  width: 6.5rem;
+  padding: 0.5rem;
+
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  margin-right: 0.75rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.category-card:last-child {
+  margin-right: 0;
+}
+
+.category-card:hover {
+  border-color: #13789A;
+}
+
+/* Image box */
+.category-card__image {
+  width: 64px;
+  height: 64px;
+
+  border-radius: 0.5rem;
+  background: #f5f5f5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.category-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Title */
+.category-card__title {
+  font-size: 0.75rem;
+  line-height: 1.1;
+  text-align: center;
+  color: #111827;
+  font-weight: 500;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tablet and up */
+@media (min-width: 640px) {
+  .category-card {
+    width: 9rem;
+    padding: 0.75rem;
+  }
+
+  .category-card__image {
+    width: 96px;
+    height: 96px;
+  }
+
+  .category-card__title {
+    font-size: 0.95rem;
+  }
+}
+
 /* Filter Sections */
 .filter-section {
   margin-bottom: 2.5rem;
@@ -1576,4 +1673,157 @@ button[class*="bg-transparent"] {
 .catalog-empty-btn:hover {
   border-color: hsl(var(--foreground));
   background: #f9f9f9;
+}
+
+
+/* Card */
+.product-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;          /* neutral-200 */
+  border-radius: 2rem;                /* rounded-4xl equivalent */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+  padding: 1rem;                      /* p-4 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  transition: border-color 0.2s ease;
+}
+
+.product-card:hover {
+  border-color: #13789A;              /* foreground */
+}
+
+/* Image wrapper */
+.product-card__image-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;                /* aspect-square */
+  margin-bottom: 1rem;                /* mb-4 */
+
+  border-radius: 0.5rem;              /* rounded */
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3f4f6;                /* neutral-100 */
+}
+
+/* Image */
+.product-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.75rem;             /* rounded-xl */
+}
+
+/* Title */
+.product-card__title {
+  font-size: 1.125rem;                /* text-lg */
+  font-weight: 500;                   /* font-medium */
+  color: #111827;                     /* foreground */
+  margin-bottom: 0.5rem;              /* mb-2 */
+  text-align: center;
+}
+
+/* Price */
+.product-card__price {
+  font-size: 1rem;                    /* text-base */
+  font-weight: 600;                   /* font-semibold */
+  color: #1A9FB0;                     /* primary (adjust to your brand color) */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 1rem;                 /* right-4 */
+  top: 50%;                    /* top-1/2 */
+  transform: translateY(-50%); /* -translate-y-1/2 */
+
+  color: #9ca3af;              /* text-muted-foreground (adjust to your palette) */
+  transition: color 0.2s ease; /* transition-colors */
+
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.icon-eye {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;     /* icon color */
+  stroke-width: 2;     /* line thickness */
+  background: transparent;
+}
+
+/* Example hover state */
+.icon-eye:hover {
+  stroke: #13789A;     /* change color on hover */
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 28rem;   /* same as max-w-md (448px) */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth-card {
+  background: #ffffff;                 /* or your bg-card token */
+  border: 1px solid #e5e7eb;            /* border-border */
+  padding: 2rem;                       /* p-8 */
+  border-radius: 1.5rem;              /* rounded edges */
+}
+
+/* Base input */
+.form-input {
+  width: 100%;                     /* w-full */
+
+  padding-left: 1rem;              /* px-4 */
+  padding-right: 1rem;             /* px-4 */
+  padding-top: 0.75rem;            /* py-3 */
+  padding-bottom: 0.75rem;         /* py-3 */
+
+  border: 1px solid #e5e7eb;        /* border border-border */
+  background: transparent;          /* bg-transparent */
+  border-radius: 1.25rem;
+
+  outline: none;                    /* focus:outline-none */
+
+  transition: border-color 0.2s ease; /* transition-colors */
+}
+
+/* Extra right padding for icon */
+.form-input--with-icon {
+  padding-right: 3rem;              /* pr-12 */
+}
+
+/* Focus state */
+.form-input:focus {
+  border-color: #111827;            /* border-foreground */
+}
+
+.auth-submit {
+  width: 100%;
+}
+
+/* Base button (your luxury style should already exist) */
+.btn-luxury {
+  /* keep your existing styles here */
+  border-radius: 1.25rem;        /* rounded */
+  transition: opacity 0.2s ease; /* optional */
+}
+
+/* Disabled state */
+.btn-luxury:disabled {
+  opacity: 0.5;                  /* disabled:opacity-50 */
+  cursor: not-allowed;           /* disabled:cursor-not-allowed */
 }

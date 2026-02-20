@@ -49,21 +49,21 @@ export function Footer() {
             <div className="flex gap-4">
               <a
                 href="#"
-                className="p-2 border border-primary-foreground/20 hover:border-primary-foreground/50 transition-colors"
+                className="soical-links"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="social-icons" />
               </a>
               <a
                 href="#"
-                className="p-2 border border-primary-foreground/20 hover:border-primary-foreground/50 transition-colors"
+                className="social-links"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="social-icons" />
               </a>
               <a
                 href="#"
-                className="p-2 border border-primary-foreground/20 hover:border-primary-foreground/50 transition-colors"
+                className="social-links"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="social-icons" />
               </a>
             </div>
           </div>
@@ -125,7 +125,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <div className="border-t border-primary-foreground/10 mt-12 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <p className="text-xs text-primary-foreground/50">
             © {new Date().getFullYear()} {t("footer.rights")}
           </p>
