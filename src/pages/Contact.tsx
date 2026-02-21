@@ -241,16 +241,16 @@ const Contact = () => {
                     onChange={handleChange}
                     className="contact-input"
                   >
-                    <option value="">Select a subject</option>
-                    <option value="product-inquiry">Product Inquiry</option>
+                    <option value="">{t("contact.subjectOptions.selectSubject")}</option>
+                    <option value="product-inquiry">{t("contact.subjectOptions.productInquiry")}</option>
                     <option value="showroom-visit">
-                      Schedule Showroom Visit
+                      {t("contact.subjectOptions.showroomVisit")}
                     </option>
                     <option value="design-consultation">
-                      Design Consultation
+                      {t("contact.subjectOptions.designConsultation")}
                     </option>
-                    <option value="order-status">Order Status</option>
-                    <option value="other">Other</option>
+                    <option value="order-status">{t("contact.subjectOptions.orderStatus")}</option>
+                    <option value="other">{t("contact.subjectOptions.other")}</option>
                   </select>
                 </div>
               </div>

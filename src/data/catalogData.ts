@@ -1,155 +1,264 @@
 import armchairImage from "@/assets/product-armchair.jpg";
 import diningTableImage from "@/assets/product-dining-table.jpg";
 import lampImage from "@/assets/product-lamp.jpg";
+import shelvingImg from "@/assets/product-console.jpg";
+import kitchenImg from "@/assets/product-dining-table.jpg";
+import gardenImg from "@/assets/collection-living.jpg";
+import officeImg from "@/assets/product-armchair.jpg";
+import childrenImg from "@/assets/product-bed.jpg";
+import industrialImg from "@/assets/product-sofa.jpg";
+import accessoriesImg from "@/assets/product-lamp.jpg";
 
 const CATALOG_STOCK_KEY = "catalogStockState";
 
-export interface ProductTranslationKeys {
-  title: string;
-  shortDescription: string;
-  description: string;
-  category: string;
-  material: string;
-  color: string;
-  style: string;
-  dimensions: string;
-  care: string;
-}
-
+// ============ TYPES ============
 export interface ProductVariant {
   id: string;
+  sku: string;
   size?: string;
   color?: string;
   material?: string;
   price: number;
-  stock: number;
+  ikpuCode?: string; // Payme merchant ID for this variant
+  packageCode?: string; // Package code for inventory tracking
 }
 
 export interface CatalogProduct {
   id: string;
   slug: string;
+  categoryId: string;
+  collectionIds: string[];
   image: string;
-  images: string[];
+  images?: string[];
+  nameKey: string;
+  descriptionKey?: string;
+  shortDescriptionKey?: string;
   basePrice: number;
   variants: ProductVariant[];
-  stock: number;
   discount?: number;
   isFeatured: boolean;
   sku: string;
-  translationKeys: ProductTranslationKeys;
-  createdAt: Date;
-  updatedAt: Date;
+  ikpuCode?: string; // Default IKPU code for product
+  packageCode?: string; // Default package code
+  vatPercent?: number; // VAT percentage (default 12%)
+  sizeImages?: Record<string, string[]>;
+  colorImages?: Record<string, string[]>;
+  sizePrices?: Record<string, number>;
+  sizeDescriptions?: Record<string, string>;
 }
 
+export interface CatalogCategory {
+  id: string;
+  slug: string;
+  nameKey: string;
+  descriptionKey: string;
+  image?: string;
+  displayOrder: number;
+}
+
+export interface CatalogCollection {
+  id: string;
+  slug: string;
+  nameKey: string;
+  descriptionKey: string;
+  image: string;
+  displayOrder: number;
+}
+
+// ============ STOCK MANAGEMENT ============
 interface StockState {
   productStock: Record<string, number>;
   variantStock: Record<string, number>;
+  lastUpdated: number;
 }
 
-const catalogTemplate: CatalogProduct[] = [
+// ============ DATA TEMPLATES ============
+const categories: CatalogCategory[] = [
+  { id: "storage", slug: "storage", nameKey: "categories.storage", descriptionKey: "categories.storage.description", image: shelvingImg, displayOrder: 1 },
+  { id: "kitchen", slug: "kitchen", nameKey: "categories.kitchen", descriptionKey: "categories.kitchen.description", image: kitchenImg, displayOrder: 2 },
+  { id: "garden", slug: "garden", nameKey: "categories.garden", descriptionKey: "categories.garden.description", image: gardenImg, displayOrder: 3 },
+  { id: "office", slug: "office", nameKey: "categories.office", descriptionKey: "categories.office.description", image: officeImg, displayOrder: 4 },
+  { id: "children", slug: "children", nameKey: "categories.children", descriptionKey: "categories.children.description", image: childrenImg, displayOrder: 5 },
+  { id: "industrial", slug: "industrial", nameKey: "categories.industrial", descriptionKey: "categories.industrial.description", image: industrialImg, displayOrder: 6 },
+  { id: "accessories", slug: "accessories", nameKey: "categories.accessories", descriptionKey: "categories.accessories.description", image: accessoriesImg, displayOrder: 7 },
+];
+
+const collections: CatalogCollection[] = [
+  {
+    id: "living",
+    slug: "living",
+    nameKey: "collections.items.living.name",
+    descriptionKey: "collections.items.living.description",
+    image: armchairImage,
+    displayOrder: 1,
+  },
+  {
+    id: "dining",
+    slug: "dining",
+    nameKey: "collections.items.dining.name",
+    descriptionKey: "collections.items.dining.description",
+    image: diningTableImage,
+    displayOrder: 2,
+  },
+  {
+    id: "lighting",
+    slug: "lighting",
+    nameKey: "collections.items.lighting.name",
+    descriptionKey: "collections.items.lighting.description",
+    image: lampImage,
+    displayOrder: 3,
+  },
+];
+
+const products: CatalogProduct[] = [
   {
     id: "1",
     slug: "aria-lounge-chair",
+    categoryId: "storage",
+    collectionIds: ["living"],
     image: armchairImage,
     images: [armchairImage],
+    nameKey: "products.ariaLounge",
+    descriptionKey: "products.catalog.aria.description",
+    shortDescriptionKey: "products.catalog.aria.shortDescription",
     basePrice: 3450,
-    stock: 12,
+    sku: "ALC-001",
+    ikpuCode: "507144100000001",
+    packageCode: "PKG-ALC-001",
+    vatPercent: 12,
     variants: [
-      { id: "1-beige", color: "Beige", price: 3450, stock: 5 },
-      { id: "1-grey", color: "Grey", price: 3450, stock: 7 },
-      { id: "1-charcoal", color: "Charcoal", price: 3650, stock: 0 },
+      {
+        id: "1-beige",
+        sku: "ALC-001-BEIGE",
+        color: "Beige",
+        price: 3450,
+        ikpuCode: "507144100000001",
+        packageCode: "PKG-ALC-001-BEI",
+      },
+      {
+        id: "1-grey",
+        sku: "ALC-001-GREY",
+        color: "Grey",
+        price: 3450,
+        ikpuCode: "507144100000002",
+        packageCode: "PKG-ALC-001-GRE",
+      },
+      {
+        id: "1-charcoal",
+        sku: "ALC-001-CHAR",
+        color: "Charcoal",
+        price: 3650,
+        ikpuCode: "507144100000003",
+        packageCode: "PKG-ALC-001-CHA",
+      },
     ],
     discount: 0,
     isFeatured: true,
-    sku: "ALC-001",
-    translationKeys: {
-      title: "products.ariaLounge",
-      shortDescription: "products.catalog.aria.shortDescription",
-      description: "products.catalog.aria.description",
-      category: "products.category.seating",
-      material: "products.catalog.aria.material",
-      color: "products.catalog.aria.color",
-      style: "products.catalog.aria.style",
-      dimensions: "products.catalog.aria.dimensions",
-      care: "products.catalog.aria.care",
-    },
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
   },
   {
     id: "2",
     slug: "tavola-dining-table",
+    categoryId: "dining",
+    collectionIds: ["dining"],
     image: diningTableImage,
     images: [diningTableImage],
+    nameKey: "products.tavola",
+    descriptionKey: "products.catalog.tavola.description",
+    shortDescriptionKey: "products.catalog.tavola.shortDescription",
     basePrice: 8900,
-    stock: 3,
+    sku: "DT-002",
+    ikpuCode: "507144100000004",
+    packageCode: "PKG-DT-002",
+    vatPercent: 12,
     variants: [
-      { id: "2-walnut", material: "Walnut", price: 8900, stock: 2 },
-      { id: "2-oak", material: "Oak", price: 7850, stock: 1 },
+      {
+        id: "2-walnut",
+        sku: "DT-002-WAL",
+        material: "Walnut",
+        price: 8900,
+        ikpuCode: "507144100000004",
+        packageCode: "PKG-DT-002-WAL",
+      },
+      {
+        id: "2-oak",
+        sku: "DT-002-OAK",
+        material: "Oak",
+        price: 7850,
+        ikpuCode: "507144100000005",
+        packageCode: "PKG-DT-002-OAK",
+      },
     ],
     discount: 5,
     isFeatured: true,
-    sku: "DT-002",
-    translationKeys: {
-      title: "products.tavola",
-      shortDescription: "products.catalog.tavola.shortDescription",
-      description: "products.catalog.tavola.description",
-      category: "products.category.dining",
-      material: "products.catalog.tavola.material",
-      color: "products.catalog.tavola.color",
-      style: "products.catalog.tavola.style",
-      dimensions: "products.catalog.tavola.dimensions",
-      care: "products.catalog.tavola.care",
-    },
-    createdAt: new Date("2024-01-10"),
-    updatedAt: new Date("2024-01-10"),
   },
   {
     id: "3",
     slug: "luce-floor-lamp",
+    categoryId: "lighting",
+    collectionIds: ["lighting"],
     image: lampImage,
     images: [lampImage],
+    nameKey: "products.luce",
+    descriptionKey: "products.catalog.luce.description",
+    shortDescriptionKey: "products.catalog.luce.shortDescription",
     basePrice: 1850,
-    stock: 25,
+    sku: "LAMP-003",
+    ikpuCode: "507144100000006",
+    packageCode: "PKG-LAMP-003",
+    vatPercent: 12,
     variants: [
-      { id: "3-gold", color: "Gold", price: 1850, stock: 15 },
-      { id: "3-black", color: "Black", price: 1850, stock: 10 },
+      {
+        id: "3-gold",
+        sku: "LAMP-003-GOLD",
+        color: "Gold",
+        price: 1850,
+        ikpuCode: "507144100000006",
+        packageCode: "PKG-LAMP-003-GLD",
+      },
+      {
+        id: "3-black",
+        sku: "LAMP-003-BLK",
+        color: "Black",
+        price: 1850,
+        ikpuCode: "507144100000007",
+        packageCode: "PKG-LAMP-003-BLK",
+      },
     ],
     discount: 0,
     isFeatured: false,
-    sku: "LAMP-003",
-    translationKeys: {
-      title: "products.luce",
-      shortDescription: "products.catalog.luce.shortDescription",
-      description: "products.catalog.luce.description",
-      category: "products.category.lighting",
-      material: "products.catalog.luce.material",
-      color: "products.catalog.luce.color",
-      style: "products.catalog.luce.style",
-      dimensions: "products.catalog.luce.dimensions",
-      care: "products.catalog.luce.care",
-    },
-    createdAt: new Date("2024-01-05"),
-    updatedAt: new Date("2024-01-05"),
   },
 ];
 
+// ============ DEFAULT STOCK ============
+function createDefaultStockState(): StockState {
+  const productStock: Record<string, number> = {};
+  const variantStock: Record<string, number> = {};
+
+  // Set default stock levels for products
+  productStock["1"] = 12;
+  productStock["2"] = 3;
+  productStock["3"] = 25;
+
+  // Set default stock levels for variants
+  variantStock["1-beige"] = 5;
+  variantStock["1-grey"] = 7;
+  variantStock["1-charcoal"] = 0;
+  variantStock["2-walnut"] = 2;
+  variantStock["2-oak"] = 1;
+  variantStock["3-gold"] = 15;
+  variantStock["3-black"] = 10;
+
+  return {
+    productStock,
+    variantStock,
+    lastUpdated: Date.now(),
+  };
+}
+
+// ============ STOCK UTILITIES ============
 function clampStock(value: number): number {
   if (!Number.isFinite(value)) return 0;
   return Math.max(0, Math.floor(value));
-}
-
-function createDefaultStockState(): StockState {
-  return catalogTemplate.reduce<StockState>(
-    (acc, product) => {
-      acc.productStock[product.id] = product.stock;
-      for (const variant of product.variants) {
-        acc.variantStock[variant.id] = variant.stock;
-      }
-      return acc;
-    },
-    { productStock: {}, variantStock: {} }
-  );
 }
 
 function readStockState(): StockState {
@@ -171,6 +280,7 @@ function readStockState(): StockState {
     return {
       productStock: { ...defaults.productStock, ...(parsed.productStock || {}) },
       variantStock: { ...defaults.variantStock, ...(parsed.variantStock || {}) },
+      lastUpdated: parsed.lastUpdated || Date.now(),
     };
   } catch {
     const defaults = createDefaultStockState();
@@ -181,45 +291,123 @@ function readStockState(): StockState {
 
 function writeStockState(next: StockState) {
   if (typeof window === "undefined") return;
+  next.lastUpdated = Date.now();
   localStorage.setItem(CATALOG_STOCK_KEY, JSON.stringify(next));
 }
 
-function hydrateProduct(product: CatalogProduct, stockState: StockState): CatalogProduct {
-  return {
-    ...product,
-    stock: clampStock(stockState.productStock[product.id] ?? product.stock),
-    variants: product.variants.map((variant) => ({
-      ...variant,
-      stock: clampStock(stockState.variantStock[variant.id] ?? variant.stock),
-    })),
-  };
+// ============ CATEGORIES ============
+export function getCategories(): CatalogCategory[] {
+  return [...categories];
 }
 
-export function getCatalogProducts(): CatalogProduct[] {
-  const stockState = readStockState();
-  return catalogTemplate.map((product) => hydrateProduct(product, stockState));
+export function getCategoryById(id: string): CatalogCategory | undefined {
+  return categories.find((c) => c.id === id);
 }
 
-export function getProductById(productId: string): CatalogProduct | undefined {
-  return getCatalogProducts().find((product) => product.id === productId);
+export function getCategoryBySlug(slug: string): CatalogCategory | undefined {
+  return categories.find((c) => c.slug === slug);
+}
+
+// ============ COLLECTIONS ============
+export function getCollections(): CatalogCollection[] {
+  return [...collections];
+}
+
+export function getCollectionById(id: string): CatalogCollection | undefined {
+  return collections.find((c) => c.id === id);
+}
+
+export function getCollectionBySlug(slug: string): CatalogCollection | undefined {
+  return collections.find((c) => c.slug === slug);
+}
+
+// ============ PRODUCTS ============
+export function getProducts(filters?: {
+  categoryId?: string;
+  collectionId?: string;
+  featured?: boolean;
+}): CatalogProduct[] {
+  let result = [...products];
+
+  if (filters?.categoryId) {
+    result = result.filter((p) => p.categoryId === filters.categoryId);
+  }
+
+  if (filters?.collectionId) {
+    result = result.filter((p) => p.collectionIds.includes(filters.collectionId));
+  }
+
+  if (filters?.featured) {
+    result = result.filter((p) => p.isFeatured);
+  }
+
+  return result;
+}
+
+export function getProductById(id: string): CatalogProduct | undefined {
+  return products.find((p) => p.id === id);
 }
 
 export function getProductBySlug(slug: string): CatalogProduct | undefined {
-  return getCatalogProducts().find((product) => product.slug === slug);
+  return products.find((p) => p.slug === slug);
+}
+
+export function getProductBySku(sku: string): CatalogProduct | undefined {
+  return products.find((p) => p.sku === sku);
+}
+
+export function getProductsByCategory(categoryId: string): CatalogProduct[] {
+  return products.filter((p) => p.categoryId === categoryId);
+}
+
+export function getProductsByCollection(collectionId: string): CatalogProduct[] {
+  return products.filter((p) => p.collectionIds.includes(collectionId));
 }
 
 export function getFeaturedProducts(): CatalogProduct[] {
-  return getCatalogProducts().filter((product) => product.isFeatured);
+  return products.filter((p) => p.isFeatured);
 }
 
-export function getProductsByCategory(categoryKey: string): CatalogProduct[] {
-  return getCatalogProducts().filter((product) => product.translationKeys.category === categoryKey);
+export function getVariant(
+  productId: string,
+  variantId: string
+): ProductVariant | undefined {
+  const product = getProductById(productId);
+  return product?.variants.find((v) => v.id === variantId);
 }
 
+// ============ STOCK MANAGEMENT ============
+// ============ STOCK QUERIES ============
+export function getProductStock(productId: string): number {
+  const state = readStockState();
+  return clampStock(state.productStock[productId] ?? 0);
+}
+
+export function getVariantStock(variantId: string): number {
+  const state = readStockState();
+  return clampStock(state.variantStock[variantId] ?? 0);
+}
+
+export function isInStock(productId: string, variantId?: string): boolean {
+  if (variantId) {
+    return getVariantStock(variantId) > 0;
+  }
+  return getProductStock(productId) > 0;
+}
+
+export function getStockStatus(
+  productId: string,
+  variantId?: string
+): "in-stock" | "low-stock" | "out-of-stock" {
+  const stock = variantId ? getVariantStock(variantId) : getProductStock(productId);
+  if (stock === 0) return "out-of-stock";
+  if (stock < 5) return "low-stock";
+  return "in-stock";
+}
+
+// ============ STOCK MANAGEMENT ============
 export function setProductStock(productId: string, stock: number): boolean {
-  const product = catalogTemplate.find((p) => p.id === productId);
-  if (!product) return false;
-
+  if (!getProductById(productId)) return false;
   const state = readStockState();
   state.productStock[productId] = clampStock(stock);
   writeStockState(state);
@@ -227,16 +415,19 @@ export function setProductStock(productId: string, stock: number): boolean {
 }
 
 export function setVariantStock(variantId: string, stock: number): boolean {
-  const exists = catalogTemplate.some((product) => product.variants.some((variant) => variant.id === variantId));
+  const exists = products.some((p) => p.variants.some((v) => v.id === variantId));
   if (!exists) return false;
-
   const state = readStockState();
   state.variantStock[variantId] = clampStock(stock);
   writeStockState(state);
   return true;
 }
 
-export function reduceStock(productId: string, variantId?: string, quantity: number = 1): boolean {
+export function reduceStockAfterOrder(
+  productId: string,
+  variantId?: string,
+  quantity: number = 1
+): boolean {
   const amount = clampStock(quantity);
   if (amount < 1) return false;
 
@@ -246,18 +437,21 @@ export function reduceStock(productId: string, variantId?: string, quantity: num
     const current = clampStock(state.variantStock[variantId] ?? 0);
     if (current < amount) return false;
     state.variantStock[variantId] = current - amount;
-    writeStockState(state);
-    return true;
   }
 
-  const current = clampStock(state.productStock[productId] ?? 0);
-  if (current < amount) return false;
-  state.productStock[productId] = current - amount;
+  const productCurrent = clampStock(state.productStock[productId] ?? 0);
+  if (productCurrent < amount) return false;
+  state.productStock[productId] = productCurrent - amount;
+
   writeStockState(state);
   return true;
 }
 
-export function increaseStock(productId: string, variantId?: string, quantity: number = 1): boolean {
+export function increaseStock(
+  productId: string,
+  variantId?: string,
+  quantity: number = 1
+): boolean {
   const amount = clampStock(quantity);
   if (amount < 1) return false;
 
@@ -266,39 +460,36 @@ export function increaseStock(productId: string, variantId?: string, quantity: n
   if (variantId) {
     const current = clampStock(state.variantStock[variantId] ?? 0);
     state.variantStock[variantId] = current + amount;
-    writeStockState(state);
-    return true;
   }
 
-  const current = clampStock(state.productStock[productId] ?? 0);
-  state.productStock[productId] = current + amount;
+  const productCurrent = clampStock(state.productStock[productId] ?? 0);
+  state.productStock[productId] = productCurrent + amount;
+
   writeStockState(state);
   return true;
 }
 
-export function isInStock(productId: string, variantId?: string): boolean {
-  const product = getProductById(productId);
-  if (!product) return false;
-
-  if (variantId) {
-    const variant = product.variants.find((v) => v.id === variantId);
-    return Boolean(variant && variant.stock > 0);
-  }
-
-  return product.stock > 0;
-}
-
+// ============ PRICING ============
 export function getDiscountedPrice(basePrice: number, discount?: number): number {
   if (!discount || discount <= 0) return basePrice;
   return Math.round(basePrice * (1 - discount / 100));
 }
 
+export function getVariantPrice(variant: ProductVariant, discount?: number): number {
+  return getDiscountedPrice(variant.price, discount);
+}
+
+export function calculateTax(price: number, vatPercent: number = 12): number {
+  return Math.round((price * vatPercent) / 100);
+}
+
+// ============ SEARCH ============
 export function searchProducts(query: string): CatalogProduct[] {
   const lowerQuery = query.toLowerCase();
-  return getCatalogProducts().filter(
+  return products.filter(
     (product) =>
       product.slug.toLowerCase().includes(lowerQuery) ||
       product.sku.toLowerCase().includes(lowerQuery) ||
-      product.translationKeys.title.toLowerCase().includes(lowerQuery)
+      product.nameKey.toLowerCase().includes(lowerQuery)
   );
 }

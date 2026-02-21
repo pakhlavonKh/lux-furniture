@@ -120,6 +120,46 @@
       "seating": "Seating",
       "dining": "Dining",
       "lighting": "Lighting"
+    },
+    "categories": {
+      "seating": {
+        "description": "Comfortable and elegant seating options for every room"
+      },
+      "dining": {
+        "description": "Refined dining tables and chairs for memorable gatherings"
+      },
+      "lighting": {
+        "description": "Sculptural lighting solutions that enhance any space"
+      }
+    },
+    "catalog": {
+      "aria": {
+        "shortDescription": "Contemporary lounge chair with sculptural form",
+        "description": "The Aria Lounge Chair combines sculptural elegance with exceptional comfort. Hand-crafted with premium upholstery and a carefully engineered frame, this piece is designed for refined living spaces.",
+        "material": "Premium upholstery with wooden frame",
+        "color": "Beige, Grey, Charcoal",
+        "style": "Contemporary",
+        "dimensions": "85cm W × 95cm D × 78cm H",
+        "care": "Regular vacuuming and professional cleaning recommended. Avoid direct sunlight to prevent fading."
+      },
+      "tavola": {
+        "shortDescription": "Elegant dining table for refined gatherings",
+        "description": "The Tavola Dining Table is a masterpiece of traditional craftsmanship. Crafted from solid wood with hand-finished surfaces, it becomes the centerpiece of your dining space.",
+        "material": "Solid Walnut or Oak",
+        "color": "Natural wood finish",
+        "style": "Classic",
+        "dimensions": "200cm L × 100cm W × 75cm H",
+        "care": "Use wood-appropriate cleaner and polish. Protect from heat and moisture. Use table pads under hot dishes."
+      },
+      "luce": {
+        "shortDescription": "Sculptural floor lamp for ambient lighting",
+        "description": "The Luce Floor Lamp is designed as a sculptural element that provides warm, ambient lighting. Its elegant form complements any interior style.",
+        "material": "Metal frame with fabric shade",
+        "color": "Gold, Black",
+        "style": "Contemporary",
+        "dimensions": "45cm W × 45cm D × 180cm H",
+        "care": "Dust regularly with a soft cloth. Replace bulbs as needed. Keep away from water."
+      }
     }
   },
   "about": {
@@ -238,6 +278,14 @@
     "phone": "Your Phone",
     "subject": "Subject",
     "message": "Your Message",
+    "subjectOptions": {
+      "selectSubject": "Select a subject",
+      "productInquiry": "Product Inquiry",
+      "showroomVisit": "Schedule Showroom Visit",
+      "designConsultation": "Design Consultation",
+      "orderStatus": "Order Status",
+      "other": "Other"
+    },
     "send": "Send Message",
     "sending": "Sending...",
     "messageSent": "Message Sent",
@@ -302,6 +350,14 @@
     "phone": "Phone Number",
     "phonePlaceholder": "+1 (555) 000-0000",
     "address": "Delivery Address",
+    "street": "Street",
+    "streetPlaceholder": "Street name",
+    "city": "City",
+    "cityPlaceholder": "City name",
+    "house": "House/Building",
+    "housePlaceholder": "House or building number",
+    "postalCode": "Postal Code",
+    "postalCodePlaceholder": "Postal code",
     "basket": "Shopping Basket",
     "basketEmpty": "Your basket is empty",
     "continueShopping": "Continue Shopping",

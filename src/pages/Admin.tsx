@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, LogIn } from "lucide-react";
@@ -6,7 +6,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import {
   CatalogProduct,
-  getCatalogProducts,
+  getProducts,
+  getProductStock,
+  getVariantStock,
   setProductStock,
   setVariantStock,
 } from "@/data/catalogData";
@@ -37,20 +39,20 @@ const Admin = () => {
     const next: Record<string, string> = {};
 
     for (const product of products) {
-      next[product.id] = product.stock.toString();
+      next[product.id] = getProductStock(product.id).toString();
       for (const variant of product.variants) {
-        next[variant.id] = variant.stock.toString();
+        next[variant.id] = getVariantStock(variant.id).toString();
       }
     }
 
     return next;
   };
 
-  const loadInventory = () => {
-    const products = getCatalogProducts();
+  const loadInventory = useCallback(() => {
+    const products = getProducts();
     setInventory(products);
     setStockInputs(buildStockInputs(products));
-  };
+  }, []);
 
   useEffect(() => {
     const savedUser = localStorage.getItem("adminUser");
@@ -68,7 +70,7 @@ const Admin = () => {
     if (user) {
       loadInventory();
     }
-  }, [user]);
+  }, [user, loadInventory]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -247,7 +249,7 @@ const Admin = () => {
   }
 
   if (user) {
-    const categoryCount = new Set(inventory.map((item) => item.translationKeys.category)).size;
+    const categoryCount = new Set(inventory.map((item) => item.categoryId)).size;
 
     return (
       <div className="min-h-screen bg-background">
@@ -295,7 +297,7 @@ const Admin = () => {
                   <div key={product.id} className="border border-border p-5 rounded-sm">
                     <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                       <div>
-                        <p className="font-medium">{t(product.translationKeys.title)}</p>
+                        <p className="font-medium">{t(product.nameKey)}</p>
                         <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>
                       </div>
 
