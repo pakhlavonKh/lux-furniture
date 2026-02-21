@@ -150,7 +150,7 @@ html {
 
 body {
   background-color: hsl(var(--background)) !important;
-  color: hsl(var(--foreground)) !important;
+  color: hsl(var(--foreground));
   font-family: 'Montserrat', system-ui, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -163,7 +163,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: inherit !important;
+  color: inherit;
   text-decoration: none !important;
 }
 
@@ -387,7 +387,7 @@ a img:hover {
 
 .text-body {
   font-family: 'Montserrat', system-ui, sans-serif !important;
-  font-size: 1rem !important;
+  font-size: 1rem ;
   font-weight: 300 !important;
   line-height: 1.625 !important;
   color: hsl(var(--muted-foreground)) !important;

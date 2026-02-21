@@ -28,49 +28,50 @@ export function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-primary text-primary-foreground">
-      <div className="container-luxury section-padding">
-
+    <footer className="bg-primary text-primary-foreground border-t border-primary-foreground/10">
+      <div className="container-luxury pt-12">
         {/* Main Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
-
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
-              <h2 className="font-serif text-2xl tracking-[0.1em]">
+              <h2 className="font-serif text-3xl tracking-[0.18em]">
                 MANAKU
               </h2>
             </Link>
 
-            <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-sm mb-8">
+            <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-xs mb-8">
               {t("footer.description")}
             </p>
 
             <div className="flex gap-4">
               <a
                 href="#"
-                className="soical-links"
+                aria-label="Instagram"
+                className="opacity-70 hover:opacity-100 transition-all duration-200 hover:-translate-y-0.5"
               >
-                <Instagram className="social-icons" />
+                <Instagram className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="social-links"
+                aria-label="Facebook"
+                className="opacity-70 hover:opacity-100 transition-all duration-200 hover:-translate-y-0.5"
               >
-                <Facebook className="social-icons" />
+                <Facebook className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="social-links"
+                aria-label="LinkedIn"
+                className="opacity-70 hover:opacity-100 transition-all duration-200 hover:-translate-y-0.5"
               >
-                <Linkedin className="social-icons" />
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
 
           {/* Explore */}
           <div>
-            <h3 className="text-caption mb-6">
+            <h3 className="text-sm uppercase tracking-widest text-primary-foreground/90 mb-6">
               {t("footer.explore.title")}
             </h3>
             <div className="flex flex-col gap-4">
@@ -78,7 +79,7 @@ export function Footer() {
                 <Link
                   key={link.key}
                   to={link.href}
-                  className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                  className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-all duration-200 hover:translate-x-1"
                 >
                   {t(`footer.explore.${link.key}`)}
                 </Link>
@@ -88,7 +89,7 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-caption mb-6">
+            <h3 className="text-sm uppercase tracking-widest text-primary-foreground/90 mb-6">
               {t("footer.company.title")}
             </h3>
             <div className="flex flex-col gap-4">
@@ -96,7 +97,7 @@ export function Footer() {
                 <Link
                   key={link.key}
                   to={link.href}
-                  className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                  className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-all duration-200 hover:translate-x-1"
                 >
                   {t(`footer.company.${link.key}`)}
                 </Link>
@@ -106,7 +107,7 @@ export function Footer() {
 
           {/* Support */}
           <div>
-            <h3 className="text-caption mb-6">
+            <h3 className="text-sm uppercase tracking-widest text-primary-foreground/90 mb-6">
               {t("footer.support.title")}
             </h3>
             <div className="flex flex-col gap-4">
@@ -114,19 +115,18 @@ export function Footer() {
                 <Link
                   key={link.key}
                   to={link.href}
-                  className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                  className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-all duration-200 hover:translate-x-1"
                 >
                   {t(`footer.support.${link.key}`)}
                 </Link>
               ))}
             </div>
           </div>
-
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-primary-foreground/10 mt-12 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-          <p className="text-xs text-primary-foreground/50">
+        <div className="border-t border-primary-foreground/10 mt-8 pt-2 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+          <p className="text-xs text-primary-foreground/60">
             © {new Date().getFullYear()} {t("footer.rights")}
           </p>
 
@@ -146,7 +146,6 @@ export function Footer() {
             </Link>
           </div>
         </div>
-
       </div>
     </footer>
   );

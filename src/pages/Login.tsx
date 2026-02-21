@@ -26,7 +26,7 @@ export default function Login() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/auth/login`,
+        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -49,6 +49,7 @@ export default function Login() {
       toast({
         title: t("login.welcomeBackTitle"),
         description: t("login.welcomeBackDesc"),
+        duration: 4000,
       });
 
       // Redirect to account page
@@ -60,6 +61,7 @@ export default function Login() {
         title: t("login.errorTitle"),
         description: errorMessage,
         variant: "destructive",
+        duration: 5000,
       });
     } finally {
       setIsSubmitting(false);

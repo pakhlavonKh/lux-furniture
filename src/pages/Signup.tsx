@@ -13,6 +13,7 @@ export default function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -31,6 +32,7 @@ export default function Signup() {
         title: t("signup.errorTitle"),
         description: t("signup.passwordsMismatch"),
         variant: "destructive",
+        duration: 5000,
       });
       setIsSubmitting(false);
       return;
@@ -38,15 +40,16 @@ export default function Signup() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/auth/register`,
+        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/register`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            name: formData.name,
             email: formData.email,
             password: formData.password,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -61,6 +64,7 @@ export default function Signup() {
       toast({
         title: t("signup.accountCreatedTitle"),
         description: t("signup.accountCreatedDesc"),
+        duration: 4000,
       });
 
       // Redirect to account page
@@ -72,6 +76,7 @@ export default function Signup() {
         title: t("signup.errorTitle"),
         description: errorMessage,
         variant: "destructive",
+        duration: 5000,
       });
     } finally {
       setIsSubmitting(false);
@@ -98,13 +103,26 @@ export default function Signup() {
               <h1 className="font-serif text-3xl tracking-[0.1em] mb-2">
                 {t("signup.heading").toUpperCase()}
               </h1>
-              <p className="text-muted-foreground">
-                {t("signup.subtitle")}
-              </p>
+              <p className="text-muted-foreground">{t("signup.subtitle")}</p>
             </div>
 
             <div className="auth-card">
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="text-caption mb-2 block">
+                    {t("signup.name") || "Full Name"}
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="form-input"
+                  />
+                </div>
+
                 <div>
                   <label htmlFor="email" className="text-caption mb-2 block">
                     {t("signup.email")}
@@ -121,10 +139,7 @@ export default function Signup() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="password"
-                    className="text-caption mb-2 block"
-                  >
+                  <label htmlFor="password" className="text-caption mb-2 block">
                     {t("signup.password")}
                   </label>
                   <div className="relative">
@@ -201,9 +216,14 @@ export default function Signup() {
               </form>
 
               <div className="mt-6 text-center">
-                <p className="text-sm text-muted-foreground">
-                  {t("signup.haveAccount")}{" "}
-                  <a href="/login" className="text-foreground hover:underline">
+                <p className="text-sm">
+                  <span className="text-muted-foreground">
+                    {t("signup.haveAccount")}{" "}
+                  </span>
+                  <a
+                    href="/login"
+                    className="text-[#3091B1]"
+                  >
                     {t("signup.signinLink")}
                   </a>
                 </p>

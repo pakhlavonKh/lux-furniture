@@ -47,7 +47,7 @@ const Admin = () => {
     try {
       if (isLogin) {
         // Call backend login API
-        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/auth/login`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -71,6 +71,7 @@ const Admin = () => {
         toast({
           title: "Welcome back!",
           description: "You have successfully logged in.",
+          duration: 4000,
         });
       } else {
         if (formData.password !== formData.confirmPassword) {
@@ -78,13 +79,14 @@ const Admin = () => {
             title: "Error",
             description: "Passwords do not match.",
             variant: "destructive",
+            duration: 5000,
           });
           setIsSubmitting(false);
           return;
         }
 
         // Call backend register API
-        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/auth/register`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -108,6 +110,7 @@ const Admin = () => {
         toast({
           title: "Account created!",
           description: "You have successfully registered.",
+          duration: 4000,
         });
       }
     } catch (error: unknown) {
@@ -116,6 +119,7 @@ const Admin = () => {
         title: "Error",
         description: errorMessage,
         variant: "destructive",
+        duration: 5000,
       });
     } finally {
       setIsSubmitting(false);
