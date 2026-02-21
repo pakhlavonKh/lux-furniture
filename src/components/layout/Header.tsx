@@ -6,6 +6,15 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import manakuLogo from "@/assets/manaku_logo.png";
 
+interface CartItem {
+  id: string;
+  slug: string;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
+
 const navigation = [
   { name: "Showcase", key: "navigation.showcase", href: "/showcase" },
   { name: "Catalog", key: "navigation.catalog", href: "/" },
@@ -16,13 +25,43 @@ const navigation = [
 
 // Cart hook with fallback
 const useCart = () => {
-  try {
-    // Try to import the cart context if it exists
-    // For now, return empty items array as fallback
-    return { items: [] };
-  } catch {
-    return { items: [] };
-  }
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const loadCart = () => {
+      try {
+        const cartJson = localStorage.getItem("cart") || "[]";
+        const cart = JSON.parse(cartJson);
+        setCartItems(Array.isArray(cart) ? cart : []);
+      } catch {
+        setCartItems([]);
+      }
+    };
+
+    loadCart();
+
+    // Listen for storage changes from other tabs/windows
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "cart") {
+        loadCart();
+      }
+    };
+
+    // Listen for custom events from same tab
+    const handleCartUpdate = () => {
+      loadCart();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+  }, []);
+
+  return { items: cartItems };
 };
 
 export function Header() {

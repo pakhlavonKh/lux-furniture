@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useLanguage } from "@/contexts/useLanguageHook";
+import { toast } from "sonner";
 import { getProductBySlug } from "@/data/catalogData";
 import { motion } from "framer-motion";
 import {
@@ -12,6 +13,7 @@ import {
   Truck,
   Shield,
   RefreshCw,
+  ShoppingBag,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -168,8 +170,36 @@ const Product = () => {
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
-                <button className="btn-luxury flex-1">
-                  Inquire Now
+                <button 
+                  onClick={() => {
+                    try {
+                      const cart = JSON.parse(localStorage.getItem("cart") || "[]") as Array<{id: string; slug: string; name: string; price: number; image: string; quantity: number}>;
+                      const existingItem = cart.find((item) => item.id === product.id);
+                      if (existingItem) {
+                        existingItem.quantity += quantity;
+                      } else {
+                        cart.push({ 
+                          id: product.id, 
+                          slug: product.slug,
+                          name: t(product.nameKey),
+                          price: product.basePrice,
+                          image: product.image,
+                          quantity 
+                        });
+                      }
+                      localStorage.setItem("cart", JSON.stringify(cart));
+                      // Dispatch custom event to update header cart count
+                      window.dispatchEvent(new Event("cartUpdated"));
+                      toast.success(`Added ${quantity}x ${t(product.nameKey)} to basket`);
+                      setQuantity(1);
+                    } catch (error) {
+                      toast.error("Failed to add item to basket");
+                    }
+                  }}
+                  className="btn-luxury flex-1 flex items-center justify-center gap-2"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  Add to Basket
                 </button>
               </div>
 
