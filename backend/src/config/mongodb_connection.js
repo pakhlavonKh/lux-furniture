@@ -10,14 +10,13 @@ export const connectDB = async () => {
   }
 
   try {
-    const uri = config.MONGODB_URI;
+    const uri = config.MONGO_URI;
 
     if (!uri) {
-      throw new Error('MONGODB_URI environment variable is not set');
+      throw new Error('MONGO_URI environment variable is not set');
     }
 
     await mongoose.connect(uri, {
-      dbName: config.MONGODB_DB_NAME,
       retryWrites: true,
       w: 'majority',
       socketTimeoutMS: 45000,

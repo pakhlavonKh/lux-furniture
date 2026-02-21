@@ -16,9 +16,8 @@ export const config = {
   JWT_SECRET: process.env.JWT_SECRET || 'your-super-secret-jwt-key',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
 
-  // MongoDB Atlas
-  MONGODB_URI: process.env.MONGODB_URI || 'mongodb+srv://user:password@cluster.mongodb.net/lux-furniture',
-  MONGODB_DB_NAME: process.env.MONGODB_DB_NAME || 'lux-furniture',
+  // MongoDB
+  MONGO_URI: process.env.MONGO_URI || 'mongodb+srv://user:password@cluster.mongodb.net/lux-furniture',
 
   // Payment Systems
   payments: {

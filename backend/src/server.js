@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 import { connectDB, disconnectDB } from './config/mongodb_connection.js';
 
 // Import routes
-// import auth_routes from './routes/auth_routes.js';
+import auth_routes from './routes/auth_routes.js';
 import payment_routes from './routes/payment_routes.js';
 // import health_routes from './routes/health_routes.js';
 
@@ -26,22 +26,87 @@ const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Security middleware
-app.use(helmet());
-app.use(compression());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      connectSrc: ["'self'", 'https:', 'wss:'],
+      frameSrc: ["'self'", 'https:'],
+    },
+  },
+  hsts: {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true,
+  },
+}));
+app.use(compression({
+  level: 6,
+  threshold: 1024,
+}));
 
-// CORS configuration
+// CORS configuration - Enhanced for macOS, iOS, and Safari
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:5173',
+  process.env.FRONTEND_URL_PROD || 'https://lux-furniture.com',
+  'http://localhost:8080', // Development on port 8080
+  'http://127.0.0.1:8080',
+  'http://localhost:5173', // Vite default
+  /https:\/\/.*\.lux-furniture\.com/i, // Allow subdomains
+];
+
 const cors_options = {
-  origin: [
-    process.env.FRONTEND_URL || 'http://localhost:5173',
-    process.env.FRONTEND_URL_PROD || 'https://lux-furniture.com',
-  ],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.some(allowed => 
+      allowed instanceof RegExp ? allowed.test(origin) : allowed === origin
+    )) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+    'Access-Control-Request-Method',
+    'Access-Control-Request-Headers',
+  ],
+  exposedHeaders: [
+    'X-Total-Count',
+    'X-Page-Number',
+    'X-Page-Size',
+    'Content-Length',
+  ],
+  maxAge: 86400, // 24 hours
 };
 
 app.use(cors(cors_options));
+
+// Add custom headers for mobile & Safari compatibility
+app.use((req, res, next) => {
+  // Add headers for iOS Safari compatibility
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  // Cache control for API endpoints
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  
+  // Support for iOS app bridge
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  next();
+});
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
@@ -53,7 +118,7 @@ app.use(request_logger);
 
 // API Routes
 // app.use('/api/health', health_routes);
-// app.use('/api/auth', auth_routes);
+app.use('/api/auth', auth_routes);
 app.use('/api/payments', payment_routes);
 
 // Health check endpoint
