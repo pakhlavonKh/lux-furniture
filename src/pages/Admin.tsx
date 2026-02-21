@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/useLanguageHook";
+import {
+  CatalogProduct,
+  getCatalogProducts,
+  setProductStock,
+  setVariantStock,
+} from "@/data/catalogData";
 
 interface User {
   email: string;
@@ -12,6 +19,7 @@ interface User {
 const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(true);
@@ -22,22 +30,116 @@ const Admin = () => {
     confirmPassword: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [inventory, setInventory] = useState<CatalogProduct[]>([]);
+  const [stockInputs, setStockInputs] = useState<Record<string, string>>({});
+
+  const buildStockInputs = (products: CatalogProduct[]): Record<string, string> => {
+    const next: Record<string, string> = {};
+
+    for (const product of products) {
+      next[product.id] = product.stock.toString();
+      for (const variant of product.variants) {
+        next[variant.id] = variant.stock.toString();
+      }
+    }
+
+    return next;
+  };
+
+  const loadInventory = () => {
+    const products = getCatalogProducts();
+    setInventory(products);
+    setStockInputs(buildStockInputs(products));
+  };
 
   useEffect(() => {
-    // Check if user is already logged in
     const savedUser = localStorage.getItem("adminUser");
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser));
-      } catch (e) {
+      } catch {
         localStorage.removeItem("adminUser");
       }
     }
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      loadInventory();
+    }
+  }, [user]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleStockInputChange = (key: string, value: string) => {
+    setStockInputs((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const parseStock = (value: string): number | null => {
+    const parsed = Number.parseInt(value, 10);
+    if (!Number.isFinite(parsed) || parsed < 0) {
+      return null;
+    }
+    return parsed;
+  };
+
+  const handleSaveProductStock = (productId: string) => {
+    const parsed = parseStock(stockInputs[productId] ?? "");
+    if (parsed === null) {
+      toast({
+        title: "Invalid stock",
+        description: "Stock must be a non-negative integer.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!setProductStock(productId, parsed)) {
+      toast({
+        title: "Error",
+        description: "Failed to update product stock.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    loadInventory();
+    toast({
+      title: "Stock updated",
+      description: "Product stock was saved.",
+      duration: 3000,
+    });
+  };
+
+  const handleSaveVariantStock = (variantId: string) => {
+    const parsed = parseStock(stockInputs[variantId] ?? "");
+    if (parsed === null) {
+      toast({
+        title: "Invalid stock",
+        description: "Stock must be a non-negative integer.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!setVariantStock(variantId, parsed)) {
+      toast({
+        title: "Error",
+        description: "Failed to update variant stock.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    loadInventory();
+    toast({
+      title: "Stock updated",
+      description: "Variant stock was saved.",
+      duration: 3000,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,7 +148,6 @@ const Admin = () => {
 
     try {
       if (isLogin) {
-        // Call backend login API
         const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -63,7 +164,7 @@ const Admin = () => {
 
         const data = await response.json();
         const userData: User = { email: formData.email, id: data.userId };
-        
+
         localStorage.setItem("adminUser", JSON.stringify(userData));
         localStorage.setItem("authToken", data.token);
         setUser(userData);
@@ -85,7 +186,6 @@ const Admin = () => {
           return;
         }
 
-        // Call backend register API
         const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -102,7 +202,7 @@ const Admin = () => {
 
         const data = await response.json();
         const userData: User = { email: formData.email, id: data.userId };
-        
+
         localStorage.setItem("adminUser", JSON.stringify(userData));
         localStorage.setItem("authToken", data.token);
         setUser(userData);
@@ -135,6 +235,7 @@ const Admin = () => {
       title: "Logged out",
       description: "You have been logged out successfully.",
     });
+    navigate("/");
   };
 
   if (loading) {
@@ -145,8 +246,9 @@ const Admin = () => {
     );
   }
 
-  // If logged in, show admin dashboard
   if (user) {
+    const categoryCount = new Set(inventory.map((item) => item.translationKeys.category)).size;
+
     return (
       <div className="min-h-screen bg-background">
         <header className="border-b border-border">
@@ -174,8 +276,8 @@ const Admin = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               {[
-                { label: "Total Products", value: "24" },
-                { label: "Categories", value: "6" },
+                { label: "Total Products", value: String(inventory.length) },
+                { label: "Categories", value: String(categoryCount) },
                 { label: "Collections", value: "4" },
                 { label: "Inquiries", value: "12" },
               ].map((stat) => (
@@ -186,36 +288,81 @@ const Admin = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Quick Actions */}
-              <div className="bg-card border border-border p-8">
-                <h3 className="heading-card mb-6">Quick Actions</h3>
-                <div className="space-y-4">
-                  <button className="w-full btn-luxury text-left justify-start">
-                    Add New Product
-                  </button>
-                  <button className="w-full btn-outline-luxury text-left justify-start">
-                    Manage Categories
-                  </button>
-                  <button className="w-full btn-outline-luxury text-left justify-start">
-                    View Inquiries
-                  </button>
-                </div>
-              </div>
+            <div className="bg-card border border-border p-8 mb-8">
+              <h3 className="heading-card mb-6">Inventory Management</h3>
+              <div className="space-y-6">
+                {inventory.map((product) => (
+                  <div key={product.id} className="border border-border p-5 rounded-sm">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                      <div>
+                        <p className="font-medium">{t(product.translationKeys.title)}</p>
+                        <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>
+                      </div>
 
-              {/* Recent Activity */}
-              <div className="bg-card border border-border p-8">
-                <h3 className="heading-card mb-6">Recent Activity</h3>
-                <div className="space-y-4">
-                  <p className="text-body text-sm">
-                    No recent activity to display.
-                  </p>
-                </div>
+                      <div className="flex items-end gap-3">
+                        <div>
+                          <label htmlFor={`product-stock-${product.id}`} className="text-caption mb-2 block">
+                            Product stock
+                          </label>
+                          <input
+                            id={`product-stock-${product.id}`}
+                            type="number"
+                            min={0}
+                            value={stockInputs[product.id] ?? "0"}
+                            onChange={(e) => handleStockInputChange(product.id, e.target.value)}
+                            className="w-28 px-3 py-2 border border-border bg-transparent"
+                          />
+                        </div>
+                        <button
+                          onClick={() => handleSaveProductStock(product.id)}
+                          className="btn-outline-luxury h-[42px]"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+
+                    {product.variants.length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-border space-y-3">
+                        {product.variants.map((variant) => {
+                          const variantLabel = variant.color || variant.material || variant.size || variant.id;
+
+                          return (
+                            <div key={variant.id} className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                              <p className="text-sm">Variant: {variantLabel}</p>
+                              <div className="flex items-end gap-3">
+                                <div>
+                                  <label htmlFor={`variant-stock-${variant.id}`} className="text-caption mb-2 block">
+                                    Variant stock
+                                  </label>
+                                  <input
+                                    id={`variant-stock-${variant.id}`}
+                                    type="number"
+                                    min={0}
+                                    value={stockInputs[variant.id] ?? "0"}
+                                    onChange={(e) => handleStockInputChange(variant.id, e.target.value)}
+                                    className="w-28 px-3 py-2 border border-border bg-transparent"
+                                  />
+                                </div>
+                                <button
+                                  onClick={() => handleSaveVariantStock(variant.id)}
+                                  className="btn-outline-luxury h-[42px]"
+                                >
+                                  Save
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
 
-            <p className="text-muted-foreground text-sm mt-8">
-              Note: Full admin functionality (CRUD operations) will be available after setting up admin roles in the database.
+            <p className="text-muted-foreground text-sm">
+              Stock is now persisted in localStorage and shared by catalog/admin views.
             </p>
           </motion.div>
         </main>
@@ -223,7 +370,6 @@ const Admin = () => {
     );
   }
 
-  // Login/Signup form
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <motion.div
@@ -327,7 +473,7 @@ const Admin = () => {
 
         <p className="text-center text-sm text-muted-foreground mt-8">
           <a href="/" className="hover:text-foreground transition-colors">
-            ← Back to website
+            {"< Back to website"}
           </a>
         </p>
       </motion.div>

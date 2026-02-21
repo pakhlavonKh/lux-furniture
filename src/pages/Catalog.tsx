@@ -8,7 +8,7 @@ import childrenImg from "@/assets/product-bed.jpg";
 import shelvingImg from "@/assets/product-console.jpg";
 import industrialImg from "@/assets/product-sofa.jpg";
 import accessoriesImg from "@/assets/product-lamp.jpg";
-import { products } from "@/data/catalogProducts";
+import { getCatalogProducts } from "@/data/catalogData";
 
 const categories = [
   { key: "storage", image: shelvingImg },
@@ -22,6 +22,7 @@ const categories = [
 
 export default function Catalog() {
   const { t } = useLanguage();
+  const products = getCatalogProducts();
 
   return (
     <Layout>
@@ -71,17 +72,17 @@ export default function Catalog() {
                 <div className="product-card__image-wrap">
                   <img
                     src={product.image}
-                    alt={t(`products.${product.id}.name`)}
+                    alt={t(product.translationKeys.title)}
                     className="product-card__image"
                   />
                 </div>
 
                 <div className="product-card__title">
-                  {t(`products.${product.id}.name`)}
+                  {t(product.translationKeys.title)}
                 </div>
 
                 <div className="product-card__price">
-                  {product.price}
+                  €{product.basePrice.toLocaleString()}
                 </div>
               </div>
             ))}
