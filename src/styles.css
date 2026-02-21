@@ -241,7 +241,7 @@ a img:hover {
   background-color: transparent;
   color: hsl(var(--primary));
   border: 1px solid hsl(var(--primary));
-  border-radius: 1.25rem;
+  border-radius: 1.5rem;
   transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
 }
 .btn-outline-luxury:hover {
@@ -1818,7 +1818,7 @@ button[class*="bg-transparent"] {
 /* Base button (your luxury style should already exist) */
 .btn-luxury {
   /* keep your existing styles here */
-  border-radius: 1.25rem;        /* rounded */
+  border-radius: 1.5rem;        /* rounded */
   transition: opacity 0.2s ease; /* optional */
 }
 
@@ -1826,4 +1826,34 @@ button[class*="bg-transparent"] {
 .btn-luxury:disabled {
   opacity: 0.5;                  /* disabled:opacity-50 */
   cursor: not-allowed;           /* disabled:cursor-not-allowed */
+}
+
+.contact-input {
+  width: 100%;
+  padding: 0.75rem 1rem;      /* py-3 px-4 */
+  border-width: 1px;
+  border-radius: 1.25rem;
+  border-style: solid;
+  background-color: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.contact-input:focus {
+  outline: none;
+  border-color: var(--border); /* or your foreground color */
+}
+
+.contact-textarea {
+  resize: none;
+}
+
+.map-wrapper {
+  margin-top: 3rem;              /* mt-12 */
+  aspect-ratio: 4 / 3;           /* aspect-[4/3] */
+  display: flex;                 /* flex */
+  align-items: center;           /* items-center */
+  justify-content: center;       /* justify-center */
+  border-radius: 1.5rem;          /* rounded-[300px] */
+  overflow: hidden;              /* overflow-hidden */
+  border: 1px solid var(--border); /* border */
 }

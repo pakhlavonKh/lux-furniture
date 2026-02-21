@@ -162,7 +162,7 @@ const Contact = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="mt-12 aspect-[4/3] flex items-center justify-center !rounded-xl overflow-hidden border">
+              <div className="map-wrapper">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11991.469956761875!2d69.27962399670983!3d41.289988327885276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef58d981ac3c3%3A0x9f4399f43b40792d!2sAlfraganus!5e0!3m2!1sru!2s!4v1771668852532!5m2!1sru!2s"
                   width="600"
@@ -196,7 +196,7 @@ const Contact = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
+                    className="contact-input"
                   />
                 </div>
                 <div>
@@ -210,7 +210,7 @@ const Contact = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
+                    className="contact-input"
                   />
                 </div>
               </div>
@@ -226,7 +226,7 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
+                    className="contact-input"
                   />
                 </div>
                 <div>
@@ -239,7 +239,7 @@ const Contact = () => {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
+                    className="contact-input"
                   >
                     <option value="">Select a subject</option>
                     <option value="product-inquiry">Product Inquiry</option>
@@ -266,7 +266,7 @@ const Contact = () => {
                   rows={6}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors resize-none"
+                  className="contact-input contact-textarea"
                 />
               </div>
 
