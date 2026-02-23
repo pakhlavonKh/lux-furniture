@@ -80,11 +80,12 @@ export default function Cart() {
       />
       <Layout>
         <section className="pt-28 pb-12 min-h-screen">
-          <h1 className="heading-section mb-10">Shopping Basket</h1>
+          <div className="container-luxury">
+            <h1 className="heading-section mb-10">{t("account.basket")}</h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
+            <div className="flex flex-col md:flex-row md:items-start gap-8 lg:gap-10">
             {/* LEFT: Products */}
-            <div className="space-y-4">
+            <div className="space-y-4 md:min-w-0" style={{ flex: 3 }}>
               {cart.map(item => (
                 <motion.div
                   key={item.id}
@@ -94,12 +95,14 @@ export default function Cart() {
                   {/* Thumbnail */}
                   <Link
                     to={`/product/${item.slug}`}
-                    className="w-16 h-16 shrink-0 rounded-md overflow-hidden bg-muted"
+                    className="block shrink-0 rounded-md overflow-hidden bg-muted"
+                    style={{ width: 80, height: 80, flex: "0 0 80px" }}
                   >
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-full h-full object-cover"
+                      className="block w-full h-full object-cover"
+                      style={{ width: "100%", height: "100%" }}
                     />
                   </Link>
 
@@ -149,7 +152,7 @@ export default function Cart() {
             </div>
 
             {/* RIGHT: Summary */}
-            <div className="border border-border rounded-lg p-6 h-fit sticky top-28">
+            <div className="border border-border rounded-lg p-6 h-fit md:shrink-0 md:sticky md:top-28" style={{ flex: 1 }}>
               <h2 className="text-lg font-semibold mb-6">Order Summary</h2>
 
               <div className="space-y-3 text-sm mb-6">
@@ -175,6 +178,7 @@ export default function Cart() {
               <Link to="/" className="block text-center text-sm text-muted-foreground hover:underline">
                 Continue Shopping
               </Link>
+            </div>
             </div>
           </div>
         </section>
