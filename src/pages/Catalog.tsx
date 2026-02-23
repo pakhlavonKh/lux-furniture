@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
@@ -31,7 +31,24 @@ export default function Catalog() {
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const handleChange = (event: MediaQueryListEvent) => {
+      setIsDesktop(event.matches);
+      if (event.matches) {
+        setFiltersOpen(true);
+      }
+    };
+
+    setIsDesktop(mediaQuery.matches);
+    setFiltersOpen(mediaQuery.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const filteredProducts = useMemo(() => {
     let list = [...products];
@@ -91,36 +108,47 @@ export default function Catalog() {
       {/* Products + Filters */}
       <section className="py-12 bg-background">
         <div className="container-luxury">
-          {/* Mobile Filter Toggle */}
-          <div className="flex items-center justify-between mb-6 lg:hidden">
-            <h2 className="text-xl font-semibold">
-              {t("catalog.allProducts")}
-            </h2>
-            <button
-              onClick={() => setFiltersOpen((v) => !v)}
-              className="flex items-center gap-2 border px-4 py-2"
-            >
-              <Filter className="w-4 h-4" />
-              {t("catalog.filters") || "Filters"}
-            </button>
-          </div>
+          {!isDesktop && (
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold">{t("catalog.allProducts")}</h2>
+              <button
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                className="flex items-center gap-2 border border-border px-4 py-2 rounded-md"
+                aria-expanded={filtersOpen}
+                aria-controls="catalog-filters"
+              >
+                <Filter className="w-4 h-4" />
+                {t("catalog.filters") || "Filters"}
+              </button>
+            </div>
+          )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+          <div className="md:flex md:flex-row gap-8 lg:gap-10 items-start">
             {/* Filters Panel */}
             <aside
-              className={`border p-6 space-y-6 ${
-                filtersOpen ? "block" : "hidden"
-              } lg:block`}
+              id="catalog-filters"
+              className="w-full md:w-auto border border-border bg-muted/20 rounded-xl p-6 space-y-6 h-fit mb-6 md:mb-0"
+              style={{
+                flex: "0 0 280px",
+                display: isDesktop || filtersOpen ? "block" : "none",
+              }}
             >
+              <div className="flex items-center gap-2 text-sm uppercase tracking-wider text-muted-foreground">
+                <Filter className="w-4 h-4" />
+                <span>{t("catalog.filters") || "Filters"}</span>
+              </div>
+
               <div>
-                <h3 className="font-semibold mb-3">
+                <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-3">
                   {t("catalog.category") || "Category"}
                 </h3>
                 <div className="space-y-2">
                   <button
                     onClick={() => setSelectedCategory(null)}
-                    className={`block text-left w-full ${
-                      selectedCategory === null ? "font-semibold" : ""
+                    className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
+                      selectedCategory === null
+                        ? "bg-background font-semibold text-foreground border border-border"
+                        : "text-muted-foreground hover:text-foreground hover:bg-background/70"
                     }`}
                   >
                     {t("catalog.all") || "All"}
@@ -129,8 +157,10 @@ export default function Catalog() {
                     <button
                       key={cat.key}
                       onClick={() => setSelectedCategory(cat.key)}
-                      className={`block text-left w-full ${
-                        selectedCategory === cat.key ? "font-semibold" : ""
+                      className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
+                        selectedCategory === cat.key
+                          ? "bg-background font-semibold text-foreground border border-border"
+                          : "text-muted-foreground hover:text-foreground hover:bg-background/70"
                       }`}
                     >
                       {t(`categories.${cat.key}`)}
@@ -140,22 +170,26 @@ export default function Catalog() {
               </div>
 
               <div>
-                <h3 className="font-semibold mb-3">
+                <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-3">
                   {t("catalog.sort") || "Sort"}
                 </h3>
                 <div className="space-y-2">
                   <button
                     onClick={() => setSort("price-asc")}
-                    className={`block text-left w-full ${
-                      sort === "price-asc" ? "font-semibold" : ""
+                    className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
+                      sort === "price-asc"
+                        ? "bg-background font-semibold text-foreground border border-border"
+                        : "text-muted-foreground hover:text-foreground hover:bg-background/70"
                     }`}
                   >
                     {t("catalog.priceLowHigh") || "Price: Low → High"}
                   </button>
                   <button
                     onClick={() => setSort("price-desc")}
-                    className={`block text-left w-full ${
-                      sort === "price-desc" ? "font-semibold" : ""
+                    className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
+                      sort === "price-desc"
+                        ? "bg-background font-semibold text-foreground border border-border"
+                        : "text-muted-foreground hover:text-foreground hover:bg-background/70"
                     }`}
                   >
                     {t("catalog.priceHighLow") || "Price: High → Low"}
@@ -168,15 +202,15 @@ export default function Catalog() {
                   setSelectedCategory(null);
                   setSort(null);
                 }}
-                className="text-sm underline"
+                className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4"
               >
                 {t("catalog.clearFilters") || "Clear filters"}
               </button>
             </aside>
 
             {/* Products Grid */}
-            <div>
-              <h2 className="hidden lg:block text-2xl font-semibold mb-8">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-2xl font-semibold mb-8" style={{ display: isDesktop ? "block" : "none" }}>
                 {t("catalog.allProducts")}
               </h2>
 
