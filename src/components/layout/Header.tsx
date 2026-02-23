@@ -74,6 +74,9 @@ export function Header() {
 
   // Calculate unique item count
   const cartCount = cartItems?.length || 0;
+  const isWhiteHeaderAtTop =
+    !isScrolled &&
+    (location.pathname === "/showcase" || location.pathname === "/about");
 
   useEffect(() => {
     // Check if user is logged in
@@ -94,11 +97,28 @@ export function Header() {
     setIsOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
   return (
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled
+        isWhiteHeaderAtTop && "header-white-top",
+        isOpen
+          ? "bg-background"
+          : isScrolled
           ? "bg-background/95 backdrop-blur-md shadow-sm"
           : "bg-transparent",
       )}
@@ -131,10 +151,13 @@ export function Header() {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "link-underline text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300",
-                  location.pathname === item.href
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground",
+                  "link-underline header-link text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300",
+                  isWhiteHeaderAtTop
+                    ? "header-link-inverse"
+                    : location.pathname === item.href
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  location.pathname === item.href && "is-active",
                 )}
               >
                 {t(item.key)}
@@ -152,7 +175,11 @@ export function Header() {
                   whileHover={{ opacity: 0.7 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setLanguage(lang as "en" | "ru" | "uz")}
-                  className={cn("btn-lang", language === lang && "active")}
+                  className={cn(
+                    "btn-lang",
+                    isWhiteHeaderAtTop && "btn-lang-inverse",
+                    language === lang && "active",
+                  )}
                 >
                   {lang === "en" && "EN"}
                   {lang === "ru" && "РУ"}
@@ -160,7 +187,10 @@ export function Header() {
                   {language === lang && (
                     <motion.div
                       layoutId="langUnderline"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-foreground"
+                      className={cn(
+                        "absolute -bottom-1 left-0 right-0 h-0.5",
+                        isWhiteHeaderAtTop ? "bg-white" : "bg-foreground",
+                      )}
                       transition={{
                         type: "spring",
                         stiffness: 380,
@@ -181,7 +211,12 @@ export function Header() {
               >
                 <Link
                   to={isLoggedIn ? "/account" : "/login"}
-                  className="bg-transparent border-none text-foreground hover:text-muted-foreground transition-all duration-300 cursor-pointer p-0 inline-flex"
+                  className={cn(
+                    "header-icon-link bg-transparent border-none transition-all duration-300 cursor-pointer p-0 inline-flex",
+                    isWhiteHeaderAtTop
+                      ? "header-icon-link-inverse"
+                      : "text-foreground hover:text-muted-foreground",
+                  )}
                   title={t("header.account") || "Account"}
                 >
                   <User className="w-5 h-5 md:w-6 md:h-6" />
@@ -196,7 +231,12 @@ export function Header() {
                 >
                   <Link
                     to="/cart"
-                    className="bg-transparent border-none text-foreground hover:text-muted-foreground transition-all duration-300 cursor-pointer p-0 inline-flex"
+                    className={cn(
+                      "header-icon-link bg-transparent border-none transition-all duration-300 cursor-pointer p-0 inline-flex",
+                      isWhiteHeaderAtTop
+                        ? "header-icon-link-inverse"
+                        : "text-foreground hover:text-muted-foreground",
+                    )}
                     title={t("header.cart") || "Cart"}
                   >
                     <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" />
@@ -216,7 +256,10 @@ export function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsOpen(!isOpen)} className="hamburger">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={cn("hamburger", isWhiteHeaderAtTop && "hamburger-inverse")}
+          >
             {isOpen ? (
               <X className="hamburger-x" />
             ) : (
@@ -260,7 +303,7 @@ export function Header() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="mt-8 flex gap-6 items-center"
+                className="mt-8 flex flex-col gap-6 items-center"
               >
                 <div className="flex items-center gap-4">
                   {["en", "ru", "uz"].map((lang) => (
@@ -274,6 +317,29 @@ export function Header() {
                       {lang === "uz" && "UZ"}
                     </button>
                   ))}
+                </div>
+
+                <div className="flex items-center gap-6">
+                  <Link
+                    to={isLoggedIn ? "/account" : "/login"}
+                    className="text-foreground hover:text-muted-foreground transition-colors"
+                    onClick={() => setIsOpen(false)}
+                    title={t("header.account") || "Account"}
+                  >
+                    <User className="w-6 h-6" />
+                  </Link>
+
+                  <div className="relative inline-flex">
+                    <Link
+                      to="/cart"
+                      className="text-foreground hover:text-muted-foreground transition-colors"
+                      onClick={() => setIsOpen(false)}
+                      title={t("header.cart") || "Cart"}
+                    >
+                      <ShoppingBag className="w-6 h-6" />
+                    </Link>
+                    <span className="cart-badge">{cartCount}</span>
+                  </div>
                 </div>
               </motion.div>
             </div>

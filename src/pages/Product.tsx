@@ -40,9 +40,10 @@ const Product = () => {
     );
   }
 
-  const images = product.images && product.images.length > 0
-    ? product.images
-    : [product.image];
+  const images =
+    product.images && product.images.length > 0
+      ? product.images
+      : [product.image];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -60,20 +61,24 @@ const Product = () => {
           <nav className="mb-8">
             <ol className="flex items-center gap-2 text-sm text-muted-foreground">
               <li>
-                <Link to="/" className="hover:text-foreground transition-colors">
+                <Link
+                  to="/"
+                  className="hover:text-foreground transition-colors"
+                >
                   Home
                 </Link>
               </li>
               <li>/</li>
               <li>
-                <Link to="/" className="hover:text-foreground transition-colors">
+                <Link
+                  to="/"
+                  className="hover:text-foreground transition-colors"
+                >
                   Catalog
                 </Link>
               </li>
               <li>/</li>
-              <li className="text-foreground">
-                {t(product.nameKey)}
-              </li>
+              <li className="text-foreground">{t(product.nameKey)}</li>
             </ol>
           </nav>
 
@@ -119,7 +124,7 @@ const Product = () => {
                         "w-20 h-20 bg-muted overflow-hidden transition-opacity",
                         currentImageIndex === index
                           ? "opacity-100 ring-2 ring-foreground"
-                          : "opacity-60 hover:opacity-100"
+                          : "opacity-60 hover:opacity-100",
                       )}
                     >
                       <img
@@ -140,9 +145,7 @@ const Product = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <p className="text-caption mb-4">{product.categoryId}</p>
-              <h1 className="heading-section mb-4">
-                {t(product.nameKey)}
-              </h1>
+              <h1 className="heading-section mb-4">{t(product.nameKey)}</h1>
               <p className="font-serif text-3xl mb-8">
                 €{product.basePrice.toLocaleString()}
               </p>
@@ -155,42 +158,59 @@ const Product = () => {
 
               {/* Quantity */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <div className="flex items-center border border-border">
+                <div className="qty-wrapper">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-12 h-12 flex items-center justify-center hover:bg-muted transition-colors"
+                    className="qty-btn"
+                    aria-label="Decrease quantity"
                   >
-                    <Minus className="w-4 h-4" />
+                    <Minus className="qty-icon" />
                   </button>
-                  <span className="w-12 text-center">{quantity}</span>
+
+                  <span className="qty-value">{quantity}</span>
+
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-12 h-12 flex items-center justify-center hover:bg-muted transition-colors"
+                    className="qty-btn"
+                    aria-label="Increase quantity"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="qty-icon" />
                   </button>
                 </div>
-                <button 
+                <button
                   onClick={() => {
                     try {
-                      const cart = JSON.parse(localStorage.getItem("cart") || "[]") as Array<{id: string; slug: string; name: string; price: number; image: string; quantity: number}>;
-                      const existingItem = cart.find((item) => item.id === product.id);
+                      const cart = JSON.parse(
+                        localStorage.getItem("cart") || "[]",
+                      ) as Array<{
+                        id: string;
+                        slug: string;
+                        name: string;
+                        price: number;
+                        image: string;
+                        quantity: number;
+                      }>;
+                      const existingItem = cart.find(
+                        (item) => item.id === product.id,
+                      );
                       if (existingItem) {
                         existingItem.quantity += quantity;
                       } else {
-                        cart.push({ 
-                          id: product.id, 
+                        cart.push({
+                          id: product.id,
                           slug: product.slug,
                           name: t(product.nameKey),
                           price: product.basePrice,
                           image: product.image,
-                          quantity 
+                          quantity,
                         });
                       }
                       localStorage.setItem("cart", JSON.stringify(cart));
                       // Dispatch custom event to update header cart count
                       window.dispatchEvent(new Event("cartUpdated"));
-                      toast.success(`Added ${quantity}x ${t(product.nameKey)} to basket`);
+                      toast.success(
+                        `Added ${quantity}x ${t(product.nameKey)} to basket`,
+                      );
                       setQuantity(1);
                     } catch (error) {
                       toast.error("Failed to add item to basket");
@@ -204,7 +224,7 @@ const Product = () => {
               </div>
 
               {/* Benefits */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
+              {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
                 <div className="flex items-start gap-3">
                   <Truck className="w-5 h-5 mt-0.5" />
                   <div>
@@ -232,7 +252,7 @@ const Product = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </div>

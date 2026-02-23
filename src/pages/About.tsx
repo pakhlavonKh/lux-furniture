@@ -28,7 +28,9 @@ const About = () => {
     <>
       <SEO
         title={t("about.seo.title") || "About | Manaku"}
-        description={t("about.seo.description") || "About Manaku luxury furniture."}
+        description={
+          t("about.seo.description") || "About Manaku luxury furniture."
+        }
         url="https://lux-furniture-demo.netlify.app/about"
       />
       <Layout>
@@ -40,7 +42,10 @@ const About = () => {
               alt="Manaku showroom"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-foreground/40" />
+            <div
+              className="absolute inset-0"
+              style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
+            />
           </div>
 
           <div className="container-luxury relative z-10 text-center pt-32">
@@ -49,7 +54,7 @@ const About = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <p className="text-caption text-primary-foreground/80 mb-4">
+              <p className="text-caption text-primary-foreground mb-4">
                 {t("about.story")}
               </p>
               <h1 className="heading-display text-primary-foreground mb-6">
@@ -69,9 +74,7 @@ const About = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <h2 className="heading-section mb-8">
-                  {t("about.heading")}
-                </h2>
+                <h2 className="heading-section mb-8">{t("about.heading")}</h2>
 
                 <div className="space-y-6 text-body">
                   <p>{t("about.paragraph1")}</p>
@@ -98,10 +101,7 @@ const About = () => {
         </section>
 
         {/* Values Section */}
-        <section
-          className="section-padding bg-secondary/30"
-          id="craftsmanship"
-        >
+        <section className="section-padding bg-secondary/30" id="craftsmanship">
           <div className="container-luxury">
             <div className="text-center max-w-2xl mx-auto mb-16">
               <motion.div
@@ -110,12 +110,8 @@ const About = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <p className="text-caption mb-4">
-                  {t("about.valuesSection")}
-                </p>
-                <h2 className="heading-section">
-                  {t("about.valuesTitle")}
-                </h2>
+                <p className="text-caption mb-4">{t("about.valuesSection")}</p>
+                <h2 className="heading-section">{t("about.valuesTitle")}</h2>
               </motion.div>
             </div>
 
@@ -130,12 +126,8 @@ const About = () => {
                   className="text-center"
                 >
                   <div className="w-16 h-px bg-foreground mx-auto mb-8" />
-                  <h3 className="font-serif text-2xl mb-4">
-                    {value.title}
-                  </h3>
-                  <p className="text-body">
-                    {value.description}
-                  </p>
+                  <h3 className="font-serif text-2xl mb-4">{value.title}</h3>
+                  <p className="text-body">{value.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -143,10 +135,7 @@ const About = () => {
         </section>
 
         {/* Sustainability Section */}
-        <section
-          className="section-padding"
-          id="sustainability"
-        >
+        <section className="section-padding" id="sustainability">
           <div className="container-luxury">
             <div className="max-w-3xl mx-auto text-center">
               <motion.div
@@ -179,30 +168,22 @@ const About = () => {
               >
                 <div>
                   <p className="font-serif text-4xl mb-2">100%</p>
-                  <p className="text-caption">
-                    {t("about.statMaterials")}
-                  </p>
+                  <p className="text-caption">{t("about.statMaterials")}</p>
                 </div>
 
                 <div>
                   <p className="font-serif text-4xl mb-2">Zero</p>
-                  <p className="text-caption">
-                    {t("about.statWaste")}
-                  </p>
+                  <p className="text-caption">{t("about.statWaste")}</p>
                 </div>
 
                 <div>
                   <p className="font-serif text-4xl mb-2">50+</p>
-                  <p className="text-caption">
-                    {t("about.statLifespan")}
-                  </p>
+                  <p className="text-caption">{t("about.statLifespan")}</p>
                 </div>
 
                 <div>
                   <p className="font-serif text-4xl mb-2">Carbon</p>
-                  <p className="text-caption">
-                    {t("about.statCarbon")}
-                  </p>
+                  <p className="text-caption">{t("about.statCarbon")}</p>
                 </div>
               </motion.div>
             </div>

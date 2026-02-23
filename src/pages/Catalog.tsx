@@ -84,7 +84,7 @@ export default function Catalog() {
                 key={cat.key}
                 onClick={() =>
                   setSelectedCategory((prev) =>
-                    prev === cat.key ? null : cat.key
+                    prev === cat.key ? null : cat.key,
                   )
                 }
                 className={`category-card ${
@@ -110,14 +110,16 @@ export default function Catalog() {
         <div className="container-luxury">
           {!isDesktop && (
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold">{t("catalog.allProducts")}</h2>
+              <h2 className="text-xl font-semibold">
+                {t("catalog.allProducts")}
+              </h2>
               <button
                 onClick={() => setFiltersOpen((prev) => !prev)}
-                className="flex items-center gap-2 border border-border px-4 py-2 rounded-md"
+                className="filters-toggle-btn"
                 aria-expanded={filtersOpen}
                 aria-controls="catalog-filters"
               >
-                <Filter className="w-4 h-4" />
+                <Filter className="filters-toggle-icon" />
                 {t("catalog.filters") || "Filters"}
               </button>
             </div>
@@ -127,40 +129,38 @@ export default function Catalog() {
             {/* Filters Panel */}
             <aside
               id="catalog-filters"
-              className="w-full md:w-auto border border-border bg-muted/20 rounded-xl p-6 space-y-6 h-fit mb-6 md:mb-0"
+              className="filters-panel"
               style={{
                 flex: "0 0 280px",
                 display: isDesktop || filtersOpen ? "block" : "none",
               }}
             >
-              <div className="flex items-center gap-2 text-sm uppercase tracking-wider text-muted-foreground">
-                <Filter className="w-4 h-4" />
+              {/* Header */}
+              <div className="filters-header">
+                <Filter className="filters-header-icon" />
                 <span>{t("catalog.filters") || "Filters"}</span>
               </div>
 
-              <div>
-                <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-3">
+              {/* Category */}
+              <div className="filters-section">
+                <h3 className="filter-section-title">
                   {t("catalog.category") || "Category"}
                 </h3>
-                <div className="space-y-2">
+
+                <div className="filter-group">
                   <button
                     onClick={() => setSelectedCategory(null)}
-                    className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
-                      selectedCategory === null
-                        ? "bg-background font-semibold text-foreground border border-border"
-                        : "text-muted-foreground hover:text-foreground hover:bg-background/70"
-                    }`}
+                    className={`filter-item ${selectedCategory === null ? "active" : ""}`}
                   >
                     {t("catalog.all") || "All"}
                   </button>
+
                   {categories.map((cat) => (
                     <button
                       key={cat.key}
                       onClick={() => setSelectedCategory(cat.key)}
-                      className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
-                        selectedCategory === cat.key
-                          ? "bg-background font-semibold text-foreground border border-border"
-                          : "text-muted-foreground hover:text-foreground hover:bg-background/70"
+                      className={`filter-item ${
+                        selectedCategory === cat.key ? "active" : ""
                       }`}
                     >
                       {t(`categories.${cat.key}`)}
@@ -169,40 +169,36 @@ export default function Catalog() {
                 </div>
               </div>
 
-              <div>
-                <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-3">
+              {/* Sort */}
+              <div className="filters-section">
+                <h3 className="filter-section-title">
                   {t("catalog.sort") || "Sort"}
                 </h3>
-                <div className="space-y-2">
+
+                <div className="filter-group">
                   <button
                     onClick={() => setSort("price-asc")}
-                    className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
-                      sort === "price-asc"
-                        ? "bg-background font-semibold text-foreground border border-border"
-                        : "text-muted-foreground hover:text-foreground hover:bg-background/70"
-                    }`}
+                    className={`filter-item ${sort === "price-asc" ? "active" : ""}`}
                   >
                     {t("catalog.priceLowHigh") || "Price: Low → High"}
                   </button>
+
                   <button
                     onClick={() => setSort("price-desc")}
-                    className={`block text-left w-full px-3 py-2 rounded-md transition-colors ${
-                      sort === "price-desc"
-                        ? "bg-background font-semibold text-foreground border border-border"
-                        : "text-muted-foreground hover:text-foreground hover:bg-background/70"
-                    }`}
+                    className={`filter-item ${sort === "price-desc" ? "active" : ""}`}
                   >
                     {t("catalog.priceHighLow") || "Price: High → Low"}
                   </button>
                 </div>
               </div>
 
+              {/* Clear */}
               <button
                 onClick={() => {
                   setSelectedCategory(null);
                   setSort(null);
                 }}
-                className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4"
+                className="filters-clear"
               >
                 {t("catalog.clearFilters") || "Clear filters"}
               </button>
@@ -210,9 +206,6 @@ export default function Catalog() {
 
             {/* Products Grid */}
             <div className="flex-1 min-w-0">
-              {/* <h2 className="text-2xl font-semibold mb-8" style={{ display: isDesktop ? "block" : "none" }}>
-                {t("catalog.allProducts")}
-              </h2> */}
 
               {filteredProducts.length === 0 ? (
                 <p className="text-muted-foreground">

@@ -164,6 +164,90 @@
       }
     }
   },
+  "hero": {
+    "discover": "Kashf etish",
+    "luxuryRedefined": "Luxus qayta belgilangan",
+    "tagline": "Hayotni ko'taruvchi qo'l ishlab chiqarish",
+    "curatedCollection": "Kuratlangan kolleksiya 2026",
+    "artOfLiving": "Toshkentda korpus va ofis mebellarini ishlab chiqarish",
+    "refinedLiving": "",
+    "subtitle": "Biz xususiy mijozlar va korxonalar bilan ishlaymiz. O'zimizda ishlab chiqarish. 3 yilgacha kafolat.",
+    "exploreCollection": "Kolleksiyani ko‘rish",
+    "ourStory": "Bizning hikoyamiz",
+    "scroll": "Pastga surish"
+  },
+  "featured": {
+    "title": "Tanlangan tanlov",
+    "subtitle": "Tanlangan parçalar",
+    "viewAll": "Barcha mahsulotlarni koʻrish"
+  },
+  "philosophy": {
+    "section": "Bizning falsafa",
+    "title": "Hunarmandlik abadiy dizaynni uchrashtiradigan joy",
+    "description": "Manaku-da biz aytamanki, ajoyib mebellik faqat estetika emas, bu hayot tarzi. Bizning kollekciyamizning har bir parçasi biliml dizaynning tavakkali turalargi, barqarorlik va izchil go'zalini alohida ko'nnasini ifodalaydi.",
+    "description2": "Bizning ustalar va hamkorlarimiz sifatga bo'lgan yondashuvni har bir bosqichda qo'llaydi.",
+    "description3": "Natijada makonni to'ldiradigan emas, balki uni o'zgartiradigan mebel yaratiladi.",
+    "yearsOfExcellence": "Yil ajoyib",
+    "masterArtisans": "Usta hunarmandlar",
+    "countriesServed": "Xizmat koʻrsatilgan davlatlar"
+  },
+  "showcase": {
+    "title": "Ko'rgazma"
+  },
+  "products": {
+    "ariaLounge": "Aria Lounge kursisi",
+    "tavola": "Tavola ovqat stoli",
+    "luce": "Luce zamin chirogʻi",
+    "livingCollection": "Yasashning kolleksiyasi",
+    "bedroomCollection": "Yotog'ning kolleksiyasi",
+    "livingDesc": "Zamonaviy yasashuvchi bo'shliqlar uchun sun'iy sofalar va soliha o'tirish",
+    "bedroomDesc": "Dam olish va qayta tiklash uchun mo'ljallangan tinch narsalar",
+    "category": {
+      "seating": "O'tirish",
+      "dining": "Ovqatlanish",
+      "lighting": "Yoritish"
+    },
+    "categories": {
+      "seating": {
+        "description": "Har bir xona uchun qulay va nafis o'tirish variantlari"
+      },
+      "dining": {
+        "description": "Unforgettable uchrashuvlar uchun nozik ovqat stollari va stullari"
+      },
+      "lighting": {
+        "description": "Har qanday makonni taraqqiy ettiradigan sun'iy yoritish echimlari"
+      }
+    },
+    "catalog": {
+      "aria": {
+        "shortDescription": "Sun'iy shaklga ega zamonaviy kreslosi",
+        "description": "Aria Lounge kursisi sun'iy elegantnlik bilan istisno qulaylikni birlashtiradi. Premum to'qimachilik va ehtiyotkorlik bilan ishlab chiqilgan o'rnak bilan qo'l bilan tayyorlangan.",
+        "material": "Premium to'qimachilik derevyan o'rnak bilan",
+        "color": "Bej, kulrang, kómur",
+        "style": "Zamonaviy",
+        "dimensions": "85sm E × 95sm D × 78sm B",
+        "care": "Muntazam so'rish va professional tozalash tavsiya etiladi. To'g'ri quyosh nuri oldidan saqlanib qoling."
+      },
+      "tavola": {
+        "shortDescription": "Nozik qabul qilishlar uchun nafis ovqat stoli",
+        "description": "Tavola ovqat stoli an'anaviy mahoratning shedevridir. Qo'l bilan tugatilgan solid yog'ach bilan tayyorlangan.",
+        "material": "Qattiq yog'ach (Qora yoki Eman)",
+        "color": "Tabiiy yog'ach tugatilishi",
+        "style": "Klassik",
+        "dimensions": "200sm U × 100sm E × 75sm B",
+        "care": "Yog'achga mos keladigan vosita ishlatish. Issiqlik va namdan himoya qiling. Issiq idishlar ostida stol pads ishlating."
+      },
+      "luce": {
+        "shortDescription": "Moslang yoritish uchun sun'iy zamin chirogʻi",
+        "description": "Luce zamin chirogʻi iliq, ambient yoritish beruvchi sun'iy element sifatida ishlab chiqilgan. Uning nafis shakli har qanday ichki uslubni to'ldiradi.",
+        "material": "Metall o'rnak tufli parda bilan",
+        "color": "Zarb, qora",
+        "style": "Zamonaviy",
+        "dimensions": "45sm E × 45sm D × 180sm B",
+        "care": "Yumshoq matkali bilan muntazam tozalang. Zarur bo'lganda lampochkilarni almashtiring. Suv bilan urinishidan saqlanib qoling."
+      }
+    }
+  },
   "about": {
     "seo": {
       "title": "Biz haqida | Manaku",
@@ -235,7 +319,8 @@
       "seo": {
         "title": "Katalog | Manaku Mebel",
         "description": "Mebel kategoriyalarini ko'rib chiqing"
-      }
+      },
+      "allProducts": "Barcha mahsulotlar"
      
   },
     "collections": {
@@ -274,7 +359,9 @@
       "subtitle": "Tanlangli Tanlovlar",
       "description": "Bizning tanlangli kolleksiyalarni ko'ring, ularning har biri sizning yashaydigan makonlarni ilhomlantirish va o'naltirish uchun ishlab chiqilgan.",
       "cta": "O'zingizning Mukammal Parçangizni Kashf Etish",
-      "ctaDesc": "Har bir kolleksiya noyob voqeani aytadi. Sizning shaxsiy uslubingiz bilan gapdashuvchi parçalarni topish uchun bizning tanlovlarni ko'rb chiqing."
+        "ctaDesc": "Har bir kolleksiya noyub voqeani aytadi. Sizning shaxsiy uslubingiz bilan gapdashuvchi parçalarni topish uchun bizning tanlovlarni ko'rb chiqing.",
+        "viewFullCatalog": "To'liq katalogni ko'rish",
+        "products": "mahsulotlar"
      
   
   },
@@ -314,7 +401,9 @@
       "emailTitle": "Elektron pochta",
       "hoursTitle": "Ish vaqti",
       "hoursWeekdays": "Dushanba – Juma: 10:00 – 20:00",
-      "hoursSaturday": "Shanba: 10:00 – 19:00"
+      "hoursSaturday": "Shanba: 10:00 – 19:00",
+      "hoursSunday": "Yakshanba: oldindan yozilish orqali",
+      "map": "Interaktiv xarita"
      
   
   },
@@ -337,7 +426,9 @@
       "signupLink": "Ro'yxatdan o'ting",
       "welcomeBackTitle": "Xosh kelibsiz!",
       "welcomeBackDesc": "Siz muvaffaqiyatli kirdingiz.",
-      "errorTitle": "Xato"
+      "errorTitle": "Xato",
+      "errorDesc": "Xatolik yuz berdi",
+      "loginFailedErr": "Kirish muvaffaqiyatsiz"
      
   
   },
@@ -362,7 +453,8 @@
       "registrationFailed": "Ro'yxatdan o'tish muvaffaq bo'lmadi",
       "accountCreatedTitle": "Hisob yaratildi!",
       "accountCreatedDesc": "Siz muvaffaqiyatli ro'yxatdan o'tdingiz.",
-      "errorTitle": "Xato"
+        "errorTitle": "Xato",
+        "errorDesc": "Xatolik yuz berdi"
      
   },
 
@@ -409,7 +501,8 @@
       "profileSaved": "Sizning profilingiz muvaffaqiyatli saqlandi.",
       "itemRemoved": "Mahsulot olib tashlandi",
       "itemRemovedFromCart": "Mahsulot savatingizdan olib tashlandi.",
-      "required": "Zarur"
+        "required": "Zarur",
+        "addressPlaceholder": "Ko'cha manzili, shahar, pochta indeksi"
      
   },
 

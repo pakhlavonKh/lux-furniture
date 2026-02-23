@@ -73,10 +73,6 @@ const CollectionsPage = () => {
               transition={{ duration: 0.6 }}
               className="text-center max-w-2xl mx-auto"
             >
-              <p className="text-caption mb-4">
-                {t("collections.subtitle")}
-              </p>
-
               <h1 className="heading-display mb-6">
                 {t("collections.title")}
               </h1>
@@ -89,7 +85,7 @@ const CollectionsPage = () => {
         </section>
 
         {/* Collections Grid */}
-        <section className="section-padding">
+        <section className="py-20">
           <div className="container-luxury">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
               {collections.map((collection, index) => (
@@ -144,7 +140,7 @@ const CollectionsPage = () => {
         </section>
 
         {/* CTA */}
-        <section className="section-padding bg-secondary/30">
+        <section className="bg-secondary/30 py-8">
           <div className="container-luxury max-w-2xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0 }}

@@ -193,7 +193,7 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-2xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="text-caption mb-2 block">
+                    <label htmlFor="name" className="text-body mb-2 block">
                       {t("contact.name")}
                     </label>
                     <input
@@ -207,7 +207,7 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="text-caption mb-2 block">
+                    <label htmlFor="email" className="text-body mb-2 block">
                       {t("contact.email")}
                     </label>
                     <input
@@ -224,7 +224,7 @@ const Contact = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="text-caption mb-2 block">
+                    <label htmlFor="phone" className="text-body mb-2 block">
                       {t("contact.phone")}
                     </label>
                     <input
@@ -237,7 +237,7 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="subject" className="text-caption mb-2 block">
+                    <label htmlFor="subject" className="text-body mb-2 block">
                       {t("contact.subject")} *
                     </label>
                     <select
@@ -263,7 +263,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="text-caption mb-2 block">
+                  <label htmlFor="message" className="text-body mb-2 block">
                     {t("contact.message")} *
                   </label>
                   <textarea
