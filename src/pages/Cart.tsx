@@ -72,11 +72,14 @@ export default function Cart() {
   }
 
   return (
-    <Layout>
-      <SEO title="Cart | Manaku" description="Your shopping cart" url="/cart" />
-
-      <section className="pt-28 pb-12 min-h-screen">
-        <div className="container-luxury">
+    <>
+      <SEO
+        title={t("cart.seo.title") || "Cart | Manaku"}
+        description={t("cart.seo.description") || "Your shopping cart at Manaku."}
+        url="https://lux-furniture-demo.netlify.app/cart"
+      />
+      <Layout>
+        <section className="pt-28 pb-12 min-h-screen">
           <h1 className="heading-section mb-10">Shopping Basket</h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
@@ -174,8 +177,8 @@ export default function Cart() {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-    </Layout>
+        </section>
+      </Layout>
+    </>
   );
 }

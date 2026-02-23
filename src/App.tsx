@@ -1,4 +1,12 @@
 import { useEffect } from "react";
+const App = () => (
+  <LanguageProvider>
+    <AppWithLanguage />
+  </LanguageProvider>
+);
+
+export default App;
+import { Helmet, HelmetProvider } from "react-helmet-async";
 // import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,43 +30,43 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 function AppWithLanguage() {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
-  useEffect(() => {
-    // Update HTML lang attribute
-    document.documentElement.lang = language;
-  }, [language]);
+  // Dynamic, multilingual title
+  const titles = {
+    uz: "Manaku | Premium mebel kolleksiyasi",
+    en: "Manaku | Premium Furniture Collection",
+    ru: "Manaku | Премиальная коллекция мебели"
+  };
+  const title = titles[language] || titles.en;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        {/* <Toaster /> */}
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Catalog />} />
-            <Route path="/showcase" element={<Index />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/product/:slug" element={<Product />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          {/* <Toaster /> */}
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Catalog />} />
+              <Route path="/showcase" element={<Index />} />
+              <Route path="/collections" element={<Collections />} />
+              <Route path="/product/:slug" element={<Product />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
-
-const App = () => (
-  <LanguageProvider>
-    <AppWithLanguage />
-  </LanguageProvider>
-);
-
-export default App;

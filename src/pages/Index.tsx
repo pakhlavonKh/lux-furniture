@@ -4,6 +4,7 @@ import { Hero } from "@/components/home/Hero";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { Philosophy } from "@/components/home/Philosophy";
 import { Collections } from "@/components/home/Collections";
+import { SEO } from "@/components/SEO";
 
 // Import images
 import heroImage from "@/assets/hero-living-room.jpg";
@@ -60,12 +61,19 @@ const collections = [
 
 const Index = () => {
   return (
-    <Layout>
-      <Hero heroImage={heroImage} />
-      <FeaturedProducts products={featuredProducts} />
-      <Philosophy image={craftsmanshipImage} />
-      <Collections collections={collections} />
-    </Layout>
+    <>
+      <SEO
+        title="Manaku | Premium Furniture Collection"
+        description="Exclusive luxury furniture collection. Handcrafted pieces for refined living spaces. Discover exceptional design and uncompromising quality."
+        url="https://lux-furniture-demo.netlify.app/"
+      />
+      <Layout>
+        <Hero heroImage={heroImage} />
+        <FeaturedProducts products={featuredProducts} />
+        <Philosophy image={craftsmanshipImage} />
+        <Collections collections={collections} />
+      </Layout>
+    </>
   );
 };
 

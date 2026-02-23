@@ -25,6 +25,10 @@
 
 
   "index": {
+    "seo": {
+      "title": "Manaku | Premium Furniture Collection",
+      "description": "Exclusive luxury furniture collection. Handcrafted pieces for refined living spaces. Discover exceptional design and uncompromising quality."
+    },
     "searchPlaceholder": "Search furniture, collections, or styles...",
     "shopByCategory": "Shop by Category",
     "viewAll": "View All",
@@ -163,6 +167,10 @@
     }
   },
   "about": {
+    "seo": {
+      "title": "About | Manaku",
+      "description": "Learn more about Manaku luxury furniture."
+    },
     "story": "Our Story",
     "title": "We work with private clients and businesses.\nIn-house production. Contract. Up to 3-year warranty.",
     "heading": "About the Company",
@@ -232,6 +240,10 @@
   "allProducts": "All Products"
   },
   "collections": {
+    "seo": {
+      "title": "Collections | Manaku",
+      "description": "Discover our luxury furniture collections."
+    },
     "explore": "Explore",
     "items": {
       "living": {
@@ -269,6 +281,10 @@
   },
 
   "contact": {
+    "seo": {
+      "title": "Contact | Manaku",
+      "description": "Contact Manaku luxury furniture."
+    },
     "title": "Contact Us",
     "subtitle": "Get in Touch",
     "description": "We'd love to hear from you. Whether you have a question about our collection, need design advice, or want to schedule a showroom visit, our team is here to help.",
@@ -305,6 +321,10 @@
   },
 
   "login": {
+    "seo": {
+      "title": "Login | Manaku",
+      "description": "Login to your Manaku account."
+    },
     "title": "Sign In | Manaku",
     "heading": "Sign In",
     "subtitle": "Welcome back to your account",
@@ -324,6 +344,10 @@
   },
 
   "signup": {
+    "seo": {
+      "title": "Signup | Manaku",
+      "description": "Create your Manaku account."
+    },
     "title": "Create Account | Manaku",
     "heading": "Create Account",
     "subtitle": "Join our luxury furniture community",
@@ -344,6 +368,10 @@
   },
 
   "account": {
+    "seo": {
+      "title": "Account | Manaku",
+      "description": "Your Manaku account details."
+    },
     "myAccount": "My Account",
     "profileSettings": "Profile & Settings",
     "email": "Email",

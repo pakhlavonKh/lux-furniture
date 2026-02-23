@@ -84,154 +84,155 @@ export default function Signup() {
   };
 
   return (
-    <Layout>
+    <>
       <SEO
-        title={t("signup.title")}
-        description="Create a new Manaku account to start shopping luxury furniture."
+        title={t("signup.seo.title") || "Signup | Manaku"}
+        description={t("signup.seo.description") || "Create your Manaku account."}
         url="https://lux-furniture-demo.netlify.app/signup"
       />
-
-      <section className="pt-28 pb-12 bg-background min-h-screen flex items-center justify-center">
-        <div className="container-luxury px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="auth-container"
-          >
-            <div className="text-center mb-12">
-              <h1 className="font-serif text-3xl tracking-[0.1em] mb-2">
-                {t("signup.heading").toUpperCase()}
-              </h1>
-              <p className="text-muted-foreground">{t("signup.subtitle")}</p>
-            </div>
-
-            <div className="auth-card">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="text-caption mb-2 block">
-                    {t("signup.name") || "Full Name"}
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="form-input"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="text-caption mb-2 block">
-                    {t("signup.email")}
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="form-input"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="password" className="text-caption mb-2 block">
-                    {t("signup.password")}
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      id="password"
-                      name="password"
-                      required
-                      value={formData.password}
-                      onChange={handleChange}
-                      className="form-input form-input--with-icon"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="password-toggle"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="icon-eye" />
-                      ) : (
-                        <Eye className="icon-eye" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="confirmPassword"
-                    className="text-caption mb-2 block"
-                  >
-                    {t("signup.confirmPassword")}
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      required
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className="form-input form-input--with-icon"
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                      className="password-toggle"
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="icon-eye" />
-                      ) : (
-                        <Eye className="icon-eye" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-luxury auth-submit"
-                >
-                  {isSubmitting ? (
-                    t("signup.creatingAccount")
-                  ) : (
-                    <>
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      {t("signup.createAccount")}
-                    </>
-                  )}
-                </button>
-              </form>
-
-              <div className="mt-6 text-center">
-                <p className="text-sm">
-                  <span className="text-muted-foreground">
-                    {t("signup.haveAccount")}{" "}
-                  </span>
-                  <a
-                    href="/login"
-                    className="text-[#3091B1]"
-                  >
-                    {t("signup.signinLink")}
-                  </a>
-                </p>
+      <Layout>
+        <section className="pt-28 pb-12 bg-background min-h-screen flex items-center justify-center">
+          <div className="container-luxury px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="auth-container"
+            >
+              <div className="text-center mb-12">
+                <h1 className="font-serif text-3xl tracking-[0.1em] mb-2">
+                  {t("signup.heading").toUpperCase()}
+                </h1>
+                <p className="text-muted-foreground">{t("signup.subtitle")}</p>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </Layout>
+
+              <div className="auth-card">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="name" className="text-caption mb-2 block">
+                      {t("signup.name") || "Full Name"}
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="text-caption mb-2 block">
+                      {t("signup.email")}
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="password" className="text-caption mb-2 block">
+                      {t("signup.password")}
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        name="password"
+                        required
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="form-input form-input--with-icon"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="password-toggle"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="icon-eye" />
+                        ) : (
+                          <Eye className="icon-eye" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="confirmPassword"
+                      className="text-caption mb-2 block"
+                    >
+                      {t("signup.confirmPassword")}
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        required
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="form-input form-input--with-icon"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        className="password-toggle"
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="icon-eye" />
+                        ) : (
+                          <Eye className="icon-eye" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn-luxury auth-submit"
+                  >
+                    {isSubmitting ? (
+                      t("signup.creatingAccount")
+                    ) : (
+                      <>
+                        <UserPlus className="w-4 h-4 mr-2" />
+                        {t("signup.createAccount")}
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                <div className="mt-6 text-center">
+                  <p className="text-sm">
+                    <span className="text-muted-foreground">
+                      {t("signup.haveAccount")}{" "}
+                    </span>
+                    <a
+                      href="/login"
+                      className="text-[#3091B1]"
+                    >
+                      {t("signup.signinLink")}
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </Layout>
+    </>
   );
 }
