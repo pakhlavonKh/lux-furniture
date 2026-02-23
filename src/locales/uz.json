@@ -40,6 +40,8 @@
   },
   "footer": {
     "description": "Biz uyalarni raffinlangan yaşash tomorqalari bo'lgan istisnoi mebel parçalarini tuzathiromiz. Har bir parça hunarmandlik va abadiy dizayn hikoyasini aytadi.",
+      "addressLine1": "Toshkent, Ko'shko'prik ko'chasi, 30",
+      "addressLine2": "Alfraganus Savdo Markazi, 2-qavat",
     "explore": {
       "title": "O'rganing",
       "catalog": "Katalog",

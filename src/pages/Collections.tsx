@@ -158,7 +158,7 @@ const CollectionsPage = () => {
 
               <Link
                 to="/"
-                className="inline-block px-8 py-4 bg-foreground text-background hover:bg-foreground/90 transition-colors uppercase text-sm tracking-wider font-medium"
+                className="btn-luxury group inline-flex items-center"
               >
                 {t("collections.viewFullCatalog")}
               </Link>

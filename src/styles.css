@@ -633,6 +633,7 @@ a img:hover {
 
 @media (min-width: 1024px) {
   .lg\:col-span-2 { grid-column: span 2; }
+  .lg\:col-span-3 { grid-column: span 3; }
   .lg\:flex { display: flex; }
   .lg\:hidden { display: none; }
   .lg\:grid { display: grid; }
@@ -2058,4 +2059,59 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
 .filters-toggle-icon {
   width: 16px;
   height: 16px;
+}
+
+/* ===== Contact Info Row (Desktop) ===== */
+
+.contact-info-desktop {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .contact-info-desktop {
+    display: block;
+  }
+}
+
+/* Row layout */
+.contact-info-list {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 3rem;              /* space between items */
+  font-size: 0.875rem;    /* text-sm */
+}
+
+/* Each item */
+.contact-info-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Label */
+.contact-info-label {
+  font-size: 0.75rem;     /* text-xs */
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+  color: hsl(var(--primary-foreground) / 0.6);
+}
+
+/* Link text */
+.contact-info-link {
+  color: hsl(var(--primary-foreground) / 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-info-link:hover {
+  color: hsl(var(--primary-foreground));
+}
+
+/* Address text */
+.contact-info-text {
+  color: hsl(var(--primary-foreground) / 0.85);
+  line-height: 1.625;
 }

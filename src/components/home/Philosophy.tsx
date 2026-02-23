@@ -51,15 +51,15 @@ export function Philosophy({ image }: PhilosophyProps) {
             <div className="grid grid-cols-3 gap-8 mt-12 pt-12 border-t border-border">
               <div>
                 <p className="font-serif text-3xl md:text-4xl mb-2">25+</p>
-                <p className="text-caption">{t("philosophy.yearsOfExcellence")}</p>
+                <p className="text-body">{t("philosophy.yearsOfExcellence")}</p>
               </div>
               <div>
                 <p className="font-serif text-3xl md:text-4xl mb-2">150+</p>
-                <p className="text-caption">{t("philosophy.masterArtisans")}</p>
+                <p className="text-body">{t("philosophy.masterArtisans")}</p>
               </div>
               <div>
                 <p className="font-serif text-3xl md:text-4xl mb-2">40+</p>
-                <p className="text-caption">{t("philosophy.countriesServed")}</p>
+                <p className="text-body">{t("philosophy.countriesServed")}</p>
               </div>
             </div>
           </motion.div>

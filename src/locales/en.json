@@ -12,17 +12,15 @@
     "pressEnter": "Press Enter to search or Esc to close"
   },
 
-"categories": {
-  "storage": "Shelving",
-  "kitchen": "Kitchen furniture",
-  "garden": "Garden furniture",
-  "office": "Office furniture",
-  "children": "Children's furniture",
-  "industrial": "Industrial furniture",
-  "accessories": "Interior accessories"
-},
-
-
+  "categories": {
+    "storage": "Shelving",
+    "kitchen": "Kitchen furniture",
+    "garden": "Garden furniture",
+    "office": "Office furniture",
+    "children": "Children's furniture",
+    "industrial": "Industrial furniture",
+    "accessories": "Interior accessories"
+  },
 
   "index": {
     "seo": {
@@ -42,26 +40,28 @@
   },
   "footer": {
     "description": "Curating exceptional furniture pieces that transform spaces into sanctuaries of refined living. Each piece tells a story of craftsmanship and timeless design.",
+    "addressLine1": "Tashkent, Kushkuprik Street, 30",
+    "addressLine2": "Alfraganus Shopping Center, 2nd Floor",
     "explore": {
-    "title": "Explore",
-    "catalog": "Catalog",
-    "collections": "Collections",
-    "newArrivals": "New Arrivals",
-    "featured": "Featured"
+      "title": "Explore",
+      "catalog": "Catalog",
+      "collections": "Collections",
+      "newArrivals": "New Arrivals",
+      "featured": "Featured"
     },
     "company": {
-    "title": "Company",
-    "about": "About Us",
-    "craftsmanship": "Our Craftsmanship",
-    "sustainability": "Sustainability",
-    "contact": "Contact"
+      "title": "Company",
+      "about": "About Us",
+      "craftsmanship": "Our Craftsmanship",
+      "sustainability": "Sustainability",
+      "contact": "Contact"
     },
     "support": {
-    "title": "Support",
-    "shipping": "Shipping & Delivery",
-    "returns": "Returns",
-    "careGuide": "Care Guide",
-    "faq": "FAQ"
+      "title": "Support",
+      "shipping": "Shipping & Delivery",
+      "returns": "Returns",
+      "careGuide": "Care Guide",
+      "faq": "FAQ"
     },
     "rights": "Manaku. All rights reserved.",
     "privacy": "Privacy Policy",
@@ -205,7 +205,7 @@
     "experienceDesc": "Visit our Tashkent showroom to experience our materials and craftsmanship firsthand.",
     "scheduleVisit": "Schedule a Visit"
   },
-  
+
   "admin": {
     "dashboard": "Admin Dashboard",
     "totalProducts": "Total Products",
@@ -234,10 +234,10 @@
     "product": "product",
     "products": "products",
     "seo": {
-    "title": "Catalog | Manaku Furniture",
-    "description": "Browse furniture categories"
-  },
-  "allProducts": "All Products"
+      "title": "Catalog | Manaku Furniture",
+      "description": "Browse furniture categories"
+    },
+    "allProducts": "All Products"
   },
   "collections": {
     "seo": {

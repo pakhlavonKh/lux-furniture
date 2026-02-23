@@ -246,7 +246,7 @@ const Contact = () => {
                       required
                       value={formData.subject}
                       onChange={handleChange}
-                      className="contact-input"
+                      className="contact-input text-body"
                     >
                       <option value="">{t("contact.subjectOptions.selectSubject")}</option>
                       <option value="product-inquiry">{t("contact.subjectOptions.productInquiry")}</option>
