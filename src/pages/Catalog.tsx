@@ -210,9 +210,9 @@ export default function Catalog() {
 
             {/* Products Grid */}
             <div className="flex-1 min-w-0">
-              <h2 className="text-2xl font-semibold mb-8" style={{ display: isDesktop ? "block" : "none" }}>
+              {/* <h2 className="text-2xl font-semibold mb-8" style={{ display: isDesktop ? "block" : "none" }}>
                 {t("catalog.allProducts")}
-              </h2>
+              </h2> */}
 
               {filteredProducts.length === 0 ? (
                 <p className="text-muted-foreground">
