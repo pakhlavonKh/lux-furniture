@@ -1,9 +1,18 @@
+// This page is the main catalog view, where users can browse through all the products available in the store. It features a horizontal scrollable section at the top for filtering products by category, and a sidebar for additional filters and sorting options. The products are displayed in a responsive grid layout, and users can click on any product to view its details. The page also includes SEO metadata for better search engine visibility.
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
-
+import {
+  StorageIcon,
+  KitchenIcon,
+  GardenIcon,
+  OfficeIcon,
+  ChildrenIcon,
+  IndustrialIcon,
+  AccessoriesIcon,
+} from "@/components/icons/CategoryIcons";
 import kitchenImg from "@/assets/product-dining-table.jpg";
 import gardenImg from "@/assets/collection-living.jpg";
 import officeImg from "@/assets/product-armchair.jpg";
@@ -16,13 +25,13 @@ import { getProducts } from "@/data/catalogData";
 import { Filter } from "lucide-react";
 
 const categories = [
-  { key: "storage", image: shelvingImg },
-  { key: "kitchen", image: kitchenImg },
-  { key: "garden", image: gardenImg },
-  { key: "office", image: officeImg },
-  { key: "children", image: childrenImg },
-  { key: "industrial", image: industrialImg },
-  { key: "accessories", image: accessoriesImg },
+  { key: "storage", icon: StorageIcon },
+  { key: "kitchen", icon: KitchenIcon },
+  { key: "garden", icon: GardenIcon },
+  { key: "office", icon: OfficeIcon },
+  { key: "children", icon: ChildrenIcon },
+  { key: "industrial", icon: IndustrialIcon },
+  { key: "accessories", icon: AccessoriesIcon },
 ];
 
 export default function Catalog() {
@@ -91,11 +100,10 @@ export default function Catalog() {
                   selectedCategory === cat.key ? "ring-2 ring-foreground" : ""
                 }`}
               >
-                <img
-                  src={cat.image}
-                  alt={t(`categories.${cat.key}`)}
-                  className="category-card__image"
-                />
+                {(() => {
+                  const Icon = cat.icon;
+                  return <Icon className="category-card__image w-8 h-8" />;
+                })()}
                 <span className="category-card__title">
                   {t(`categories.${cat.key}`)}
                 </span>
