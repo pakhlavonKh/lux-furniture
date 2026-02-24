@@ -63,6 +63,30 @@
       "careGuide": "Parvarishlash bo'yicha qo'llanma",
       "faq": "FAQ"
     },
+    "catalogSection": {
+      "title": "Katalog",
+      "components": "Komponentlar va aksessuarlar"
+    },
+    "clients": {
+      "title": "Mijozlar uchun",
+      "delivery": "Yetkazib berish va o'rnatish",
+      "warranty": "Kafolat",
+      "payment": "To'lov",
+      "returns": "Qaytarish va almashtirish",
+      "faq": "Savollar va javoblar",
+      "custom": "Individual buyurtma",
+      "b2b": "B2B hamkorlik"
+    },
+    "companyInfo": {
+      "title": "Kompaniya haqida",
+      "aboutBrand": "Brend haqida",
+      "production": "Ishlab chiqarish",
+      "guarantee": "3 yilgacha kafolat",
+      "b2b": "B2B hamkorlik"
+    },
+    "contacts": {
+      "title": "Aloqa"
+    },
     "rights": "Manaku. Barcha huquqlar himoyalangan.",
     "privacy": "Maxfiylik siyosati",
     "terms": "Xizmat shartlari",
@@ -278,6 +302,11 @@
       "sustainabilityTitle": "Kelajak uchun yaratamiz",
       "sustainabilityText1": "Javobgarlikli ishlab chiqarish — bizning tamoyilimiz. Chiqindilarni kamaytirishga e’tibor beramiz.",
       "sustainabilityText2": "Uzoq xizmat qiladigan mebel yaratish orqali tez almashtirish madaniyatiga muqobil taklif qilamiz.",
+      "manufacturingTitle": "Toshkentdagi o‘z ishlab chiqarishimiz",
+      "manufacturingLine1": "LDSP/LMDF ni format-kesish stanoklarida kesish, PVC qirralash 0.4 / 1 / 2 mm",
+      "manufacturingLine2": "Sanoat uskunalarida teshik ochish va yig‘ish",
+      "manufacturingLine3": "Avtomatik chiziqli bo‘yash",
+      "manufacturingLine4": "Qadoqlashdan oldin sifat nazorati",
 
       "statMaterials": "Ekologik materiallar",
       "statWaste": "Poligon chiqindisi",

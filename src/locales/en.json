@@ -63,6 +63,30 @@
       "careGuide": "Care Guide",
       "faq": "FAQ"
     },
+    "catalogSection": {
+      "title": "Catalog",
+      "components": "Components & Accessories"
+    },
+    "clients": {
+      "title": "For Customers",
+      "delivery": "Delivery & Assembly",
+      "warranty": "Warranty",
+      "payment": "Payment",
+      "returns": "Returns & Exchange",
+      "faq": "Questions & Answers",
+      "custom": "Custom Order",
+      "b2b": "B2B Partnership"
+    },
+    "companyInfo": {
+      "title": "Company",
+      "aboutBrand": "About Brand",
+      "production": "Production",
+      "guarantee": "Up to 3 Years Warranty",
+      "b2b": "B2B Partnership"
+    },
+    "contacts": {
+      "title": "Contacts"
+    },
     "rights": "Manaku. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
@@ -194,6 +218,11 @@
     "sustainabilityTitle": "Crafting for the Future",
     "sustainabilityText1": "Responsible production is part of our philosophy. We minimize waste and prioritize durable materials.",
     "sustainabilityText2": "By creating furniture built to last, we provide an alternative to disposable culture.",
+    "manufacturingTitle": "In-house production in Tashkent",
+    "manufacturingLine1": "Laminated chipboard/MDF cutting on panel saws, PVC edge banding 0.4 / 1 / 2 mm",
+    "manufacturingLine2": "Drilling and assembly on industrial equipment",
+    "manufacturingLine3": "Automated linear painting",
+    "manufacturingLine4": "Quality control before packaging",
 
     "statMaterials": "Sustainable Materials",
     "statWaste": "Landfill Waste",

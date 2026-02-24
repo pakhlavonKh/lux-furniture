@@ -5,6 +5,7 @@ import { SEO } from "@/components/SEO";
 
 import craftsmanshipImage from "@/assets/craftsmanship.jpg";
 import heroImage from "@/assets/hero-living-room.jpg";
+import factoryImgage from "@/assets/factory.png";
 
 const About = () => {
   const { t } = useLanguage();
@@ -67,7 +68,7 @@ const About = () => {
         {/* Story Section */}
         <section className="section-padding">
           <div className="container-luxury">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -134,6 +135,41 @@ const About = () => {
           </div>
         </section>
 
+        {/* Manufacturing Section */}
+
+        <section className="container-luxury grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="aspect-[4/5] image-zoom"
+          >
+            <img
+              src={factoryImgage}
+              alt="Factory interior"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="heading-section mb-8">
+              {t("about.manufacturingTitle")}
+            </h2>
+
+            <div className="space-y-6 text-body">
+              <p>{t("about.manufacturingLine1")}</p>
+              <p>{t("about.manufacturingLine2")}</p>
+              <p>{t("about.manufacturingLine3")}</p>
+              <p>{t("about.manufacturingLine4")}</p>
+            </div>
+          </motion.div>
+        </section>
+
         {/* Sustainability Section */}
         <section className="section-padding" id="sustainability">
           <div className="container-luxury">
@@ -168,22 +204,22 @@ const About = () => {
               >
                 <div>
                   <p className="font-serif text-4xl mb-2">100%</p>
-                  <p className="text-caption">{t("about.statMaterials")}</p>
+                  <p className="text-body">{t("about.statMaterials")}</p>
                 </div>
 
                 <div>
                   <p className="font-serif text-4xl mb-2">Zero</p>
-                  <p className="text-caption">{t("about.statWaste")}</p>
+                  <p className="text-body">{t("about.statWaste")}</p>
                 </div>
 
                 <div>
                   <p className="font-serif text-4xl mb-2">50+</p>
-                  <p className="text-caption">{t("about.statLifespan")}</p>
+                  <p className="text-body">{t("about.statLifespan")}</p>
                 </div>
 
                 <div>
                   <p className="font-serif text-4xl mb-2">Carbon</p>
-                  <p className="text-caption">{t("about.statCarbon")}</p>
+                  <p className="text-body">{t("about.statCarbon")}</p>
                 </div>
               </motion.div>
             </div>
