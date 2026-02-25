@@ -96,7 +96,7 @@ export default function Login() {
               <div className="auth-card">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="email" className="text-caption mb-2 block">
+                    <label htmlFor="email" className="text-body mb-2 block">
                       {t("login.email")}
                     </label>
                     <input
@@ -113,7 +113,7 @@ export default function Login() {
                   <div>
                     <label
                       htmlFor="password"
-                      className="text-caption mb-2 block"
+                      className="text-body mb-2 block"
                     >
                       {t("login.password")}
                     </label>

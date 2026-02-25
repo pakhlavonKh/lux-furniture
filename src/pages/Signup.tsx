@@ -109,7 +109,7 @@ export default function Signup() {
               <div className="auth-card">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="text-caption mb-2 block">
+                    <label htmlFor="name" className="text-body mb-2 block">
                       {t("signup.name") || "Full Name"}
                     </label>
                     <input
@@ -124,7 +124,7 @@ export default function Signup() {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="text-caption mb-2 block">
+                    <label htmlFor="email" className="text-body mb-2 block">
                       {t("signup.email")}
                     </label>
                     <input
@@ -139,7 +139,7 @@ export default function Signup() {
                   </div>
 
                   <div>
-                    <label htmlFor="password" className="text-caption mb-2 block">
+                    <label htmlFor="password" className="text-body mb-2 block">
                       {t("signup.password")}
                     </label>
                     <div className="relative">
@@ -169,7 +169,7 @@ export default function Signup() {
                   <div>
                     <label
                       htmlFor="confirmPassword"
-                      className="text-caption mb-2 block"
+                      className="text-body mb-2 block"
                     >
                       {t("signup.confirmPassword")}
                     </label>
