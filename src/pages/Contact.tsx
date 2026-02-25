@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/useLanguageHook";
@@ -48,11 +48,34 @@ const Contact = () => {
     setIsSubmitting(false);
   };
 
+  const maps = [
+    {
+      key: "mainOffice",
+      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.6839821754866!2d69.24919456623628!3d41.33009894409881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b465578663d%3A0x961a3862d2597d5e!2z0JbQsNC90LPQvtGFIDIsINCi0L5zaGtlbnQsIFRvc2hrZW50LCDQo9C30LHQtdC60LjRgdGC0LDQvQ!5e0!3m2!1sru!2s!4v1772044388923!5m2!1sru!2s",
+    },
+    {
+      key: "showroomLabel",
+      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11991.469956761875!2d69.27962399670983!3d41.289988327885276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef58d981ac3c3%3A0x9f4399f43b40792d!2sAlfraganus!5e0!3m2!1sru!2s!4v1771668852532!5m2!1sru!2s",
+    },
+  ];
+
+  const [mapIndex, setMapIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setMapIndex((prev) => (prev + 1) % maps.length);
+    }, 7000);
+
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <>
       <SEO
         title={t("contact.seo.title") || "Contact | Manaku"}
-        description={t("contact.seo.description") || "Contact Manaku luxury furniture."}
+        description={
+          t("contact.seo.description") || "Contact Manaku luxury furniture."
+        }
         url="https://lux-furniture-demo.netlify.app/contact"
       />
       <Layout>
@@ -83,11 +106,42 @@ const Contact = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h2 className="heading-card mb-8">{t("contact.showroomInfo")}</h2>
+                <h2 className="heading-card mb-8">
+                  {t("contact.showroomInfo")}
+                </h2>
 
                 <div className="space-y-8">
                   {/* Address */}
+
                   <div className="flex gap-4">
+                    <div className="w-12 h-12 bg-primary flex items-center justify-center flex-shrink-0 rounded-full">
+                      <MapPin className="w-7 h-7 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">
+                        {t("contact.mainOffice")}
+                      </h3>
+                      <p className="text-body">
+                        {t("contact.mainOfficeAddress")}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="w-12 h-12 bg-primary flex items-center justify-center flex-shrink-0 rounded-full">
+                      <MapPin className="w-7 h-7 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">
+                        {t("contact.showroomLabel")}
+                      </h3>
+                      <p className="text-body">
+                        {t("contact.addressLine1")}
+                        <br />
+                        {t("contact.addressLine2")}
+                      </p>
+                    </div>
+                  </div>
+                  {/* <div className="flex gap-4">
                     <div className="w-12 h-12 bg-primary flex items-center justify-center flex-shrink-0 rounded-full">
                       <MapPin className="w-7 h-7 text-primary-foreground" />
                     </div>
@@ -101,7 +155,7 @@ const Contact = () => {
                         {t("contact.addressLine2")}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Phone */}
                   <div className="flex gap-4">
@@ -169,16 +223,53 @@ const Contact = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <div className="map-wrapper">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11991.469956761875!2d69.27962399670983!3d41.289988327885276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38aef58d981ac3c3%3A0x9f4399f43b40792d!2sAlfraganus!5e0!3m2!1sru!2s!4v1771668852532!5m2!1sru!2s"
-                    width="600"
-                    height="450"
-                    style={{ border: "0" }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
+                {/* Title */}
+                <div className="map-title-wrapper">
+                  <AnimatePresence mode="wait">
+                    <motion.h3
+                      key={maps[mapIndex].key}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.6 }}
+                      className="map-title"
+                    >
+                      {t(`contact.${maps[mapIndex].key}`)}
+                    </motion.h3>
+                  </AnimatePresence>
+                </div>
+
+                {/* Map slider */}
+                <div
+                  className="map-wrapper"
+                  style={{ position: "relative", height: 450 }}
+                >
+                  {maps.map((map, i) => (
+                    <motion.div
+                      key={map.src}
+                      initial={false}
+                      animate={{
+                        opacity: i === mapIndex ? 1 : 0,
+                        x: i === mapIndex ? 0 : -40,
+                        pointerEvents: i === mapIndex ? "auto" : "none",
+                      }}
+                      transition={{ duration: 0.6 }}
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                      }}
+                    >
+                      <iframe
+                        src={map.src}
+                        width="600"
+                        height="450"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="eager"
+                        referrerPolicy="no-referrer-when-downgrade"
+                      />
+                    </motion.div>
+                  ))}
                 </div>
               </motion.div>
             </div>
@@ -189,8 +280,13 @@ const Contact = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="heading-card mb-8 text-center">{t("contact.formTitle")}</h2>
-              <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-2xl mx-auto">
+              <h2 className="heading-card mb-8 text-center">
+                {t("contact.formTitle")}
+              </h2>
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6 w-full max-w-2xl mx-auto"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="text-body mb-2 block">
@@ -248,16 +344,24 @@ const Contact = () => {
                       onChange={handleChange}
                       className="contact-input text-body"
                     >
-                      <option value="">{t("contact.subjectOptions.selectSubject")}</option>
-                      <option value="product-inquiry">{t("contact.subjectOptions.productInquiry")}</option>
+                      <option value="">
+                        {t("contact.subjectOptions.selectSubject")}
+                      </option>
+                      <option value="product-inquiry">
+                        {t("contact.subjectOptions.productInquiry")}
+                      </option>
                       <option value="showroom-visit">
                         {t("contact.subjectOptions.showroomVisit")}
                       </option>
                       <option value="design-consultation">
                         {t("contact.subjectOptions.designConsultation")}
                       </option>
-                      <option value="order-status">{t("contact.subjectOptions.orderStatus")}</option>
-                      <option value="other">{t("contact.subjectOptions.other")}</option>
+                      <option value="order-status">
+                        {t("contact.subjectOptions.orderStatus")}
+                      </option>
+                      <option value="other">
+                        {t("contact.subjectOptions.other")}
+                      </option>
                     </select>
                   </div>
                 </div>

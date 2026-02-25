@@ -1,7 +1,7 @@
 // Footer.tsx
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/useLanguageHook";
-import manakuLogoReversed from "@/assets/manaku_logo_reversed.png";
+import manakuLogoReversed from "@/assets/manaku_logo_white.png";
 
 export function Footer() {
   const { t } = useLanguage();
@@ -96,7 +96,7 @@ export function Footer() {
                 <a href="tel:+998955215050">+998 95 521 50 50</a>
               </li>
               <li>
-                <a href="mailto:info@manaku.com">info@manaku.com</a>
+                <a href="mailto:info@manaku.com">info@manaku.uz</a>
               </li>
               <li>
                 {t("footer.addressLine1")}
