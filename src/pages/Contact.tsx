@@ -30,22 +30,46 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/telegram/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
 
-    toast({
-      title: t("contact.messageSent"),
-      description: t("contact.messageDescription"),
-    });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to submit form");
+      }
 
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
-    setIsSubmitting(false);
+      toast({
+        title: t("contact.messageSent"),
+        description: t("contact.messageDescription"),
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "An error occurred";
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const maps = [
@@ -67,7 +91,7 @@ const Contact = () => {
     }, 7000);
 
     return () => clearInterval(id);
-  }, []);
+  });
 
   return (
     <>

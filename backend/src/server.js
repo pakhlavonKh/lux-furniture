@@ -11,6 +11,7 @@ import { connectDB, disconnectDB } from './config/mongodb_connection.js';
 // Import routes
 import auth_routes from './routes/auth_routes.js';
 import payment_routes from './routes/payment_routes.js';
+import telegram_routes from './routes/telegram_routes.js';
 // import health_routes from './routes/health_routes.js';
 
 // Import middleware
@@ -120,6 +121,7 @@ app.use(request_logger);
 // app.use('/api/health', health_routes);
 app.use('/api/auth', auth_routes);
 app.use('/api/payments', payment_routes);
+app.use('/api/telegram', telegram_routes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

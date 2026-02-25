@@ -1,4 +1,5 @@
 import payment_service from '../services/payment_service.js';
+import telegramService from '../services/telegram_service.js';
 import uzum_service from '../payments/templates/uzum_service.js';
 import payme_service from '../payments/templates/payme_service.js';
 import { PAYMENT_METHOD } from '../models/payment_model.js';
@@ -6,7 +7,7 @@ import { PAYMENT_METHOD } from '../models/payment_model.js';
 export const create_payment = async (req, res) => {
   try {
     const user_id = req.user_id;
-    const { amount, order_id, description, method, return_url, phone } = req.body;
+    const { amount, order_id, description, method, return_url, phone, customer_name, customer_email } = req.body;
 
     if (!user_id) {
       res.status(401).json({
@@ -41,6 +42,16 @@ export const create_payment = async (req, res) => {
       return_url,
       phone
     );
+
+    // Send Telegram notification about payment initiation
+    await telegramService.notifyPayment({
+      transactionId: payment_data.transaction_id,
+      amount,
+      currency: 'UZS',
+      status: 'initiated',
+      method,
+      userId: user_id,
+    });
 
     res.json({
       success: true,

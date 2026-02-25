@@ -16,6 +16,7 @@ import {
 interface User {
   email: string;
   id?: string;
+  is_admin?: boolean;
 }
 
 const Admin = () => {
@@ -30,6 +31,7 @@ const Admin = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    adminKey: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [inventory, setInventory] = useState<CatalogProduct[]>([]);
@@ -165,7 +167,11 @@ const Admin = () => {
         }
 
         const data = await response.json();
-        const userData: User = { email: formData.email, id: data.userId };
+        const userData: User = { 
+          email: formData.email, 
+          id: data.user?.id || data.userId,
+          is_admin: data.user?.is_admin || false 
+        };
 
         localStorage.setItem("adminUser", JSON.stringify(userData));
         localStorage.setItem("authToken", data.token);
@@ -194,6 +200,8 @@ const Admin = () => {
           body: JSON.stringify({
             email: formData.email,
             password: formData.password,
+            name: formData.email.split("@")[0],
+            admin_key: formData.adminKey || undefined,
           }),
         });
 
@@ -203,7 +211,11 @@ const Admin = () => {
         }
 
         const data = await response.json();
-        const userData: User = { email: formData.email, id: data.userId };
+        const userData: User = { 
+          email: formData.email, 
+          id: data.user?.id || data.userId,
+          is_admin: data.user?.is_admin || false 
+        };
 
         localStorage.setItem("adminUser", JSON.stringify(userData));
         localStorage.setItem("authToken", data.token);
@@ -232,7 +244,7 @@ const Admin = () => {
     localStorage.removeItem("adminUser");
     localStorage.removeItem("authToken");
     setUser(null);
-    setFormData({ email: "", password: "", confirmPassword: "" });
+    setFormData({ email: "", password: "", confirmPassword: "", adminKey: "" });
     toast({
       title: "Logged out",
       description: "You have been logged out successfully.",
@@ -431,20 +443,40 @@ const Admin = () => {
             </div>
 
             {!isLogin && (
-              <div>
-                <label htmlFor="confirmPassword" className="text-caption mb-2 block">
-                  Confirm Password
-                </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
-                />
-              </div>
+              <>
+                <div>
+                  <label htmlFor="confirmPassword" className="text-caption mb-2 block">
+                    Confirm Password
+                  </label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    required
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="adminKey" className="text-caption mb-2 block">
+                    Admin Key (Optional)
+                  </label>
+                  <input
+                    type="password"
+                    id="adminKey"
+                    name="adminKey"
+                    value={formData.adminKey}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
+                    placeholder="Leave blank for regular user"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Enter admin key to create an admin account
+                  </p>
+                </div>
+              </>
             )}
 
             <button

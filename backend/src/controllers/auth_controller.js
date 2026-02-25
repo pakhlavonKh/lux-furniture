@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../config/config.js';
 import User from '../models/user_model.js';
+import telegramService from '../services/telegram_service.js';
 
 // Generate JWT Token
 const generateToken = (userId) => {
@@ -62,6 +63,7 @@ export const login = async (req, res) => {
         id: user._id,
         email: user.email,
         name: user.name,
+        is_admin: user.is_admin,
       },
     });
   } catch (error) {
@@ -76,7 +78,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, admin_key } = req.body;
 
     if (!email || !password || !name) {
       return res.status(400).json({
@@ -112,15 +114,43 @@ export const register = async (req, res) => {
       });
     }
 
+    // Check if trying to create admin account
+    let isAdmin = false;
+    if (admin_key) {
+      const ADMIN_KEY = process.env.ADMIN_KEY;
+      if (!ADMIN_KEY) {
+        return res.status(500).json({
+          success: false,
+          message: 'Admin key not configured on server',
+        });
+      }
+      if (admin_key === ADMIN_KEY) {
+        isAdmin = true;
+      } else {
+        return res.status(403).json({
+          success: false,
+          message: 'Invalid admin key',
+        });
+      }
+    }
+
     // Create new user
     const user = new User({
       email: email.toLowerCase(),
       password,
       name: name.trim(),
+      is_admin: isAdmin,
     });
 
     // Hash password (done in model pre-save hook)
     await user.save();
+
+    // Send Telegram notification about new user registration
+    await telegramService.notifyUserRegistration({
+      email: user.email,
+      name: user.name,
+      isAdmin: user.is_admin,
+    });
 
     // Generate token
     const token = generateToken(user._id);
@@ -132,6 +162,7 @@ export const register = async (req, res) => {
         id: user._id,
         email: user.email,
         name: user.name,
+        is_admin: user.is_admin,
       },
     });
   } catch (error) {

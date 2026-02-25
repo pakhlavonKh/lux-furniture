@@ -9,6 +9,7 @@ const user_schema = new mongoose.Schema(
     password: { type: String, required: true, select: false },
     is_email_verified: { type: Boolean, default: false },
     is_phone_verified: { type: Boolean, default: false },
+    is_admin: { type: Boolean, default: false },
     last_login_at: { type: Date },
   },
   { timestamps: true, collection: 'users' }
