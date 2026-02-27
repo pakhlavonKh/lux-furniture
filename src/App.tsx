@@ -1,3 +1,4 @@
+// App.tsx
 import { useEffect } from "react";
 const App = () => (
   <LanguageProvider>
@@ -24,7 +25,7 @@ import Admin from "./pages/Admin";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Account from "./pages/Account";
+import Account from "./pages/Account/AccountPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

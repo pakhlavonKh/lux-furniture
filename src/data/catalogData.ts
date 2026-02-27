@@ -1,3 +1,4 @@
+// CatalogData.ts
 import armchairImage from "@/assets/product-armchair.jpg";
 import diningTableImage from "@/assets/product-dining-table.jpg";
 import lampImage from "@/assets/product-lamp.jpg";

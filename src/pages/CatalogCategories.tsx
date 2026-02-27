@@ -1,3 +1,4 @@
+// CatalogCategories.tsx - Catalog categories page with animated category cards and icons.
 import React from "react";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";

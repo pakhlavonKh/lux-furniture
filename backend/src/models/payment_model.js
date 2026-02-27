@@ -1,41 +1,117 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+
+/* ===========================
+   CONSTANTS
+=========================== */
 
 export const PAYMENT_STATUS = {
-  PENDING: 'pending',
-  PROCESSING: 'processing',
-  COMPLETED: 'completed',
-  FAILED: 'failed',
-  CANCELLED: 'cancelled',
-  REFUNDED: 'refunded'
+  PENDING: "pending",
+  PROCESSING: "processing",
+  COMPLETED: "completed",
+  FAILED: "failed",
+  CANCELLED: "cancelled",
+  REFUNDED: "refunded",
 };
 
 export const PAYMENT_METHOD = {
-  PAYME: 'payme',
-  CLICK: 'click',
-  UZUM: 'uzum'
+  PAYME: "payme",
+  CLICK: "click",
+  UZUM: "uzum",
 };
 
-const payment_schema = new mongoose.Schema(
+/* ===========================
+   SCHEMA
+=========================== */
+
+const paymentSchema = new mongoose.Schema(
   {
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    order_id: { type: String, required: true },
-    amount: { type: Number, required: true, min: 0 },
-    currency: { type: String, default: 'UZS', enum: ['UZS', 'USD', 'EUR'] },
-    method: { type: String, required: true, enum: Object.values(PAYMENT_METHOD) },
-    status: { type: String, default: PAYMENT_STATUS.PENDING, enum: Object.values(PAYMENT_STATUS) },
-    transaction_id: { type: String, unique: true, sparse: true },
-    metadata: { type: mongoose.Schema.Types.Mixed },
-    completed_at: { type: Date },
+    /* Relations */
+
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
+    order: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+      required: true,
+      index: true,
+    },
+
+    /* Financial */
+
+    amount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    currency: {
+      type: String,
+      default: "UZS",
+      enum: ["UZS", "USD", "EUR"],
+    },
+
+    method: {
+      type: String,
+      required: true,
+      enum: Object.values(PAYMENT_METHOD),
+      index: true,
+    },
+
+    status: {
+      type: String,
+      default: PAYMENT_STATUS.PENDING,
+      enum: Object.values(PAYMENT_STATUS),
+      index: true,
+    },
+
+    /* Provider Data */
+
+    transaction_id: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
+
+    provider_payload: {
+      type: mongoose.Schema.Types.Mixed,
+    },
+
+    completed_at: {
+      type: Date,
+    },
   },
-  { timestamps: true, collection: 'payments' }
+  {
+    timestamps: true,
+    collection: "payments",
+  }
 );
 
-// Create indexes
-payment_schema.index({ user_id: 1 });
-payment_schema.index({ order_id: 1 });
-payment_schema.index({ transaction_id: 1 });
-payment_schema.index({ status: 1 });
-payment_schema.index({ method: 1 });
-payment_schema.index({ createdAt: -1 });
+/* ===========================
+   INDEXES (PRODUCTION SAFE)
+=========================== */
 
-export const Payment = mongoose.model('Payment', payment_schema);
+// Быстрый доступ к заказам пользователя
+paymentSchema.index({ user: 1, createdAt: -1 });
+
+// Быстрый доступ к платежам по заказу
+paymentSchema.index({ order: 1 });
+
+// Быстрый поиск по статусу
+paymentSchema.index({ status: 1 });
+
+// По способу оплаты
+paymentSchema.index({ method: 1 });
+
+// Уникальность transaction_id уже обеспечена
+
+/* ===========================
+   MODEL EXPORT
+=========================== */
+
+export const Payment = mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
