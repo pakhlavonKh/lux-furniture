@@ -2473,6 +2473,11 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   .footer-col--desk {
     display: none;
   }
+
+  .footer-logo img {
+    height: 2rem;
+    margin-bottom: 0;
+  }
   
 }
 

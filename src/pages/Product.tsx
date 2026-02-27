@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import { toast } from "sonner";
-import { getProductBySlug } from "@/data/catalogData";
+import { getProductBySlug, getImageUrl } from "@/data/catalogData";
 import { motion } from "framer-motion";
 import {
   ChevronLeft,
@@ -41,10 +41,7 @@ const Product = () => {
     );
   }
 
-  const images =
-    product.images && product.images.length > 0
-      ? product.images
-      : [product.image];
+  const images = product.images || [];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -92,7 +89,7 @@ const Product = () => {
             >
               <div className="relative aspect-[4/5] bg-muted mb-4 overflow-hidden group">
                 <img
-                  src={images[currentImageIndex]}
+                  src={getImageUrl(images[currentImageIndex])}
                   alt={t(product.nameKey)}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -129,7 +126,7 @@ const Product = () => {
                       )}
                     >
                       <img
-                        src={image}
+                        src={getImageUrl(image)}
                         alt={`${t(product.nameKey)} view ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
@@ -202,7 +199,7 @@ const Product = () => {
                           slug: product.slug,
                           name: t(product.nameKey),
                           price: product.basePrice,
-                          image: product.image,
+                          image: product.images[0],
                           quantity,
                         });
                       }

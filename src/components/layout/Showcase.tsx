@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/contexts/useLanguageHook";
+import { getImageUrl } from "@/data/catalogData";
 
 // Import images
 import heroImage from "@/assets/hero-living-room.jpg";
@@ -155,7 +156,7 @@ export function Showcase() {
 								<Link to={`/product/${product.slug}`} className="group block">
 									<div className="product-card aspect-[4/5] mb-6 bg-muted">
 										<img
-											src={product.image}
+										src={product.image}
 											alt={product.title}
 											className="product-image w-full h-full object-cover transition-transform duration-700"
 										/>

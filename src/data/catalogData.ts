@@ -12,14 +12,86 @@ import accessoriesImg from "@/assets/product-lamp.jpg";
 
 const CATALOG_STOCK_KEY = "catalogStockState";
 
+// ============ IMAGE LOADING ============
+interface ImageSources {
+  webp?: string;
+  fallback: string;
+}
+
+// Glob all images from assets folder and subfolders
+const itemsImg = import.meta.glob(
+  "../assets/**/*.{png,jpg,jpeg,webp}",
+  { eager: true },
+) as Record<string, { default: string }>;
+
+/**
+ * Find and return image sources by basename
+ * Automatically searches through all assets subfolders
+ * @param basename - Image filename without extension (e.g., "aria-lounge" or with extension "aria-lounge.jpg")
+ * @returns ImageSources with webp and fallback paths
+ * @example
+ * const images = getImageSources("aria-lounge");
+ * const images = getImageSources("product-lamp.jpg");
+ */
+export function getImageSources(basename: string): ImageSources {
+  if (!basename) return { webp: undefined, fallback: "" };
+  
+  // Remove extension if provided
+  const nameWithoutExt = basename.replace(/\.(webp|jpg|jpeg|png)$/i, "");
+  
+  // Search through all loaded images to find matching basename
+  let webp: string | undefined;
+  let fallback: string | undefined;
+
+  for (const [path, module] of Object.entries(itemsImg)) {
+    const imageUrl = module.default;
+    
+    // Extract filename from path
+    const filename = path.split("/").pop() || "";
+    const filenameWithoutExt = filename.replace(/\.(webp|jpg|jpeg|png)$/i, "");
+    
+    // Match based on basename (case-insensitive)
+    if (filenameWithoutExt.toLowerCase() === nameWithoutExt.toLowerCase()) {
+      if (filename.endsWith(".webp")) {
+        webp = imageUrl;
+      } else if (
+        filename.endsWith(".jpg") ||
+        filename.endsWith(".jpeg") ||
+        filename.endsWith(".png")
+      ) {
+        fallback = imageUrl;
+      }
+    }
+  }
+
+  return {
+    webp,
+    fallback: fallback || webp || "",
+  };
+}
+
+/**
+ * Get the fallback image URL for a product
+ * Use this directly in img src when you have a product image name
+ * @param imageName - Image filename without extension
+ * @returns The image URL or empty string if not found
+ * @example
+ * <img src={getImageUrl("Art_0002")} alt="product" />
+ */
+export function getImageUrl(imageName: string): string {
+  return getImageSources(imageName).fallback;
+}
+
 // ============ TYPES ============
 export interface ProductVariant {
   id: string;
   sku: string;
-  size?: string;
   color?: string;
+  size?: string;
   material?: string;
-  price: number;
+  price?: number; // Override basePrice if set
+  stock: number; // Single source of truth for stock
+  image?: string; // Optional image override
   ikpuCode?: string; // Payme merchant ID for this variant
   packageCode?: string; // Package code for inventory tracking
 }
@@ -28,24 +100,19 @@ export interface CatalogProduct {
   id: string;
   slug: string;
   categoryId: string;
-  collectionIds: string[];
-  image: string;
-  images?: string[];
+  subcategoryId?: string; // Optional subcategory
+  collectionIds?: string[];
+  images: string[]; // Main product images
   nameKey: string;
   descriptionKey?: string;
   shortDescriptionKey?: string;
-  basePrice: number;
-  variants: ProductVariant[];
-  discount?: number;
-  isFeatured: boolean;
-  sku: string;
-  ikpuCode?: string; // Default IKPU code for product
+  basePrice: number; // Default fallback price
+  variants?: ProductVariant[];
+  isFeatured?: boolean;
+  sku: string; // Default SKU
+  ikpuCode?: string; // Default IKPU code
   packageCode?: string; // Default package code
   vatPercent?: number; // VAT percentage (default 12%)
-  sizeImages?: Record<string, string[]>;
-  colorImages?: Record<string, string[]>;
-  sizePrices?: Record<string, number>;
-  sizeDescriptions?: Record<string, string>;
 }
 
 export interface CatalogCategory {
@@ -68,7 +135,6 @@ export interface CatalogCollection {
 
 // ============ STOCK MANAGEMENT ============
 interface StockState {
-  productStock: Record<string, number>;
   variantStock: Record<string, number>;
   lastUpdated: number;
 }
@@ -86,26 +152,26 @@ const categories: CatalogCategory[] = [
 
 const collections: CatalogCollection[] = [
   {
-    id: "living",
-    slug: "living",
-    nameKey: "collections.items.living.name",
-    descriptionKey: "collections.items.living.description",
+    id: "artVision",
+    slug: "artVision",
+    nameKey: "collections.items.artVision.name",
+    descriptionKey: "collections.items.artVision.description",
     image: armchairImage,
     displayOrder: 1,
   },
   {
-    id: "dining",
-    slug: "dining",
-    nameKey: "collections.items.dining.name",
-    descriptionKey: "collections.items.dining.description",
+    id: "drive",
+    slug: "drive",
+    nameKey: "collections.items.drive.name",
+    descriptionKey: "collections.items.drive.description",
     image: diningTableImage,
     displayOrder: 2,
   },
   {
-    id: "lighting",
-    slug: "lighting",
-    nameKey: "collections.items.lighting.name",
-    descriptionKey: "collections.items.lighting.description",
+    id: "genesis",
+    slug: "genesis",
+    nameKey: "collections.items.genesis.name",
+    descriptionKey: "collections.items.genesis.description",
     image: lampImage,
     displayOrder: 3,
   },
@@ -114,58 +180,29 @@ const collections: CatalogCollection[] = [
 const products: CatalogProduct[] = [
   {
     id: "1",
-    slug: "aria-lounge-chair",
+    slug: "art_2",
     categoryId: "storage",
-    collectionIds: ["living"],
-    image: armchairImage,
-    images: [armchairImage],
-    nameKey: "products.ariaLounge",
-    descriptionKey: "products.catalog.aria.description",
-    shortDescriptionKey: "products.catalog.aria.shortDescription",
+    collectionIds: ["artVision"],
+    images: ["Art_0002"],
+    nameKey: "products.catalog.items.name",
+    descriptionKey: "products.catalog.items.description",
+    shortDescriptionKey: "products.catalog.items.shortDescription",
     basePrice: 3450,
     sku: "ALC-001",
-    ikpuCode: "507144100000001",
+    ikpuCode: "",
     packageCode: "PKG-ALC-001",
     vatPercent: 12,
-    variants: [
-      {
-        id: "1-beige",
-        sku: "ALC-001-BEIGE",
-        color: "Beige",
-        price: 3450,
-        ikpuCode: "507144100000001",
-        packageCode: "PKG-ALC-001-BEI",
-      },
-      {
-        id: "1-grey",
-        sku: "ALC-001-GREY",
-        color: "Grey",
-        price: 3450,
-        ikpuCode: "507144100000002",
-        packageCode: "PKG-ALC-001-GRE",
-      },
-      {
-        id: "1-charcoal",
-        sku: "ALC-001-CHAR",
-        color: "Charcoal",
-        price: 3650,
-        ikpuCode: "507144100000003",
-        packageCode: "PKG-ALC-001-CHA",
-      },
-    ],
-    discount: 0,
     isFeatured: true,
   },
   {
     id: "2",
-    slug: "tavola-dining-table",
+    slug: "Art_3",
     categoryId: "dining",
-    collectionIds: ["dining"],
-    image: diningTableImage,
-    images: [diningTableImage],
-    nameKey: "products.tavola",
-    descriptionKey: "products.catalog.tavola.description",
-    shortDescriptionKey: "products.catalog.tavola.shortDescription",
+    collectionIds: ["artVision"],
+    images: ["Art_03", "Art_03_2", "Art_0003"],
+    nameKey: "products.catalog.items.name",
+    descriptionKey: "products.catalog.items.description",
+    shortDescriptionKey: "products.catalog.items.shortDescription",
     basePrice: 8900,
     sku: "DT-002",
     ikpuCode: "507144100000004",
@@ -177,19 +214,16 @@ const products: CatalogProduct[] = [
         sku: "DT-002-WAL",
         material: "Walnut",
         price: 8900,
-        ikpuCode: "507144100000004",
-        packageCode: "PKG-DT-002-WAL",
+        stock: 2,
       },
       {
         id: "2-oak",
         sku: "DT-002-OAK",
         material: "Oak",
         price: 7850,
-        ikpuCode: "507144100000005",
-        packageCode: "PKG-DT-002-OAK",
+        stock: 1,
       },
     ],
-    discount: 5,
     isFeatured: true,
   },
   {
@@ -197,8 +231,7 @@ const products: CatalogProduct[] = [
     slug: "luce-floor-lamp",
     categoryId: "lighting",
     collectionIds: ["lighting"],
-    image: lampImage,
-    images: [lampImage],
+    images: ["product-lamp"],
     nameKey: "products.luce",
     descriptionKey: "products.catalog.luce.description",
     shortDescriptionKey: "products.catalog.luce.shortDescription",
@@ -213,32 +246,23 @@ const products: CatalogProduct[] = [
         sku: "LAMP-003-GOLD",
         color: "Gold",
         price: 1850,
-        ikpuCode: "507144100000006",
-        packageCode: "PKG-LAMP-003-GLD",
+        stock: 15,
       },
       {
         id: "3-black",
         sku: "LAMP-003-BLK",
         color: "Black",
         price: 1850,
-        ikpuCode: "507144100000007",
-        packageCode: "PKG-LAMP-003-BLK",
+        stock: 10,
       },
     ],
-    discount: 0,
     isFeatured: false,
   },
 ];
 
 // ============ DEFAULT STOCK ============
 function createDefaultStockState(): StockState {
-  const productStock: Record<string, number> = {};
   const variantStock: Record<string, number> = {};
-
-  // Set default stock levels for products
-  productStock["1"] = 12;
-  productStock["2"] = 3;
-  productStock["3"] = 25;
 
   // Set default stock levels for variants
   variantStock["1-beige"] = 5;
@@ -250,7 +274,6 @@ function createDefaultStockState(): StockState {
   variantStock["3-black"] = 10;
 
   return {
-    productStock,
     variantStock,
     lastUpdated: Date.now(),
   };
@@ -279,7 +302,6 @@ function readStockState(): StockState {
     const defaults = createDefaultStockState();
 
     return {
-      productStock: { ...defaults.productStock, ...(parsed.productStock || {}) },
       variantStock: { ...defaults.variantStock, ...(parsed.variantStock || {}) },
       lastUpdated: parsed.lastUpdated || Date.now(),
     };
@@ -374,14 +396,12 @@ export function getVariant(
   variantId: string
 ): ProductVariant | undefined {
   const product = getProductById(productId);
-  return product?.variants.find((v) => v.id === variantId);
+  return product?.variants?.find((v) => v.id === variantId);
 }
 
-// ============ STOCK MANAGEMENT ============
 // ============ STOCK QUERIES ============
-export function getProductStock(productId: string): number {
-  const state = readStockState();
-  return clampStock(state.productStock[productId] ?? 0);
+export function isVariantInStock(variant: ProductVariant): boolean {
+  return variant.stock > 0;
 }
 
 export function getVariantStock(variantId: string): number {
@@ -393,30 +413,28 @@ export function isInStock(productId: string, variantId?: string): boolean {
   if (variantId) {
     return getVariantStock(variantId) > 0;
   }
-  return getProductStock(productId) > 0;
+  // If no variant specified, check if product has any stock
+  const product = getProductById(productId);
+  if (!product) return false;
+  if (product.variants && product.variants.length > 0) {
+    return product.variants.some((v) => v.stock > 0);
+  }
+  return true; // No variants = assume in stock
 }
 
 export function getStockStatus(
-  productId: string,
   variantId?: string
 ): "in-stock" | "low-stock" | "out-of-stock" {
-  const stock = variantId ? getVariantStock(variantId) : getProductStock(productId);
+  if (!variantId) return "in-stock";
+  const stock = getVariantStock(variantId);
   if (stock === 0) return "out-of-stock";
   if (stock < 5) return "low-stock";
   return "in-stock";
 }
 
-// ============ STOCK MANAGEMENT ============
-export function setProductStock(productId: string, stock: number): boolean {
-  if (!getProductById(productId)) return false;
-  const state = readStockState();
-  state.productStock[productId] = clampStock(stock);
-  writeStockState(state);
-  return true;
-}
-
+// ============ STOCK MUTATIONS ============
 export function setVariantStock(variantId: string, stock: number): boolean {
-  const exists = products.some((p) => p.variants.some((v) => v.id === variantId));
+  const exists = products.some((p) => p.variants?.some((v) => v.id === variantId));
   if (!exists) return false;
   const state = readStockState();
   state.variantStock[variantId] = clampStock(stock);
@@ -424,48 +442,33 @@ export function setVariantStock(variantId: string, stock: number): boolean {
   return true;
 }
 
-export function reduceStockAfterOrder(
-  productId: string,
-  variantId?: string,
+export function reduceVariantStock(
+  variant: ProductVariant,
   quantity: number = 1
 ): boolean {
   const amount = clampStock(quantity);
   if (amount < 1) return false;
+  if (variant.stock < amount) return false;
 
+  variant.stock -= amount;
+  // Also update localStorage
   const state = readStockState();
-
-  if (variantId) {
-    const current = clampStock(state.variantStock[variantId] ?? 0);
-    if (current < amount) return false;
-    state.variantStock[variantId] = current - amount;
-  }
-
-  const productCurrent = clampStock(state.productStock[productId] ?? 0);
-  if (productCurrent < amount) return false;
-  state.productStock[productId] = productCurrent - amount;
-
+  state.variantStock[variant.id] = variant.stock;
   writeStockState(state);
   return true;
 }
 
-export function increaseStock(
-  productId: string,
-  variantId?: string,
+export function increaseVariantStock(
+  variant: ProductVariant,
   quantity: number = 1
 ): boolean {
   const amount = clampStock(quantity);
   if (amount < 1) return false;
 
+  variant.stock += amount;
+  // Also update localStorage
   const state = readStockState();
-
-  if (variantId) {
-    const current = clampStock(state.variantStock[variantId] ?? 0);
-    state.variantStock[variantId] = current + amount;
-  }
-
-  const productCurrent = clampStock(state.productStock[productId] ?? 0);
-  state.productStock[productId] = productCurrent + amount;
-
+  state.variantStock[variant.id] = variant.stock;
   writeStockState(state);
   return true;
 }
@@ -476,8 +479,9 @@ export function getDiscountedPrice(basePrice: number, discount?: number): number
   return Math.round(basePrice * (1 - discount / 100));
 }
 
-export function getVariantPrice(variant: ProductVariant, discount?: number): number {
-  return getDiscountedPrice(variant.price, discount);
+export function getVariantPrice(variant: ProductVariant, basePrice?: number, discount?: number): number {
+  const price = variant.price ?? basePrice ?? 0;
+  return getDiscountedPrice(price, discount);
 }
 
 export function calculateTax(price: number, vatPercent: number = 12): number {

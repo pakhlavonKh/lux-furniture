@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
+import { getImageUrl } from "@/data/catalogData";
 import {
   StorageIcon,
   KitchenIcon,
@@ -346,7 +347,7 @@ export default function Catalog() {
                       <div className="product-card">
                         <div className="product-card__image-wrap">
                           <img
-                            src={product.image}
+                            src={getImageUrl(product.images[0])}
                             alt={t(product.nameKey)}
                             className="product-card__image transition-transform duration-300 group-hover:scale-105"
                           />

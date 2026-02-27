@@ -7,9 +7,7 @@ import { useLanguage } from "@/contexts/useLanguageHook";
 import {
   CatalogProduct,
   getProducts,
-  getProductStock,
   getVariantStock,
-  setProductStock,
   setVariantStock,
 } from "@/data/catalogData";
 
@@ -41,9 +39,11 @@ const Admin = () => {
     const next: Record<string, string> = {};
 
     for (const product of products) {
-      next[product.id] = getProductStock(product.id).toString();
-      for (const variant of product.variants) {
-        next[variant.id] = getVariantStock(variant.id).toString();
+      // Only track variant stock in the new model
+      if (product.variants) {
+        for (const variant of product.variants) {
+          next[variant.id] = variant.stock.toString();
+        }
       }
     }
 
@@ -88,34 +88,6 @@ const Admin = () => {
       return null;
     }
     return parsed;
-  };
-
-  const handleSaveProductStock = (productId: string) => {
-    const parsed = parseStock(stockInputs[productId] ?? "");
-    if (parsed === null) {
-      toast({
-        title: "Invalid stock",
-        description: "Stock must be a non-negative integer.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!setProductStock(productId, parsed)) {
-      toast({
-        title: "Error",
-        description: "Failed to update product stock.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    loadInventory();
-    toast({
-      title: "Stock updated",
-      description: "Product stock was saved.",
-      duration: 3000,
-    });
   };
 
   const handleSaveVariantStock = (variantId: string) => {
@@ -307,37 +279,13 @@ const Admin = () => {
               <div className="space-y-6">
                 {inventory.map((product) => (
                   <div key={product.id} className="border border-border p-5 rounded-sm">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                      <div>
-                        <p className="font-medium">{t(product.nameKey)}</p>
-                        <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>
-                      </div>
-
-                      <div className="flex items-end gap-3">
-                        <div>
-                          <label htmlFor={`product-stock-${product.id}`} className="text-caption mb-2 block">
-                            Product stock
-                          </label>
-                          <input
-                            id={`product-stock-${product.id}`}
-                            type="number"
-                            min={0}
-                            value={stockInputs[product.id] ?? "0"}
-                            onChange={(e) => handleStockInputChange(product.id, e.target.value)}
-                            className="w-28 px-3 py-2 border border-border bg-transparent"
-                          />
-                        </div>
-                        <button
-                          onClick={() => handleSaveProductStock(product.id)}
-                          className="btn-outline-luxury h-[42px]"
-                        >
-                          Save
-                        </button>
-                      </div>
+                    <div className="flex flex-col gap-2 mb-4">
+                      <p className="font-medium">{t(product.nameKey)}</p>
+                      <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>
                     </div>
 
-                    {product.variants.length > 0 && (
-                      <div className="mt-4 pt-4 border-t border-border space-y-3">
+                    {product.variants && product.variants.length > 0 && (
+                      <div className="space-y-3">
                         {product.variants.map((variant) => {
                           const variantLabel = variant.color || variant.material || variant.size || variant.id;
 
@@ -369,6 +317,9 @@ const Admin = () => {
                           );
                         })}
                       </div>
+                    )}
+                    {(!product.variants || product.variants.length === 0) && (
+                      <p className="text-sm text-muted-foreground">No variants available</p>
                     )}
                   </div>
                 ))}
