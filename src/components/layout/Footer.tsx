@@ -11,6 +11,7 @@ export function Footer() {
       <div className="footer-container">
         <Link to="/" className="footer-logo">
           <img src={manakuLogoReversed} alt="Manaku Logo" />
+          <span className="logo-tm">™</span>
         </Link>
         <div className="footer-columns">
           <div className="footer-col footer-col--desk">
@@ -32,10 +33,14 @@ export function Footer() {
                 <Link to="/category/garden">{t("categories.garden")}</Link>
               </li>
               <li>
-                <Link to="/category/industrial">{t("categories.industrial")}</Link>
+                <Link to="/category/industrial">
+                  {t("categories.industrial")}
+                </Link>
               </li>
               <li>
-                <Link to="/category/accessories">{t("categories.accessories")}</Link>
+                <Link to="/category/accessories">
+                  {t("categories.accessories")}
+                </Link>
               </li>
               <li>
                 <Link to="/category/components">
@@ -78,7 +83,9 @@ export function Footer() {
                 <Link to="/about">{t("footer.companyInfo.aboutBrand")}</Link>
               </li>
               <li>
-                <Link to="/production">{t("footer.companyInfo.production")}</Link>
+                <Link to="/production">
+                  {t("footer.companyInfo.production")}
+                </Link>
               </li>
               <li>
                 <Link to="/guarantee">{t("footer.companyInfo.guarantee")}</Link>

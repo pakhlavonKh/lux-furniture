@@ -23,6 +23,40 @@
   "accessories": "Интерьерные аксессуары"
 },
 
+  "subcategories": {
+    "Wardrobes": "Шкафы",
+    "Cabinets": "Шкафчики",
+    "Dressers": "Комоды",
+    "Shelving Units": "Полки",
+    "Sideboards": "Буфеты",
+    "Dining Tables": "Обеденные столы",
+    "Dining Chairs": "Обеденные стулья",
+    "Bar Stools": "Барные стулья",
+    "Kitchen Islands": "Кухонные острова",
+    "Buffets": "Буфеты",
+    "Outdoor Tables": "Садовые столы",
+    "Outdoor Chairs": "Садовые стулья",
+    "Lounge Sets": "Комплекты отдыха",
+    "Sunbeds": "Шезлонги",
+    "Office Desks": "Офисные столы",
+    "Office Chairs": "Офисные стулья",
+    "Bookcases": "Книжные шкафы",
+    "Filing Cabinets": "Картотеки",
+    "Kids Beds": "Детские кровати",
+    "Study Desks": "Учебные столы",
+    "Kids Wardrobes": "Детские шкафы",
+    "Toy Storage": "Хранение игрушек",
+    "Metal Tables": "Металлические столы",
+    "Loft Shelving": "Лофт-полки",
+    "Industrial Cabinets": "Промышленные шкафы",
+    "Factory Style Desks": "Столы в стиле фабрики",
+    "Lamps": "Лампы",
+    "Rugs": "Ковры",
+    "Mirrors": "Зеркала",
+    "Wall Decor": "Настенный декор",
+    "Vases": "Вазы"
+  },
+
   "index": {
     "seo": {
       "title": "Manaku | Премиальная коллекция мебели",

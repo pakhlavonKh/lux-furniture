@@ -114,13 +114,13 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 header",
         isWhiteHeaderAtTop && "header-white-top",
         isOpen
           ? "bg-background"
           : isScrolled
-          ? "bg-background/95 backdrop-blur-md shadow-sm"
-          : "bg-transparent",
+            ? "bg-background/95 backdrop-blur-md shadow-sm"
+            : "bg-transparent",
       )}
     >
       <nav className="container-luxury">
@@ -134,14 +134,10 @@ export function Header() {
             <img
               src={manakuLogo}
               alt="Manaku"
-              className="h-10 md:h-12 w-auto object-contain !no-underline my-auto"
-              style={{
-                transition: "none !important",
-                opacity: "1 !important",
-                filter: "none !important",
-                textDecoration: "none !important",
-              }}
+              className="logo-wrapper relative z-10"
+              style={{ pointerEvents: "auto" }}
             />
+            <span className="logo-tm">™</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -258,7 +254,10 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={cn("hamburger", isWhiteHeaderAtTop && "hamburger-inverse")}
+            className={cn(
+              "hamburger",
+              isWhiteHeaderAtTop && "hamburger-inverse",
+            )}
           >
             {isOpen ? (
               <X className="hamburger-x" />

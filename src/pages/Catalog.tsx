@@ -25,13 +25,79 @@ import { getProducts } from "@/data/catalogData";
 import { Filter } from "lucide-react";
 
 const categories = [
-  { key: "storage", icon: StorageIcon },
-  { key: "kitchen", icon: KitchenIcon },
-  { key: "garden", icon: GardenIcon },
-  { key: "office", icon: OfficeIcon },
-  { key: "children", icon: ChildrenIcon },
-  { key: "industrial", icon: IndustrialIcon },
-  { key: "accessories", icon: AccessoriesIcon },
+  {
+    key: "storage",
+    icon: StorageIcon,
+    subcategories: [
+      { title: "Wardrobes", image: shelvingImg },
+      { title: "Cabinets", image: kitchenImg },
+      { title: "Dressers", image: officeImg },
+      { title: "Shelving Units", image: shelvingImg },
+      { title: "Sideboards", image: kitchenImg },
+    ],
+  },
+  {
+    key: "kitchen",
+    icon: KitchenIcon,
+    subcategories: [
+      { title: "Dining Tables", image: kitchenImg },
+      { title: "Dining Chairs", image: officeImg },
+      { title: "Bar Stools", image: gardenImg },
+      { title: "Kitchen Islands", image: shelvingImg },
+      { title: "Buffets", image: kitchenImg },
+    ],
+  },
+  {
+    key: "garden",
+    icon: GardenIcon,
+    subcategories: [
+      { title: "Outdoor Tables", image: gardenImg },
+      { title: "Outdoor Chairs", image: gardenImg },
+      { title: "Lounge Sets", image: industrialImg },
+      { title: "Sunbeds", image: gardenImg },
+    ],
+  },
+  {
+    key: "office",
+    icon: OfficeIcon,
+    subcategories: [
+      { title: "Office Desks", image: officeImg },
+      { title: "Office Chairs", image: officeImg },
+      { title: "Bookcases", image: shelvingImg },
+      { title: "Filing Cabinets", image: kitchenImg },
+    ],
+  },
+  {
+    key: "children",
+    icon: ChildrenIcon,
+    subcategories: [
+      { title: "Kids Beds", image: childrenImg },
+      { title: "Study Desks", image: officeImg },
+      { title: "Kids Wardrobes", image: shelvingImg },
+      { title: "Toy Storage", image: kitchenImg },
+    ],
+  },
+  {
+    key: "industrial",
+    icon: IndustrialIcon,
+    subcategories: [
+      { title: "Metal Tables", image: industrialImg },
+      { title: "Loft Shelving", image: shelvingImg },
+      { title: "Industrial Cabinets", image: industrialImg },
+      { title: "Factory Style Desks", image: industrialImg },
+    ],
+  },
+  {
+    key: "accessories",
+    icon: AccessoriesIcon,
+    subcategories: [
+      { title: "Lamps", image: accessoriesImg },
+      { title: "Rugs", image: accessoriesImg },
+      { title: "Mirrors", image: accessoriesImg },
+      { title: "Wall Decor", image: accessoriesImg },
+      { title: "Vases", image: accessoriesImg },
+    ],
+  },
 ];
 
 export default function Catalog() {
@@ -42,6 +108,8 @@ export default function Catalog() {
   const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
@@ -85,30 +153,78 @@ export default function Catalog() {
       />
 
       {/* Categories Scroll */}
-      <section className="pt-28 pb-8 bg-background border-b border-neutral-200">
-        <div className="container-luxury">
-          <div className="categories-scroll">
-            {categories.map((cat) => (
-              <button
-                key={cat.key}
-                onClick={() =>
-                  setSelectedCategory((prev) =>
-                    prev === cat.key ? null : cat.key,
-                  )
-                }
-                className={`category-card ${
-                  selectedCategory === cat.key ? "ring-2 ring-foreground" : ""
-                }`}
-              >
-                {(() => {
-                  const Icon = cat.icon;
-                  return <Icon className="category-card__image w-8 h-8" />;
-                })()}
-                <span className="category-card__title">
-                  {t(`categories.${cat.key}`)}
-                </span>
-              </button>
-            ))}
+      <section className="catalog-nav-section">
+        <div
+          className="catalog-nav-wrapper"
+          onMouseLeave={() => setHoveredCategory(null)}
+        >
+          {/* Your existing horizontal scroll */}
+          <div className="container-luxury">
+            <div className="categories-scroll">
+              {categories.map((cat) => {
+                const Icon = cat.icon;
+
+                return (
+                  <button
+                    className="category-card"
+                    key={cat.key}
+                    onMouseEnter={() => setHoveredCategory(cat.key)}
+                  >
+                    {/* <Icon className="category-card__image" /> */}
+                    <span className="category-card__title">
+                      {t(`categories.${cat.key}`)}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* MEGA DROPDOWN */}
+          <div
+            className={`mega-dropdown ${
+              hoveredCategory ? "mega-dropdown--open" : ""
+            }`}
+          >
+            {categories.map((cat) =>
+              hoveredCategory === cat.key ? (
+                <div key={cat.key} className="mega-content container-luxury">
+                  {/* LEFT COLUMN */}
+                  <div className="mega-left">
+                    <h3 className="mega-title">{t(`categories.${cat.key}`)}</h3>
+
+                    <ul className="mega-list">
+                      {cat.subcategories?.map((sub) => (
+                        <li key={sub.title}>
+                          <button
+                            onClick={() => {
+                              setSelectedCategory(cat.key);
+                              setHoveredCategory(null);
+                            }}
+                          >
+                            {t(`subcategories.${sub.title}`)}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* RIGHT GRID */}
+                  <div className="mega-grid">
+                    {cat.subcategories?.map((sub) => (
+                      <Link key={sub.title} to="#" className="mega-card">
+                        <div className="mega-card__image-wrap">
+                          <img src={sub.image} alt={sub.title} />
+                        </div>
+                        <span className="mega-card__title">
+                          {t(`subcategories.${sub.title}`)}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : null,
+            )}
           </div>
         </div>
       </section>
@@ -214,7 +330,6 @@ export default function Catalog() {
 
             {/* Products Grid */}
             <div className="flex-1 min-w-0">
-
               {filteredProducts.length === 0 ? (
                 <p className="text-muted-foreground">
                   {t("catalog.noResults") || "No products found."}

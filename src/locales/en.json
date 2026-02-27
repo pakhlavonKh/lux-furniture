@@ -22,6 +22,40 @@
     "accessories": "Interior accessories"
   },
 
+  "subcategories": {
+    "Wardrobes": "Wardrobes",
+    "Cabinets": "Cabinets",
+    "Dressers": "Dressers",
+    "Shelving Units": "Shelving Units",
+    "Sideboards": "Sideboards",
+    "Dining Tables": "Dining Tables",
+    "Dining Chairs": "Dining Chairs",
+    "Bar Stools": "Bar Stools",
+    "Kitchen Islands": "Kitchen Islands",
+    "Buffets": "Buffets",
+    "Outdoor Tables": "Outdoor Tables",
+    "Outdoor Chairs": "Outdoor Chairs",
+    "Lounge Sets": "Lounge Sets",
+    "Sunbeds": "Sunbeds",
+    "Office Desks": "Office Desks",
+    "Office Chairs": "Office Chairs",
+    "Bookcases": "Bookcases",
+    "Filing Cabinets": "Filing Cabinets",
+    "Kids Beds": "Kids Beds",
+    "Study Desks": "Study Desks",
+    "Kids Wardrobes": "Kids Wardrobes",
+    "Toy Storage": "Toy Storage",
+    "Metal Tables": "Metal Tables",
+    "Loft Shelving": "Loft Shelving",
+    "Industrial Cabinets": "Industrial Cabinets",
+    "Factory Style Desks": "Factory Style Desks",
+    "Lamps": "Lamps",
+    "Rugs": "Rugs",
+    "Mirrors": "Mirrors",
+    "Wall Decor": "Wall Decor",
+    "Vases": "Vases"
+  },
+
   "index": {
     "seo": {
       "title": "Manaku | Premium Furniture Collection",
