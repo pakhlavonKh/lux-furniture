@@ -1,3 +1,4 @@
+// src/components/layout/Showcase.tsx
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";

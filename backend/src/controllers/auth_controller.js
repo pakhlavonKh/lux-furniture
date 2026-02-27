@@ -1,14 +1,28 @@
-import jwt from 'jsonwebtoken';
-import { config } from '../config/config.js';
-import User from '../models/user_model.js';
-import telegramService from '../services/telegram_service.js';
+// src/controllers/auth_controller.js
 
-// Generate JWT Token
+import jwt from "jsonwebtoken";
+import { config } from "../config/config.js";
+import User from "../models/user_model.js";
+import telegramService from "../services/telegram_service.js";
+
+/* ===========================
+   JWT GENERATION (PRODUCTION SAFE)
+   Используем стандартное поле "sub"
+=========================== */
+
 const generateToken = (userId) => {
-  return jwt.sign({ userId }, config.JWT_SECRET, {
-    expiresIn: config.JWT_EXPIRES_IN,
-  });
+  return jwt.sign(
+    { sub: userId.toString() }, // ← стандарт JWT
+    config.JWT_SECRET,
+    {
+      expiresIn: config.JWT_EXPIRES_IN,
+    }
+  );
 };
+
+/* ===========================
+   LOGIN
+=========================== */
 
 export const login = async (req, res) => {
   try {
@@ -17,64 +31,64 @@ export const login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide email and password',
+        message: "Email and password are required",
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid email format',
-      });
-    }
+    const normalizedEmail = email.toLowerCase().trim();
 
-    const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
+    const user = await User.findOne({ email: normalizedEmail })
+      .select("+password");
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password',
+        message: "Invalid email or password",
       });
     }
 
-    // Check password
-    const isPasswordValid = await user.comparePassword(password);
+    const isValid = await user.comparePassword(password);
 
-    if (!isPasswordValid) {
+    if (!isValid) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password',
+        message: "Invalid email or password",
       });
     }
 
-    // Update last login
     user.last_login_at = new Date();
     await user.save();
 
-    // Generate token
     const token = generateToken(user._id);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       token,
       user: {
         id: user._id,
         email: user.email,
         name: user.name,
+        phone: user.phone || null,
         is_admin: user.is_admin,
       },
     });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({
+    console.error("Login error:", error);
+
+    return res.status(500).json({
       success: false,
-      message: 'Login failed',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      message: "Login failed",
+      error:
+        config.NODE_ENV === "development"
+          ? error.message
+          : undefined,
     });
   }
 };
+
+/* ===========================
+   REGISTER
+=========================== */
 
 export const register = async (req, res) => {
   try {
@@ -83,109 +97,109 @@ export const register = async (req, res) => {
     if (!email || !password || !name) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide email, password, and name',
+        message: "Email, password and name are required",
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid email format',
-      });
-    }
+    const normalizedEmail = email.toLowerCase().trim();
 
-    // Validate password strength
     if (password.length < 6) {
       return res.status(400).json({
         success: false,
-        message: 'Password must be at least 6 characters',
+        message: "Password must be at least 6 characters",
       });
     }
 
-    // Check if user exists
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({
+      email: normalizedEmail,
+    });
 
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        message: 'Email already registered',
+        message: "Email already registered",
       });
     }
 
-    // Check if trying to create admin account
+    /* ===== Admin key logic ===== */
+
     let isAdmin = false;
+
     if (admin_key) {
       const ADMIN_KEY = process.env.ADMIN_KEY;
+
       if (!ADMIN_KEY) {
         return res.status(500).json({
           success: false,
-          message: 'Admin key not configured on server',
+          message: "Admin key not configured",
         });
       }
-      if (admin_key === ADMIN_KEY) {
-        isAdmin = true;
-      } else {
+
+      if (admin_key !== ADMIN_KEY) {
         return res.status(403).json({
           success: false,
-          message: 'Invalid admin key',
+          message: "Invalid admin key",
         });
       }
+
+      isAdmin = true;
     }
 
-    // Create new user
     const user = new User({
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       password,
       name: name.trim(),
       is_admin: isAdmin,
     });
 
-    // Hash password (done in model pre-save hook)
     await user.save();
 
-    // Send Telegram notification about new user registration
-    await telegramService.notifyUserRegistration({
-      email: user.email,
-      name: user.name,
-      isAdmin: user.is_admin,
-    });
+    /* ===== Telegram Notification ===== */
 
-    // Generate token
+    try {
+      await telegramService.notifyUserRegistration({
+        email: user.email,
+        name: user.name,
+        isAdmin: user.is_admin,
+      });
+    } catch (tgError) {
+      console.warn("Telegram notify failed:", tgError.message);
+    }
+
     const token = generateToken(user._id);
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       token,
       user: {
         id: user._id,
         email: user.email,
         name: user.name,
+        phone: user.phone || null,
         is_admin: user.is_admin,
       },
     });
   } catch (error) {
-    console.error('Register error:', error);
-    res.status(500).json({
+    console.error("Register error:", error);
+
+    return res.status(500).json({
       success: false,
-      message: 'Registration failed',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      message: "Registration failed",
+      error:
+        config.NODE_ENV === "development"
+          ? error.message
+          : undefined,
     });
   }
 };
 
+/* ===========================
+   LOGOUT
+=========================== */
+
 export const logout = (req, res) => {
-  try {
-    res.status(200).json({
-      success: true,
-      message: 'Logout successful',
-    });
-  } catch (error) {
-    console.error('Logout error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Logout failed',
-    });
-  }
+  return res.status(200).json({
+    success: true,
+    message: "Logout successful",
+  });
 };

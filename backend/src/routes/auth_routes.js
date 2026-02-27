@@ -1,3 +1,4 @@
+// auth_routes.js
 import express from 'express';
 import { login, register, logout } from '../controllers/auth_controller.js';
 import { authenticate_token, authorize_admin } from '../middleware/auth.js';

@@ -1,18 +1,4 @@
-/* 
-  ARCHIVED: This file is no longer used. 
-  Project has been converted from Tailwind CSS to pure CSS.
-  See src/styles.css for all styling.
-  
-  Kept for historical reference only.
-*/
-
-/* Original index.css content archived below - no longer processed */
-
-/*
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-*/
+/* index.css */
 
 @import "@fontsource/playfair-display/400.css";
 @import "@fontsource/playfair-display/500.css";

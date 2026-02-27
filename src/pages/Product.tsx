@@ -1,3 +1,4 @@
+// Product.tsx - Product detail page with image gallery, quantity selector, and add to basket functionality.
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
