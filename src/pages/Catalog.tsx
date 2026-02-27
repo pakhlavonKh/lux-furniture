@@ -113,11 +113,10 @@ export default function Catalog() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
+
     const handleChange = (event: MediaQueryListEvent) => {
       setIsDesktop(event.matches);
-      if (event.matches) {
-        setFiltersOpen(true);
-      }
+      setFiltersOpen(event.matches); // open only on desktop
     };
 
     setIsDesktop(mediaQuery.matches);
@@ -253,11 +252,13 @@ export default function Catalog() {
             {/* Filters Panel */}
             <aside
               id="catalog-filters"
-              className="filters-panel"
-              style={{
-                flex: "0 0 280px",
-                display: isDesktop || filtersOpen ? "block" : "none",
-              }}
+              className={`filters-panel ${
+                isDesktop
+                  ? "filters-desktop"
+                  : filtersOpen
+                    ? "filters-mobile-open"
+                    : "filters-mobile-closed"
+              }`}
             >
               {/* Header */}
               <div className="filters-header">

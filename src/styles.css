@@ -2069,9 +2069,37 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   padding: 1.5rem;                  /* p-6 */
 }
 
-@media (max-width:728px) {
-  .filters-panel{
+/* Desktop always visible */
+.filters-desktop {
+  flex: 0 0 280px;
+}
+
+/* Mobile animation container */
+@media (max-width: 767px) {
+  .filters-panel {
+    width: 100%;
     max-width: 100%;
+    overflow: hidden;
+    transition: 
+      max-height 0.55s ease,
+      opacity 0.35s ease,
+      transform 0.45s ease;
+  }
+
+  .filters-mobile-closed {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+  }
+
+  .filters-mobile-open {
+    max-height: 1000px; /* big enough */
+    opacity: 1;
+    transform: translateY(0);
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -2112,6 +2140,18 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+@media (max-width: 767px) {
+  .filter-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .filter-item {
+    text-align: center;
+  }
 }
 
 /* Filter buttons */
