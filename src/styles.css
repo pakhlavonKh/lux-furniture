@@ -1685,6 +1685,12 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   color: #111827;
 }
 
+@media (max-width: 728px) {
+  .mega-dropdown {
+    display: none !important;
+  }
+}
+
 /* Filter Sections */
 .filter-section {
   margin-bottom: 2.5rem;
@@ -1876,6 +1882,7 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   border: 1px solid #e5e7eb;          /* neutral-200 */
   border-radius: 1.5rem;                /* rounded-4xl equivalent */
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  height: 100%;
 
   padding: 1rem;                      /* p-4 */
   display: flex;

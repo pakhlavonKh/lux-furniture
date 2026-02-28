@@ -1,6 +1,6 @@
 // This page is the main catalog view, where users can browse through all the products available in the store. It features a horizontal scrollable section at the top for filtering products by category, and a sidebar for additional filters and sorting options. The products are displayed in a responsive grid layout, and users can click on any product to view its details. The page also includes SEO metadata for better search engine visibility.
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
@@ -106,14 +106,48 @@ const categories = [
 export default function Catalog() {
   const { t } = useLanguage();
   const products = getProducts();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Initialize currentPage from URL or sessionStorage
+  const [currentPage, setCurrentPageState] = useState(() => {
+    const params = new URLSearchParams(location.search);
+    const pageFromUrl = params.get("page");
+    if (pageFromUrl) {
+      return parseInt(pageFromUrl, 10);
+    }
+    return 1;
+  });
 
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+
+  // Track if this is the first render to skip the reset effect on mount
+  const isInitialMount = useRef(true);
+
+  // Sync with URL when it changes
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const pageFromUrl = params.get("page");
+    if (pageFromUrl) {
+      const pageNum = parseInt(pageFromUrl, 10);
+      if (pageNum !== currentPage) {
+        setCurrentPageState(pageNum);
+      }
+    }
+  }, [location.search]);
+
+  // Update URL when currentPage changes using navigate
+  const setCurrentPage = (page: number | ((p: number) => number)) => {
+    const newPage = typeof page === "function" ? page(currentPage) : page;
+    setCurrentPageState(newPage);
+    // Use navigate to push to history stack with full path
+    navigate(`/?page=${newPage}`, { replace: false });
+  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
@@ -147,8 +181,12 @@ export default function Catalog() {
     return list;
   }, [products, selectedCategory, sort]);
 
-  // Reset to page 1 when filters change
+  // Reset to page 1 when filters change (but not on initial mount)
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     setCurrentPage(1);
   }, [selectedCategory, sort]);
 

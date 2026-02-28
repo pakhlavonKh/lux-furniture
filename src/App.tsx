@@ -1,5 +1,6 @@
 // App.tsx
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 const App = () => (
   <LanguageProvider>
     <AppWithLanguage />
@@ -13,6 +14,20 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// ScrollToTop component to handle scroll on route change
+function ScrollToTop() {
+  const location = useLocation();
+  const { pathname, search } = location;
+
+  // Scroll to top whenever pathname or search params change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname, search]);
+
+  return null;
+}
+
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import Index from "./pages/Index";
@@ -52,6 +67,7 @@ function AppWithLanguage() {
           {/* <Toaster /> */}
           <Sonner />
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<Catalog />} />
               <Route path="/showcase" element={<Index />} />
