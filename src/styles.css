@@ -136,6 +136,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Hide scrollbar while maintaining scrollability */
@@ -2280,6 +2281,63 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   height: 16px;
 }
 
+/* ===== Pagination ===== */
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;                     /* 40px */
+  height: 2.5rem;                    /* 40px */
+  padding: 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;             /* rounded-md */
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: hsl(var(--muted));
+  border-color: hsl(var(--foreground));
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;                 /* 40px */
+  height: 2.5rem;                    /* 40px */
+  padding: 0 0.5rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;             /* rounded-md */
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-page-btn:hover {
+  background-color: hsl(var(--muted));
+  border-color: hsl(var(--foreground));
+}
+
+.pagination-page-btn.active {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+  border-color: hsl(var(--foreground));
+  font-weight: 600;
+}
+
 /* ===== Contact Info Row (Desktop) ===== */
 
 .contact-info-desktop {
@@ -2495,4 +2553,97 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   .footer-col--desk {
     display: none;
   }
+}
+
+
+/* ---------- GALLERY WRAPPER ---------- */
+
+.gallery-wrapper {
+  position: relative;
+  width: 100%;
+  height: 420px;               /* smaller height */
+  margin-bottom: 16px;
+  border-radius: 2rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- MAIN IMAGE ---------- */
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* full image visible */
+  border-radius: 18px;          /* rounded corners */
+  transition: transform 0.7s ease;
+}
+
+/* ---------- NAVIGATION BUTTONS ---------- */
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;             /* removed background */
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-icon {
+  width: 30px;
+  height: 30px;
+  color: #13789A;     /* icon color */
+  stroke-width: 2;         /* line thickness */
+}
+
+.gallery-nav-left {
+  left: 5px;
+}
+
+.gallery-nav-right {
+  right: 5px;
+}
+
+.gallery-nav:hover {
+  opacity: 0.6;
+}
+
+/* ---------- THUMBNAILS ---------- */
+
+.thumbnail-container {
+  display: flex;
+  gap: 12px;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease, border 0.2s ease;
+  opacity: 0.6;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* full thumbnail visible */
+}
+
+.thumbnail:hover {
+  opacity: 1;
+}
+
+.thumbnail.active {
+  opacity: 1;
+  border: 2px solid #000;
 }

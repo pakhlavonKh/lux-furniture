@@ -12,6 +12,11 @@
     "pressEnter": "Press Enter to search or Esc to close"
   },
 
+  "breadcrumb": {
+    "home": "Home",
+    "catalog": "Catalog"
+  },
+
   "categories": {
     "storage": "Shelving",
     "kitchen": "Kitchen furniture",
@@ -221,6 +226,443 @@
         "style": "Contemporary",
         "dimensions": "45cm W × 45cm D × 180cm H",
         "care": "Dust regularly with a soft cloth. Replace bulbs as needed. Keep away from water."
+      },
+      "items": {
+        "1": {
+          "name": "Elegant Storage Unit",
+          "shortDescription": "Contemporary storage solution with refined details",
+          "description": "A sophisticated storage piece from the artVision collection, crafted with attention to detail and modern elegance."
+        },
+        "2": {
+          "name": "Premium Dining Table",
+          "shortDescription": "Refined dining table with exceptional craftsmanship",
+          "description": "An exquisite dining table featuring premium materials and timeless design, perfect for refined gatherings."
+        },
+        "3": {
+          "name": "Sculptural Floor Lamp",
+          "shortDescription": "Contemporary lighting with artistic form",
+          "description": "A stunning lamp that combines functional lighting with sculptural elegance for modern interiors."
+        },
+        "4": {
+          "name": "Modern Display Cabinet",
+          "shortDescription": "Elegant storage with glass accents",
+          "description": "A contemporary display cabinet designed to showcase and organize with sophisticated style."
+        },
+        "5": {
+          "name": "Refined Shelving Unit",
+          "shortDescription": "Contemporary shelving with clean lines",
+          "description": "A versatile shelving solution that brings elegance and functionality to any living space."
+        },
+        "6": {
+          "name": "Sophisticated Storage System",
+          "shortDescription": "Multi-functional storage with modern aesthetics",
+          "description": "An expertly designed storage system combining style and practicality."
+        },
+        "7": {
+          "name": "Contemporary Cabinet",
+          "shortDescription": "Stylish storage with innovative design",
+          "description": "A modern storage piece featuring clean proportions and refined finishes."
+        },
+        "8": {
+          "name": "Minimalist Shelving",
+          "shortDescription": "Contemporary display and storage solution",
+          "description": "A sleek shelving unit designed for modern living spaces with excellent organization."
+        },
+        "9": {
+          "name": "Element Wall Unit",
+          "shortDescription": "Modular wall storage system",
+          "description": "An innovative wall-mounted storage solution offering flexibility and style."
+        },
+        "10": {
+          "name": "Pendant Table Lamp",
+          "shortDescription": "Decorative lighting with elegant form",
+          "description": "A refined lighting fixture that adds ambiance and sophistication to any room."
+        },
+        "11": {
+          "name": "Architectural Cabinet",
+          "shortDescription": "Statement piece with bold design",
+          "description": "A striking storage cabinet that serves as both functional furniture and artistic centerpiece."
+        },
+        "12": {
+          "name": "Tall Display Cabinet",
+          "shortDescription": "Premium vertical storage solution",
+          "description": "A tall, sophisticated storage unit perfect for displaying and organizing collections."
+        },
+        "13": {
+          "name": "Contemporary Storage Box",
+          "shortDescription": "Compact organizer with modern style",
+          "description": "A stylish storage solution ideal for organizing spaces with contemporary aesthetics."
+        },
+        "14": {
+          "name": "Geometric Wall Shelf",
+          "shortDescription": "Artistic wall-mounted storage",
+          "description": "An eye-catching shelf with geometric proportions designed to elevate interiors."
+        },
+        "15": {
+          "name": "Drive Office Desk",
+          "shortDescription": "Modern workspace solution",
+          "description": "A professional desk from the Drive collection, designed for contemporary offices with superior craftsmanship."
+        },
+        "16": {
+          "name": "Executive Work Table",
+          "shortDescription": "Premium office furniture",
+          "description": "A refined work surface perfect for modern office environments with exceptional quality."
+        },
+        "17": {
+          "name": "Drive Filing Cabinet",
+          "shortDescription": "Professional document storage",
+          "description": "A practical filing solution combining functionality with refined design aesthetics."
+        },
+        "18": {
+          "name": "Modern Office Cabinet",
+          "shortDescription": "Versatile office storage system",
+          "description": "A contemporary cabinet solution for organized and efficient office spaces."
+        },
+        "19": {
+          "name": "Drive Shelving System",
+          "shortDescription": "Modular office storage",
+          "description": "A flexible shelving system designed for modern office environments."
+        },
+        "20": {
+          "name": "Professional Storage Unit",
+          "shortDescription": "Sophisticated office organization",
+          "description": "A premium storage solution for professional and business settings."
+        },
+        "21": {
+          "name": "Contemporary Office Cabinet",
+          "shortDescription": "Stylish workspace storage",
+          "description": "A modern cabinet that enhances office aesthetics while providing excellent storage."
+        },
+        "22": {
+          "name": "Drive Workstation",
+          "shortDescription": "Integrated office workspace",
+          "description": "A comprehensive workspace solution combining desk, storage, and organization."
+        },
+        "23": {
+          "name": "Modular Office Shelving",
+          "shortDescription": "Flexible storage configuration",
+          "description": "An adaptable shelving system for dynamic office environments."
+        },
+        "24": {
+          "name": "Drive Display Unit",
+          "shortDescription": "Office showcase solution",
+          "description": "A display cabinet for professional environments combining elegance with practicality."
+        },
+        "25": {
+          "name": "Executive Cabinet",
+          "shortDescription": "Premium office furniture piece",
+          "description": "A sophisticated cabinet designed for executive and professional spaces."
+        },
+        "26": {
+          "name": "Modern Lateral Filing",
+          "shortDescription": "Contemporary file storage",
+          "description": "A sleek filing solution perfect for organized office management."
+        },
+        "27": {
+          "name": "Drive Storage Credenza",
+          "shortDescription": "Premium office credenza",
+          "description": "A refined storage piece for professional and administrative spaces."
+        },
+        "28": {
+          "name": "Contemporary Office Shelves",
+          "shortDescription": "Modern wall storage for offices",
+          "description": "A stylish shelving solution designed for professional environments."
+        },
+        "29": {
+          "name": "Drive Finish Cabinet",
+          "shortDescription": "High-quality office storage",
+          "description": "The final piece in the Drive collection offering premium storage solutions."
+        },
+        "30": {
+          "name": "Genesis Mobile Unit",
+          "shortDescription": "Versatile moving storage system",
+          "description": "A dynamic storage solution from Genesis collection with mobility and style."
+        },
+        "31": {
+          "name": "Genesis Desk Screen",
+          "shortDescription": "Privacy divider for modern offices",
+          "description": "A contemporary desk screen that provides privacy without sacrificing aesthetics."
+        },
+        "32": {
+          "name": "Genesis Personnel Cabinet",
+          "shortDescription": "Individual employee storage",
+          "description": "A personal storage cabinet designed for office personnel with elegant finishes."
+        },
+        "33": {
+          "name": "Genesis Document Cabinet",
+          "shortDescription": "Secure file storage solution",
+          "description": "A professional filing cabinet with glass doors for organized document management."
+        },
+        "34": {
+          "name": "Genesis Glass Cabinet",
+          "shortDescription": "Display cabinet with transparency",
+          "description": "A sophisticated storage unit with glass panels for showcasing items."
+        },
+        "35": {
+          "name": "Genesis Tall File Cabinet",
+          "shortDescription": "Comprehensive filing solution",
+          "description": "A tall storage cabinet perfect for extensive document organization."
+        },
+        "36": {
+          "name": "Genesis Premium Cabinet",
+          "shortDescription": "High-end office storage",
+          "description": "A premium filing cabinet with exceptional craftsmanship and design."
+        },
+        "37": {
+          "name": "Genesis Vertical Cabinet",
+          "shortDescription": "Space-efficient storage",
+          "description": "A tall cabinet maximizing vertical space for efficient organization."
+        },
+        "38": {
+          "name": "Genesis Metal Cabinet",
+          "shortDescription": "Durable storage solution",
+          "description": "A robust cabinet combining durability with contemporary design."
+        },
+        "39": {
+          "name": "Genesis Storage Cabinet",
+          "shortDescription": "Professional storage piece",
+          "description": "A reliable storage unit designed for office and professional use."
+        },
+        "40": {
+          "name": "Genesis Wardrobe Unit",
+          "shortDescription": "Personal locker solution",
+          "description": "A wardrobe storage unit for employee areas and common spaces."
+        },
+        "41": {
+          "name": "Genesis Clothing Storage",
+          "shortDescription": "Dedicated wardrobe cabinet",
+          "description": "A specialized storage solution for clothing and personal items."
+        },
+        "42": {
+          "name": "Genesis Partition Shelving",
+          "shortDescription": "Modular space divider",
+          "description": "An innovative shelving system that organizes while defining spaces."
+        },
+        "43": {
+          "name": "Genesis Bench Desk",
+          "shortDescription": "Collaborative work surface",
+          "description": "A long work table ideal for team environments and open offices."
+        },
+        "44": {
+          "name": "Genesis Task Desk",
+          "shortDescription": "Individual work station",
+          "description": "A personal desk designed for focused work and individual productivity."
+        },
+        "45": {
+          "name": "Genesis Document Storage",
+          "shortDescription": "File organization unit",
+          "description": "A compact filing solution for document management and organization."
+        },
+        "46": {
+          "name": "Genesis Compact Cabinet",
+          "shortDescription": "Space-saving storage unit",
+          "description": "An efficient storage cabinet designed for compact office spaces."
+        },
+        "47": {
+          "name": "Genesis Storage Unit",
+          "shortDescription": "General purpose storage",
+          "description": "A versatile storage cabinet from Genesis for various office needs."
+        },
+        "48": {
+          "name": "Alto Executive Cabinet",
+          "shortDescription": "Premium office storage solution",
+          "description": "A sophisticated cabinet from the Alto collection designed for executive spaces."
+        },
+        "49": {
+          "name": "Alto Document Cabinet",
+          "shortDescription": "Professional filing system",
+          "description": "A high-quality document storage solution with elegant Alto design."
+        },
+        "50": {
+          "name": "Alto Low Cabinet",
+          "shortDescription": "Compact storage unit",
+          "description": "A versatile low cabinet perfect for office organization."
+        },
+        "51": {
+          "name": "Alto Medium Cabinet A",
+          "shortDescription": "Mid-sized storage solution",
+          "description": "An efficient medium cabinet for balanced office storage needs."
+        },
+        "52": {
+          "name": "Alto Medium Cabinet B",
+          "shortDescription": "Customizable storage unit",
+          "description": "A flexible medium cabinet for various office applications."
+        },
+        "53": {
+          "name": "Alto Medium Cabinet C",
+          "shortDescription": "Professional storage piece",
+          "description": "A refined medium cabinet designed for modern offices."
+        },
+        "54": {
+          "name": "Alto High Cabinet A",
+          "shortDescription": "Tall storage solution",
+          "description": "A tall cabinet maximizing vertical space in office environments."
+        },
+        "55": {
+          "name": "Alto High Cabinet B",
+          "shortDescription": "Large vertical storage",
+          "description": "A substantial tall cabinet for comprehensive office organization."
+        },
+        "56": {
+          "name": "Alto High Cabinet C",
+          "shortDescription": "Premium tall cabinet",
+          "description": "An elegant tall cabinet with superior finish quality."
+        },
+        "57": {
+          "name": "Alto High Cabinet D",
+          "shortDescription": "Luxury storage unit",
+          "description": "A premium tall cabinet designed for sophisticated spaces."
+        },
+        "58": {
+          "name": "Alto Executive Desk",
+          "shortDescription": "Leadership work surface",
+          "description": "A commanding executive desk designed for distinguished offices."
+        },
+        "59": {
+          "name": "Alto Pedestal Desk Left",
+          "shortDescription": "Asymmetric work station",
+          "description": "A left-configuration pedestal desk for executive workspaces."
+        },
+        "60": {
+          "name": "Alto Pedestal Desk Extended",
+          "shortDescription": "Large executive workspace",
+          "description": "An extended pedestal desk offering ample work surface."
+        },
+        "61": {
+          "name": "Alto Pedestal Desk Right",
+          "shortDescription": "Right-configured work desk",
+          "description": "A right-configuration pedestal desk for ergonomic comfort."
+        },
+        "62": {
+          "name": "Alto Coffee Table",
+          "shortDescription": "Reception area furniture",
+          "description": "An elegant coffee table perfect for office lounges."
+        },
+        "63": {
+          "name": "Alto Conference Table",
+          "shortDescription": "Meeting surface",
+          "description": "A sophisticated table designed for professional meetings."
+        },
+        "64": {
+          "name": "Alto Mobile Cabinet",
+          "shortDescription": "Mobile storage solution",
+          "description": "A versatile mobile cabinet for flexible office spaces."
+        },
+        "65": {
+          "name": "Alto Beverage Cabinet",
+          "shortDescription": "Refrigerator unit",
+          "description": "A specialized cabinet designed for beverage storage."
+        },
+        "66": {
+          "name": "Metar Office Unit",
+          "shortDescription": "Contemporary workspace furniture",
+          "description": "A modern office piece from the Metar collection."
+        },
+        "67": {
+          "name": "Metar Storage System",
+          "shortDescription": "Integrated storage solution",
+          "description": "A comprehensive storage system designed for efficiency."
+        },
+        "68": {
+          "name": "Metar Workspace Cabinet",
+          "shortDescription": "Multi-functional office furniture",
+          "description": "A versatile cabinet combining style and practicality."
+        },
+        "69": {
+          "name": "Metar Filing Unit",
+          "shortDescription": "Document organization",
+          "description": "A professional filing solution from the Metar collection."
+        },
+        "70": {
+          "name": "Metar Organization System",
+          "shortDescription": "Coordination storage",
+          "description": "An organized approach to office storage solutions."
+        },
+        "71": {
+          "name": "Metar Modular Shelving",
+          "shortDescription": "Flexible storage configuration",
+          "description": "An adaptable shelving system for evolving office needs."
+        },
+        "72": {
+          "name": "Metar Work Cabinet",
+          "shortDescription": "Workspace integration furniture",
+          "description": "A seamless cabinet designed for productive workplaces."
+        },
+        "73": {
+          "name": "Metar Display Unit",
+          "shortDescription": "Showcase cabinet",
+          "description": "A displayable storage piece for professional environments."
+        },
+        "74": {
+          "name": "Metar Storage Finale",
+          "shortDescription": "Complete storage solution",
+          "description": "The final piece in the Metar collection offering comprehensive storage."
+        },
+        "75": {
+          "name": "Negoziatore Premium Cabinet",
+          "shortDescription": "Luxury office storage",
+          "description": "An exceptional cabinet from the Negoziatore collection for distinguished offices."
+        },
+        "76": {
+          "name": "Negoziatore Executive Storage",
+          "shortDescription": "High-end office furniture",
+          "description": "A premium storage solution designed for leadership spaces."
+        },
+        "77": {
+          "name": "Negoziatore Prestige Unit",
+          "shortDescription": "Exclusive office piece",
+          "description": "An exclusive furniture piece from the prestigious Negoziatore line."
+        },
+        "78": {
+          "name": "Negoziatore Authority Cabinet",
+          "shortDescription": "commanding presence furniture",
+          "description": "A powerful cabinet that commands respect in executive spaces."
+        },
+        "79": {
+          "name": "Negoziatore Distinction Cabinet",
+          "shortDescription": "Refined office furniture",
+          "description": "A distinguished piece for refined professional environments."
+        },
+        "80": {
+          "name": "Negoziatore Elegance Unit",
+          "shortDescription": "Sophisticated storage",
+          "description": "An elegant storage solution for upscale office settings."
+        },
+        "81": {
+          "name": "Negoziatore Prestige Storage",
+          "shortDescription": "Premium office investment",
+          "description": "A premium storage piece reflecting excellence and luxury."
+        },
+        "82": {
+          "name": "Negoziatore Zenith Cabinet",
+          "shortDescription": "Top-tier office furniture",
+          "description": "The pinnacle of office storage design from the Negoziatore collection."
+        },
+        "83": {
+          "name": "Vestar Conference Table 4-Person Z-101",
+          "shortDescription": "Professional meeting solution",
+          "description": "A sophisticated 4-person conference table designed for small team meetings. Features premium construction and contemporary design."
+        },
+        "84": {
+          "name": "Vestar Conference Table 4-Person Z-102",
+          "shortDescription": "Alternate professional layout",
+          "description": "An alternative 4-person configuration offering flexible meeting space. Perfect for collaborative discussions and presentations."
+        },
+        "85": {
+          "name": "Vestar Conference Table 8-Person Z-103",
+          "shortDescription": "Medium meeting capacity",
+          "description": "An elegant 8-person conference table for departmental meetings. Combines functionality with refined aesthetic for professional environments."
+        },
+        "86": {
+          "name": "Vestar Conference Table 10-Person Z-104",
+          "shortDescription": "Large conference solution",
+          "description": "A spacious 10-person conference table suitable for board meetings. Engineered for durability and designed for executive settings."
+        },
+        "87": {
+          "name": "Vestar Conference Table 12-Person Z-201",
+          "shortDescription": "Executive meeting centerpiece",
+          "description": "The premium 12-person conference table for major meetings. Features exceptional quality and timeless design for prestigious business environments."
+        }
       }
     }
   },
@@ -315,29 +757,33 @@
     },
     "explore": "Explore",
     "items": {
-      "living": {
-        "name": "Living Room Collection",
-        "description": "Sculptural sofas and refined seating for modern living spaces"
+      "artVision": {
+        "name": "Art Vision Collection",
+        "description": "Sculptural and artistic furniture pieces"
       },
-      "bedroom": {
-        "name": "Bedroom Collection",
-        "description": "Tranquil pieces designed for rest and rejuvenation"
+      "drive": {
+        "name": "Drive Collection",
+        "description": "Dynamic and functional furniture solutions"
       },
-      "dining": {
-        "name": "Dining Room Collection",
-        "description": "Elegant tables and chairs for refined gatherings"
+      "genesis": {
+        "name": "Genesis Collection",
+        "description": "Contemporary designs for modern spaces"
       },
-      "lighting": {
-        "name": "Lighting Collection",
-        "description": "Atmospheric and sculptural lighting for any space"
+      "alto": {
+        "name": "Alto Collection",
+        "description": "Refined seating and standing furniture"
       },
-      "contemporary": {
-        "name": "Contemporary Collection",
-        "description": "Modern design with clean lines and innovative materials"
+      "metar": {
+        "name": "Metar Collection",
+        "description": "Minimalist and elegant designs"
       },
-      "classic": {
-        "name": "Classic Collection",
-        "description": "Timeless elegance and traditional craftsmanship"
+      "negoziatore": {
+        "name": "Negoziatore Collection",
+        "description": "Premium office and business furniture"
+      },
+      "vestar": {
+        "name": "Vestar Collection",
+        "description": "Professional conference and meeting tables"
       }
     },
     "title": "Collections",

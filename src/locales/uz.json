@@ -12,6 +12,11 @@
     "pressEnter": "Qidirish uchun Enter bosing yoki yopish uchun Esc"
   },
 
+  "breadcrumb": {
+    "home": "Bosh sahifa",
+    "catalog": "Katalog"
+  },
+
   "categories": {
     "storage": "Saqlash",
     "kitchen": "Oshxona mebellari",
@@ -305,8 +310,489 @@
         "style": "Zamonaviy",
         "dimensions": "45sm E × 45sm D × 180sm B",
         "care": "Yumshoq matkali bilan muntazam tozalang. Zarur bo'lganda lampochkilarni almashtiring. Suv bilan urinishidan saqlanib qoling."
+      },
+      "items": {
+        "1": {
+          "name": "Nafis saqlash shkafl",
+          "shortDescription": "Nozik detallar bilan zamonaviy saqlash yechimi",
+          "description": "artVision kolleksiyasidan sofistifikatsiyalangan mebel, detalga e'tibor bilan va zamonaviy elegantnlik bilan yaratilgan."
+        },
+        "2": {
+          "name": "Premium ovqat stoli",
+          "shortDescription": "Istisno qolidagi natijasi bilan naftis ovqat stoli",
+          "description": "Premium materiallari va vaqtsiz dizayni bilan yasagan go'zal stol, nozik mehmonlarni qabul qilish uchun muhim."
+        },
+        "3": {
+          "name": "Sun'iy zamin chirogʻi",
+          "shortDescription": "Hunarmandlik shakl bilan zamonaviy yoritish",
+          "description": "Funktsional yoritishni sun'iy elegantnlikni birlashtiruvchi hayratarli lamp, zamonaviy ichki uchun."
+        },
+        "4": {
+          "name": "Zamonaviy ko'rgazma kabineti",
+          "shortDescription": "Shisha aksent bilan nafis saqlash",
+          "description": "Sofistifikatsiyalangan ko'rgazma kabineti ko'rsatish va tashkil qilish uchun mo'ljallangan."
+        },
+        "5": {
+          "name": "Nozik saqlash tizimi",
+          "shortDescription": "Toza chiziqlar bilan zamonaviy saqlash polkalari",
+          "description": "Har qanday yashash bo'shliqiga elegantnlik va funktsionallik olib keladigan ko'p qo'llaniladigan saqlash echimlari."
+        },
+        "6": {
+          "name": "Sofistifikatsiyalangan saqlash tizimi",
+          "shortDescription": "Zamonaviy zaruratga multyfunksional saqlash",
+          "description": "Ustalik bilan mo'ljallangan saqlash tizimi, uslub va amaliyotni birlashtiradi."
+        },
+        "7": {
+          "name": "Zamonaviy kabineti",
+          "shortDescription": "Innovatsion dизайн bilan stilish saqlash",
+          "description": "Toza proportsiyalar va nozik tugatish bilan zamonaviy saqlash narsasi."
+        },
+        "8": {
+          "name": "Minimalist polkalar",
+          "shortDescription": "Zamonaviy ko'rgazma va saqlash yechimi",
+          "description": "Zamonaviy yasash bo'shliqlar uchun mo'ljallangan qimm saqlash tizimi muhim tashkilotlanish bilan."
+        },
+        "9": {
+          "name": "Devor moduli",
+          "shortDescription": "Modul devor saqlash tizimi",
+          "description": "Moslashuvchilik va uslub taqdim etadigan innovatsion devor saqlash echimlari."
+        },
+        "10": {
+          "name": "Suspenzion stol lampa",
+          "shortDescription": "Nafis shakli bilan dekorativ yoritish",
+          "description": "Har qanday xonaga atmosfera va sofistifikatsiya qo'shadigan nozik svetilnik."
+        },
+        "11": {
+          "name": "Arxitektur kabineti",
+          "shortDescription": "Jismoniy dизайн bilan mulohaza narsasi",
+          "description": "Saqlanish kabineti ham funktsional mebel va hun'ar markazi sifatida xizmat qiladi."
+        },
+        "12": {
+          "name": "Baland ko'rgazma kabineti",
+          "shortDescription": "Premium vertikal saqlash yechimi",
+          "description": "Kolleksiyalarni ko'rsatish va tashkil qilish uchun ajoyib baland, sofistifikatsiyalangan saqlash birligi."
+        },
+        "13": {
+          "name": "Zamonaviy saqlash qutiasi",
+          "shortDescription": "Zamonaviy stil bilan kompakt organizer",
+          "description": "Zamonaviy estetika bilan joyni tashkil qilish uchun ideal stilish saqlash yechimi."
+        },
+        "14": {
+          "name": "Geometrik devor polkasi",
+          "shortDescription": "Hunarmandlik devor-mounted saqlash",
+          "description": "Ichki ko'rinishni ko'tarish uchun mo'ljallangan geometrik proportsiyalar bilan diqqatni jalb qiluvchi polka."
+        },
+        "15": {
+          "name": "Drive ofis stoli",
+          "shortDescription": "Zamonaviy ish bo'shlig'i yechimi",
+          "description": "Drive kolleksiyasidan professional stol, zamonaviy ofislar uchun mo'ljallangan istisno qandaylar bilan."
+        },
+        "16": {
+          "name": "Ijro etuvchi ish stoli",
+          "shortDescription": "Premium ofis mebeli",
+          "description": "Zamonaviy ofis muhitlari uchun ideal nozik ish yuzasi istisno sifat bilan."
+        },
+        "17": {
+          "name": "Drive fayl kabineti",
+          "shortDescription": "Hamjamiyyat hujjat saqlash",
+          "description": "Funktsionallikni nozik dизайн estetikasi bilan birlashtiruvchi amaliy fayl yechimi."
+        },
+        "18": {
+          "name": "Zamonaviy ofis kabineti",
+          "shortDescription": "Ko'p qo'llaniladigan ofis saqlash tizimi",
+          "description": "Tashkil qilingan va samarali ofis bo'shliqlar uchun zamonaviy kabineti yechimi."
+        },
+        "19": {
+          "name": "Drive saqlash tizimi",
+          "shortDescription": "Modul ofis saqlash",
+          "description": "Zamonaviy ofis muhitlari uchun mo'ljallangan moslashuvchi saqlash tizimi."
+        },
+        "20": {
+          "name": "Professional saqlash birligi",
+          "shortDescription": "Sofistifikatsiyalangan ofis tashkiloti",
+          "description": "Professional va biznes so'rovlar uchun premium saqlash yechimi."
+        },
+        "21": {
+          "name": "Zamonaviy ofis kabineti",
+          "shortDescription": "Ish bo'shlig'ining stilish saqlash",
+          "description": "Zamonaviy kabineti ko'z-qarashatlarni ko'taradigan ajoyib saqlash taqdim etimadi."
+        },
+        "22": {
+          "name": "Drive ish stantsiyasi",
+          "shortDescription": "Integratsiya qilingan ish bo'shlig'i",
+          "description": "Stol, saqlash va tashkilotni birlashtiruvchi keng ish bo'shlig'i yechimi."
+        },
+        "23": {
+          "name": "Modul ofis polkalari",
+          "shortDescription": "Moslashuvchi saqlash konfiguratsiyasi",
+          "description": "Dinamik ofis muhitlari uchun mo'ljallangan adaptabel saqlash tizimi."
+        },
+        "24": {
+          "name": "Drive ko'rgazma birligi",
+          "shortDescription": "Ofis ko'rgazma yechimi",
+          "description": "Professional muhitlar uchun elegantnlik va amaliyoti birlashtiruvchi ko'rgazma kabineti."
+        },
+        "25": {
+          "name": "Ijro etuvchi kabineti",
+          "shortDescription": "Premium ofis mebel narsasi",
+          "description": "Ijro etuvchi va professional bo'shliqlar uchun mo'ljallangan sofistifikatsiyalangan kabineti."
+        },
+        "26": {
+          "name": "Zamonaviy yon fayl",
+          "shortDescription": "Zamonaviy fayl saqlash",
+          "description": "Tashkil qilingan ofis menejmenti uchun ideal qimm fayl yechimi."
+        },
+        "27": {
+          "name": "Drive saqlash kredentsa",
+          "shortDescription": "Premium ofis kredentsa",
+          "description": "Professional va administrativ bo'shliqlar uchun mo'ljallangan nozik saqlash narsasi."
+        },
+        "28": {
+          "name": "Zamonaviy ofis polkalari",
+          "shortDescription": "Ofislar uchun zamonaviy devor saqlash",
+          "description": "Professional muhitlar uchun mo'ljallangan stilish saqlash yechimi."
+        },
+        "29": {
+          "name": "Drive yakuniy kabineti",
+          "shortDescription": "Yuqori sifatli ofis saqlash",
+          "description": "Drive kolleksiyasining oxirgi narsasi premium saqlash echimlari taqdim etadi."
+        },
+        "30": {
+          "name": "Genesis mobil birligi",
+          "shortDescription": "Ko'chib o'tuvchi saqlash tizimi bilan universal",
+          "description": "Genesis kolleksiyasidan harakatchan saqlash yechimi, mobillik va uslub bilan."
+        },
+        "31": {
+          "name": "Genesis stol ayn",
+          "shortDescription": "Zamonaviy ofislarda maxfiylik bo'linuvchisi",
+          "description": "Maxfiylik taqdim etuvchi zamonaviy stol ayn, estetikani qurban etmasa."
+        },
+        "32": {
+          "name": "Genesis xodim kabineti",
+          "shortDescription": "Xodimlarning individual saqlash",
+          "description": "Ofis xodimlar uchun mo'ljallangan personal saqlash kabineti nafis tugatish bilan."
+        },
+        "33": {
+          "name": "Genesis hujjat kabineti",
+          "shortDescription": "Himoyalangan fayl saqlash yechimi",
+          "description": "Shisha eshikli professional olish kabineti tashkil qilingan hujjat boshqarish uchun."
+        },
+        "34": {
+          "name": "Genesis shisha kabineti",
+          "shortDescription": "Shaffoflik bilan ko'rgazma kabineti",
+          "description": "Narsalarni ko'rsatish uchun shisha panellar bilan sofistifikatsiyalangan saqlash birligi."
+        },
+        "35": {
+          "name": "Genesis baland fayl kabineti",
+          "shortDescription": "Keng mohiyat, arkhivlash yechimi",
+          "description": "Keng hujjat tashkiloti uchun ideal baland saqlash kabineti."
+        },
+        "36": {
+          "name": "Genesis premium kabineti",
+          "shortDescription": "Yuqori-end ofis saqlash",
+          "description": "Istisno hunarmandlik va dизайn bilan premium olish kabineti."
+        },
+        "37": {
+          "name": "Genesis vertikal kabineti",
+          "shortDescription": "Mazigi saqlashni tejash",
+          "description": "Samarali tashkilot uchun vertikal makonni maksimal qiluvchi baland kabineti."
+        },
+        "38": {
+          "name": "Genesis metall kabineti",
+          "shortDescription": "Barqaror saqlash yechimi",
+          "description": "Barqarorlikni zamonaviy dизайn bilan birlashtiruvchi ishonchli kabineti."
+        },
+        "39": {
+          "name": "Genesis saqlash kabineti",
+          "shortDescription": "Professional saqlash narsasi",
+          "description": "Ofis va professional foydalanish uchun mo'ljallangan ishonchli saqlash."
+        },
+        "40": {
+          "name": "Genesis libas birligi",
+          "shortDescription": "Shaxsiy loker yechimi",
+          "description": "Xodim hududlari va umumiy bo'shliqlar uchun libas saqlash birligi."
+        },
+        "41": {
+          "name": "Genesis libas saqlash",
+          "shortDescription": "Alohida libas kabineti",
+          "description": "Libas va shaxsiy narsalarni saqlash uchun ixtisoslashtirilgan yechim."
+        },
+        "42": {
+          "name": "Genesis bo'linish polkalari",
+          "shortDescription": "Modul bo'shliqi bo'linuvchisi",
+          "description": "Bo'shliqlari aniqlashni tashkilot qiluvchi innovatsion saqlash tizimi."
+        },
+        "43": {
+          "name": "Genesis skamya stoli",
+          "shortDescription": "Hamkorlik ish yuzasi",
+          "description": "Jamoa muhitlari va ochiq ofislar uchun ideal uzun ish stoli."
+        },
+        "44": {
+          "name": "Genesis vazifa stoli",
+          "shortDescription": "Individual ish stantsiyasi",
+          "description": "Markaziy ish va individual samaradorlik uchun mo'ljallangan shaxsiy stol."
+        },
+        "45": {
+          "name": "Genesis hujjat saqlash",
+          "shortDescription": "Fayl tashkiloti moduli",
+          "description": "Hujjat boshqarish va tashkilot uchun mo'ljallangan kompakt arkhivlash yechimi."
+        },
+        "46": {
+          "name": "Genesis kompakt kabineti",
+          "shortDescription": "Mazigi tejovchi saqlash birligi",
+          "description": "Kompakt ofis bo'shliqlar uchun mo'ljallangan samarali saqlash kabineti."
+        },
+        "47": {
+          "name": "Genesis saqlash birligi",
+          "shortDescription": "Umumiy saqlash yechimi",
+          "description": "Genesis kolleksiyasidan turli ofis so'rovlar uchun universal saqlash kabineti."
+        },
+        "48": {
+          "name": "Alto ijro etuvchi kabineti",
+          "shortDescription": "Premium ofis saqlash yechimi",
+          "description": "Alto kolleksiyasidan sofistifikatsiyalangan kabineti ijro etuvchi bo'shliqlar uchun."
+        },
+        "49": {
+          "name": "Alto hujjat kabineti",
+          "shortDescription": "Professional arxivlash tizimi",
+          "description": "Alto dизайni bilan yuqori sifatli hujjat saqlash yechimi."
+        },
+        "50": {
+          "name": "Alto past kabineti",
+          "shortDescription": "Kompakt saqlash birligi",
+          "description": "Ofis tashkiloti uchun universal past kabineti."
+        },
+        "51": {
+          "name": "Alto o'rta kabineti A",
+          "shortDescription": "O'rta saqlash yechimi",
+          "description": "Muvozanatli ofis saqlash ehtiyojlari uchun samarali o'rta kabineti."
+        },
+        "52": {
+          "name": "Alto o'rta kabineti B",
+          "shortDescription": "Sozlanuvchi saqlash",
+          "description": "Turli ofis qo'llanmalari uchun moslashuvchi o'rta kabineti."
+        },
+        "53": {
+          "name": "Alto o'rta kabineti C",
+          "shortDescription": "Professional saqlash narsasi",
+          "description": "Zamonaviy ofislar uchun mo'ljallangan nafis o'rta kabineti."
+        },
+        "54": {
+          "name": "Alto baland kabineti A",
+          "shortDescription": "Baland saqlash yechimi",
+          "description": "Ofis muhitlarida vertikal makonni maksimal qiluvchi baland kabineti."
+        },
+        "55": {
+          "name": "Alto baland kabineti B",
+          "shortDescription": "Katta vertikal saqlash",
+          "description": "Keng ofis tashkiloti uchun yaqin baland kabineti."
+        },
+        "56": {
+          "name": "Alto baland kabineti C",
+          "shortDescription": "Premium baland kabineti",
+          "description": "Ustun tugatish sifati bilan nafis baland kabineti."
+        },
+        "57": {
+          "name": "Alto baland kabineti D",
+          "shortDescription": "Hashamat saqlash",
+          "description": "Sofistifikatsiyalangan bo'shliqlar uchun mo'ljallangan premium baland kabineti."
+        },
+        "58": {
+          "name": "Alto ijro etuvchi stoli",
+          "shortDescription": "Liderlik ish yuzasi",
+          "description": "Fariydagi ofislar uchun mo'ljallangan buyuuklik ijro etuvchi stoli."
+        },
+        "59": {
+          "name": "Alto opora stoli (chap)",
+          "shortDescription": "Asimmetrik ish stantsiyasi",
+          "description": "Ijro etuvchi tashkilot bo'shliqlar uchun chap konfiguratsiya opora stoli."
+        },
+        "60": {
+          "name": "Alto opora stoli (kengaytirilgan)",
+          "shortDescription": "Katta ijro etuvchi ish bo'shlig'i",
+          "description": "Keng ish yuzasi taqdim etuvchi kengaytirilgan opora stoli."
+        },
+        "61": {
+          "name": "Alto opora stoli (o'ng)",
+          "shortDescription": "O'ng konfiguratsiyali stol",
+          "description": "Ergonomik qulaylik uchun o'ng konfiguratsiya opora stoli."
+        },
+        "62": {
+          "name": "Alto kofе stoli",
+          "shortDescription": "Qabul mintagasining mebeli",
+          "description": "Ofis lounjlari uchun ideal nafis kofе stoli."
+        },
+        "63": {
+          "name": "Alto konferensiya stoli",
+          "shortDescription": "Uchrashuvning yuzasi",
+          "description": "Professional uchrashuvlar uchun mo'ljallangan sofistifikatsiyalangan stol."
+        },
+        "64": {
+          "name": "Alto mobil kabineti",
+          "shortDescription": "Mobil saqlash yechimi",
+          "description": "Moslashuvchi ofis bo'shliqlar uchun universal mobil kabineti."
+        },
+        "65": {
+          "name": "Alto ichimlik kabineti",
+          "shortDescription": "Muzlatgich quroli",
+          "description": "Ichimlik saqlashi uchun mo'ljallangan ixtisoslashtirilgan kabineti."
+        },
+        "66": {
+          "name": "Metar ofis birligi",
+          "shortDescription": "Zamonaviy ish bo'shlig'i mebeli",
+          "description": "Metar kolleksiyasidan zamonaviy ofis narsasi."
+        },
+        "67": {
+          "name": "Metar saqlash tizimi",
+          "shortDescription": "Integratsiya qilingan saqlash yechimi",
+          "description": "Samaradorlik uchun mo'ljallangan keng saqlash tizimi."
+        },
+        "68": {
+          "name": "Metar ish bo'shlig'ining kabineti",
+          "shortDescription": "Multimunafaatli ofis mebeli",
+          "description": "Uslub va amaliyotni birlashtiruvchi universal kabineti."
+        },
+        "69": {
+          "name": "Metar fayl birligi",
+          "shortDescription": "Hujjat tashkiloti",
+          "description": "Metar kolleksiyasidan professional arxivlash yechimi."
+        },
+        "70": {
+          "name": "Metar tashkilot tizimi",
+          "shortDescription": "Muvofiq saqlash",
+          "description": "Ofis saqlash echimlari uchun tashkil qilingan yondashuv."
+        },
+        "71": {
+          "name": "Metar modul polkalari",
+          "shortDescription": "Moslashuvchi saqlash konfiguratsiyasi",
+          "description": "Rivoji ofis ehtiyojlari uchun adaptabel saqlash tizimi."
+        },
+        "72": {
+          "name": "Metar ish kabineti",
+          "shortDescription": "Ish bo'shlig'ining integratsiya mebeli",
+          "description": "Productive ish joylar uchun mo'ljallangan suvastik kabineti."
+        },
+        "73": {
+          "name": "Metar ko'rgazma birligi",
+          "shortDescription": "Ko'rgazma kabineti",
+          "description": "Professional muhitlar uchun ko'rsinuvchi saqlash narsasi."
+        },
+        "74": {
+          "name": "Metar saqlash yakuniy",
+          "shortDescription": "To'liq saqlash yechimi",
+          "description": "Metar kolleksiyasining tugallanuvchi narsasi, keng saqlashni taqdim etadi."
+        },
+        "75": {
+          "name": "Negoziatore premium kabineti",
+          "shortDescription": "Hashamatli ofis saqlash",
+          "description": "Negoziatore kolleksiyasidan fariydagi ofislar uchun istisnoi kabineti."
+        },
+        "76": {
+          "name": "Negoziatore ijro etuvchi saqlash",
+          "shortDescription": "Yuqori-end ofis mebeli",
+          "description": "Liderlik bo'shliqlar uchun mo'ljallangan premium saqlash yechimi."
+        },
+        "77": {
+          "name": "Negoziatore prestigli birligi",
+          "shortDescription": "Eksklyuziv ofis narsasi",
+          "description": "Prestig Negoziatore liniyasidan eksklyuziv mebel narsasi."
+        },
+        "78": {
+          "name": "Negoziatore vakalatli kabineti",
+          "shortDescription": "Buyuk ahamiyatli mebel",
+          "description": "Ijro etuvchi bo'shliqlarida hurmat talqin qiluvchi kuchli kabineti."
+        },
+        "79": {
+          "name": "Negoziatore turli oXlidagi kabineti",
+          "shortDescription": "Nafis ofis mebeli",
+          "description": "Nafis professional muhitlar uchun turli oX qiluvchi narsasi."
+        },
+        "80": {
+          "name": "Negoziatore elegantlik birligi",
+          "shortDescription": "Sofistifikatsiyalangan saqlash",
+          "description": "Olij ofis sozlamalarida nafis saqlash yechimi."
+        },
+        "81": {
+          "name": "Negoziatore prestigli saqlash",
+          "shortDescription": "Premium ofis investitsiyasi",
+          "description": "Olijanlik va hashamatni aks ettiruvchi premium saqlash narsasi."
+        },
+        "82": {
+          "name": "Negoziatore zenit kabineti",
+          "shortDescription": "Top-tashkilot ofis mebeli",
+          "description": "Negoziatore kolleksiyasidan ofis saqlash dизаynining cho'qqisi."
+        },
+        "83": {
+          "name": "Vestar konferentsiya stoli 4-kishi Z-101",
+          "shortDescription": "Professional meeting solution",
+          "description": "Kichik jamoa uchrashuvlari uchun mo'ljallangan o'rindiqli konferentsiya stoli. Premium qurilish va zamonaviy dizaynni birlashtiradi."
+        },
+        "84": {
+          "name": "Vestar konferentsiya stoli 4-kishi Z-102",
+          "shortDescription": "Alternate professional layout",
+          "description": "Uchrashuvlar uchun moslashtirilgan bo'shliqni taklif etadigan muqobil 4-kishi konfiguratsiyasi. Hamkorlik muhokamalar va prezentatsiyalar uchun ideal."
+        },
+        "85": {
+          "name": "Vestar konferentsiya stoli 8-kishi Z-103",
+          "shortDescription": "Medium meeting capacity",
+          "description": "Bo'lim uchrashuvlari uchun 8-kishi konferentsiya stoli. Ixtisosiy muhitlar uchun rafinlangan funksionallik va estetikani birlashtiradi."
+        },
+        "86": {
+          "name": "Vestar konferentsiya stoli 10-kishi Z-104",
+          "shortDescription": "Large conference solution",
+          "description": "Direktor kengashlari uchun 10-kishi konferentsiya stoli. Barqarorlik uchun muhandislik qilingan va ijroiya sozlamalariga mo'ljallangan."
+        },
+        "87": {
+          "name": "Vestar konferentsiya stoli 12-kishi Z-201",
+          "shortDescription": "Executive meeting centerpiece",
+          "description": "Muhim uchrashuvlar uchun premium 12-kishi konferentsiya stoli. Nufuzi business muhitlari uchun mustahkam sifat va vaqtdan tashqari dizayn."
+        }
       }
     }
+  },
+  "collections": {
+    "seo": {
+      "title": "Kolleksiyalar | Manaku",
+      "description": "Bizning hashamatli mebel kolleksiyalarini oching."
+    },
+    "explore": "Tadqiq qiling",
+    "items": {
+      "artVision": {
+        "name": "ArtVision Kolleksiyasi",
+        "description": "Haykaltaroshlik va badiiy mebel narsalari"
+      },
+      "drive": {
+        "name": "Drive Kolleksiyasi",
+        "description": "Dinamik va funktsional yechimlar"
+      },
+      "genesis": {
+        "name": "Genesis Kolleksiyasi",
+        "description": "Zamonaviy joylashgan hol uchun zamonaviy dizaynlar"
+      },
+      "alto": {
+        "name": "Alto Kolleksiyasi",
+        "description": "Saqlangan o'tirish va turish mebeli"
+      },
+      "metar": {
+        "name": "Metar Kolleksiyasi",
+        "description": "Minimalist va nafis dizaynlar"
+      },
+      "negoziatore": {
+        "name": "Negoziatore Kolleksiyasi",
+        "description": "Premium ofis va biznes mebeli"
+      },
+      "vestar": {
+        "name": "Vestar Kolleksiyasi",
+        "description": "Mutaxassislik konferentsiya va uchrashuvlar jadvali"
+      }
+    },
+    "title": "Kolleksiyalar",
+    "subtitle": "Tanladigan tanlangan",
+    "description": "Bizning ehtiyotkorlikcha tanlangan kolleksiyasini tadqiq qiling, har biri yashaydigan joyingizni ilhomlantirish va yaxshilash uchun mo'ljallangan.",
+    "cta": "O'zingizning mukammal narsasini ochib ko'ring",
+    "ctaDesc": "Har bir kolleksiya o'ziga xos hikoya gapiraydi. O'zingizning stilingizni aks ettiruvchi narsalarni topish uchun bizning tanlanmalarni ko'rish.",
+    "viewFullCatalog": "To'liq katalogni ko'rish",
+    "products": "mahsulotlar"
   },
   "about": {
     "seo": {
@@ -393,48 +879,6 @@
       },
       "allProducts": "Barcha mahsulotlar"
      
-  },
-    "collections": {
-      "seo": {
-        "title": "Kolleksiyalar | Manaku",
-        "description": "Hashamatli mebel kolleksiyalarimizni kashf eting."
-      },
-      "explore": "O'rganing",
-      "items": {
-        "living": {
-          "name": "Kollektsiya yashash xonasi uchun",
-          "description": "Zamonaviy yashash joylari uchun haykaltaroshlik divanlar va nozik o'tirish joylari"
-        },
-        "bedroom": {
-          "name": "Kollektsiya yotoq xonasi uchun",
-          "description": "Dam olish va tiklanish uchun mo'ljallangan tinch predmetlar"
-        },
-        "dining": {
-          "name": "Kollektsiya ovqat xonasi uchun",
-          "description": "Nozik qabul qilishlar uchun nafis stollar va stullar"
-        },
-        "lighting": {
-          "name": "Kollektsiya yoritish uchun",
-          "description": "Har qanday makon uchun atmosferik va haykaltaroshlik yoritish"
-        },
-        "contemporary": {
-          "name": "Zamonaviy kollektsiya",
-          "description": "Toza chiziqlar va innovatsion materiallar bilan zamonaviy dizayn"
-        },
-        "classic": {
-          "name": "Klassik kollektsiya",
-          "description": "Abadiy nafislik va an'anaviy mahorat bilan klassik dizayn"
-        }
-      },
-      "title": "Kolleksiyalar",
-      "subtitle": "Tanlangli Tanlovlar",
-      "description": "Bizning tanlangli kolleksiyalarni ko'ring, ularning har biri sizning yashaydigan makonlarni ilhomlantirish va o'naltirish uchun ishlab chiqilgan.",
-      "cta": "O'zingizning Mukammal Parçangizni Kashf Etish",
-        "ctaDesc": "Har bir kolleksiya noyub voqeani aytadi. Sizning shaxsiy uslubingiz bilan gapdashuvchi parçalarni topish uchun bizning tanlovlarni ko'rb chiqing.",
-        "viewFullCatalog": "To'liq katalogni ko'rish",
-        "products": "mahsulotlar"
-     
-  
   },
 
     "contact": {

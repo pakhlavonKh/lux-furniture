@@ -18,6 +18,7 @@ import { useLanguage } from "@/contexts/useLanguageHook";
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import Collections from "./pages/Collections";
+import CollectionDetail from "./pages/CollectionDetail";
 import Product from "./pages/Product";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -55,6 +56,7 @@ function AppWithLanguage() {
               <Route path="/" element={<Catalog />} />
               <Route path="/showcase" element={<Index />} />
               <Route path="/collections" element={<Collections />} />
+              <Route path="/collections/:slug" element={<CollectionDetail />} />
               <Route path="/product/:slug" element={<Product />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

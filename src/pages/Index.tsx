@@ -5,6 +5,7 @@ import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { Philosophy } from "@/components/home/Philosophy";
 import { Collections } from "@/components/home/Collections";
 import { SEO } from "@/components/SEO";
+import { getCollections } from "@/data/catalogData";
 
 // Import images
 import heroImage from "@/assets/hero-living-room.jpg";
@@ -12,8 +13,6 @@ import craftsmanshipImage from "@/assets/craftsmanship.jpg";
 import armchairImage from "@/assets/product-armchair.jpg";
 import diningTableImage from "@/assets/product-dining-table.jpg";
 import lampImage from "@/assets/product-lamp.jpg";
-import collectionLivingImage from "@/assets/collection-living.jpg";
-import collectionBedroomImage from "@/assets/collection-bedroom.jpg";
 
 // Sample featured products
 const featuredProducts = [
@@ -43,23 +42,8 @@ const featuredProducts = [
   },
 ];
 
-// Sample collections
-const collections = [
-  {
-    id: "1",
-    key: "living",
-    slug: "living-collection",
-    image: collectionLivingImage,
-  },
-  {
-    id: "2",
-    key: "bedroom",
-    slug: "bedroom-collection",
-    image: collectionBedroomImage,
-  },
-];
-
 const Index = () => {
+  const collections = getCollections().slice(0, 2);
   return (
     <>
       <SEO

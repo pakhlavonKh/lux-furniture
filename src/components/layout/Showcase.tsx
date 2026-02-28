@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/contexts/useLanguageHook";
-import { getImageUrl } from "@/data/catalogData";
+import { getImageUrl, getCollections } from "@/data/catalogData";
 
 // Import images
 import heroImage from "@/assets/hero-living-room.jpg";
@@ -11,8 +11,6 @@ import craftsmanshipImage from "@/assets/craftsmanship.jpg";
 import armchairImage from "@/assets/product-armchair.jpg";
 import diningTableImage from "@/assets/product-dining-table.jpg";
 import lampImage from "@/assets/product-lamp.jpg";
-import collectionLivingImage from "@/assets/collection-living.jpg";
-import collectionBedroomImage from "@/assets/collection-bedroom.jpg";
 
 const featuredProducts = [
 	{
@@ -41,23 +39,9 @@ const featuredProducts = [
 	},
 ];
 
-const collections = [
-	{
-		id: "1",
-		key: "living",
-		slug: "living-collection",
-		image: collectionLivingImage,
-	},
-	{
-		id: "2",
-		key: "bedroom",
-		slug: "bedroom-collection",
-		image: collectionBedroomImage,
-	},
-];
-
 export function Showcase() {
 	const { t } = useLanguage();
+	const collections = getCollections().slice(0, 2);
 	// Hero Section
 	return (
 		<>
@@ -257,12 +241,12 @@ export function Showcase() {
 								viewport={{ once: true }}
 							>
 								<Link
-									to={`/catalog?collection=${collection.slug}`}
+									to={`/collections/${collection.slug}`}
 									className="group block relative aspect-[16/10] overflow-hidden"
 								>
 									<img
 										src={collection.image}
-										alt={t(`collections.items.${collection.key}.name`)}
+										alt={t(collection.nameKey)}
 										className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
 									/>
 									<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -270,10 +254,10 @@ export function Showcase() {
 										<div className="flex items-end justify-between">
 											<div>
 												<h3 className="font-serif text-2xl md:text-3xl text-white mb-2">
-													{t(`collections.items.${collection.key}.name`)}
+													{t(collection.nameKey)}
 												</h3>
 												<p className="text-white/70 text-sm max-w-xs">
-													{t(`collections.items.${collection.key}.description`)}
+													{t(collection.descriptionKey)}
 												</p>
 											</div>
 											<div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:text-black">

@@ -63,7 +63,7 @@ const Product = () => {
                   to="/"
                   className="hover:text-foreground transition-colors"
                 >
-                  Home
+                  {t("breadcrumb.home")}
                 </Link>
               </li>
               <li>/</li>
@@ -72,7 +72,7 @@ const Product = () => {
                   to="/"
                   className="hover:text-foreground transition-colors"
                 >
-                  Catalog
+                  {t("breadcrumb.catalog")}
                 </Link>
               </li>
               <li>/</li>
@@ -87,39 +87,39 @@ const Product = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="relative aspect-[4/5] bg-muted mb-4 overflow-hidden group">
+              <div className="gallery-wrapper">
                 <img
                   src={getImageUrl(images[currentImageIndex])}
                   alt={t(product.nameKey)}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="gallery-image"
                 />
 
                 {images.length > 1 && (
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
+                      className="gallery-nav gallery-nav-left"
                     >
-                      <ChevronLeft className="w-5 h-5" />
+                      <ChevronLeft className="gallery-icon" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-background/80 hover:bg-background flex items-center justify-center transition-colors"
+                      className="gallery-nav gallery-nav-right"
                     >
-                      <ChevronRight className="w-5 h-5" />
+                      <ChevronRight className="gallery-icon" />
                     </button>
                   </>
                 )}
               </div>
 
               {images.length > 1 && (
-                <div className="flex gap-3">
+                <div className="thumbnail-container">
                   {images.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
                       className={cn(
-                        "w-20 h-20 bg-muted overflow-hidden transition-opacity",
+                        "thumbnail",
                         currentImageIndex === index
                           ? "opacity-100 ring-2 ring-foreground"
                           : "opacity-60 hover:opacity-100",
@@ -128,7 +128,6 @@ const Product = () => {
                       <img
                         src={getImageUrl(image)}
                         alt={`${t(product.nameKey)} view ${index + 1}`}
-                        className="w-full h-full object-cover"
                       />
                     </button>
                   ))}

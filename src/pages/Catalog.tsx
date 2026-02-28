@@ -23,7 +23,9 @@ import industrialImg from "@/assets/product-sofa.jpg";
 import accessoriesImg from "@/assets/product-lamp.jpg";
 
 import { getProducts } from "@/data/catalogData";
-import { Filter } from "lucide-react";
+import { Filter, ChevronLeft, ChevronRight } from "lucide-react";
+
+const ITEMS_PER_PAGE = 12;
 
 const categories = [
   {
@@ -109,6 +111,7 @@ export default function Catalog() {
   const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
@@ -143,6 +146,17 @@ export default function Catalog() {
 
     return list;
   }, [products, selectedCategory, sort]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, sort]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
   return (
     <Layout>
@@ -337,33 +351,75 @@ export default function Catalog() {
                   {t("catalog.noResults") || "No products found."}
                 </p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                  {filteredProducts.map((product) => (
-                    <Link
-                      key={product.id}
-                      to={`/product/${product.slug}`}
-                      className="block group"
-                    >
-                      <div className="product-card">
-                        <div className="product-card__image-wrap">
-                          <img
-                            src={getImageUrl(product.images[0])}
-                            alt={t(product.nameKey)}
-                            className="product-card__image transition-transform duration-300 group-hover:scale-105"
-                          />
-                        </div>
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    {paginatedProducts.map((product) => (
+                      <Link
+                        key={product.id}
+                        to={`/product/${product.slug}`}
+                        className="block group"
+                      >
+                        <div className="product-card">
+                          <div className="product-card__image-wrap">
+                            <img
+                              src={getImageUrl(product.images[0])}
+                              alt={t(product.nameKey)}
+                              className="product-card__image transition-transform duration-300 group-hover:scale-105"
+                            />
+                          </div>
 
-                        <div className="product-card__title">
-                          {t(product.nameKey)}
-                        </div>
+                          <div className="product-card__title">
+                            {t(product.nameKey)}
+                          </div>
 
-                        <div className="product-card__price">
-                          €{product.basePrice.toLocaleString()}
+                          <div className="product-card__price">
+                            €{product.basePrice.toLocaleString()}
+                          </div>
                         </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-center gap-2 mt-12">
+                      <button
+                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                        disabled={currentPage === 1}
+                        className="pagination-btn"
+                        aria-label="Previous page"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+
+                      <div className="flex items-center gap-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                          (page) => (
+                            <button
+                              key={page}
+                              onClick={() => setCurrentPage(page)}
+                              className={`pagination-page-btn ${
+                                currentPage === page ? "active" : ""
+                              }`}
+                              aria-current={currentPage === page ? "page" : undefined}
+                            >
+                              {page}
+                            </button>
+                          )
+                        )}
                       </div>
-                    </Link>
-                  ))}
-                </div>
+
+                      <button
+                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                        disabled={currentPage === totalPages}
+                        className="pagination-btn"
+                        aria-label="Next page"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
