@@ -176,13 +176,6 @@
     "title": "Showcase"
   },
   "products": {
-    "ariaLounge": "Aria Lounge Chair",
-    "tavola": "Tavola Dining Table",
-    "luce": "Luce Floor Lamp",
-    "livingCollection": "Living Collection",
-    "bedroomCollection": "Bedroom Collection",
-    "livingDesc": "Sculptural sofas and refined seating for modern living spaces",
-    "bedroomDesc": "Serene pieces designed for rest and rejuvenation",
     "category": {
       "seating": "Seating",
       "dining": "Dining",
