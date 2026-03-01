@@ -7,8 +7,6 @@ import { useLanguage } from "@/contexts/useLanguageHook";
 import {
   CatalogProduct,
   getProducts,
-  getVariantStock,
-  setVariantStock,
 } from "@/data/catalogData";
 
 interface User {
@@ -96,15 +94,6 @@ const Admin = () => {
       toast({
         title: "Invalid stock",
         description: "Stock must be a non-negative integer.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!setVariantStock(variantId, parsed)) {
-      toast({
-        title: "Error",
-        description: "Failed to update variant stock.",
         variant: "destructive",
       });
       return;
@@ -281,7 +270,6 @@ const Admin = () => {
                   <div key={product.id} className="border border-border p-5 rounded-sm">
                     <div className="flex flex-col gap-2 mb-4">
                       <p className="font-medium">{t(product.nameKey)}</p>
-                      <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>
                     </div>
 
                     {product.variants && product.variants.length > 0 && (

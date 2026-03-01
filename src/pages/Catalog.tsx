@@ -23,7 +23,13 @@ import industrialImg from "@/assets/product-sofa.jpg";
 import accessoriesImg from "@/assets/product-lamp.jpg";
 
 import { getProducts } from "@/data/catalogData";
-import { Filter, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  Icon,
+} from "lucide-react";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -113,7 +119,7 @@ export default function Catalog() {
   const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  
+
   // Initialize currentPage from URL or sessionStorage
   const [currentPage, setCurrentPageState] = useState(() => {
     const params = new URLSearchParams(location.search);
@@ -125,7 +131,7 @@ export default function Catalog() {
   });
 
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
-
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
   // Track if this is the first render to skip the reset effect on mount
   const isInitialMount = useRef(true);
 
@@ -206,76 +212,111 @@ export default function Catalog() {
 
       {/* Categories Scroll */}
       <section className="catalog-nav-section">
-        <div
-          className="catalog-nav-wrapper"
-          onMouseLeave={() => setHoveredCategory(null)}
-        >
-          {/* Your existing horizontal scroll */}
-          <div className="container-luxury">
-            <div className="categories-scroll">
-              {categories.map((cat) => {
-                const Icon = cat.icon;
+        <div className="container-luxury">
+          {/* Mobile Toggle */}
+          {!isDesktop && (
+            <button
+              className="catalog-categories-toggle"
+              onClick={() => setCategoriesOpen((prev) => !prev)}
+              aria-expanded={categoriesOpen}
+            >
+              {t("catalog.category") || "Categories"}
+              <ChevronDown
+                className={`chevron ${categoriesOpen ? "open" : ""}`}
+              />
+            </button>
+          )}
 
-                return (
-                  <button
-                    className="category-card"
-                    key={cat.key}
-                    onMouseEnter={() => setHoveredCategory(cat.key)}
-                  >
-                    {/* <Icon className="category-card__image" /> */}
-                    <span className="category-card__title">
-                      {t(`categories.${cat.key}`)}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* MEGA DROPDOWN */}
+          {/* WRAPPER controls visibility */}
           <div
-            className={`mega-dropdown ${
-              hoveredCategory ? "mega-dropdown--open" : ""
+            className={`catalog-categories-wrapper ${
+              isDesktop ? "desktop" : categoriesOpen ? "open" : ""
             }`}
           >
-            {categories.map((cat) =>
-              hoveredCategory === cat.key ? (
-                <div key={cat.key} className="mega-content container-luxury">
-                  {/* LEFT COLUMN */}
-                  <div className="mega-left">
-                    <h3 className="mega-title">{t(`categories.${cat.key}`)}</h3>
+            <div
+              className="catalog-nav-wrapper"
+              onMouseLeave={() => isDesktop && setHoveredCategory(null)}
+            >
+              {/* Horizontal scroll */}
+              <div className="categories-scroll">
+                {categories.map((cat) => {
+                  const IconComponent = cat.icon;
+                  return (
+                    <button
+                      key={cat.key}
+                      className="category-card"
+                      onClick={() => {
+                        setSelectedCategory(cat.key);
+                        // if (!isDesktop) setCategoriesOpen(false);
+                      }}
+                      onMouseEnter={() =>
+                        isDesktop && setHoveredCategory(cat.key)
+                      }
+                    >
+                      <IconComponent className="category-card__image" />
+                      <span className="category-card__title">
+                        {t(`categories.${cat.key}`)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-                    <ul className="mega-list">
-                      {cat.subcategories?.map((sub) => (
-                        <li key={sub.title}>
-                          <button
-                            onClick={() => {
-                              setSelectedCategory(cat.key);
-                              setHoveredCategory(null);
-                            }}
-                          >
-                            {t(`subcategories.${sub.title}`)}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+            {/* 🔥 MEGA DROPDOWN (Desktop Only) */}
+            {isDesktop && (
+              <div
+                className={`mega-dropdown ${
+                  hoveredCategory ? "mega-dropdown--open" : ""
+                }`}
+                onMouseEnter={() =>
+                  hoveredCategory && setHoveredCategory(hoveredCategory)
+                }
+                onMouseLeave={() => setHoveredCategory(null)}
+              >
+                {categories.map((cat) =>
+                  hoveredCategory === cat.key ? (
+                    <div
+                      key={cat.key}
+                      className="mega-content container-luxury"
+                    >
+                      <div className="mega-left">
+                        <h3 className="mega-title">
+                          {t(`categories.${cat.key}`)}
+                        </h3>
 
-                  {/* RIGHT GRID */}
-                  <div className="mega-grid">
-                    {cat.subcategories?.map((sub) => (
-                      <Link key={sub.title} to="#" className="mega-card">
-                        <div className="mega-card__image-wrap">
-                          <img src={sub.image} alt={sub.title} />
-                        </div>
-                        <span className="mega-card__title">
-                          {t(`subcategories.${sub.title}`)}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : null,
+                        <ul className="mega-list">
+                          {cat.subcategories?.map((sub) => (
+                            <li key={sub.title}>
+                              <button
+                                onClick={() => {
+                                  setSelectedCategory(cat.key);
+                                  setHoveredCategory(null);
+                                }}
+                              >
+                                {t(`subcategories.${sub.title}`)}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="mega-grid">
+                        {cat.subcategories?.map((sub) => (
+                          <Link key={sub.title} to="#" className="mega-card">
+                            <div className="mega-card__image-wrap">
+                              <img src={sub.image} alt={sub.title} />
+                            </div>
+                            <span className="mega-card__title">
+                              {t(`subcategories.${sub.title}`)}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null,
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -333,17 +374,20 @@ export default function Catalog() {
                     {t("catalog.all") || "All"}
                   </button>
 
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.key}
-                      onClick={() => setSelectedCategory(cat.key)}
-                      className={`filter-item ${
-                        selectedCategory === cat.key ? "active" : ""
-                      }`}
-                    >
-                      {t(`categories.${cat.key}`)}
-                    </button>
-                  ))}
+                  {categories.map((cat) => {
+                    const IconComponent = cat.icon;
+                    return (
+                      <button
+                        key={cat.key}
+                        onClick={() => setSelectedCategory(cat.key)}
+                        className={`filter-item ${
+                          selectedCategory === cat.key ? "active" : ""
+                        }`}
+                      >
+                        {t(`categories.${cat.key}`)}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -422,7 +466,9 @@ export default function Catalog() {
                   {totalPages > 1 && (
                     <div className="flex items-center justify-center gap-2 mt-12">
                       <button
-                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                        onClick={() =>
+                          setCurrentPage((p) => Math.max(1, p - 1))
+                        }
                         disabled={currentPage === 1}
                         className="pagination-btn"
                         aria-label="Previous page"
@@ -431,24 +477,74 @@ export default function Catalog() {
                       </button>
 
                       <div className="flex items-center gap-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                          (page) => (
+                        {(() => {
+                          const pages: (number | string)[] = [];
+                          const maxVisible = 3;
+                          const ellipsis = "...";
+
+                          if (totalPages <= 7) {
+                            // Show all pages if 7 or fewer
+                            for (let i = 1; i <= totalPages; i++) {
+                              pages.push(i);
+                            }
+                          } else {
+                            // Always show first page
+                            pages.push(1);
+
+                            // Show left ellipsis if needed
+                            if (currentPage > maxVisible + 1) {
+                              pages.push(ellipsis);
+                            }
+
+                            // Show pages around current
+                            const start = Math.max(2, currentPage - 1);
+                            const end = Math.min(
+                              totalPages - 1,
+                              currentPage + 1,
+                            );
+                            for (let i = start; i <= end; i++) {
+                              if (!pages.includes(i)) {
+                                pages.push(i);
+                              }
+                            }
+
+                            // Show right ellipsis if needed
+                            if (currentPage < totalPages - maxVisible) {
+                              pages.push(ellipsis);
+                            }
+
+                            // Always show last page
+                            if (!pages.includes(totalPages)) {
+                              pages.push(totalPages);
+                            }
+                          }
+
+                          return pages.map((page, idx) => (
                             <button
-                              key={page}
-                              onClick={() => setCurrentPage(page)}
+                              key={idx}
+                              onClick={() => {
+                                if (typeof page === "number") {
+                                  setCurrentPage(page);
+                                }
+                              }}
                               className={`pagination-page-btn ${
                                 currentPage === page ? "active" : ""
-                              }`}
-                              aria-current={currentPage === page ? "page" : undefined}
+                              } ${typeof page === "string" ? "cursor-default" : ""}`}
+                              aria-current={
+                                currentPage === page ? "page" : undefined
+                              }
+                              disabled={typeof page === "string"}
                             >
                               {page}
                             </button>
-                          )
-                        )}
+                          ));
+                        })()}
                       </div>
 
                       <button
-                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                        onClick={() =>
+                          setCurrentPage((p) => Math.min(totalPages, p + 1))
+                        }
                         disabled={currentPage === totalPages}
                         className="pagination-btn"
                         aria-label="Next page"

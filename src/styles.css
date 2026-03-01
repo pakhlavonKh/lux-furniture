@@ -1498,8 +1498,8 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
 
 
 .category-card__image-box {
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
 
   background: transparent;
 
@@ -1539,8 +1539,8 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   }
 
   .category-card__image {
-    width: 7rem;
-    height: 7rem;
+    width: 4rem;
+    height: 4rem;
   }
 
   .category-card__title {
@@ -1563,6 +1563,49 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   position: relative;
 }
 
+.catalog-categories-toggle {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.75rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* COLLAPSIBLE WRAPPER */
+.catalog-categories-wrapper {
+  overflow: hidden;
+  transition: max-height 0.8s ease;
+}
+
+/* MOBILE CLOSED */
+.catalog-categories-wrapper:not(.desktop):not(.open) {
+  max-height: 0;
+}
+
+/* MOBILE OPEN */
+.catalog-categories-wrapper.open {
+  max-height: 500px; /* adjust if needed */
+}
+
+/* DESKTOP ALWAYS OPEN */
+.catalog-categories-wrapper.desktop {
+  max-height: none;
+}
+
+/* Chevron rotation */
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
 /* ========================= */
 /* MEGA DROPDOWN */
 /* ========================= */
@@ -1578,6 +1621,7 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   max-height: 0;
   opacity: 0;
   transform: translateY(-8px);
+  pointer-events: none;
 
   transition:
     max-height 0.35s ease,
@@ -1593,6 +1637,7 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   opacity: 1;
   transform: translateY(0);
   padding: 2rem 0;
+  pointer-events: auto;
 }
 
 
@@ -2339,9 +2384,9 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
 }
 
 .pagination-page-btn.active {
-  background-color: hsl(var(--foreground));
+  background-color: #1A9FB0;
   color: hsl(var(--background));
-  border-color: hsl(var(--foreground));
+  border-color: hsl(var(--primary));
   font-weight: 600;
 }
 
