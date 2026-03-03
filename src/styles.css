@@ -1652,6 +1652,17 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   background: #F8F9F9;
 }
 
+.mega-dropdown--mobile {
+  position: static;
+  box-shadow: none;
+  background: transparent;
+  padding: 1rem;
+}
+
+.mega-dropdown--mobile .mega-content {
+  flex-direction: column;
+}
+
 /* ========================= */
 /* LEFT COLUMN */
 /* ========================= */
@@ -1730,9 +1741,61 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   color: #111827;
 }
 
-@media (max-width: 728px) {
+/* ========================= */
+/* MOBILE MEGA FIXED */
+/* ========================= */
+
+@media (max-width: 767px) {
+
   .mega-dropdown {
-    display: none !important;
+    position: static;
+    width: 100%;
+    transform: none;
+  }
+
+  .mega-dropdown--open {
+    max-height: 1000px;
+    padding: 1rem ;
+  }
+
+  .mega-content {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  /* Hide left column on mobile */
+  .mega-left {
+    display: none;
+  }
+
+  /* Make grid scrollable horizontally */
+  .mega-grid {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.5rem;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mega-grid::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .mega-grid::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+  }
+
+  .mega-card {
+    min-width: 140px;
+    flex: 0 0 auto;
+  }
+
+  .mega-card__image-wrap img {
+    height: 100px;
   }
 }
 
@@ -2388,6 +2451,18 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
   color: hsl(var(--background));
   border-color: hsl(var(--primary));
   font-weight: 600;
+}
+
+.pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;                 /* 40px */
+  height: 2.5rem;                    /* 40px */
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  font-weight: 500;
+  user-select: none;
 }
 
 /* ===== Contact Info Row (Desktop) ===== */

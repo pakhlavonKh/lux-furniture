@@ -1,10 +1,9 @@
-// This page is the main catalog view, where users can browse through all the products available in the store. It features a horizontal scrollable section at the top for filtering products by category, and a sidebar for additional filters and sorting options. The products are displayed in a responsive grid layout, and users can click on any product to view its details. The page also includes SEO metadata for better search engine visibility.
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
-import { getImageUrl } from "@/data/catalogData";
+import { getImageUrl, getProducts } from "@/data/catalogData";
 import {
   StorageIcon,
   KitchenIcon,
@@ -14,6 +13,7 @@ import {
   IndustrialIcon,
   AccessoriesIcon,
 } from "@/components/icons/CategoryIcons";
+
 import kitchenImg from "@/assets/product-dining-table.jpg";
 import gardenImg from "@/assets/collection-living.jpg";
 import officeImg from "@/assets/product-armchair.jpg";
@@ -22,14 +22,7 @@ import shelvingImg from "@/assets/product-console.jpg";
 import industrialImg from "@/assets/product-sofa.jpg";
 import accessoriesImg from "@/assets/product-lamp.jpg";
 
-import { getProducts } from "@/data/catalogData";
-import {
-  Filter,
-  ChevronLeft,
-  ChevronRight,
-  ChevronDown,
-  Icon,
-} from "lucide-react";
+import { Filter, ChevronLeft, ChevronRight } from "lucide-react";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -119,55 +112,44 @@ export default function Catalog() {
   const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [activeMega, setActiveMega] = useState<string | null>(null);
 
-  // Initialize currentPage from URL or sessionStorage
-  const [currentPage, setCurrentPageState] = useState(() => {
-    const params = new URLSearchParams(location.search);
-    const pageFromUrl = params.get("page");
-    if (pageFromUrl) {
-      return parseInt(pageFromUrl, 10);
-    }
-    return 1;
-  });
-
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
-  // Track if this is the first render to skip the reset effect on mount
   const isInitialMount = useRef(true);
 
-  // Sync with URL when it changes
+  const [currentPage, setCurrentPageState] = useState(() => {
+    const params = new URLSearchParams(location.search);
+    return parseInt(params.get("page") || "1", 10);
+  });
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const pageFromUrl = params.get("page");
-    if (pageFromUrl) {
-      const pageNum = parseInt(pageFromUrl, 10);
-      if (pageNum !== currentPage) {
-        setCurrentPageState(pageNum);
-      }
+    const page = parseInt(params.get("page") || "1", 10);
+    if (page !== currentPage) {
+      setCurrentPageState(page);
     }
   }, [location.search]);
 
-  // Update URL when currentPage changes using navigate
   const setCurrentPage = (page: number | ((p: number) => number)) => {
-    const newPage = typeof page === "function" ? page(currentPage) : page;
+    const newPage =
+      typeof page === "function" ? page(currentPage) : page;
     setCurrentPageState(newPage);
-    // Use navigate to push to history stack with full path
     navigate(`/?page=${newPage}`, { replace: false });
   };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      setIsDesktop(event.matches);
-      setFiltersOpen(event.matches); // open only on desktop
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDesktop(e.matches);
+      setFiltersOpen(e.matches);
+      if (!e.matches) setActiveMega(null);
     };
 
     setIsDesktop(mediaQuery.matches);
     setFiltersOpen(mediaQuery.matches);
-
     mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+
+    return () =>
+      mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   const filteredProducts = useMemo(() => {
@@ -180,6 +162,7 @@ export default function Catalog() {
     if (sort === "price-asc") {
       list.sort((a, b) => a.basePrice - b.basePrice);
     }
+
     if (sort === "price-desc") {
       list.sort((a, b) => b.basePrice - a.basePrice);
     }
@@ -187,7 +170,6 @@ export default function Catalog() {
     return list;
   }, [products, selectedCategory, sort]);
 
-  // Reset to page 1 when filters change (but not on initial mount)
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -196,11 +178,12 @@ export default function Catalog() {
     setCurrentPage(1);
   }, [selectedCategory, sort]);
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  const paginatedProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
   return (
     <Layout>
@@ -210,119 +193,87 @@ export default function Catalog() {
         url="https://lux-furniture-demo.netlify.app/catalog"
       />
 
-      {/* Categories Scroll */}
+      {/* CATEGORY NAVIGATION */}
       <section className="catalog-nav-section">
-        <div className="container-luxury">
-          {/* Mobile Toggle */}
-          {!isDesktop && (
-            <button
-              className="catalog-categories-toggle"
-              onClick={() => setCategoriesOpen((prev) => !prev)}
-              aria-expanded={categoriesOpen}
-            >
-              {t("catalog.category") || "Categories"}
-              <ChevronDown
-                className={`chevron ${categoriesOpen ? "open" : ""}`}
-              />
-            </button>
-          )}
-
-          {/* WRAPPER controls visibility */}
-          <div
-            className={`catalog-categories-wrapper ${
-              isDesktop ? "desktop" : categoriesOpen ? "open" : ""
-            }`}
-          >
-            <div
-              className="catalog-nav-wrapper"
-              onMouseLeave={() => isDesktop && setHoveredCategory(null)}
-            >
-              {/* Horizontal scroll */}
-              <div className="categories-scroll">
-                {categories.map((cat) => {
-                  const IconComponent = cat.icon;
-                  return (
-                    <button
-                      key={cat.key}
-                      className="category-card"
-                      onClick={() => {
-                        setSelectedCategory(cat.key);
-                        // if (!isDesktop) setCategoriesOpen(false);
-                      }}
-                      onMouseEnter={() =>
-                        isDesktop && setHoveredCategory(cat.key)
-                      }
-                    >
-                      <IconComponent className="category-card__image" />
-                      <span className="category-card__title">
-                        {t(`categories.${cat.key}`)}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+        <div
+          className="catalog-nav-wrapper"
+          onMouseLeave={() => {
+            if (isDesktop) setActiveMega(null);
+          }}
+        >
+          <div className="container-luxury">
+            <div className="categories-scroll">
+              {categories.map((cat) => (
+                <button
+                  key={cat.key}
+                  className="category-card"
+                  onMouseEnter={() => {
+                    if (isDesktop) setActiveMega(cat.key);
+                  }}
+                  onClick={() => {
+                    if (!isDesktop) {
+                      setActiveMega((prev) =>
+                        prev === cat.key ? null : cat.key
+                      );
+                    }
+                  }}
+                >
+                  <span className="category-card__title">
+                    {t(`categories.${cat.key}`)}
+                  </span>
+                </button>
+              ))}
             </div>
+          </div>
 
-            {/* 🔥 MEGA DROPDOWN (Desktop Only) */}
-            {isDesktop && (
-              <div
-                className={`mega-dropdown ${
-                  hoveredCategory ? "mega-dropdown--open" : ""
-                }`}
-                onMouseEnter={() =>
-                  hoveredCategory && setHoveredCategory(hoveredCategory)
-                }
-                onMouseLeave={() => setHoveredCategory(null)}
-              >
-                {categories.map((cat) =>
-                  hoveredCategory === cat.key ? (
-                    <div
-                      key={cat.key}
-                      className="mega-content container-luxury"
-                    >
-                      <div className="mega-left">
-                        <h3 className="mega-title">
-                          {t(`categories.${cat.key}`)}
-                        </h3>
+          <div
+            className={`mega-dropdown ${
+              activeMega ? "mega-dropdown--open" : ""
+            } ${!isDesktop ? "mega-dropdown--mobile" : ""}`}
+          >
+            {categories.map((cat) =>
+              activeMega === cat.key ? (
+                <div key={cat.key} className="mega-content container-luxury">
+                  <div className="mega-left">
+                    <h3 className="mega-title">
+                      {t(`categories.${cat.key}`)}
+                    </h3>
+                    <ul className="mega-list">
+                      {cat.subcategories.map((sub) => (
+                        <li key={sub.title}>
+                          <button
+                            onClick={() => {
+                              setSelectedCategory(cat.key);
+                              if (!isDesktop) setActiveMega(null);
+                            }}
+                          >
+                            {t(`subcategories.${sub.title}`)}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                        <ul className="mega-list">
-                          {cat.subcategories?.map((sub) => (
-                            <li key={sub.title}>
-                              <button
-                                onClick={() => {
-                                  setSelectedCategory(cat.key);
-                                  setHoveredCategory(null);
-                                }}
-                              >
-                                {t(`subcategories.${sub.title}`)}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
+                  <div className="mega-grid">
+                    {cat.subcategories.map((sub) => (
+                      <div key={sub.title} className="mega-card">
+                        <div className="mega-card__image-wrap">
+                          <img src={sub.image} alt={sub.title} />
+                        </div>
+                        <span className="mega-card__title">
+                          {t(`subcategories.${sub.title}`)}
+                        </span>
                       </div>
-
-                      <div className="mega-grid">
-                        {cat.subcategories?.map((sub) => (
-                          <Link key={sub.title} to="#" className="mega-card">
-                            <div className="mega-card__image-wrap">
-                              <img src={sub.image} alt={sub.title} />
-                            </div>
-                            <span className="mega-card__title">
-                              {t(`subcategories.${sub.title}`)}
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null,
-                )}
-              </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null
             )}
           </div>
         </div>
       </section>
 
-      {/* Products + Filters */}
+      {/* PRODUCTS + FILTERS */}
       <section className="py-12 bg-background">
         <div className="container-luxury">
           {!isDesktop && (
@@ -333,8 +284,6 @@ export default function Catalog() {
               <button
                 onClick={() => setFiltersOpen((prev) => !prev)}
                 className="filters-toggle-btn"
-                aria-expanded={filtersOpen}
-                aria-controls="catalog-filters"
               >
                 <Filter className="filters-toggle-icon" />
                 {t("catalog.filters") || "Filters"}
@@ -342,79 +291,73 @@ export default function Catalog() {
             </div>
           )}
 
-          <div className="md:flex md:flex-row gap-8 lg:gap-10 items-start">
-            {/* Filters Panel */}
+          <div className="md:flex gap-8 items-start">
             <aside
-              id="catalog-filters"
               className={`filters-panel ${
                 isDesktop
                   ? "filters-desktop"
                   : filtersOpen
-                    ? "filters-mobile-open"
-                    : "filters-mobile-closed"
+                  ? "filters-mobile-open"
+                  : "filters-mobile-closed"
               }`}
             >
-              {/* Header */}
               <div className="filters-header">
                 <Filter className="filters-header-icon" />
                 <span>{t("catalog.filters") || "Filters"}</span>
               </div>
 
-              {/* Category */}
               <div className="filters-section">
                 <h3 className="filter-section-title">
                   {t("catalog.category") || "Category"}
                 </h3>
-
                 <div className="filter-group">
                   <button
                     onClick={() => setSelectedCategory(null)}
-                    className={`filter-item ${selectedCategory === null ? "active" : ""}`}
+                    className={`filter-item ${
+                      selectedCategory === null ? "active" : ""
+                    }`}
                   >
                     {t("catalog.all") || "All"}
                   </button>
 
-                  {categories.map((cat) => {
-                    const IconComponent = cat.icon;
-                    return (
-                      <button
-                        key={cat.key}
-                        onClick={() => setSelectedCategory(cat.key)}
-                        className={`filter-item ${
-                          selectedCategory === cat.key ? "active" : ""
-                        }`}
-                      >
-                        {t(`categories.${cat.key}`)}
-                      </button>
-                    );
-                  })}
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.key}
+                      onClick={() => setSelectedCategory(cat.key)}
+                      className={`filter-item ${
+                        selectedCategory === cat.key ? "active" : ""
+                      }`}
+                    >
+                      {t(`categories.${cat.key}`)}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Sort */}
               <div className="filters-section">
                 <h3 className="filter-section-title">
                   {t("catalog.sort") || "Sort"}
                 </h3>
-
                 <div className="filter-group">
                   <button
                     onClick={() => setSort("price-asc")}
-                    className={`filter-item ${sort === "price-asc" ? "active" : ""}`}
+                    className={`filter-item ${
+                      sort === "price-asc" ? "active" : ""
+                    }`}
                   >
-                    {t("catalog.priceLowHigh") || "Price: Low → High"}
+                    {t("catalog.priceLowHigh")}
                   </button>
-
                   <button
                     onClick={() => setSort("price-desc")}
-                    className={`filter-item ${sort === "price-desc" ? "active" : ""}`}
+                    className={`filter-item ${
+                      sort === "price-desc" ? "active" : ""
+                    }`}
                   >
-                    {t("catalog.priceHighLow") || "Price: High → Low"}
+                    {t("catalog.priceHighLow")}
                   </button>
                 </div>
               </div>
 
-              {/* Clear */}
               <button
                 onClick={() => {
                   setSelectedCategory(null);
@@ -422,138 +365,101 @@ export default function Catalog() {
                 }}
                 className="filters-clear"
               >
-                {t("catalog.clearFilters") || "Clear filters"}
+                {t("catalog.clearFilters")}
               </button>
             </aside>
 
-            {/* Products Grid */}
-            <div className="flex-1 min-w-0">
-              {filteredProducts.length === 0 ? (
-                <p className="text-muted-foreground">
-                  {t("catalog.noResults") || "No products found."}
-                </p>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                    {paginatedProducts.map((product) => (
-                      <Link
-                        key={product.id}
-                        to={`/product/${product.slug}`}
-                        className="block group"
-                      >
-                        <div className="product-card">
-                          <div className="product-card__image-wrap">
-                            <img
-                              src={getImageUrl(product.images[0])}
-                              alt={t(product.nameKey)}
-                              className="product-card__image transition-transform duration-300 group-hover:scale-105"
-                            />
-                          </div>
-
-                          <div className="product-card__title">
-                            {t(product.nameKey)}
-                          </div>
-
-                          <div className="product-card__price">
-                            €{product.basePrice.toLocaleString()}
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-
-                  {/* Pagination */}
-                  {totalPages > 1 && (
-                    <div className="flex items-center justify-center gap-2 mt-12">
-                      <button
-                        onClick={() =>
-                          setCurrentPage((p) => Math.max(1, p - 1))
-                        }
-                        disabled={currentPage === 1}
-                        className="pagination-btn"
-                        aria-label="Previous page"
-                      >
-                        <ChevronLeft className="w-4 h-4" />
-                      </button>
-
-                      <div className="flex items-center gap-2">
-                        {(() => {
-                          const pages: (number | string)[] = [];
-                          const maxVisible = 3;
-                          const ellipsis = "...";
-
-                          if (totalPages <= 7) {
-                            // Show all pages if 7 or fewer
-                            for (let i = 1; i <= totalPages; i++) {
-                              pages.push(i);
-                            }
-                          } else {
-                            // Always show first page
-                            pages.push(1);
-
-                            // Show left ellipsis if needed
-                            if (currentPage > maxVisible + 1) {
-                              pages.push(ellipsis);
-                            }
-
-                            // Show pages around current
-                            const start = Math.max(2, currentPage - 1);
-                            const end = Math.min(
-                              totalPages - 1,
-                              currentPage + 1,
-                            );
-                            for (let i = start; i <= end; i++) {
-                              if (!pages.includes(i)) {
-                                pages.push(i);
-                              }
-                            }
-
-                            // Show right ellipsis if needed
-                            if (currentPage < totalPages - maxVisible) {
-                              pages.push(ellipsis);
-                            }
-
-                            // Always show last page
-                            if (!pages.includes(totalPages)) {
-                              pages.push(totalPages);
-                            }
-                          }
-
-                          return pages.map((page, idx) => (
-                            <button
-                              key={idx}
-                              onClick={() => {
-                                if (typeof page === "number") {
-                                  setCurrentPage(page);
-                                }
-                              }}
-                              className={`pagination-page-btn ${
-                                currentPage === page ? "active" : ""
-                              } ${typeof page === "string" ? "cursor-default" : ""}`}
-                              aria-current={
-                                currentPage === page ? "page" : undefined
-                              }
-                              disabled={typeof page === "string"}
-                            >
-                              {page}
-                            </button>
-                          ));
-                        })()}
+            <div className="flex-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {paginatedProducts.map((product) => (
+                  <Link
+                    key={product.id}
+                    to={`/product/${product.slug}`}
+                    className="block group"
+                  >
+                    <div className="product-card">
+                      <div className="product-card__image-wrap">
+                        <img
+                          src={getImageUrl(product.images[0])}
+                          alt={t(product.nameKey)}
+                          className="product-card__image group-hover:scale-105 transition"
+                        />
                       </div>
-
-                      <button
-                        onClick={() =>
-                          setCurrentPage((p) => Math.min(totalPages, p + 1))
-                        }
-                        disabled={currentPage === totalPages}
-                        className="pagination-btn"
-                        aria-label="Next page"
-                      >
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
+                      <div className="product-card__title">
+                        {t(product.nameKey)}
+                      </div>
+                      <div className="product-card__price">
+                        €{product.basePrice.toLocaleString()}
+                      </div>
                     </div>
+                  </Link>
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="flex justify-center gap-2 mt-12">
+                  <button
+                    onClick={() =>
+                      setCurrentPage((p) => Math.max(1, p - 1))
+                    }
+                    disabled={currentPage === 1}
+                    className="pagination-btn"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+
+                  {useMemo(() => {
+                    const pages: (number | null)[] = [];
+                    const delta = 2;
+                    const left = currentPage - delta;
+                    const right = currentPage + delta;
+
+                    for (let i = 1; i <= totalPages; i++) {
+                      if (
+                        i === 1 ||
+                        i === totalPages ||
+                        (i >= left && i <= right)
+                      ) {
+                        pages.push(i);
+                      } else if (
+                        (i === left - 1 || i === right + 1) &&
+                        pages[pages.length - 1] !== null
+                      ) {
+                        pages.push(null);
+                      }
+                    }
+
+                    return pages;
+                  }, [currentPage, totalPages]).map((page) =>
+                    page === null ? (
+                      <span key="ellipsis" className="pagination-ellipsis">
+                        ...
+                      </span>
+                    ) : (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`pagination-page-btn ${
+                          currentPage === page ? "active" : ""
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
                   )}
-                </>
+
+                  <button
+                    onClick={() =>
+                      setCurrentPage((p) =>
+                        Math.min(totalPages, p + 1)
+                      )
+                    }
+                    disabled={currentPage === totalPages}
+                    className="pagination-btn"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
               )}
             </div>
           </div>
