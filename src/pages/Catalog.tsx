@@ -185,6 +185,30 @@ export default function Catalog() {
     startIndex + ITEMS_PER_PAGE
   );
 
+  const paginationPages = useMemo(() => {
+    const pages: (number | null)[] = [];
+    const delta = 2;
+    const left = currentPage - delta;
+    const right = currentPage + delta;
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (
+        i === 1 ||
+        i === totalPages ||
+        (i >= left && i <= right)
+      ) {
+        pages.push(i);
+      } else if (
+        (i === left - 1 || i === right + 1) &&
+        pages[pages.length - 1] !== null
+      ) {
+        pages.push(null);
+      }
+    }
+
+    return pages;
+  }, [currentPage, totalPages]);
+
   return (
     <Layout>
       <SEO
@@ -408,29 +432,7 @@ export default function Catalog() {
                     <ChevronLeft className="w-4 h-4" />
                   </button>
 
-                  {useMemo(() => {
-                    const pages: (number | null)[] = [];
-                    const delta = 2;
-                    const left = currentPage - delta;
-                    const right = currentPage + delta;
-
-                    for (let i = 1; i <= totalPages; i++) {
-                      if (
-                        i === 1 ||
-                        i === totalPages ||
-                        (i >= left && i <= right)
-                      ) {
-                        pages.push(i);
-                      } else if (
-                        (i === left - 1 || i === right + 1) &&
-                        pages[pages.length - 1] !== null
-                      ) {
-                        pages.push(null);
-                      }
-                    }
-
-                    return pages;
-                  }, [currentPage, totalPages]).map((page) =>
+                  {paginationPages.map((page) =>
                     page === null ? (
                       <span key="ellipsis" className="pagination-ellipsis">
                         ...
