@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
@@ -22,7 +22,7 @@ import shelvingImg from "@/assets/product-console.jpg";
 import industrialImg from "@/assets/product-sofa.jpg";
 import accessoriesImg from "@/assets/product-lamp.jpg";
 
-import { Filter, ChevronLeft, ChevronRight } from "lucide-react";
+import { Filter, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -109,10 +109,12 @@ export default function Catalog() {
   const navigate = useNavigate();
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
   const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   const isInitialMount = useRef(true);
 
@@ -124,17 +126,18 @@ export default function Catalog() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const page = parseInt(params.get("page") || "1", 10);
-    if (page !== currentPage) {
-      setCurrentPageState(page);
-    }
+    setCurrentPageState(page);
   }, [location.search]);
 
-  const setCurrentPage = (page: number | ((p: number) => number)) => {
-    const newPage =
-      typeof page === "function" ? page(currentPage) : page;
-    setCurrentPageState(newPage);
-    navigate(`/?page=${newPage}`, { replace: false });
-  };
+  const setCurrentPage = useCallback(
+    (page: number | ((p: number) => number)) => {
+      const newPage =
+        typeof page === "function" ? page(currentPage) : page;
+      setCurrentPageState(newPage);
+      navigate(`/?page=${newPage}`, { replace: false });
+    },
+    [currentPage, navigate]
+  );
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
@@ -159,6 +162,10 @@ export default function Catalog() {
       list = list.filter((p) => p.categoryId === selectedCategory);
     }
 
+    if (selectedSubcategory) {
+      list = list.filter((p) => p.subcategoryId === selectedSubcategory);
+    }
+
     if (sort === "price-asc") {
       list.sort((a, b) => a.basePrice - b.basePrice);
     }
@@ -168,7 +175,7 @@ export default function Catalog() {
     }
 
     return list;
-  }, [products, selectedCategory, sort]);
+  }, [products, selectedCategory, selectedSubcategory, sort]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -176,7 +183,21 @@ export default function Catalog() {
       return;
     }
     setCurrentPage(1);
-  }, [selectedCategory, sort]);
+  }, [selectedCategory, selectedSubcategory, sort, setCurrentPage]);
+
+  useEffect(() => {
+    if (selectedSubcategory) {
+      // Find which category contains this subcategory and expand it
+      const categoryToExpand = categories.find((cat) =>
+        cat.subcategories.some(
+          (sub) => sub.title.toLowerCase().replace(/\s+/g, "-") === selectedSubcategory
+        )
+      );
+      if (categoryToExpand) {
+        setExpandedCategories((prev) => new Set([...prev, categoryToExpand.key]));
+      }
+    }
+  }, [selectedSubcategory]);
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -235,6 +256,7 @@ export default function Catalog() {
                     if (isDesktop) setActiveMega(cat.key);
                   }}
                   onClick={() => {
+                    setSelectedCategory(cat.key);
                     if (!isDesktop) {
                       setActiveMega((prev) =>
                         prev === cat.key ? null : cat.key
@@ -263,32 +285,48 @@ export default function Catalog() {
                       {t(`categories.${cat.key}`)}
                     </h3>
                     <ul className="mega-list">
-                      {cat.subcategories.map((sub) => (
-                        <li key={sub.title}>
-                          <button
-                            onClick={() => {
-                              setSelectedCategory(cat.key);
-                              if (!isDesktop) setActiveMega(null);
-                            }}
-                          >
-                            {t(`subcategories.${sub.title}`)}
-                          </button>
-                        </li>
-                      ))}
+                      {cat.subcategories.map((sub) => {
+                        const subcategoryId = sub.title.toLowerCase().replace(/\s+/g, "-");
+                        return (
+                          <li key={sub.title}>
+                            <button
+                              onClick={() => {
+                                setSelectedCategory(cat.key);
+                                setSelectedSubcategory(subcategoryId);
+                                if (!isDesktop) setActiveMega(null);
+                              }}
+                            >
+                              {t(`subcategories.${sub.title}`)}
+                            </button>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
 
                   <div className="mega-grid">
-                    {cat.subcategories.map((sub) => (
-                      <div key={sub.title} className="mega-card">
-                        <div className="mega-card__image-wrap">
-                          <img src={sub.image} alt={sub.title} />
-                        </div>
-                        <span className="mega-card__title">
-                          {t(`subcategories.${sub.title}`)}
-                        </span>
-                      </div>
-                    ))}
+                    {cat.subcategories.map((sub) => {
+                      const subcategoryId = sub.title.toLowerCase().replace(/\s+/g, "-");
+                      return (
+                        <button
+                          key={sub.title}
+                          onClick={() => {
+                            setSelectedCategory(cat.key);
+                            setSelectedSubcategory(subcategoryId);
+                            if (!isDesktop) setActiveMega(null);
+                          }}
+                          className="mega-card"
+                          style={{ border: "none", background: "none", cursor: "pointer", padding: 0 }}
+                        >
+                          <div className="mega-card__image-wrap">
+                            <img src={sub.image} alt={sub.title} />
+                          </div>
+                          <span className="mega-card__title">
+                            {t(`subcategories.${sub.title}`)}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               ) : null
@@ -336,24 +374,75 @@ export default function Catalog() {
                 </h3>
                 <div className="filter-group">
                   <button
-                    onClick={() => setSelectedCategory(null)}
+                    onClick={() => {
+                      setSelectedCategory(null);
+                      setSelectedSubcategory(null);
+                    }}
                     className={`filter-item ${
-                      selectedCategory === null ? "active" : ""
+                      selectedCategory === null && selectedSubcategory === null ? "active" : ""
                     }`}
                   >
                     {t("catalog.all") || "All"}
                   </button>
 
                   {categories.map((cat) => (
-                    <button
-                      key={cat.key}
-                      onClick={() => setSelectedCategory(cat.key)}
-                      className={`filter-item ${
-                        selectedCategory === cat.key ? "active" : ""
-                      }`}
-                    >
-                      {t(`categories.${cat.key}`)}
-                    </button>
+                    <div key={cat.key}>
+                      <div className={`filter-item ${
+                            selectedCategory === cat.key ? "active" : ""
+                          }`}>
+                        <button
+                          onClick={() => setSelectedCategory(cat.key)}
+                          className="filter-button"
+                        >
+                          {t(`categories.${cat.key}`)}
+                          
+                        </button>
+                          
+                        <button
+                          onClick={() => {
+                            setExpandedCategories((prev) => {
+                              const newSet = new Set(prev);
+                              if (newSet.has(cat.key)) {
+                                newSet.delete(cat.key);
+                              } else {
+                                newSet.add(cat.key);
+                              }
+                              return newSet;
+                            });
+                          }}
+                          className="chevron-btn"
+                        >
+                          <ChevronDown
+                            className={`chevron-down ${
+                              expandedCategories.has(cat.key)
+                                ? "open"
+                                : ""
+                            }`}
+                          />
+                        </button>
+                      </div>
+                      {expandedCategories.has(cat.key) && (
+                        <div className="filter-subcategories">
+                          {cat.subcategories.map((sub) => {
+                            const subcategoryId = sub.title.toLowerCase().replace(/\s+/g, "-");
+                            return (
+                              <button
+                                key={sub.title}
+                                onClick={() => {
+                                  setSelectedCategory(cat.key);
+                                  setSelectedSubcategory(subcategoryId);
+                                }}
+                                className={`filter-item text-sm block w-full text-left ${
+                                  selectedSubcategory === subcategoryId ? "active" : ""
+                                }`}
+                              >
+                                {t(`subcategories.${sub.title}`)}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -385,6 +474,7 @@ export default function Catalog() {
               <button
                 onClick={() => {
                   setSelectedCategory(null);
+                  setSelectedSubcategory(null);
                   setSort(null);
                 }}
                 className="filters-clear"
