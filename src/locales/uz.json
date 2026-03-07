@@ -146,6 +146,15 @@
     "subscriptionSuccess": "Obunalik uchun rahmat!"
   },
   "cart": {
+    "loading": "Savat yuklanmoqda...",
+    "empty": "Savatingiz bo'sh",
+    "continueShopping": "Sotuvni davom ettiring",
+    "each": "har biri",
+    "orderSummary": "Buyurtma xulosasi",
+    "subtotal": "Jami",
+    "tax": "Soliq (12%)",
+    "total": "Jami",
+    "checkout": "Oformlashga o'tish",
     "seo": {
       "title": "Savatcha | Manaku",
       "description": "Manaku savatchangiz."

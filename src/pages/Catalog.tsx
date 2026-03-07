@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
@@ -105,8 +105,7 @@ const categories = [
 export default function Catalog() {
   const { t } = useLanguage();
   const products = getProducts();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
@@ -118,25 +117,18 @@ export default function Catalog() {
 
   const isInitialMount = useRef(true);
 
-  const [currentPage, setCurrentPageState] = useState(() => {
-    const params = new URLSearchParams(location.search);
-    return parseInt(params.get("page") || "1", 10);
-  });
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const page = parseInt(params.get("page") || "1", 10);
-    setCurrentPageState(page);
-  }, [location.search]);
+  // Get current page from search params
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   const setCurrentPage = useCallback(
     (page: number | ((p: number) => number)) => {
       const newPage =
         typeof page === "function" ? page(currentPage) : page;
-      setCurrentPageState(newPage);
-      navigate(`/?page=${newPage}`, { replace: false });
+      setSearchParams({ page: String(newPage) });
+      // Scroll to top when changing pages
+      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     },
-    [currentPage, navigate]
+    [currentPage, setSearchParams]
   );
 
   useEffect(() => {
@@ -183,7 +175,7 @@ export default function Catalog() {
       return;
     }
     setCurrentPage(1);
-  }, [selectedCategory, selectedSubcategory, sort, setCurrentPage]);
+  }, [selectedCategory, selectedSubcategory, sort]);
 
   useEffect(() => {
     if (selectedSubcategory) {

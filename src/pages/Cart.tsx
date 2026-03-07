@@ -32,14 +32,16 @@ export default function Cart() {
 
   const updateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity <= 0) return removeItem(id);
-    const updated = cart.map(i => i.id === id ? { ...i, quantity: newQuantity } : i);
+    const updated = cart.map((i) =>
+      i.id === id ? { ...i, quantity: newQuantity } : i,
+    );
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
   const removeItem = (id: string) => {
-    const updated = cart.filter(i => i.id !== id);
+    const updated = cart.filter((i) => i.id !== id);
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
     window.dispatchEvent(new Event("cartUpdated"));
@@ -53,7 +55,7 @@ export default function Cart() {
     return (
       <Layout>
         <section className="pt-28 pb-12 min-h-screen flex items-center justify-center">
-          <p className="text-muted-foreground">Loading cart...</p>
+          <p className="text-muted-foreground">{t("cart.loading") || "Loading cart..."}</p>
         </section>
       </Layout>
     );
@@ -64,8 +66,10 @@ export default function Cart() {
       <Layout>
         <section className="pt-28 pb-12 min-h-screen flex flex-col items-center justify-center text-center">
           <ShoppingBag className="w-16 h-16 text-muted-foreground mb-6" />
-          <h1 className="heading-section mb-4">Your basket is empty</h1>
-          <Link to="/" className="btn-luxury">Continue Shopping</Link>
+          <h1 className="heading-section mb-4">{t("cart.empty") || "Your basket is empty"}</h1>
+          <Link to="/" className="btn-luxury">
+            {t("cart.continueShopping") || "Continue Shopping"}
+          </Link>
         </section>
       </Layout>
     );
@@ -75,7 +79,9 @@ export default function Cart() {
     <>
       <SEO
         title={t("cart.seo.title") || "Cart | Manaku"}
-        description={t("cart.seo.description") || "Your shopping cart at Manaku."}
+        description={
+          t("cart.seo.description") || "Your shopping cart."
+        }
         url="https://lux-furniture-demo.netlify.app/cart"
       />
       <Layout>
@@ -84,101 +90,99 @@ export default function Cart() {
             <h1 className="heading-section mb-10">{t("account.basket")}</h1>
 
             <div className="flex flex-col md:flex-row md:items-start gap-8 lg:gap-10">
-            {/* LEFT: Products */}
-            <div className="space-y-4 md:min-w-0" style={{ flex: 3 }}>
-              {cart.map(item => (
-                <motion.div
-                  key={item.id}
-                  layout
-                  className="flex gap-4 p-4 border border-border rounded-lg bg-background"
-                >
-                  {/* Thumbnail */}
-                  <Link
-                    to={`/product/${item.slug}`}
-                    className="block shrink-0 rounded-md overflow-hidden bg-muted"
-                    style={{ width: 80, height: 80, flex: "0 0 80px" }}
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="block w-full h-full object-cover"
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </Link>
+              {/* LEFT: Products */}
+              <div className="space-y-4 md:min-w-0" style={{ flex: 3 }}>
+                {cart.map((item) => (
+                  <motion.div key={item.id} layout className="cart-item">
+                    {/* Thumbnail */}
+                    <Link to={`/product/${item.slug}`} className="cart-thumb">
+                      <img src={item.image} alt={item.name} />
+                    </Link>
 
-                  {/* Info */}
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      <Link to={`/product/${item.slug}`} className="font-medium hover:underline">
-                        {item.name}
-                      </Link>
-                      <p className="text-sm text-muted-foreground">
-                        €{item.price.toLocaleString()} each
+                    {/* Info */}
+                    <div className="cart-info">
+                      <div>
+                        <Link
+                          to={`/product/${item.slug}`}
+                          className="cart-title"
+                        >
+                          {item.name}
+                        </Link>
+                        <p className="cart-price-each">
+                          €{item.price.toLocaleString()} {t("cart.each") || "each"}
+                        </p>
+                      </div>
+
+                      {/* Quantity */}
+                      <div className="cart-qty">
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity - 1)
+                          }
+                          className="icon-btn"
+                        >
+                          <Minus className="icon" />
+                        </button>
+
+                        <span className="cart-qty-value">{item.quantity}</span>
+
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
+                          className="icon-btn"
+                        >
+                          <Plus className="icon" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Price + Remove */}
+                    <div className="cart-side">
+                      <p className="cart-total">
+                        €{(item.price * item.quantity).toLocaleString()}
                       </p>
-                    </div>
 
-                    {/* Quantity */}
-                    <div className="flex items-center gap-2 mt-2">
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-8 h-8 border flex items-center justify-center"
+                        onClick={() => removeItem(item.id)}
+                        className="remove-btn"
                       >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="w-8 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="w-8 h-8 border flex items-center justify-center"
-                      >
-                        <Plus className="w-4 h-4" />
+                        <Trash2 className="icon icon-remove" />
                       </button>
                     </div>
-                  </div>
-
-                  {/* Price + Remove */}
-                  <div className="flex flex-col items-end justify-between">
-                    <p className="font-medium">
-                      €{(item.price * item.quantity).toLocaleString()}
-                    </p>
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      className="text-muted-foreground hover:text-destructive"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* RIGHT: Summary */}
-            <div className="border border-border rounded-lg p-6 h-fit md:shrink-0 md:sticky md:top-28" style={{ flex: 1 }}>
-              <h2 className="text-lg font-semibold mb-6">Order Summary</h2>
-
-              <div className="space-y-3 text-sm mb-6">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span>€{subtotal.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Tax (12%)</span>
-                  <span>€{tax.toLocaleString()}</span>
-                </div>
+                  </motion.div>
+                ))}
               </div>
 
-              <div className="flex justify-between text-lg font-semibold mb-6">
-                <span>Total</span>
-                <span>€{total.toLocaleString()}</span>
+              {/* RIGHT: Summary */}
+              <div className="order-summary">
+                <h2 className="order-summary-title">{t("cart.orderSummary") || "Order Summary"}</h2>
+
+                <div className="order-summary-details">
+                  <div className="order-summary-row">
+                    <span className="order-summary-label">{t("cart.subtotal") || "Subtotal"}</span>
+                    <span>€{subtotal.toLocaleString()}</span>
+                  </div>
+
+                  <div className="order-summary-row">
+                    <span className="order-summary-label">{t("cart.tax") || "Tax (12%)"}</span>
+                    <span>€{tax.toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <div className="order-summary-total">
+                  <span>{t("cart.total") || "Total"}</span>
+                  <span>€{total.toLocaleString()}</span>
+                </div>
+
+                <button className="checkout-btn btn-luxury">
+                  {t("cart.checkout") || "Proceed to Checkout"}
+                </button>
+
+                <Link to="/" className="continue-shopping">
+                  {t("cart.continueShopping") || "Continue Shopping"}
+                </Link>
               </div>
-
-              <button className="w-full btn-luxury mb-4">
-                Proceed to Checkout
-              </button>
-
-              <Link to="/" className="block text-center text-sm text-muted-foreground hover:underline">
-                Continue Shopping
-              </Link>
-            </div>
             </div>
           </div>
         </section>

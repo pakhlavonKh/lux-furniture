@@ -1165,6 +1165,22 @@
     "addressPlaceholder": "Street address, city, postal code"
   },
 
+  "cart": {
+    "seo": {
+      "title": "Shopping Cart | Manaku",
+      "description": "Your shopping cart."
+    },
+    "loading": "Loading cart...",
+    "empty": "Your basket is empty",
+    "continueShopping": "Continue Shopping",
+    "each": "each",
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "tax": "Tax (12%)",
+    "total": "Total",
+    "checkout": "Proceed to Checkout"
+  },
+
   "errors": {
     "notFound": "Page Not Found",
     "notFoundDesc": "The page you're looking for doesn't exist",
