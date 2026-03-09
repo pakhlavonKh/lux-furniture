@@ -108,9 +108,6 @@ export default function Catalog() {
   const products = getProducts();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
-  const [sort, setSort] = useState<"price-asc" | "price-desc" | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
@@ -119,18 +116,71 @@ export default function Catalog() {
 
   const isInitialMount = useRef(true);
 
-  // Get current page from search params
+  // Get filter values from URL search params
+  const selectedCategory = searchParams.get("category") || null;
+  const selectedSubcategory = searchParams.get("subcategory") || null;
+  const sort = (searchParams.get("sort") || null) as "price-asc" | "price-desc" | null;
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
+
+  // Helper functions to update URL params
+  const updateFilters = useCallback(
+    (updates: {
+      category?: string | null;
+      subcategory?: string | null;
+      sort?: "price-asc" | "price-desc" | null;
+      page?: number;
+    }) => {
+      const newParams = new URLSearchParams(searchParams);
+      if (updates.category !== undefined) {
+        if (updates.category) newParams.set("category", updates.category);
+        else newParams.delete("category");
+      }
+      if (updates.subcategory !== undefined) {
+        if (updates.subcategory) newParams.set("subcategory", updates.subcategory);
+        else newParams.delete("subcategory");
+      }
+      if (updates.sort !== undefined) {
+        if (updates.sort) newParams.set("sort", updates.sort);
+        else newParams.delete("sort");
+      }
+      if (updates.page !== undefined) {
+        newParams.set("page", String(updates.page));
+      }
+      setSearchParams(newParams);
+    },
+    [searchParams, setSearchParams]
+  );
+
+  const setSelectedCategory = useCallback(
+    (category: string | null) => {
+      updateFilters({ category, page: 1 });
+    },
+    [updateFilters]
+  );
+
+  const setSelectedSubcategory = useCallback(
+    (subcategory: string | null) => {
+      updateFilters({ subcategory, page: 1 });
+    },
+    [updateFilters]
+  );
+
+  const setSort = useCallback(
+    (sortOption: "price-asc" | "price-desc" | null) => {
+      updateFilters({ sort: sortOption, page: 1 });
+    },
+    [updateFilters]
+  );
 
   const setCurrentPage = useCallback(
     (page: number | ((p: number) => number)) => {
       const newPage =
         typeof page === "function" ? page(currentPage) : page;
-      setSearchParams({ page: String(newPage) });
+      updateFilters({ page: newPage });
       // Scroll to top when changing pages
       setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     },
-    [currentPage, setSearchParams]
+    [currentPage, updateFilters]
   );
 
   useEffect(() => {
@@ -171,13 +221,7 @@ export default function Catalog() {
     return list;
   }, [products, selectedCategory, selectedSubcategory, sort]);
 
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-    setCurrentPage(1);
-  }, [selectedCategory, selectedSubcategory, sort]);
+
 
   useEffect(() => {
     if (selectedSubcategory) {
@@ -369,8 +413,7 @@ export default function Catalog() {
                 <div className="filter-group">
                   <button
                     onClick={() => {
-                      setSelectedCategory(null);
-                      setSelectedSubcategory(null);
+                      updateFilters({ category: null, subcategory: null });
                     }}
                     className={`filter-item ${
                       selectedCategory === null && selectedSubcategory === null ? "active" : ""
@@ -467,9 +510,12 @@ export default function Catalog() {
 
               <button
                 onClick={() => {
-                  setSelectedCategory(null);
-                  setSelectedSubcategory(null);
-                  setSort(null);
+                  updateFilters({
+                    category: null,
+                    subcategory: null,
+                    sort: null,
+                    page: 1,
+                  });
                 }}
                 className="filters-clear"
               >

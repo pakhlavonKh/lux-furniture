@@ -5,6 +5,7 @@ import { ShoppingBag, Trash2, Plus, Minus } from "lucide-react";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getImageUrl } from "@/data/catalogData";
 
 interface CartItem {
   id: string;
@@ -13,6 +14,8 @@ interface CartItem {
   price: number;
   image: string;
   quantity: number;
+  color?: string;
+  size?: string;
 }
 
 export default function Cart() {
@@ -96,7 +99,7 @@ export default function Cart() {
                   <motion.div key={item.id} layout className="cart-item">
                     {/* Thumbnail */}
                     <Link to={`/product/${item.slug}`} className="cart-thumb">
-                      <img src={item.image} alt={item.name} />
+                      <img src={getImageUrl(item.image)} alt={item.name} />
                     </Link>
 
                     {/* Info */}
@@ -108,8 +111,14 @@ export default function Cart() {
                         >
                           {item.name}
                         </Link>
+                        {(item.color || item.size) && (
+                          <p className="text-sm text-muted-foreground">
+                            {[item.color, item.size].filter(Boolean).join(" • ")}
+                          </p>
+                        )}
                         <p className="cart-price-each">
-                          €{item.price.toLocaleString()} {t("cart.each") || "each"}
+                          €{item.price.toLocaleString()}
+                          {(item.color || item.size) && ` ${t("cart.each") || "each"}`}
                         </p>
                       </div>
 

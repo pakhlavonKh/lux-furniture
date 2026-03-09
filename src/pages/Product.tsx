@@ -1,5 +1,5 @@
 // Product.tsx - Product detail page with image gallery, quantity selector, and add to basket functionality.
-import { useState } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useLanguage } from "@/contexts/useLanguageHook";
@@ -28,6 +28,131 @@ const Product = () => {
 
   const product = slug ? getProductBySlug(slug) : null;
 
+  const images = useMemo(() => product?.images || [], [product?.images]);
+  
+  // Get base color: use product.color if available, otherwise use first variant's color
+  const baseColor = product?.color || product?.variants?.[0]?.color;
+  const baseSize = product?.size || product?.variants?.[0]?.size;
+
+  // Create base variant object
+  const baseVariant = useMemo(() => ({
+    id: `${product?.id}-base`,
+    color: baseColor || undefined,
+    size: baseSize || undefined,
+  }), [product?.id, baseColor, baseSize]);
+
+  // Memoize variants array to prevent infinite re-renders in ProductVariantSelector
+  const variantsList = useMemo(() => [
+    baseVariant,
+    ...(product?.variants || []),
+  ], [baseVariant, product?.variants]);
+
+  // Memoize the variant selection handler
+  const handleVariantSelect = useCallback((variant: ProductVariant | null) => {
+    // Always update the selected variant, including the base variant
+    setSelectedVariant(variant);
+    // Reset image index to first image when selecting a variant without image override
+    if (!variant?.image) {
+      setCurrentImageIndex(0);
+    } else if (variant.image) {
+      const variantImageIndex = images.indexOf(variant.image);
+      if (variantImageIndex !== -1) {
+        setCurrentImageIndex(variantImageIndex);
+      }
+    }
+  }, [images]);
+
+  // For products without variants, auto-select baseVariant
+  useEffect(() => {
+    if (!product?.variants || product.variants.length === 0) {
+      setSelectedVariant(baseVariant);
+    }
+  }, [baseVariant, product?.variants]);
+  
+  // Collect all unique variant images
+  const variantImages = useMemo(() => {
+    const uniqueImages = new Set<string>();
+    product?.variants?.forEach((v) => {
+      if (v.image && !images.includes(v.image)) {
+        uniqueImages.add(v.image);
+      }
+    });
+    return Array.from(uniqueImages);
+  }, [product?.variants, images]);
+
+  // All gallery images (products + variants)
+  const allGalleryImages = useMemo(() => [...images, ...variantImages], [images, variantImages]);
+
+  // Find which variant owns a given image, if any
+  const getVariantForImage = useCallback((imageName: string) => {
+    // Check if it's a variant image
+    if (product?.variants) {
+      const variant = product.variants.find((v) => v.image === imageName);
+      if (variant) {
+        return variant;
+      }
+    }
+    // Check if it's a base product image
+    if (images.includes(imageName)) {
+      return baseVariant;
+    }
+    return null;
+  }, [product?.variants, images, baseVariant]);
+
+  const nextImage = useCallback(() => {
+    setCurrentImageIndex((prev) => {
+      const nextIndex = (prev + 1) % allGalleryImages.length;
+      const nextImageName = allGalleryImages[nextIndex];
+      const variant = getVariantForImage(nextImageName);
+      if (variant) {
+        setSelectedVariant(variant);
+      } else {
+        setSelectedVariant(null);
+      }
+      return nextIndex;
+    });
+  }, [allGalleryImages, getVariantForImage]);
+
+  const prevImage = useCallback(() => {
+    setCurrentImageIndex((prev) => {
+      const nextIndex = (prev - 1 + allGalleryImages.length) % allGalleryImages.length;
+      const nextImageName = allGalleryImages[nextIndex];
+      const variant = getVariantForImage(nextImageName);
+      if (variant) {
+        setSelectedVariant(variant);
+      } else {
+        setSelectedVariant(null);
+      }
+      return nextIndex;
+    });
+  }, [allGalleryImages, getVariantForImage]);
+
+  // Get the display image - use variant image if selected, otherwise use current index
+  const displayImageName = useMemo(() => {
+    if (selectedVariant?.image) {
+      return selectedVariant.image;
+    }
+    if (currentImageIndex < allGalleryImages.length) {
+      return allGalleryImages[currentImageIndex];
+    }
+    return allGalleryImages[0] || '';
+  }, [selectedVariant, allGalleryImages, currentImageIndex]);
+  
+  const displayPrice = selectedVariant?.price || product?.basePrice;
+
+  // Determine which image is currently active/highlighted
+  const activeImageIndex = useMemo(() => {
+    if (selectedVariant?.image) {
+      const idx = allGalleryImages.indexOf(selectedVariant.image);
+      return idx >= 0 ? idx : 0;
+    }
+    // Ensure currentImageIndex is within bounds
+    if (currentImageIndex < allGalleryImages.length) {
+      return currentImageIndex;
+    }
+    return 0;
+  }, [selectedVariant, allGalleryImages, currentImageIndex]);
+
   if (!product) {
     return (
       <Layout>
@@ -42,31 +167,6 @@ const Product = () => {
       </Layout>
     );
   }
-
-  const images = product.images || [];
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  // Get the display image - use variant image if selected, otherwise use current index
-  const displayImageName = selectedVariant?.image || images[currentImageIndex];
-  const displayPrice = selectedVariant?.price || product?.basePrice;
-
-  // Find the index of the selected variant's image in the product images array
-  const getActiveImageIndex = () => {
-    if (selectedVariant?.image) {
-      const variantImageIndex = images.indexOf(selectedVariant.image);
-      return variantImageIndex !== -1 ? variantImageIndex : currentImageIndex;
-    }
-    return currentImageIndex;
-  };
-
-  const activeImageIndex = getActiveImageIndex();
 
   return (
     <Layout>
@@ -111,7 +211,7 @@ const Product = () => {
                   className="gallery-image"
                 />
 
-                {images.length > 1 && (
+                {allGalleryImages.length > 1 && (
                   <>
                     <button
                       onClick={prevImage}
@@ -129,21 +229,17 @@ const Product = () => {
                 )}
               </div>
 
-              {images.length > 1 && (
+              {allGalleryImages.length > 1 && (
                 <div className="thumbnail-container">
-                  {images.map((image, index) => (
+                  {allGalleryImages.map((image, index) => (
                     <button
-                      key={index}
+                      key={`${image}-${index}`}
                       onClick={() => {
                         setCurrentImageIndex(index);
-                        setSelectedVariant(null);
+                        const variant = getVariantForImage(image);
+                        setSelectedVariant(variant || null);
                       }}
-                      className={cn(
-                        "thumbnail",
-                        activeImageIndex === index
-                          ? "opacity-100 ring-2 ring-foreground"
-                          : "opacity-60 hover:opacity-100",
-                      )}
+                      className={cn("thumbnail", activeImageIndex === index && "active")}
                     >
                       <img
                         src={getImageUrl(image)}
@@ -177,29 +273,9 @@ const Product = () => {
               {product.variants && product.variants.length > 0 && (
                 <div className="mb-8">
                   <ProductVariantSelector
-                    variants={[
-                      {
-                        id: `${product.id}-base`,
-                        image: product.images[0],
-                      },
-                      ...product.variants,
-                    ]}
-                    onVariantSelect={(variant) => {
-                      // If base variant is selected, clear the selectedVariant
-                      if (variant?.id === `${product.id}-base`) {
-                        setSelectedVariant(null);
-                        setCurrentImageIndex(0);
-                      } else {
-                        setSelectedVariant(variant);
-                        // If variant has an image, find its index and set it
-                        if (variant?.image) {
-                          const variantImageIndex = images.indexOf(variant.image);
-                          if (variantImageIndex !== -1) {
-                            setCurrentImageIndex(variantImageIndex);
-                          }
-                        }
-                      }
-                    }}
+                    variants={variantsList}
+                    selectedVariantId={selectedVariant?.id}
+                    onVariantSelect={handleVariantSelect}
                   />
                 </div>
               )}
@@ -228,6 +304,11 @@ const Product = () => {
                 <button
                   onClick={() => {
                     try {
+                      // For products with variants, require variant selection
+                      if (product.variants && product.variants.length > 0 && !selectedVariant) {
+                        toast.error("Please select a color and size");
+                        return;
+                      }
                       const cart = JSON.parse(
                         localStorage.getItem("cart") || "[]",
                       ) as Array<{
@@ -237,27 +318,39 @@ const Product = () => {
                         price: number;
                         image: string;
                         quantity: number;
+                        color?: string;
+                        size?: string;
                       }>;
-                      const existingItem = cart.find(
-                        (item) => item.id === product.id,
-                      );
+                      
+                      // Use selectedVariant if available, otherwise use base product
+                      const variant = selectedVariant || baseVariant;
+                      const variantKey = variant 
+                        ? `${product.id}-${variant.color || ""}-${variant.size || ""}`
+                        : product.id;
+                      const existingItem = cart.find((item) => item.id === variantKey);
+                      const itemPrice = ('price' in variant && variant.price) || product.basePrice;
+                      const itemImage = displayImageName || images[0];
+                      
                       if (existingItem) {
                         existingItem.quantity += quantity;
                       } else {
                         cart.push({
-                          id: product.id,
+                          id: variantKey,
                           slug: product.slug,
                           name: t(product.nameKey),
-                          price: product.basePrice,
-                          image: product.images[0],
+                          price: itemPrice,
+                          image: itemImage,
                           quantity,
+                          ...(variant?.color && { color: variant.color }),
+                          ...(variant?.size && { size: variant.size }),
                         });
                       }
                       localStorage.setItem("cart", JSON.stringify(cart));
                       // Dispatch custom event to update header cart count
                       window.dispatchEvent(new Event("cartUpdated"));
+                      const variantText = [variant?.color, variant?.size].filter(Boolean).join(" • ");
                       toast.success(
-                        `Added ${quantity}x ${t(product.nameKey)} to basket`,
+                        `Added ${quantity}x ${t(product.nameKey)}${variantText ? " (" + variantText + ")" : ""} to basket`,
                       );
                       setQuantity(1);
                     } catch (error) {

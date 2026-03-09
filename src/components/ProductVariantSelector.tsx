@@ -1,24 +1,46 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ProductVariant } from "@/data/catalogData";
 import { cn } from "@/lib/utils";
 
 interface ProductVariantSelectorProps {
   variants?: ProductVariant[];
   onVariantSelect?: (variant: ProductVariant | null) => void;
+  selectedVariantId?: string | null;
   className?: string;
 }
 
 export function ProductVariantSelector({
   variants,
   onVariantSelect,
+  selectedVariantId,
   className,
 }: ProductVariantSelectorProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(() => {
+    // Initialize with selectedVariantId if provided, otherwise first variant id
+    return selectedVariantId || variants?.[0]?.id || null;
+  });
+
+  // Sync selectedId with the prop from parent
+  useEffect(() => {
+    if (selectedVariantId) {
+      setSelectedId(selectedVariantId);
+    }
+  }, [selectedVariantId]);
+
+  // Call onVariantSelect when selectedId or variants change
+  useEffect(() => {
+    if (selectedId && variants) {
+      const selectedVariant = variants.find((v) => v.id === selectedId);
+      if (selectedVariant) {
+        onVariantSelect?.(selectedVariant);
+      }
+    }
+  }, [selectedId, variants]);
 
   const colors = useMemo(() => {
     const uniqueColors = new Set<string>();
     variants?.forEach((v) => {
-      if (v.color && !v.id.endsWith("-base")) uniqueColors.add(v.color);
+      if (v.color) uniqueColors.add(v.color);
     });
     return Array.from(uniqueColors);
   }, [variants]);
@@ -26,19 +48,13 @@ export function ProductVariantSelector({
   const sizes = useMemo(() => {
     const uniqueSizes = new Set<string>();
     variants?.forEach((v) => {
-      if (v.size && !v.id.endsWith("-base")) uniqueSizes.add(v.size);
+      if (v.size) uniqueSizes.add(v.size);
     });
     return Array.from(uniqueSizes);
   }, [variants]);
 
-  const baseVariant = useMemo(() => {
-    return variants?.find((v) => v.id.endsWith("-base"));
-  }, [variants]);
-
   const handleVariantClick = (variantId: string) => {
     setSelectedId(variantId);
-    const selected = variants?.find((v) => v.id === variantId);
-    onVariantSelect?.(selected || null);
   };
 
   if (!variants || variants.length === 0) {
@@ -51,24 +67,6 @@ export function ProductVariantSelector({
         <div className="variant-group">
           <label className="variant-label">Colors</label>
           <div className="variant-options">
-            {baseVariant && (
-              <button
-                onClick={() => handleVariantClick(baseVariant.id)}
-                className={cn(
-                  "variant-button variant-color",
-                  selectedId === baseVariant.id && "selected"
-                )}
-                title="Base / Default"
-              >
-                <span
-                  className="color-swatch"
-                  style={{
-                    backgroundColor: "#CCCCCC",
-                  }}
-                />
-                <span className="color-name">Base</span>
-              </button>
-            )}
             {colors.map((color) => {
               const variantsWithColor = variants.filter(
                 (v) => v.color === color
@@ -91,7 +89,7 @@ export function ProductVariantSelector({
                       backgroundColor: getColorCode(color),
                     }}
                   />
-                  <span className="color-name">{color}</span>
+                  <span className="color-name">{color.charAt(0).toUpperCase() + color.slice(1)}</span>
                 </button>
               );
             })}
@@ -103,18 +101,6 @@ export function ProductVariantSelector({
         <div className="variant-group">
           <label className="variant-label">Sizes</label>
           <div className="variant-options">
-            {baseVariant && !colors.length && (
-              <button
-                onClick={() => handleVariantClick(baseVariant.id)}
-                className={cn(
-                  "variant-button variant-size",
-                  selectedId === baseVariant.id && "selected"
-                )}
-                title="Base / Default"
-              >
-                Base
-              </button>
-            )}
             {sizes.map((size) => {
               const variantsWithSize = variants.filter((v) => v.size === size);
               const variantId = variantsWithSize[0]?.id;
@@ -128,7 +114,7 @@ export function ProductVariantSelector({
                     selectedId === variantId && "selected"
                   )}
                 >
-                  {size}
+                  {size.charAt(0).toUpperCase() + size.slice(1)}
                 </button>
               );
             })}

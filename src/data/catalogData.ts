@@ -2493,6 +2493,7 @@ const products: CatalogProduct[] = [
     subcategoryId: "office-desks",
     collectionIds: ["negoziatore"],
     images: ["Gemini_Generated_Image_qa7293qa7293qa72 (19)"],
+    color: "woody",
     nameKey: "products.catalog.items.113.name",
     descriptionKey: "products.catalog.items.113.description",
     shortDescriptionKey: "products.catalog.items.113.shortDescription",
