@@ -314,6 +314,14 @@ export default function Catalog() {
             className={`mega-dropdown ${
               activeMega ? "mega-dropdown--open" : ""
             } ${!isDesktop ? "mega-dropdown--mobile" : ""}`}
+            onMouseEnter={() => {
+              if (isDesktop && activeMega) {
+                // Keep dropdown open when hovering over it
+              }
+            }}
+            onMouseLeave={() => {
+              if (isDesktop) setActiveMega(null);
+            }}
           >
             {categories.map((cat) =>
               activeMega === cat.key ? (

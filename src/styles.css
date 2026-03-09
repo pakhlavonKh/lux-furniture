@@ -1775,10 +1775,6 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
 /* ========================= */
 
 .mega-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
   overflow: hidden;
   background-color: transparent;
 
@@ -1796,6 +1792,7 @@ header.header-white-top .hamburger.hamburger-inverse .hamburger-x {
 }
 
 .mega-dropdown--open {
+  width: 1240px;
   max-height: 650px;
   margin: 0 auto;
   opacity: 1;
