@@ -1,3 +1,4 @@
+// backend/src/routes/checkout.routes.js
 import express from "express";
 import { checkout } from "../controllers/checkout.controller.js";
 import { authenticate_token } from "../middleware/auth.js";

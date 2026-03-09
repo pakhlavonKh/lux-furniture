@@ -1,3 +1,4 @@
+// backend/src/models/cart.model.js
 import mongoose from "mongoose";
 
 /* ===========================

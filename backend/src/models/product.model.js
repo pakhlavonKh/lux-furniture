@@ -1,3 +1,4 @@
+// backend/src/models/product.model.js
 import mongoose from "mongoose";
 
 /* ===========================

@@ -1,4 +1,4 @@
-// order.model.js
+// backend/src/models/order.model.js
 import mongoose from "mongoose";
 
 /* ===========================

@@ -1,3 +1,4 @@
+// backend/src/routes/upload.routes.js
 import express from "express";
 import upload from "../middleware/upload.js";
 import { uploadImages } from "../controllers/upload.controller.js";

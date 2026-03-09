@@ -1,3 +1,4 @@
+// backend/src/controllers/checkout.controller.js
 import mongoose from "mongoose";
 import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js";
@@ -5,15 +6,34 @@ import { Payment } from "../models/payment_model.js";
 import { reserveStock } from "../services/stock_reservation.service.js";
 
 export const checkout = async (req, res, next) => {
+
   const session = await mongoose.startSession();
 
   try {
+
     await session.startTransaction();
+
+    /* ===========================
+       AUTH CHECK
+    ============================ */
 
     if (!req.user_id) {
       return res.status(401).json({
         success: false,
         message: "Authentication required for checkout",
+      });
+    }
+
+    /* ===========================
+       VALIDATE PAYMENT METHOD
+    ============================ */
+
+    const paymentMethod = req.body.paymentMethod;
+
+    if (!paymentMethod) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment method is required",
       });
     }
 
@@ -40,6 +60,7 @@ export const checkout = async (req, res, next) => {
     const orderItems = [];
 
     for (const item of cart.items) {
+
       const product = item.product;
 
       if (!product || !product.isActive) {
@@ -47,24 +68,31 @@ export const checkout = async (req, res, next) => {
       }
 
       const variant = product.variants.find(
-        v => v.sku === item.variantSku && v.isActive
+        (v) => v.sku === item.variantSku && v.isActive
       );
 
       if (!variant) {
         throw new Error("Variant not found");
       }
 
+      /* ===========================
+         STOCK CHECK
+      ============================ */
+
       if (variant.stock < item.quantity) {
         throw new Error("Insufficient stock");
       }
 
       const price = variant.price;
+
       const itemSubtotal = price * item.quantity;
 
       let assemblyPrice = 0;
 
       if (item.assemblySelected && product.assemblyAvailable) {
+
         assemblyPrice = product.assemblyPrice || 0;
+
         assemblyTotal += assemblyPrice * item.quantity;
       }
 
@@ -87,8 +115,16 @@ export const checkout = async (req, res, next) => {
       });
     }
 
+    /* ===========================
+       VAT CALCULATION
+    ============================ */
+
     vatAmount = Math.round(subtotal * 0.12);
-    const grandTotal = subtotal + vatAmount + assemblyTotal;
+
+    const grandTotal =
+      subtotal +
+      vatAmount +
+      assemblyTotal;
 
     /* ===========================
        3. RESERVE STOCK
@@ -111,7 +147,7 @@ export const checkout = async (req, res, next) => {
           deliveryPrice: 0,
           grandTotal,
           currency: "UZS",
-          paymentMethod: req.body.paymentMethod,
+          paymentMethod,
           paymentStatus: "pending",
           orderStatus: "created",
           deliveryAddress: req.body.deliveryAddress,
@@ -131,7 +167,7 @@ export const checkout = async (req, res, next) => {
           order: order._id,
           amount: grandTotal,
           currency: "UZS",
-          method: req.body.paymentMethod,
+          method: paymentMethod,
           status: "pending",
         },
       ],
@@ -143,6 +179,7 @@ export const checkout = async (req, res, next) => {
     ============================ */
 
     order.payment = payment._id;
+
     await order.save({ session });
 
     /* ===========================
@@ -150,9 +187,15 @@ export const checkout = async (req, res, next) => {
     ============================ */
 
     cart.items = [];
+
     await cart.save({ session });
 
+    /* ===========================
+       COMMIT TRANSACTION
+    ============================ */
+
     await session.commitTransaction();
+
     session.endSession();
 
     return res.status(201).json({
@@ -162,8 +205,11 @@ export const checkout = async (req, res, next) => {
     });
 
   } catch (error) {
+
     await session.abortTransaction();
+
     session.endSession();
+
     next(error);
   }
 };

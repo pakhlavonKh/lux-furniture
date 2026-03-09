@@ -57,40 +57,40 @@ export default function ProfileCard({ user }: Props) {
   if (!user) return null;
 
   return (
-    <div className="bg-card rounded-xl shadow-sm border border-border/50 p-10">
-      <h2 className="text-lg font-semibold mb-6">Profile Information</h2>
+    <div className="bg-card rounded-2xl shadow-[var(--shadow-soft)] p-12">
 
-      <div className="space-y-5">
+      <div className="space-y-8">
+
         <div>
-          <label className="text-sm text-muted-foreground block mb-1">
+          <label className="text-caption block mb-3">
             Full Name
           </label>
           <input
-            className="form-input"
+            className="w-full bg-transparent border-b border-border py-3 outline-none focus:border-foreground transition-colors"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
 
         <div>
-          <label className="text-sm text-muted-foreground block mb-1">
+          <label className="text-caption block mb-3">
             Phone Number
           </label>
           <input
-            className="form-input"
+            className="w-full bg-transparent border-b border-border py-3 outline-none focus:border-foreground transition-colors"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="+998..."
           />
         </div>
 
         <button
           onClick={() => mutation.mutate()}
           disabled={mutation.isPending}
-          className="btn-luxury w-full"
+          className="btn-luxury w-full mt-6"
         >
           {mutation.isPending ? "Saving..." : "Save Changes"}
         </button>
+
       </div>
     </div>
   );

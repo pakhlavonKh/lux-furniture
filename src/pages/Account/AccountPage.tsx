@@ -1,71 +1,53 @@
 // src/pages/Account/AccountPage.tsx
 
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { Layout } from "@/components/layout/Layout";
-import { apiFetch } from "@/lib/api";
-import AccountHero from "./components/AccountHero";
-import ActiveOrderCard from "./components/ActiveOrderCard";
-import OrdersList from "./components/OrdersList";
-import ProfileCard from "./components/ProfileCard";
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Layout } from "@/components/layout/Layout"
+import { apiFetch } from "@/lib/api"
+import AccountHero from "./components/AccountHero"
+import ProfileCard from "./components/ProfileCard"
+import OrdersList from "./components/OrdersList"
 
 interface User {
-  _id: string;
-  name: string;
-  email: string;
-  phone?: string;
+  _id: string
+  name: string
+  email: string
+  phone?: string
 }
 
 interface Order {
-  _id: string;
-  orderNumber: string;
-  orderStatus: string;
-  grandTotal: number;
-  createdAt: string;
-  items: any[];
+  _id: string
+  orderNumber: string
+  orderStatus: string
+  grandTotal: number
+  createdAt: string
 }
 
 export default function AccountPage() {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
+  const navigate = useNavigate()
+  const token = localStorage.getItem("authToken")
 
   useEffect(() => {
-    if (!token) {
-      navigate("/login", { replace: true });
-    }
-  }, [token, navigate]);
+    if (!token) navigate("/login", { replace: true })
+  }, [token, navigate])
 
-  const {
-    data: userData,
-    isLoading: userLoading,
-    isError: userError,
-  } = useQuery({
+  const { data: userData, isLoading: userLoading } = useQuery({
     queryKey: ["me"],
     queryFn: () =>
       apiFetch<{ success: boolean; user: User }>("/api/users/me"),
     enabled: !!token,
     retry: false,
-  });
+  })
 
-  const {
-    data: ordersData,
-    isLoading: ordersLoading,
-    isError: ordersError,
-  } = useQuery({
+  const { data: ordersData, isLoading: ordersLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: () =>
       apiFetch<{ success: boolean; orders: Order[] }>("/api/orders/my"),
     enabled: !!token,
     retry: false,
-  });
-
-  useEffect(() => {
-    if (userError || ordersError) {
-      localStorage.removeItem("authToken");
-      navigate("/login", { replace: true });
-    }
-  }, [userError, ordersError, navigate]);
+  })
 
   if (!token || userLoading || ordersLoading) {
     return (
@@ -74,52 +56,40 @@ export default function AccountPage() {
           <div className="w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
         </div>
       </Layout>
-    );
+    )
   }
 
-  const user = userData?.user;
-  const orders = ordersData?.orders ?? [];
+  const user = userData?.user
+  const orders = ordersData?.orders ?? []
 
-  if (!user) return null;
-
-  const activeOrder = orders.find((o) =>
-    ["created", "confirmed", "in_production", "shipped"].includes(
-      o.orderStatus
-    )
-  );
+  if (!user) return null
 
   return (
     <Layout>
-      <section className="pt-32 pb-24 min-h-screen">
-        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+      <section className="pt-32 pb-32">
+        {/* HERO */}
+        <AccountHero user={user} />
 
-          {/* HERO */}
-          <div className="mb-16">
-            <AccountHero user={user} />
-          </div>
+        {/* CONTENT */}
+        <div className="mt-20 max-w-[720px] mx-auto px-6">
+          <Tabs defaultValue="profile" className="w-full">
 
-          {/* GRID LAYOUT */}
-          <div className="grid lg:grid-cols-[350px_1fr] gap-12">
+            <TabsList className="grid grid-cols-2 mb-12">
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+              <TabsTrigger value="orders">Orders</TabsTrigger>
+            </TabsList>
 
-            {/* SIDEBAR */}
-            <div className="space-y-8">
+            <TabsContent value="profile">
               <ProfileCard user={user} />
-            </div>
+            </TabsContent>
 
-            {/* MAIN CONTENT */}
-            <div className="space-y-10">
-
-              {activeOrder && (
-                <ActiveOrderCard order={activeOrder} />
-              )}
-
+            <TabsContent value="orders">
               <OrdersList orders={orders} />
+            </TabsContent>
 
-            </div>
-          </div>
-
+          </Tabs>
         </div>
       </section>
     </Layout>
-  );
+  )
 }

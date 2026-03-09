@@ -1,4 +1,5 @@
-// server.js
+// backend/src/server.js
+
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
@@ -13,16 +14,20 @@ dotenv.config({
 /* ==============================
    DEPENDENCIES
 ============================== */
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
-import ordersRoutes from "./routes/orders.routes.js";
+import rateLimit from "express-rate-limit";
+
 /* ==============================
    ROUTES & MODULES
 ============================== */
+
 import { connectDB, disconnectDB } from "./config/mongodb_connection.js";
+
 import usersRoutes from "./routes/users.routes.js";
 import auth_routes from "./routes/auth_routes.js";
 import payment_routes from "./routes/payment_routes.js";
@@ -30,6 +35,7 @@ import telegram_routes from "./routes/telegram_routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import checkoutRoutes from "./routes/checkout.routes.js";
+import ordersRoutes from "./routes/orders.routes.js";
 
 import { error_handler } from "./middleware/error_handler.js";
 import { request_logger } from "./middleware/request_logger.js";
@@ -37,9 +43,16 @@ import { request_logger } from "./middleware/request_logger.js";
 /* ==============================
    SERVER CONFIG
 ============================== */
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || "development";
+
+/* ==============================
+   TRUST PROXY (production)
+============================== */
+
+app.set("trust proxy", 1);
 
 /* ==============================
    SECURITY
@@ -60,18 +73,31 @@ if (NODE_ENV === "production") {
     })
   );
 } else {
-  // В dev включаем helmet без CSP
   app.use(helmet());
 }
 
 app.use(compression());
 
 /* ==============================
-   CORS (ДОЛЖЕН БЫТЬ ДО ROUTES)
+   RATE LIMIT (ANTI BOT / DDOS)
+============================== */
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: NODE_ENV === "production" ? 200 : 1000,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use("/api", apiLimiter);
+
+/* ==============================
+   CORS
 ============================== */
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL || "http://localhost:5173", "http://localhost:8080",
+  process.env.FRONTEND_URL || "http://localhost:5173",
+  "http://localhost:8080",
   process.env.FRONTEND_URL_PROD || "https://lux-furniture.com",
   /https:\/\/.*\.lux-furniture\.com/i,
 ];
@@ -118,9 +144,11 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/telegram", telegram_routes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/users", usersRoutes);
+
 /* ==============================
    HEALTH CHECK
 ============================== */
+
 app.get("/health", (req, res) => {
   res.json({
     status: "ok",
@@ -132,6 +160,7 @@ app.get("/health", (req, res) => {
 /* ==============================
    404
 ============================== */
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -142,6 +171,7 @@ app.use((req, res) => {
 /* ==============================
    ERROR HANDLER
 ============================== */
+
 app.use(error_handler);
 
 /* ==============================
@@ -154,30 +184,30 @@ const start_server = async () => {
 
     const server = app.listen(PORT, () => {
       console.log(`
-╔════════════════════════════════════════════════════════════╗
-║          Lux Furniture Backend - Server Started            ║
-╠════════════════════════════════════════════════════════════╣
-║  Environment: ${NODE_ENV.padEnd(43)}║
-║  Port: ${String(PORT).padEnd(51)}║
-║  URL: http://localhost:${String(PORT).padEnd(38)}║
-║  Database: MongoDB Atlas                                   ║
-╚════════════════════════════════════════════════════════════╝
+  Server Started            
+  Environment: ${NODE_ENV.padEnd(43)}
+  Port: ${String(PORT).padEnd(51)}
+  URL: http://localhost:${String(PORT).padEnd(38)}
+  Database: MongoDB Atlas                                   
       `);
     });
 
-    process.on("SIGTERM", async () => {
-      server.close(async () => {
-        await disconnectDB();
-        process.exit(0);
-      });
-    });
+    /* ==============================
+       GRACEFUL SHUTDOWN
+    ============================== */
 
-    process.on("SIGINT", async () => {
+    const shutdown = async () => {
+      console.log("Shutting down server...");
+
       server.close(async () => {
         await disconnectDB();
         process.exit(0);
       });
-    });
+    };
+
+    process.on("SIGTERM", shutdown);
+    process.on("SIGINT", shutdown);
+
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);

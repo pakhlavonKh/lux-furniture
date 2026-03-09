@@ -1,10 +1,5 @@
-// src/controllers/users.controller.js
-
+// backend/src/controllers/users.controller.js
 import User from "../models/user_model.js";
-
-/* ===========================
-   GET CURRENT USER
-=========================== */
 
 export const getMe = async (req, res, next) => {
   try {
@@ -34,10 +29,6 @@ export const getMe = async (req, res, next) => {
     next(error);
   }
 };
-
-/* ===========================
-   UPDATE CURRENT USER
-=========================== */
 
 export const updateMe = async (req, res, next) => {
   try {

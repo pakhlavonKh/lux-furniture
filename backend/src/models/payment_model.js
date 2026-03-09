@@ -1,3 +1,4 @@
+// backend/src/models/payment_model.js
 import mongoose from "mongoose";
 
 /* ===========================
@@ -25,7 +26,9 @@ export const PAYMENT_METHOD = {
 
 const paymentSchema = new mongoose.Schema(
   {
-    /* Relations */
+    /* ===========================
+       RELATIONS
+    ============================ */
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -41,7 +44,9 @@ const paymentSchema = new mongoose.Schema(
       index: true,
     },
 
-    /* Financial */
+    /* ===========================
+       FINANCIAL
+    ============================ */
 
     amount: {
       type: Number,
@@ -69,7 +74,20 @@ const paymentSchema = new mongoose.Schema(
       index: true,
     },
 
-    /* Provider Data */
+    /* ===========================
+       IDEMPOTENCY (CRITICAL)
+    ============================ */
+
+    idempotency_key: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
+
+    /* ===========================
+       PROVIDER DATA
+    ============================ */
 
     transaction_id: {
       type: String,
@@ -108,10 +126,45 @@ paymentSchema.index({ status: 1 });
 // По способу оплаты
 paymentSchema.index({ method: 1 });
 
-// Уникальность transaction_id уже обеспечена
+// Быстрый поиск по transaction_id
+paymentSchema.index({ transaction_id: 1 });
+
+// Быстрый поиск по idempotency_key
+paymentSchema.index({ idempotency_key: 1 });
+
+/* ===========================
+   HOOKS
+=========================== */
+
+// Автоматически выставляем completed_at
+paymentSchema.pre("save", function (next) {
+  if (
+    this.isModified("status") &&
+    this.status === PAYMENT_STATUS.COMPLETED &&
+    !this.completed_at
+  ) {
+    this.completed_at = new Date();
+  }
+
+  next();
+});
+
+/* ===========================
+   METHODS
+=========================== */
+
+paymentSchema.methods.isCompleted = function () {
+  return this.status === PAYMENT_STATUS.COMPLETED;
+};
+
+paymentSchema.methods.isPending = function () {
+  return this.status === PAYMENT_STATUS.PENDING;
+};
 
 /* ===========================
    MODEL EXPORT
 =========================== */
 
-export const Payment = mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
+export const Payment =
+  mongoose.models.Payment ||
+  mongoose.model("Payment", paymentSchema);

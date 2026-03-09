@@ -1,3 +1,4 @@
+// backend/src/models/uzum_transaction_model.js
 import mongoose from 'mongoose';
 
 const uzum_transaction_schema = new mongoose.Schema(

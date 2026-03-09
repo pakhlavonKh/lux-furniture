@@ -1,3 +1,4 @@
+// backend/src/services/stock_reservation.service.js
 import Product from "../models/product.model.js";
 
 /**
@@ -16,7 +17,7 @@ export const reserveStock = async (cart, session) => {
     }
 
     const variant = product.variants.find(
-      v => v.sku === item.variantSku && v.isActive
+      (v) => v.sku === item.variantSku && v.isActive
     );
 
     if (!variant) {
@@ -46,7 +47,7 @@ export const releaseStock = async (order, session) => {
 
     if (!sku) continue;
 
-    const variant = product.variants.find(v => v.sku === sku);
+    const variant = product.variants.find((v) => v.sku === sku);
 
     if (variant) {
       variant.stock += item.quantity;

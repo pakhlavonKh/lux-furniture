@@ -1,3 +1,4 @@
+// backend/src/config/mongodb_connection.js
 import mongoose from 'mongoose';
 import { config } from './config.js';
 

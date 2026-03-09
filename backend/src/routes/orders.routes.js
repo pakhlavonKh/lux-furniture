@@ -1,3 +1,5 @@
+// backend/src/routes/orders.routes.js
+
 import express from "express";
 import { authenticate_token } from "../middleware/auth.js";
 import { getMyOrders } from "../controllers/orders.controller.js";
