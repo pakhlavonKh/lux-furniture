@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router-do
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
-import { getImageUrl, getProducts } from "@/data/catalogData";
+import { getImageUrl, getProducts, ProductVariant } from "@/data/catalogData";
+import { ProductVariantSelector } from "@/components/ProductVariantSelector";
 import {
   StorageIcon,
   KitchenIcon,
@@ -114,6 +115,7 @@ export default function Catalog() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
 
   const isInitialMount = useRef(true);
 
@@ -477,29 +479,43 @@ export default function Catalog() {
 
             <div className="flex-1">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {paginatedProducts.map((product) => (
-                  <Link
-                    key={product.id}
-                    to={`/product/${product.slug}`}
-                    className="block group"
-                  >
-                    <div className="product-card">
-                      <div className="product-card__image-wrap">
-                        <img
-                          src={getImageUrl(product.images[0])}
-                          alt={t(product.nameKey)}
-                          className="product-card__image group-hover:scale-105 transition"
-                        />
-                      </div>
-                      <div className="product-card__title">
-                        {t(product.nameKey)}
-                      </div>
-                      <div className="product-card__price">
-                        €{product.basePrice.toLocaleString()}
-                      </div>
+                {paginatedProducts.map((product) => {
+                  const selectedVariant = selectedVariants[product.id];
+                  const displayImage = selectedVariant?.image || product.images[0];
+
+                  return (
+                    <div key={product.id} className="group">
+                      <Link
+                        to={`/product/${product.slug}`}
+                        className="block"
+                      >
+                        <div className="product-card">
+                          <div className="product-card__image-wrap">
+                            <img
+                              src={getImageUrl(displayImage)}
+                              alt={t(product.nameKey)}
+                              className="product-card__image group-hover:scale-105 transition"
+                            />
+                          </div>
+                          <div className="product-card__title">
+                            {t(product.nameKey)}
+                          </div>
+                          <div className="product-card__price">
+                            €{(selectedVariant?.price || product.basePrice).toLocaleString()}
+                          </div>
+                        </div>
+                      </Link>
+                      {product.variants && product.variants.length > 0 && (
+                        <div
+                          className="variant-selector-wrap"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          
+                        </div>
+                      )}
                     </div>
-                  </Link>
-                ))}
+                  );
+                })}
               </div>
 
               {totalPages > 1 && (

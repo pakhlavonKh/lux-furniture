@@ -4,7 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import { toast } from "sonner";
-import { getProductBySlug, getImageUrl } from "@/data/catalogData";
+import { getProductBySlug, getImageUrl, ProductVariant } from "@/data/catalogData";
+import { ProductVariantSelector } from "@/components/ProductVariantSelector";
 import { motion } from "framer-motion";
 import {
   ChevronLeft,
@@ -23,6 +24,7 @@ const Product = () => {
   const { t } = useLanguage();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
 
   const product = slug ? getProductBySlug(slug) : null;
 
@@ -50,6 +52,21 @@ const Product = () => {
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+
+  // Get the display image - use variant image if selected, otherwise use current index
+  const displayImageName = selectedVariant?.image || images[currentImageIndex];
+  const displayPrice = selectedVariant?.price || product?.basePrice;
+
+  // Find the index of the selected variant's image in the product images array
+  const getActiveImageIndex = () => {
+    if (selectedVariant?.image) {
+      const variantImageIndex = images.indexOf(selectedVariant.image);
+      return variantImageIndex !== -1 ? variantImageIndex : currentImageIndex;
+    }
+    return currentImageIndex;
+  };
+
+  const activeImageIndex = getActiveImageIndex();
 
   return (
     <Layout>
@@ -89,7 +106,7 @@ const Product = () => {
             >
               <div className="gallery-wrapper">
                 <img
-                  src={getImageUrl(images[currentImageIndex])}
+                  src={getImageUrl(displayImageName)}
                   alt={t(product.nameKey)}
                   className="gallery-image"
                 />
@@ -117,10 +134,13 @@ const Product = () => {
                   {images.map((image, index) => (
                     <button
                       key={index}
-                      onClick={() => setCurrentImageIndex(index)}
+                      onClick={() => {
+                        setCurrentImageIndex(index);
+                        setSelectedVariant(null);
+                      }}
                       className={cn(
                         "thumbnail",
-                        currentImageIndex === index
+                        activeImageIndex === index
                           ? "opacity-100 ring-2 ring-foreground"
                           : "opacity-60 hover:opacity-100",
                       )}
@@ -144,12 +164,43 @@ const Product = () => {
               <p className="text-caption mb-4">{product.categoryId}</p>
               <h1 className="heading-section mb-4">{t(product.nameKey)}</h1>
               <p className="font-serif text-3xl mb-8">
-                €{product.basePrice.toLocaleString()}
+                €{displayPrice?.toLocaleString()}
               </p>
 
               {product.descriptionKey && (
                 <div className="prose prose-stone max-w-none mb-8">
                   <p className="text-body">{t(product.descriptionKey)}</p>
+                </div>
+              )}
+
+              {/* Variants */}
+              {product.variants && product.variants.length > 0 && (
+                <div className="mb-8">
+                  <ProductVariantSelector
+                    variants={[
+                      {
+                        id: `${product.id}-base`,
+                        image: product.images[0],
+                      },
+                      ...product.variants,
+                    ]}
+                    onVariantSelect={(variant) => {
+                      // If base variant is selected, clear the selectedVariant
+                      if (variant?.id === `${product.id}-base`) {
+                        setSelectedVariant(null);
+                        setCurrentImageIndex(0);
+                      } else {
+                        setSelectedVariant(variant);
+                        // If variant has an image, find its index and set it
+                        if (variant?.image) {
+                          const variantImageIndex = images.indexOf(variant.image);
+                          if (variantImageIndex !== -1) {
+                            setCurrentImageIndex(variantImageIndex);
+                          }
+                        }
+                      }
+                    }}
+                  />
                 </div>
               )}
 

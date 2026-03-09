@@ -79,8 +79,8 @@
   },
   "footer": {
     "description": "Biz uyalarni raffinlangan yaşash tomorqalari bo'lgan istisnoi mebel parçalarini tuzathiromiz. Har bir parça hunarmandlik va abadiy dizayn hikoyasini aytadi.",
-      "addressLine1": "Toshkent, Ko'shko'prik ko'chasi, 30",
-      "addressLine2": "Alfraganus Savdo Markazi, 2-qavat",
+    "addressLine1": "Toshkent, Ko'shko'prik ko'chasi, 30",
+    "addressLine2": "Alfraganus Savdo Markazi, 2-qavat",
     "explore": {
       "title": "O'rganing",
       "catalog": "Katalog",
@@ -320,681 +320,580 @@
         "dimensions": "45sm E × 45sm D × 180sm B",
         "care": "Yumshoq matkali bilan muntazam tozalang. Zarur bo'lganda lampochkilarni almashtiring. Suv bilan urinishidan saqlanib qoling."
       },
+
       "items": {
         "1": {
-          "name": "Nafis saqlash shkafl",
-          "shortDescription": "Nozik detallar bilan zamonaviy saqlash yechimi",
-          "description": "artVision kolleksiyasidan sofistifikatsiyalangan mebel, detalga e'tibor bilan va zamonaviy elegantnlik bilan yaratilgan."
+          "name": "Modulli stol",
+          "shortDescription": "",
+          "description": ""
         },
         "2": {
-          "name": "Premium ovqat stoli",
-          "shortDescription": "Istisno qolidagi natijasi bilan naftis ovqat stoli",
-          "description": "Premium materiallari va vaqtsiz dizayni bilan yasagan go'zal stol, nozik mehmonlarni qabul qilish uchun muhim."
+          "name": "Modulli stol, ikki kishilik",
+          "shortDescription": "",
+          "description": ""
         },
         "3": {
-          "name": "Sun'iy zamin chirogʻi",
-          "shortDescription": "Hunarmandlik shakl bilan zamonaviy yoritish",
-          "description": "Funktsional yoritishni sun'iy elegantnlikni birlashtiruvchi hayratarli lamp, zamonaviy ichki uchun."
+          "name": "Tayanch tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "4": {
-          "name": "Zamonaviy ko'rgazma kabineti",
-          "shortDescription": "Shisha aksent bilan nafis saqlash",
-          "description": "Sofistifikatsiyalangan ko'rgazma kabineti ko'rsatish va tashkil qilish uchun mo'ljallangan."
+          "name": "Tayanch tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "5": {
-          "name": "Nozik saqlash tizimi",
-          "shortDescription": "Toza chiziqlar bilan zamonaviy saqlash polkalari",
-          "description": "Har qanday yashash bo'shliqiga elegantnlik va funktsionallik olib keladigan ko'p qo'llaniladigan saqlash echimlari."
+          "name": "Tayanch tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "6": {
-          "name": "Sofistifikatsiyalangan saqlash tizimi",
-          "shortDescription": "Zamonaviy zaruratga multyfunksional saqlash",
-          "description": "Ustalik bilan mo'ljallangan saqlash tizimi, uslub va amaliyotni birlashtiradi."
+          "name": "Ofis stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "7": {
-          "name": "Zamonaviy kabineti",
-          "shortDescription": "Innovatsion dизайн bilan stilish saqlash",
-          "description": "Toza proportsiyalar va nozik tugatish bilan zamonaviy saqlash narsasi."
+          "name": "Tumbali bench-stol",
+          "shortDescription": "",
+          "description": ""
         },
         "8": {
-          "name": "Minimalist polkalar",
-          "shortDescription": "Zamonaviy ko'rgazma va saqlash yechimi",
-          "description": "Zamonaviy yasash bo'shliqlar uchun mo'ljallangan qimm saqlash tizimi muhim tashkilotlanish bilan."
+          "name": "Yon tokchali shkaf",
+          "shortDescription": "",
+          "description": ""
         },
         "9": {
-          "name": "Devor moduli",
-          "shortDescription": "Modul devor saqlash tizimi",
-          "description": "Moslashuvchilik va uslub taqdim etadigan innovatsion devor saqlash echimlari."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "10": {
-          "name": "Suspenzion stol lampa",
-          "shortDescription": "Nafis shakli bilan dekorativ yoritish",
-          "description": "Har qanday xonaga atmosfera va sofistifikatsiya qo'shadigan nozik svetilnik."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "11": {
-          "name": "Arxitektur kabineti",
-          "shortDescription": "Jismoniy dизайн bilan mulohaza narsasi",
-          "description": "Saqlanish kabineti ham funktsional mebel va hun'ar markazi sifatida xizmat qiladi."
+          "name": "Kiyim shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "12": {
-          "name": "Baland ko'rgazma kabineti",
-          "shortDescription": "Premium vertikal saqlash yechimi",
-          "description": "Kolleksiyalarni ko'rsatish va tashkil qilish uchun ajoyib baland, sofistifikatsiyalangan saqlash birligi."
+          "name": "Yon tokchali shkaf",
+          "shortDescription": "",
+          "description": ""
         },
         "13": {
-          "name": "Zamonaviy saqlash qutiasi",
-          "shortDescription": "Zamonaviy stil bilan kompakt organizer",
-          "description": "Zamonaviy estetika bilan joyni tashkil qilish uchun ideal stilish saqlash yechimi."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "14": {
-          "name": "Geometrik devor polkasi",
-          "shortDescription": "Hunarmandlik devor-mounted saqlash",
-          "description": "Ichki ko'rinishni ko'tarish uchun mo'ljallangan geometrik proportsiyalar bilan diqqatni jalb qiluvchi polka."
+          "name": "Tokchali shkaf",
+          "shortDescription": "",
+          "description": ""
         },
         "15": {
-          "name": "Drive ofis stoli",
-          "shortDescription": "Zamonaviy ish bo'shlig'i yechimi",
-          "description": "Drive kolleksiyasidan professional stol, zamonaviy ofislar uchun mo'ljallangan istisno qandaylar bilan."
+          "name": "Tokchali shkaf",
+          "shortDescription": "",
+          "description": ""
         },
         "16": {
-          "name": "Ijro etuvchi ish stoli",
-          "shortDescription": "Premium ofis mebeli",
-          "description": "Zamonaviy ofis muhitlari uchun ideal nozik ish yuzasi istisno sifat bilan."
+          "name": "Ko‘chma tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "17": {
-          "name": "Drive fayl kabineti",
-          "shortDescription": "Hamjamiyyat hujjat saqlash",
-          "description": "Funktsionallikni nozik dизайн estetikasi bilan birlashtiruvchi amaliy fayl yechimi."
+          "name": "Bench-stol, ikki kishilik tumbali",
+          "shortDescription": "",
+          "description": ""
         },
         "18": {
-          "name": "Zamonaviy ofis kabineti",
-          "shortDescription": "Ko'p qo'llaniladigan ofis saqlash tizimi",
-          "description": "Tashkil qilingan va samarali ofis bo'shliqlar uchun zamonaviy kabineti yechimi."
+          "name": "Ofis stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "19": {
-          "name": "Drive saqlash tizimi",
-          "shortDescription": "Modul ofis saqlash",
-          "description": "Zamonaviy ofis muhitlari uchun mo'ljallangan moslashuvchi saqlash tizimi."
+          "name": "Brifing qo‘shimcha stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "20": {
-          "name": "Professional saqlash birligi",
-          "shortDescription": "Sofistifikatsiyalangan ofis tashkiloti",
-          "description": "Professional va biznes so'rovlar uchun premium saqlash yechimi."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "21": {
-          "name": "Zamonaviy ofis kabineti",
-          "shortDescription": "Ish bo'shlig'ining stilish saqlash",
-          "description": "Zamonaviy kabineti ko'z-qarashatlarni ko'taradigan ajoyib saqlash taqdim etimadi."
+          "name": "Tumbali stol",
+          "shortDescription": "",
+          "description": ""
         },
         "22": {
-          "name": "Drive ish stantsiyasi",
-          "shortDescription": "Integratsiya qilingan ish bo'shlig'i",
-          "description": "Stol, saqlash va tashkilotni birlashtiruvchi keng ish bo'shlig'i yechimi."
+          "name": "Ofis stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "23": {
-          "name": "Modul ofis polkalari",
-          "shortDescription": "Moslashuvchi saqlash konfiguratsiyasi",
-          "description": "Dinamik ofis muhitlari uchun mo'ljallangan adaptabel saqlash tizimi."
+          "name": "Brifing qo‘shimcha stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "24": {
-          "name": "Drive ko'rgazma birligi",
-          "shortDescription": "Ofis ko'rgazma yechimi",
-          "description": "Professional muhitlar uchun elegantnlik va amaliyoti birlashtiruvchi ko'rgazma kabineti."
+          "name": "Ko‘chma tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "25": {
-          "name": "Ijro etuvchi kabineti",
-          "shortDescription": "Premium ofis mebel narsasi",
-          "description": "Ijro etuvchi va professional bo'shliqlar uchun mo'ljallangan sofistifikatsiyalangan kabineti."
+          "name": "2 kishilik ish stansiyasi, tumbali",
+          "shortDescription": "",
+          "description": ""
         },
         "26": {
-          "name": "Zamonaviy yon fayl",
-          "shortDescription": "Zamonaviy fayl saqlash",
-          "description": "Tashkil qilingan ofis menejmenti uchun ideal qimm fayl yechimi."
+          "name": "2 kishilik ish stansiyasi",
+          "shortDescription": "",
+          "description": ""
         },
         "27": {
-          "name": "Drive saqlash kredentsa",
-          "shortDescription": "Premium ofis kredentsa",
-          "description": "Professional va administrativ bo'shliqlar uchun mo'ljallangan nozik saqlash narsasi."
+          "name": "4 kishilik ish stansiyasi",
+          "shortDescription": "",
+          "description": ""
         },
         "28": {
-          "name": "Zamonaviy ofis polkalari",
-          "shortDescription": "Ofislar uchun zamonaviy devor saqlash",
-          "description": "Professional muhitlar uchun mo'ljallangan stilish saqlash yechimi."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "29": {
-          "name": "Drive yakuniy kabineti",
-          "shortDescription": "Yuqori sifatli ofis saqlash",
-          "description": "Drive kolleksiyasining oxirgi narsasi premium saqlash echimlari taqdim etadi."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "30": {
-          "name": "Genesis mobil birligi",
-          "shortDescription": "Ko'chib o'tuvchi saqlash tizimi bilan universal",
-          "description": "Genesis kolleksiyasidan harakatchan saqlash yechimi, mobillik va uslub bilan."
+          "name": "Kiyim shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "31": {
-          "name": "Genesis stol ayn",
-          "shortDescription": "Zamonaviy ofislarda maxfiylik bo'linuvchisi",
-          "description": "Maxfiylik taqdim etuvchi zamonaviy stol ayn, estetikani qurban etmasa."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "32": {
-          "name": "Genesis xodim kabineti",
-          "shortDescription": "Xodimlarning individual saqlash",
-          "description": "Ofis xodimlar uchun mo'ljallangan personal saqlash kabineti nafis tugatish bilan."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "33": {
-          "name": "Genesis hujjat kabineti",
-          "shortDescription": "Himoyalangan fayl saqlash yechimi",
-          "description": "Shisha eshikli professional olish kabineti tashkil qilingan hujjat boshqarish uchun."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "34": {
-          "name": "Genesis shisha kabineti",
-          "shortDescription": "Shaffoflik bilan ko'rgazma kabineti",
-          "description": "Narsalarni ko'rsatish uchun shisha panellar bilan sofistifikatsiyalangan saqlash birligi."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
-        "35": {
-          "name": "Genesis baland fayl kabineti",
-          "shortDescription": "Keng mohiyat, arkhivlash yechimi",
-          "description": "Keng hujjat tashkiloti uchun ideal baland saqlash kabineti."
-        },
+        "35": { "name": "Tumba", "shortDescription": "", "description": "" },
         "36": {
-          "name": "Genesis premium kabineti",
-          "shortDescription": "Yuqori-end ofis saqlash",
-          "description": "Istisno hunarmandlik va dизайn bilan premium olish kabineti."
+          "name": "Osma tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "37": {
-          "name": "Genesis vertikal kabineti",
-          "shortDescription": "Mazigi saqlashni tejash",
-          "description": "Samarali tashkilot uchun vertikal makonni maksimal qiluvchi baland kabineti."
+          "name": "4 kishilik ish stansiyasi",
+          "shortDescription": "",
+          "description": ""
         },
         "38": {
-          "name": "Genesis metall kabineti",
-          "shortDescription": "Barqaror saqlash yechimi",
-          "description": "Barqarorlikni zamonaviy dизайn bilan birlashtiruvchi ishonchli kabineti."
+          "name": "Tumbali stol",
+          "shortDescription": "",
+          "description": ""
         },
         "39": {
-          "name": "Genesis saqlash kabineti",
-          "shortDescription": "Professional saqlash narsasi",
-          "description": "Ofis va professional foydalanish uchun mo'ljallangan ishonchli saqlash."
+          "name": "Tumbali stol",
+          "shortDescription": "",
+          "description": ""
         },
         "40": {
-          "name": "Genesis libas birligi",
-          "shortDescription": "Shaxsiy loker yechimi",
-          "description": "Xodim hududlari va umumiy bo'shliqlar uchun libas saqlash birligi."
+          "name": "Tumbali stol",
+          "shortDescription": "",
+          "description": ""
         },
         "41": {
-          "name": "Genesis libas saqlash",
-          "shortDescription": "Alohida libas kabineti",
-          "description": "Libas va shaxsiy narsalarni saqlash uchun ixtisoslashtirilgan yechim."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "42": {
-          "name": "Genesis bo'linish polkalari",
-          "shortDescription": "Modul bo'shliqi bo'linuvchisi",
-          "description": "Bo'shliqlari aniqlashni tashkilot qiluvchi innovatsion saqlash tizimi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "43": {
-          "name": "Genesis skamya stoli",
-          "shortDescription": "Hamkorlik ish yuzasi",
-          "description": "Jamoa muhitlari va ochiq ofislar uchun ideal uzun ish stoli."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "44": {
-          "name": "Genesis vazifa stoli",
-          "shortDescription": "Individual ish stantsiyasi",
-          "description": "Markaziy ish va individual samaradorlik uchun mo'ljallangan shaxsiy stol."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "45": {
-          "name": "Genesis hujjat saqlash",
-          "shortDescription": "Fayl tashkiloti moduli",
-          "description": "Hujjat boshqarish va tashkilot uchun mo'ljallangan kompakt arkhivlash yechimi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "46": {
-          "name": "Genesis kompakt kabineti",
-          "shortDescription": "Mazigi tejovchi saqlash birligi",
-          "description": "Kompakt ofis bo'shliqlar uchun mo'ljallangan samarali saqlash kabineti."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "47": {
-          "name": "Genesis saqlash birligi",
-          "shortDescription": "Umumiy saqlash yechimi",
-          "description": "Genesis kolleksiyasidan turli ofis so'rovlar uchun universal saqlash kabineti."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "48": {
-          "name": "Alto ijro etuvchi kabineti",
-          "shortDescription": "Premium ofis saqlash yechimi",
-          "description": "Alto kolleksiyasidan sofistifikatsiyalangan kabineti ijro etuvchi bo'shliqlar uchun."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "49": {
-          "name": "Alto hujjat kabineti",
-          "shortDescription": "Professional arxivlash tizimi",
-          "description": "Alto dизайni bilan yuqori sifatli hujjat saqlash yechimi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "50": {
-          "name": "Alto past kabineti",
-          "shortDescription": "Kompakt saqlash birligi",
-          "description": "Ofis tashkiloti uchun universal past kabineti."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "51": {
-          "name": "Alto o'rta kabineti A",
-          "shortDescription": "O'rta saqlash yechimi",
-          "description": "Muvozanatli ofis saqlash ehtiyojlari uchun samarali o'rta kabineti."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "52": {
-          "name": "Alto o'rta kabineti B",
-          "shortDescription": "Sozlanuvchi saqlash",
-          "description": "Turli ofis qo'llanmalari uchun moslashuvchi o'rta kabineti."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "53": {
-          "name": "Alto o'rta kabineti C",
-          "shortDescription": "Professional saqlash narsasi",
-          "description": "Zamonaviy ofislar uchun mo'ljallangan nafis o'rta kabineti."
+          "name": "Ish stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "54": {
-          "name": "Alto baland kabineti A",
-          "shortDescription": "Baland saqlash yechimi",
-          "description": "Ofis muhitlarida vertikal makonni maksimal qiluvchi baland kabineti."
+          "name": "Bench-stol, ikki kishilik",
+          "shortDescription": "",
+          "description": ""
         },
         "55": {
-          "name": "Alto baland kabineti B",
-          "shortDescription": "Katta vertikal saqlash",
-          "description": "Keng ofis tashkiloti uchun yaqin baland kabineti."
+          "name": "Ish stansiyasi (kichik)",
+          "shortDescription": "",
+          "description": ""
         },
         "56": {
-          "name": "Alto baland kabineti C",
-          "shortDescription": "Premium baland kabineti",
-          "description": "Ustun tugatish sifati bilan nafis baland kabineti."
+          "name": "Ko‘chma tumba",
+          "shortDescription": "",
+          "description": ""
         },
-        "57": {
-          "name": "Alto baland kabineti D",
-          "shortDescription": "Hashamat saqlash",
-          "description": "Sofistifikatsiyalangan bo'shliqlar uchun mo'ljallangan premium baland kabineti."
-        },
-        "58": {
-          "name": "Alto ijro etuvchi stoli",
-          "shortDescription": "Liderlik ish yuzasi",
-          "description": "Fariydagi ofislar uchun mo'ljallangan buyuuklik ijro etuvchi stoli."
-        },
+        "57": { "name": "Tumba", "shortDescription": "", "description": "" },
+        "58": { "name": "Tumba", "shortDescription": "", "description": "" },
         "59": {
-          "name": "Alto opora stoli (chap)",
-          "shortDescription": "Asimmetrik ish stantsiyasi",
-          "description": "Ijro etuvchi tashkilot bo'shliqlar uchun chap konfiguratsiya opora stoli."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "60": {
-          "name": "Alto opora stoli (kengaytirilgan)",
-          "shortDescription": "Katta ijro etuvchi ish bo'shlig'i",
-          "description": "Keng ish yuzasi taqdim etuvchi kengaytirilgan opora stoli."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "61": {
-          "name": "Alto opora stoli (o'ng)",
-          "shortDescription": "O'ng konfiguratsiyali stol",
-          "description": "Ergonomik qulaylik uchun o'ng konfiguratsiya opora stoli."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "62": {
-          "name": "Alto kofе stoli",
-          "shortDescription": "Qabul mintagasining mebeli",
-          "description": "Ofis lounjlari uchun ideal nafis kofе stoli."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "63": {
-          "name": "Alto konferensiya stoli",
-          "shortDescription": "Uchrashuvning yuzasi",
-          "description": "Professional uchrashuvlar uchun mo'ljallangan sofistifikatsiyalangan stol."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "64": {
-          "name": "Alto mobil kabineti",
-          "shortDescription": "Mobil saqlash yechimi",
-          "description": "Moslashuvchi ofis bo'shliqlar uchun universal mobil kabineti."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "65": {
-          "name": "Alto ichimlik kabineti",
-          "shortDescription": "Muzlatgich quroli",
-          "description": "Ichimlik saqlashi uchun mo'ljallangan ixtisoslashtirilgan kabineti."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "66": {
-          "name": "Metar ofis birligi",
-          "shortDescription": "Zamonaviy ish bo'shlig'i mebeli",
-          "description": "Metar kolleksiyasidan zamonaviy ofis narsasi."
+          "name": "Hujjatlar uchun tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "67": {
-          "name": "Metar saqlash tizimi",
-          "shortDescription": "Integratsiya qilingan saqlash yechimi",
-          "description": "Samaradorlik uchun mo'ljallangan keng saqlash tizimi."
+          "name": "Bo‘luvchi tokcha-stellaj",
+          "shortDescription": "",
+          "description": ""
         },
         "68": {
-          "name": "Metar ish bo'shlig'ining kabineti",
-          "shortDescription": "Multimunafaatli ofis mebeli",
-          "description": "Uslub va amaliyotni birlashtiruvchi universal kabineti."
+          "name": "Ofis stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "69": {
-          "name": "Metar fayl birligi",
-          "shortDescription": "Hujjat tashkiloti",
-          "description": "Metar kolleksiyasidan professional arxivlash yechimi."
+          "name": "Ofis stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "70": {
-          "name": "Metar tashkilot tizimi",
-          "shortDescription": "Muvofiq saqlash",
-          "description": "Ofis saqlash echimlari uchun tashkil qilingan yondashuv."
+          "name": "Ofis stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "71": {
-          "name": "Metar modul polkalari",
-          "shortDescription": "Moslashuvchi saqlash konfiguratsiyasi",
-          "description": "Rivoji ofis ehtiyojlari uchun adaptabel saqlash tizimi."
+          "name": "Qo‘shimcha stol",
+          "shortDescription": "",
+          "description": ""
         },
         "72": {
-          "name": "Metar ish kabineti",
-          "shortDescription": "Ish bo'shlig'ining integratsiya mebeli",
-          "description": "Productive ish joylar uchun mo'ljallangan suvastik kabineti."
+          "name": "Ofis stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "73": {
-          "name": "Metar ko'rgazma birligi",
-          "shortDescription": "Ko'rgazma kabineti",
-          "description": "Professional muhitlar uchun ko'rsinuvchi saqlash narsasi."
+          "name": "Tayanch tumbali stol",
+          "shortDescription": "",
+          "description": ""
         },
         "74": {
-          "name": "Metar saqlash yakuniy",
-          "shortDescription": "To'liq saqlash yechimi",
-          "description": "Metar kolleksiyasining tugallanuvchi narsasi, keng saqlashni taqdim etadi."
+          "name": "Tayanch tumbali stol",
+          "shortDescription": "",
+          "description": ""
         },
         "75": {
-          "name": "Negoziatore premium kabineti",
-          "shortDescription": "Hashamatli ofis saqlash",
-          "description": "Negoziatore kolleksiyasidan fariydagi ofislar uchun istisnoi kabineti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "76": {
-          "name": "Negoziatore ijro etuvchi saqlash",
-          "shortDescription": "Yuqori-end ofis mebeli",
-          "description": "Liderlik bo'shliqlar uchun mo'ljallangan premium saqlash yechimi."
+          "name": "Jurnal stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "77": {
-          "name": "Negoziatore prestigli birligi",
-          "shortDescription": "Eksklyuziv ofis narsasi",
-          "description": "Prestig Negoziatore liniyasidan eksklyuziv mebel narsasi."
+          "name": "Ko‘chma tumba",
+          "shortDescription": "",
+          "description": ""
         },
         "78": {
-          "name": "Negoziatore vakalatli kabineti",
-          "shortDescription": "Buyuk ahamiyatli mebel",
-          "description": "Ijro etuvchi bo'shliqlarida hurmat talqin qiluvchi kuchli kabineti."
+          "name": "Ofis tumbasi",
+          "shortDescription": "",
+          "description": ""
         },
         "79": {
-          "name": "Negoziatore turli oXlidagi kabineti",
-          "shortDescription": "Nafis ofis mebeli",
-          "description": "Nafis professional muhitlar uchun turli oX qiluvchi narsasi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "80": {
-          "name": "Negoziatore elegantlik birligi",
-          "shortDescription": "Sofistifikatsiyalangan saqlash",
-          "description": "Olij ofis sozlamalarida nafis saqlash yechimi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "81": {
-          "name": "Negoziatore prestigli saqlash",
-          "shortDescription": "Premium ofis investitsiyasi",
-          "description": "Olijanlik va hashamatni aks ettiruvchi premium saqlash narsasi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "82": {
-          "name": "Negoziatore zenit kabineti",
-          "shortDescription": "Top-tashkilot ofis mebeli",
-          "description": "Negoziatore kolleksiyasidan ofis saqlash dизаynining cho'qqisi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "83": {
-          "name": "Vestar konferentsiya stoli 4-kishi Z-101",
-          "shortDescription": "Professional meeting solution",
-          "description": "Kichik jamoa uchrashuvlari uchun mo'ljallangan o'rindiqli konferentsiya stoli. Premium qurilish va zamonaviy dizaynni birlashtiradi."
+          "name": "Ofis shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "84": {
-          "name": "Vestar konferentsiya stoli 4-kishi Z-102",
-          "shortDescription": "Alternate professional layout",
-          "description": "Uchrashuvlar uchun moslashtirilgan bo'shliqni taklif etadigan muqobil 4-kishi konfiguratsiyasi. Hamkorlik muhokamalar va prezentatsiyalar uchun ideal."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "85": {
-          "name": "Vestar konferentsiya stoli 8-kishi Z-103",
-          "shortDescription": "Medium meeting capacity",
-          "description": "Bo'lim uchrashuvlari uchun 8-kishi konferentsiya stoli. Ixtisosiy muhitlar uchun rafinlangan funksionallik va estetikani birlashtiradi."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": "="
         },
         "86": {
-          "name": "Vestar konferentsiya stoli 10-kishi Z-104",
-          "shortDescription": "Large conference solution",
-          "description": "Direktor kengashlari uchun 10-kishi konferentsiya stoli. Barqarorlik uchun muhandislik qilingan va ijroiya sozlamalariga mo'ljallangan."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "87": {
-          "name": "Vestar konferentsiya stoli 12-kishi Z-201",
-          "shortDescription": "Executive meeting centerpiece",
-          "description": "Muhim uchrashuvlar uchun premium 12-kishi konferentsiya stoli. Nufuzi business muhitlari uchun mustahkam sifat va vaqtdan tashqari dizayn."
+          "name": "Hujjatlar shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "88": {
-          "name": "Metar Ofis Moduli 88-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Kiyim shkafi",
+          "shortDescription": "",
+          "description": ""
         },
         "89": {
-          "name": "Metar Ofis Moduli 89-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "4 kishilik muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "90": {
-          "name": "Metar Ofis Moduli 90-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "4 kishilik muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "91": {
-          "name": "Metar Ofis Moduli 91-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "8 kishilik muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "92": {
-          "name": "Metar Ofis Moduli 92-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "10 kishilik muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "93": {
-          "name": "Metar Ofis Moduli 93-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "12 kishilik muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "94": {
-          "name": "Metar Ofis Moduli 94-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "95": {
-          "name": "Metar Ofis Moduli 95-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "96": {
-          "name": "Metar Ofis Moduli 96-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "97": {
-          "name": "Metar Ofis Moduli 97-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "98": {
-          "name": "Metar Ofis Moduli 98-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "99": {
-          "name": "Metar Ofis Moduli 99-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "100": {
-          "name": "Metar Ofis Moduli 100-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "101": {
-          "name": "Metar Ofis Moduli 101-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "102": {
-          "name": "Metar Ofis Moduli 102-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "103": {
-          "name": "Metar Ofis Moduli 103-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "104": {
-          "name": "Metar Ofis Moduli 104-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "105": {
-          "name": "Metar Ofis Moduli 105-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "106": {
-          "name": "Metar Ofis Moduli 106-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "107": {
-          "name": "Metar Ofis Moduli 107-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "108": {
-          "name": "Metar Ofis Moduli 108-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "109": {
-          "name": "Metar Ofis Moduli 109-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "110": {
-          "name": "Metar Ofis Moduli 110-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Boshlang‘ich modul",
+          "shortDescription": "",
+          "description": ""
         },
         "111": {
-          "name": "Metar Ofis Moduli 111-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "O‘tuvchi modul",
+          "shortDescription": "",
+          "description": ""
         },
         "112": {
-          "name": "Metar Ofis Moduli 112-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "O‘tuvchi modul",
+          "shortDescription": "",
+          "description": ""
         },
         "113": {
-          "name": "Metar Ofis Moduli 113-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Muzokara stoli",
+          "shortDescription": "",
+          "description": ""
         },
         "114": {
-          "name": "Metar Ofis Moduli 114-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Burchakli o‘tuvchi modul",
+          "shortDescription": "",
+          "description": ""
         },
         "115": {
-          "name": "Metar Ofis Moduli 115-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Yakunlovchi modul",
+          "shortDescription": "",
+          "description": ""
         },
         "116": {
-          "name": "Metar Ofis Moduli 116-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
+          "name": "Burchakli yakunlovchi modul",
+          "shortDescription": "",
+          "description": ""
         },
         "117": {
-          "name": "Metar Ofis Moduli 117-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
-        },
-        "118": {
-          "name": "Metar Ofis Moduli 118-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
-        },
-        "119": {
-          "name": "Metar Ofis Moduli 119-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
-        },
-        "120": {
-          "name": "Metar Ofis Moduli 120-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
-        },
-        "121": {
-          "name": "Metar Ofis Moduli 121-M",
-          "shortDescription": "Zamonaviy ofis yechimi",
-          "description": "Zamonaviy ofis maydonlari uchun moslashtirilgan premium Metar ofis moduli. Sifatli materiallar va funktsional dizayn bilan berilgan professional ishchi muhiti."
-        },
-        "122": {
-          "name": "Negoziatore Prezident Kabineti 122-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "123": {
-          "name": "Negoziatore Prezident Kabineti 123-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "124": {
-          "name": "Negoziatore Prezident Kabineti 124-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "125": {
-          "name": "Negoziatore Prezident Kabineti 125-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "126": {
-          "name": "Negoziatore Prezident Kabineti 126-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "127": {
-          "name": "Negoziatore Prezident Kabineti 127-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "128": {
-          "name": "Negoziatore Prezident Kabineti 128-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "129": {
-          "name": "Negoziatore Prezident Kabineti 129-N",
-          "shortDescription": "Hashamatli ijro kvartirasi",
-          "description": "Eng yuqori darajadagi ijro hakamiyati uchun premium Negoziatore prezident kabineti. Zamonaviy dizayn va teristik sifat bilan birlashgan."
-        },
-        "130": {
-          "name": "Vestar Konferentsiya Stoli 130-Z",
-          "shortDescription": "Premium savdo yechimi",
-          "description": "Professional savdo va uchrashuvlar uchun premium Vestar konferentsiya stoli. Ishchi sifat va zamonaviy dizayn bilan teristik."
-        },
-        "131": {
-          "name": "Vestar Konferentsiya Stoli 131-Z",
-          "shortDescription": "Premium savdo yechimi",
-          "description": "Professional savdo va uchrashuvlar uchun premium Vestar konferentsiya stoli. Ishchi sifat va zamonaviy dizayn bilan teristik."
-        },
-        "132": {
-          "name": "Vestar Konferentsiya Stoli 132-Z",
-          "shortDescription": "Premium savdo yechimi",
-          "description": "Professional savdo va uchrashuvlar uchun premium Vestar konferentsiya stoli. Ishchi sifat va zamonaviy dizayn bilan teristik."
-        },
-        "133": {
-          "name": "Vestar Konferentsiya Stoli 133-Z",
-          "shortDescription": "Premium savdo yechimi",
-          "description": "Professional savdo va uchrashuvlar uchun premium Vestar konferentsiya stoli. Ishchi sifat va zamonaviy dizayn bilan teristik."
-        },
-        "134": {
-          "name": "Vestar Konferentsiya Stoli 134-Z",
-          "shortDescription": "Premium savdo yechimi",
-          "description": "Professional savdo va uchrashuvlar uchun premium Vestar konferentsiya stoli. Ishchi sifat va zamonaviy dizayn bilan teristik."
-        },
-        "135": {
-          "name": "Vestar Konferentsiya Stoli 135-Z",
-          "shortDescription": "Premium savdo yechimi",
-          "description": "Professional savdo va uchrashuvlar uchun premium Vestar konferentsiya stoli. Ishchi sifat va zamonaviy dizayn bilan teristik."
+          "name": "Yakunlovchi modul",
+          "shortDescription": "",
+          "description": ""
         }
       }
     }
@@ -1048,234 +947,225 @@
       "title": "Biz haqida | Manaku",
       "description": "Manaku hashamatli mebellari haqida ko'proq bilib oling."
     },
-      "story": "Bizning tariximiz",
-      "title": "Xususiy mijozlar va biznes uchun ishlaymiz.\nO‘z ishlab chiqarish. Shartnoma. 3 yilgacha kafolat.",
-      "heading": "Kompaniya haqida",
-      "paragraph1": "Manaku go‘zallik va sifat inson yashaydigan makonning asosiy qadriyatlari bo‘lishi kerak degan ishonch asosida tashkil etilgan.",
-      "paragraph2": "Biz Toshkent shahrida korpus va ofis mebellarini ishlab chiqaramiz, xususiy mijozlar hamda biznes bilan hamkorlik qilamiz.",
-      "paragraph3": "O‘z ishlab chiqarishimiz va har bir bosqichdagi nazorat tufayli mahsulotlarimiz uzoq muddat xizmat qiladi.",
+    "story": "Bizning tariximiz",
+    "title": "Xususiy mijozlar va biznes uchun ishlaymiz.\nO‘z ishlab chiqarish. Shartnoma. 3 yilgacha kafolat.",
+    "heading": "Kompaniya haqida",
+    "paragraph1": "Manaku go‘zallik va sifat inson yashaydigan makonning asosiy qadriyatlari bo‘lishi kerak degan ishonch asosida tashkil etilgan.",
+    "paragraph2": "Biz Toshkent shahrida korpus va ofis mebellarini ishlab chiqaramiz, xususiy mijozlar hamda biznes bilan hamkorlik qilamiz.",
+    "paragraph3": "O‘z ishlab chiqarishimiz va har bir bosqichdagi nazorat tufayli mahsulotlarimiz uzoq muddat xizmat qiladi.",
 
-      "valuesSection": "Qadriyatlarimiz",
-      "valuesTitle": "Mahoratning asoslari",
+    "valuesSection": "Qadriyatlarimiz",
+    "valuesTitle": "Mahoratning asoslari",
 
-      "artisanalTitle": "Ijro mahorati",
-      "artisanalDesc": "Har bir mahsulot tajribali ustalar tomonidan yaratiladi. Sifat detallarda namoyon bo‘ladi.",
+    "artisanalTitle": "Ijro mahorati",
+    "artisanalDesc": "Har bir mahsulot tajribali ustalar tomonidan yaratiladi. Sifat detallarda namoyon bo‘ladi.",
 
-      "materialsTitle": "Material yaxlitligi",
-      "materialsDesc": "Ishonchli yetkazib beruvchilardan sifatli materiallar tanlanadi. Har bir qism mustahkamlik va estetika asosida saralanadi.",
+    "materialsTitle": "Material yaxlitligi",
+    "materialsDesc": "Ishonchli yetkazib beruvchilardan sifatli materiallar tanlanadi. Har bir qism mustahkamlik va estetika asosida saralanadi.",
 
-      "designTitle": "Vaqtdan ustun dizayn",
-      "designDesc": "Biz trendlardan mustaqil dizayn yaratamiz. U yillar davomida dolzarbligini saqlaydi.",
+    "designTitle": "Vaqtdan ustun dizayn",
+    "designDesc": "Biz trendlardan mustaqil dizayn yaratamiz. U yillar davomida dolzarbligini saqlaydi.",
 
-      "sustainabilitySection": "Barqarorlik",
-      "sustainabilityTitle": "Kelajak uchun yaratamiz",
-      "sustainabilityText1": "Javobgarlikli ishlab chiqarish — bizning tamoyilimiz. Chiqindilarni kamaytirishga e’tibor beramiz.",
-      "sustainabilityText2": "Uzoq xizmat qiladigan mebel yaratish orqali tez almashtirish madaniyatiga muqobil taklif qilamiz.",
-      "manufacturingTitle": "Toshkentdagi o‘z ishlab chiqarishimiz",
-      "manufacturingLine1": "LDSP/LMDF ni format-kesish stanoklarida kesish, PVC qirralash 0.4 / 1 / 2 mm",
-      "manufacturingLine2": "Sanoat uskunalarida teshik ochish va yig‘ish",
-      "manufacturingLine3": "Avtomatik chiziqli bo‘yash",
-      "manufacturingLine4": "Qadoqlashdan oldin sifat nazorati",
+    "sustainabilitySection": "Barqarorlik",
+    "sustainabilityTitle": "Kelajak uchun yaratamiz",
+    "sustainabilityText1": "Javobgarlikli ishlab chiqarish — bizning tamoyilimiz. Chiqindilarni kamaytirishga e’tibor beramiz.",
+    "sustainabilityText2": "Uzoq xizmat qiladigan mebel yaratish orqali tez almashtirish madaniyatiga muqobil taklif qilamiz.",
+    "manufacturingTitle": "Toshkentdagi o‘z ishlab chiqarishimiz",
+    "manufacturingLine1": "LDSP/LMDF ni format-kesish stanoklarida kesish, PVC qirralash 0.4 / 1 / 2 mm",
+    "manufacturingLine2": "Sanoat uskunalarida teshik ochish va yig‘ish",
+    "manufacturingLine3": "Avtomatik chiziqli bo‘yash",
+    "manufacturingLine4": "Qadoqlashdan oldin sifat nazorati",
 
-      "statMaterials": "Ekologik materiallar",
-      "statWaste": "Poligon chiqindisi",
-      "statLifespan": "O‘rtacha xizmat muddati",
-      "statCarbon": "Uglerod neytral",
+    "statMaterials": "Ekologik materiallar",
+    "statWaste": "Poligon chiqindisi",
+    "statLifespan": "O‘rtacha xizmat muddati",
+    "statCarbon": "Uglerod neytral",
 
-      "experienceSection": "Bizni ko‘ring",
-      "experienceTitle": "Manaku tajribasi",
-      "experienceDesc": "Toshkentdagi shourumimizga tashrif buyurib, sifatni shaxsan baholang.",
-      "scheduleVisit": "Tashrifni rejalashtirish"
-    }
-  ,
+    "experienceSection": "Bizni ko‘ring",
+    "experienceTitle": "Manaku tajribasi",
+    "experienceDesc": "Toshkentdagi shourumimizga tashrif buyurib, sifatni shaxsan baholang.",
+    "scheduleVisit": "Tashrifni rejalashtirish"
+  },
   "admin": {
-      "dashboard": "Admin paneli",
-      "totalProducts": "Jami mahsulotlar",
-      "categories": "Kategoriyalar",
-      "collections": "Kolleksiyalar",
-      "inquiries": "So'rovlar",
-      "logout": "Chiqish",
-      "loading": "Yuklanmoqda..."
-    }
-  ,
+    "dashboard": "Admin paneli",
+    "totalProducts": "Jami mahsulotlar",
+    "categories": "Kategoriyalar",
+    "collections": "Kolleksiyalar",
+    "inquiries": "So'rovlar",
+    "logout": "Chiqish",
+    "loading": "Yuklanmoqda..."
+  },
   "catalog": {
-      "title": "Katalog",
-      "subtitle": "Bizning Kolleksiya",
-      "description": "Bizning tanlangi mebel parçalarining kolleksiyasini ko'ring, ularning har biri sizning makoningizga abadiy sharafat olib kelib berish uchun ishlab chiqilgan.",
-      "filters": "Filterlar",
-      "category": "Kategoriya",
-      "all": "Barchasi",
-      "sort": "Saralash",
-      "priceLowHigh": "Narx: Kam → Ko'p",
-      "priceHighLow": "Narx: Ko'p → Kam",
-      "clearFilters": "Filterlarni o'chirish",
-      "noResults": "Mahsulotlar topilmadi.",
-      "price": "Narx",
-      "material": "Material",
-      "style": "Uslub",
-      "allPrices": "Barcha narxlar",
-      "under2000": "€2 000 dan kam",
-      "price2000to5000": "€2 000 - €5 000",
-      "price5000to10000": "€5 000 - €10 000",
-      "over10000": "€10 000 dan ko'p",
-      "clearAll": "Hammasini o'chirish",
-      "noProducts": "Sizning filterlaringizga mos keladigan mahsulotlar yo'q.",
-      "product": "mahsulot",
-      "products": "mahsulotlar",
-      "seo": {
-        "title": "Katalog | Manaku Mebel",
-        "description": "Mebel kategoriyalarini ko'rib chiqing"
-      },
-      "allProducts": "Barcha mahsulotlar"
-     
+    "title": "Katalog",
+    "subtitle": "Bizning Kolleksiya",
+    "description": "Bizning tanlangi mebel parçalarining kolleksiyasini ko'ring, ularning har biri sizning makoningizga abadiy sharafat olib kelib berish uchun ishlab chiqilgan.",
+    "filters": "Filterlar",
+    "category": "Kategoriya",
+    "all": "Barchasi",
+    "sort": "Saralash",
+    "priceLowHigh": "Narx: Kam → Ko'p",
+    "priceHighLow": "Narx: Ko'p → Kam",
+    "clearFilters": "Filterlarni o'chirish",
+    "noResults": "Mahsulotlar topilmadi.",
+    "price": "Narx",
+    "material": "Material",
+    "style": "Uslub",
+    "allPrices": "Barcha narxlar",
+    "under2000": "€2 000 dan kam",
+    "price2000to5000": "€2 000 - €5 000",
+    "price5000to10000": "€5 000 - €10 000",
+    "over10000": "€10 000 dan ko'p",
+    "clearAll": "Hammasini o'chirish",
+    "noProducts": "Sizning filterlaringizga mos keladigan mahsulotlar yo'q.",
+    "product": "mahsulot",
+    "products": "mahsulotlar",
+    "seo": {
+      "title": "Katalog | Manaku Mebel",
+      "description": "Mebel kategoriyalarini ko'rib chiqing"
+    },
+    "allProducts": "Barcha mahsulotlar"
   },
 
-    "contact": {
-      "seo": {
-        "title": "Aloqa | Manaku",
-        "description": "Manaku hashamatli mebellari bilan bog'laning."
-      },
-      "title": "Biz bilan bog'laning",
-      "subtitle": "Biz bilan bog'laning",
-      "description": "Savollaringizga javob berishdan va sizga yordam berishdan mamnunmiz.",
-      "formTitle": "Aloqa formasi",
-      "name": "Sizning ismingiz",
-      "email": "Sizning elektron pochtangiz",
-      "phone": "Sizning telefoningiz",
-      "subject": "Mavzu",
-      "message": "Sizning xabaringiz",
-      "subjectOptions": {
-        "selectSubject": "Mavzuni tanlang",
-        "productInquiry": "Mahsulot so'ngisi",
-        "showroomVisit": "Shourum tashrifi rejalash",
-        "designConsultation": "Dizayn maslahat",
-        "orderStatus": "Buyurtma holati",
-        "other": "Boshqa"
-      },
-      "send": "Xabar jo'natish",
-      "sending": "Yuborilmoqda...",
-      "messageSent": "Xabar muvaffaqiyatli yuborildi!",
-      "messageDescription": "Tez orada siz bilan bog'lanamiz.",
-      "addressTitle": "Bizning joylashuv",
-      "showroomInfo": "Shourum haqida ma'lumot",
-      "mainOffice": "Bosh ofis",
-      "mainOfficeAddress": "Toshkent, Shaykhontohur tumani, Jangokh Yashash Hududi, 2",
-      "showroomLabel": "Shourum",
-      "showroomName": "Flagman shourumi Toshkentda",
-      "addressLine1": "Toshkent, Mirobod tumani, Ko'shko'prik ko'chasi, 30",
-      "addressLine2": "Alfraganus Savdo Markazi, 2-qavat",
-      "phoneTitle": "Telefon",
-      "emailTitle": "Elektron pochta",
-      "hoursTitle": "Ish vaqti",
-      "hoursWeekdays": "Dushanba – Juma: 10:00 – 20:00",
-      "hoursSaturday": "Shanba: 10:00 – 19:00",
-      "hoursSunday": "Yakshanba: oldindan yozilish orqali",
-      "map": "Interaktiv xarita"
-     
-  
+  "contact": {
+    "seo": {
+      "title": "Aloqa | Manaku",
+      "description": "Manaku hashamatli mebellari bilan bog'laning."
+    },
+    "title": "Biz bilan bog'laning",
+    "subtitle": "Biz bilan bog'laning",
+    "description": "Savollaringizga javob berishdan va sizga yordam berishdan mamnunmiz.",
+    "formTitle": "Aloqa formasi",
+    "name": "Sizning ismingiz",
+    "email": "Sizning elektron pochtangiz",
+    "phone": "Sizning telefoningiz",
+    "subject": "Mavzu",
+    "message": "Sizning xabaringiz",
+    "subjectOptions": {
+      "selectSubject": "Mavzuni tanlang",
+      "productInquiry": "Mahsulot so'ngisi",
+      "showroomVisit": "Shourum tashrifi rejalash",
+      "designConsultation": "Dizayn maslahat",
+      "orderStatus": "Buyurtma holati",
+      "other": "Boshqa"
+    },
+    "send": "Xabar jo'natish",
+    "sending": "Yuborilmoqda...",
+    "messageSent": "Xabar muvaffaqiyatli yuborildi!",
+    "messageDescription": "Tez orada siz bilan bog'lanamiz.",
+    "addressTitle": "Bizning joylashuv",
+    "showroomInfo": "Shourum haqida ma'lumot",
+    "mainOffice": "Bosh ofis",
+    "mainOfficeAddress": "Toshkent, Shaykhontohur tumani, Jangokh Yashash Hududi, 2",
+    "showroomLabel": "Shourum",
+    "showroomName": "Flagman shourumi Toshkentda",
+    "addressLine1": "Toshkent, Mirobod tumani, Ko'shko'prik ko'chasi, 30",
+    "addressLine2": "Alfraganus Savdo Markazi, 2-qavat",
+    "phoneTitle": "Telefon",
+    "emailTitle": "Elektron pochta",
+    "hoursTitle": "Ish vaqti",
+    "hoursWeekdays": "Dushanba – Juma: 10:00 – 20:00",
+    "hoursSaturday": "Shanba: 10:00 – 19:00",
+    "hoursSunday": "Yakshanba: oldindan yozilish orqali",
+    "map": "Interaktiv xarita"
   },
 
-    "login": {
-      "seo": {
-        "title": "Kirish | Manaku",
-        "description": "Manaku hisobingizga kiring."
-      },
+  "login": {
+    "seo": {
       "title": "Kirish | Manaku",
-      "heading": "Kirish",
-      "subtitle": "Hisobingizga xush kelibsiz",
-      "email": "Email",
-      "password": "Parol",
-      "rememberMe": "Meni eslang",
-      "signIn": "Kirish",
-      "signingIn": "Kirish olinmoqda...",
-      "forgotPassword": "Parolni unutdingizmi?",
-      "dontHaveAccount": "Hisobingiz yo'qmi?",
-      "signupLink": "Ro'yxatdan o'ting",
-      "welcomeBackTitle": "Xosh kelibsiz!",
-      "welcomeBackDesc": "Siz muvaffaqiyatli kirdingiz.",
-      "errorTitle": "Xato",
-      "errorDesc": "Xatolik yuz berdi",
-      "loginFailedErr": "Kirish muvaffaqiyatsiz"
-     
-  
+      "description": "Manaku hisobingizga kiring."
+    },
+    "title": "Kirish | Manaku",
+    "heading": "Kirish",
+    "subtitle": "Hisobingizga xush kelibsiz",
+    "email": "Email",
+    "password": "Parol",
+    "rememberMe": "Meni eslang",
+    "signIn": "Kirish",
+    "signingIn": "Kirish olinmoqda...",
+    "forgotPassword": "Parolni unutdingizmi?",
+    "dontHaveAccount": "Hisobingiz yo'qmi?",
+    "signupLink": "Ro'yxatdan o'ting",
+    "welcomeBackTitle": "Xosh kelibsiz!",
+    "welcomeBackDesc": "Siz muvaffaqiyatli kirdingiz.",
+    "errorTitle": "Xato",
+    "errorDesc": "Xatolik yuz berdi",
+    "loginFailedErr": "Kirish muvaffaqiyatsiz"
   },
 
-    "signup": {
-      "seo": {
-        "title": "Ro'yxatdan o'tish | Manaku",
-        "description": "Manaku hisobingizni yarating."
-      },
-      "title": "Hisob yaratish | Manaku",
-      "heading": "Hisob yaratish",
-      "subtitle": "Bizning hashamatli mebel jamiyatiga qo'shiling",
-      "name": "To'liq ism",
-      "email": "Email",
-      "password": "Parol",
-      "confirmPassword": "Parolni tasdiqlang",
-      "createAccount": "Hisob yaratish",
-      "creatingAccount": "Hisob yaratilmoqda...",
-      "haveAccount": "Allaqachon hisobingiz bor?",
-      "signinLink": "Kirish",
-      "passwordsMismatch": "Parollar mos kelmaydi.",
-      "registrationFailed": "Ro'yxatdan o'tish muvaffaq bo'lmadi",
-      "accountCreatedTitle": "Hisob yaratildi!",
-      "accountCreatedDesc": "Siz muvaffaqiyatli ro'yxatdan o'tdingiz.",
-        "errorTitle": "Xato",
-        "errorDesc": "Xatolik yuz berdi"
-     
+  "signup": {
+    "seo": {
+      "title": "Ro'yxatdan o'tish | Manaku",
+      "description": "Manaku hisobingizni yarating."
+    },
+    "title": "Hisob yaratish | Manaku",
+    "heading": "Hisob yaratish",
+    "subtitle": "Bizning hashamatli mebel jamiyatiga qo'shiling",
+    "name": "To'liq ism",
+    "email": "Email",
+    "password": "Parol",
+    "confirmPassword": "Parolni tasdiqlang",
+    "createAccount": "Hisob yaratish",
+    "creatingAccount": "Hisob yaratilmoqda...",
+    "haveAccount": "Allaqachon hisobingiz bor?",
+    "signinLink": "Kirish",
+    "passwordsMismatch": "Parollar mos kelmaydi.",
+    "registrationFailed": "Ro'yxatdan o'tish muvaffaq bo'lmadi",
+    "accountCreatedTitle": "Hisob yaratildi!",
+    "accountCreatedDesc": "Siz muvaffaqiyatli ro'yxatdan o'tdingiz.",
+    "errorTitle": "Xato",
+    "errorDesc": "Xatolik yuz berdi"
   },
 
-    "account": {
-      "seo": {
-        "title": "Hisob | Manaku",
-        "description": "Manaku hisobingiz tafsilotlari."
-      },
-      "myAccount": "Mening hisobim",
-      "profileSettings": "Profil va sozlamalar",
-      "email": "Elektron pochta",
-      "phone": "Telefon raqami",
-      "phonePlaceholder": "+998 (99) 999-99-99",
-      "address": "Yetkazib berish manzili",
-      "street": "Ko'cha",
-      "streetPlaceholder": "Ko'cha nomi",
-      "city": "Shahar",
-      "cityPlaceholder": "Shahar nomi",
-      "house": "Uy/Bino",
-      "housePlaceholder": "Uy yoki bino raqami",
-      "postalCode": "Pochta indeksi",
-      "postalCodePlaceholder": "Pochta indeksi",
-      "basket": "Xarid savati",
-      "basketEmpty": "Savatingiz bo'sh",
-      "continueShopping": "Xaridni davom ettiring",
-      "quantity": "Miqdori",
-      "total": "Jami",
-      "checkout": "Sotib olishni davom ettiring",
-      "remove": "O'chirish",
-      "orderHistory": "Buyurtmalar tarixi",
-      "noOrders": "Sizda hali buyurtmalar yo'q. Buyurtmalarini ko'rish uchun xarida boshlang.",
-      "startShopping": "Xaridni boshlang",
-      "settings": "Hisob sozlamalari",
-      "notProvided": "Berilmagan",
-      "editProfile": "Profilni tahrir qilish",
-      "save": "O'zgarishlarni saqlash",
-      "cancel": "Bekor qilish",
-      "logout": "Chiqish",
-      "logoutTitle": "Siz chiqib ketdingiz",
-      "logoutDesc": "Siz muvaffaqiyatli chiqib kettingiz.",
-      "validationError": "Tekshiruv xatosi",
-      "allFieldsRequired": "Iltimos, barcha maydonlarni to'ldiring",
-      "profileUpdated": "Profil yangilandi",
-      "profileSaved": "Sizning profilingiz muvaffaqiyatli saqlandi.",
-      "itemRemoved": "Mahsulot olib tashlandi",
-      "itemRemovedFromCart": "Mahsulot savatingizdan olib tashlandi.",
-        "required": "Zarur",
-        "addressPlaceholder": "Ko'cha manzili, shahar, pochta indeksi"
-     
+  "account": {
+    "seo": {
+      "title": "Hisob | Manaku",
+      "description": "Manaku hisobingiz tafsilotlari."
+    },
+    "myAccount": "Mening hisobim",
+    "profileSettings": "Profil va sozlamalar",
+    "email": "Elektron pochta",
+    "phone": "Telefon raqami",
+    "phonePlaceholder": "+998 (99) 999-99-99",
+    "address": "Yetkazib berish manzili",
+    "street": "Ko'cha",
+    "streetPlaceholder": "Ko'cha nomi",
+    "city": "Shahar",
+    "cityPlaceholder": "Shahar nomi",
+    "house": "Uy/Bino",
+    "housePlaceholder": "Uy yoki bino raqami",
+    "postalCode": "Pochta indeksi",
+    "postalCodePlaceholder": "Pochta indeksi",
+    "basket": "Xarid savati",
+    "basketEmpty": "Savatingiz bo'sh",
+    "continueShopping": "Xaridni davom ettiring",
+    "quantity": "Miqdori",
+    "total": "Jami",
+    "checkout": "Sotib olishni davom ettiring",
+    "remove": "O'chirish",
+    "orderHistory": "Buyurtmalar tarixi",
+    "noOrders": "Sizda hali buyurtmalar yo'q. Buyurtmalarini ko'rish uchun xarida boshlang.",
+    "startShopping": "Xaridni boshlang",
+    "settings": "Hisob sozlamalari",
+    "notProvided": "Berilmagan",
+    "editProfile": "Profilni tahrir qilish",
+    "save": "O'zgarishlarni saqlash",
+    "cancel": "Bekor qilish",
+    "logout": "Chiqish",
+    "logoutTitle": "Siz chiqib ketdingiz",
+    "logoutDesc": "Siz muvaffaqiyatli chiqib kettingiz.",
+    "validationError": "Tekshiruv xatosi",
+    "allFieldsRequired": "Iltimos, barcha maydonlarni to'ldiring",
+    "profileUpdated": "Profil yangilandi",
+    "profileSaved": "Sizning profilingiz muvaffaqiyatli saqlandi.",
+    "itemRemoved": "Mahsulot olib tashlandi",
+    "itemRemovedFromCart": "Mahsulot savatingizdan olib tashlandi.",
+    "required": "Zarur",
+    "addressPlaceholder": "Ko'cha manzili, shahar, pochta indeksi"
   },
 
-    "errors": {
-      "notFound": "Sahifa topilmadi",
-      "notFoundDesc": "Siz izlayotgan sahifa mavjud emas",
-      "goHome": "Uyga boring"
-    }
+  "errors": {
+    "notFound": "Sahifa topilmadi",
+    "notFoundDesc": "Siz izlayotgan sahifa mavjud emas",
+    "goHome": "Uyga boring"
+  }
 }
