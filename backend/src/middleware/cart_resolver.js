@@ -1,5 +1,10 @@
 // backend/src/middleware/cart_resolver.js
+
 import Cart from "../models/cart.model.js";
+
+/* ===========================
+   CART RESOLVER
+=========================== */
 
 export const cartResolver = async (req, res, next) => {
   try {
@@ -15,6 +20,10 @@ export const cartResolver = async (req, res, next) => {
 
     let cart;
 
+    /* ===========================
+       USER CART
+    ============================ */
+
     if (userId) {
       cart = await Cart.findOne({ user: userId });
 
@@ -24,7 +33,13 @@ export const cartResolver = async (req, res, next) => {
           items: [],
         });
       }
-    } else {
+    }
+
+    /* ===========================
+       GUEST CART
+    ============================ */
+
+    else {
       cart = await Cart.findOne({ guestId });
 
       if (!cart) {
@@ -38,6 +53,7 @@ export const cartResolver = async (req, res, next) => {
     req.cart = cart;
 
     next();
+
   } catch (error) {
     next(error);
   }
