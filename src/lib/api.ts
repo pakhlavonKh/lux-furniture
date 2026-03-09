@@ -4,6 +4,14 @@ const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5002";
 
 /* ===========================
+   GENERATE IDEMPOTENCY KEY
+=========================== */
+
+function generateIdempotencyKey(): string {
+  return crypto.randomUUID();
+}
+
+/* ===========================
    API FETCH (PRODUCTION SAFE)
 =========================== */
 
@@ -11,24 +19,34 @@ export async function apiFetch<T = any>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
+
   const token = localStorage.getItem("authToken");
 
   const isFormData =
     options.body instanceof FormData;
 
+  const headers: Record<string, string> = {
+    ...(isFormData
+      ? {}
+      : { "Content-Type": "application/json" }),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options.headers as Record<string, string> || {}),
+  };
+
+  /* ===========================
+     ADD IDEMPOTENCY FOR CHECKOUT
+  ============================ */
+
+  if (endpoint.includes("/checkout")) {
+    headers["Idempotency-Key"] = generateIdempotencyKey();
+  }
+
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    credentials: "include", // future-proof (cookies / sessions)
-    headers: {
-      ...(isFormData
-        ? {}
-        : { "Content-Type": "application/json" }),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers || {}),
-    },
+    credentials: "include",
+    headers,
   });
 
-  // Handle 204 No Content
   if (response.status === 204) {
     return {} as T;
   }
