@@ -36,6 +36,8 @@ import uploadRoutes from "./routes/upload.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import checkoutRoutes from "./routes/checkout.routes.js";
 import ordersRoutes from "./routes/orders.routes.js";
+import newsRoutes from "./routes/news.routes.js";
+import discountsRoutes from "./routes/discounts.routes.js";
 
 import { error_handler } from "./middleware/error_handler.js";
 import { request_logger } from "./middleware/request_logger.js";
@@ -144,6 +146,8 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/telegram", telegram_routes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/news", newsRoutes);
+app.use("/api/discounts", discountsRoutes);
 
 /* ==============================
    HEALTH CHECK

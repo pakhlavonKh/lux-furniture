@@ -260,7 +260,7 @@ const Product = () => {
               <p className="text-caption mb-4">{product.categoryId}</p>
               <h1 className="heading-section mb-4">{t(product.nameKey)}</h1>
               <p className="font-serif text-3xl mb-8">
-                €{displayPrice?.toLocaleString()}
+                {displayPrice?.toLocaleString()} UZS
               </p>
 
               {product.descriptionKey && (

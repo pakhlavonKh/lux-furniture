@@ -53,8 +53,12 @@ export default function Login() {
         duration: 4000,
       });
 
-      // Redirect to account page
-      window.location.href = "/account";
+      // Redirect to admin or account page based on user role
+      if (data.user.is_admin) {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/account";
+      }
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "An error occurred";

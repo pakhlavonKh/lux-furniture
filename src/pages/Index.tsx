@@ -2,8 +2,9 @@
 import { Layout } from "@/components/layout/Layout";
 import { Hero } from "@/components/home/Hero";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
-import { Philosophy } from "@/components/home/Philosophy";
 import { Collections } from "@/components/home/Collections";
+import { News } from "@/components/home/News";
+import { Discounts } from "@/components/home/Discounts";
 import { SEO } from "@/components/SEO";
 import { getCollections } from "@/data/catalogData";
 
@@ -53,8 +54,9 @@ const Index = () => {
       />
       <Layout>
         <Hero heroImage={heroImage} />
+        <Discounts />
         <FeaturedProducts products={featuredProducts} />
-        <Philosophy image={craftsmanshipImage} />
+        <News />
         <Collections collections={collections} />
       </Layout>
     </>

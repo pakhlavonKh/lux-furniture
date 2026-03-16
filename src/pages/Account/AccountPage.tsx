@@ -1,20 +1,24 @@
 // src/pages/Account/AccountPage.tsx
 
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
+import { ShoppingCart } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Layout } from "@/components/layout/Layout"
+import { useLanguage } from "@/contexts/useLanguageHook"
 import { apiFetch } from "@/lib/api"
 import AccountHero from "./components/AccountHero"
 import ProfileCard from "./components/ProfileCard"
 import OrdersList from "./components/OrdersList"
+import "./account.css"
 
 interface User {
   _id: string
   name: string
   email: string
   phone?: string
+  address?: string
 }
 
 interface Order {
@@ -26,12 +30,22 @@ interface Order {
 }
 
 export default function AccountPage() {
+  const { t } = useLanguage()
   const navigate = useNavigate()
+  const location = useLocation()
+  const [activeTab, setActiveTab] = useState<"profile" | "orders">("profile")
   const token = localStorage.getItem("authToken")
 
   useEffect(() => {
     if (!token) navigate("/login", { replace: true })
   }, [token, navigate])
+
+  useEffect(() => {
+    const state = location.state as { tab?: string } | undefined
+    if (state?.tab === "profile") {
+      setActiveTab("profile")
+    }
+  }, [location])
 
   const { data: userData, isLoading: userLoading } = useQuery({
     queryKey: ["me"],
@@ -52,8 +66,8 @@ export default function AccountPage() {
   if (!token || userLoading || ordersLoading) {
     return (
       <Layout>
-        <div className="pt-32 min-h-screen flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
+        <div className="account-loading">
+          <div className="account-loading-spinner" />
         </div>
       </Layout>
     )
@@ -66,27 +80,48 @@ export default function AccountPage() {
 
   return (
     <Layout>
-      <section className="pt-32 pb-32">
-        {/* HERO */}
-        <AccountHero user={user} />
+      {/* HERO */}
+      <AccountHero user={user} />
 
-        {/* CONTENT */}
-        <div className="mt-20 max-w-[720px] mx-auto px-6">
-          <Tabs defaultValue="profile" className="w-full">
+      {/* MAIN CONTENT */}
+      <section className="account-main">
+        <div className="account-container">
+          {/* Action Buttons */}
+          <div className="account-view-basket">
+            <button
+              onClick={() => navigate("/cart")}
+              className="account-view-basket-btn"
+            >
+              <ShoppingCart className="account-view-basket-icon" />
+              {t("account.viewBasket")}
+            </button>
+          </div>
 
-            <TabsList className="grid grid-cols-2 mb-12">
-              <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="orders">Orders</TabsTrigger>
+          <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "profile" | "orders")} className="account-tabs">
+            {/* TAB NAVIGATION */}
+            <TabsList className="account-tab-list">
+              <TabsTrigger 
+                value="profile"
+                className="account-tab-trigger"
+              >
+                {t("account.profile")}
+              </TabsTrigger>
+              <TabsTrigger 
+                value="orders"
+                className="account-tab-trigger"
+              >
+                {t("account.orders")}
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="profile">
+            {/* TAB CONTENT */}
+            <TabsContent value="profile" className="account-tab-content">
               <ProfileCard user={user} />
             </TabsContent>
 
-            <TabsContent value="orders">
+            <TabsContent value="orders" className="account-tab-content">
               <OrdersList orders={orders} />
             </TabsContent>
-
           </Tabs>
         </div>
       </section>

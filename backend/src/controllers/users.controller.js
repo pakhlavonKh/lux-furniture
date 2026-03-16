@@ -39,7 +39,7 @@ export const updateMe = async (req, res, next) => {
       });
     }
 
-    const { name, phone } = req.body;
+    const { name, phone, address } = req.body;
 
     const updates = {};
 
@@ -49,6 +49,10 @@ export const updateMe = async (req, res, next) => {
 
     if (typeof phone === "string") {
       updates.phone = phone.trim();
+    }
+
+    if (typeof address === "string") {
+      updates.address = address.trim();
     }
 
     const updatedUser = await User.findByIdAndUpdate(

@@ -107,6 +107,8 @@ export default function Catalog() {
   const { t } = useLanguage();
   const products = getProducts();
   const [searchParams, setSearchParams] = useSearchParams();
+  const minPrice = parseInt(searchParams.get("minPrice") || "0", 10);
+  const maxPrice = parseInt(searchParams.get("maxPrice") || "50000000", 10);
 
   const [isDesktop, setIsDesktop] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -115,6 +117,7 @@ export default function Catalog() {
   const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
 
   const isInitialMount = useRef(true);
+  const scrollPositionRef = useRef(0);
 
   // Get filter values from URL search params
   const selectedCategory = searchParams.get("category") || null;
@@ -123,33 +126,55 @@ export default function Catalog() {
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   // Helper functions to update URL params
-  const updateFilters = useCallback(
-    (updates: {
-      category?: string | null;
-      subcategory?: string | null;
-      sort?: "price-asc" | "price-desc" | null;
-      page?: number;
-    }) => {
-      const newParams = new URLSearchParams(searchParams);
-      if (updates.category !== undefined) {
-        if (updates.category) newParams.set("category", updates.category);
-        else newParams.delete("category");
-      }
-      if (updates.subcategory !== undefined) {
-        if (updates.subcategory) newParams.set("subcategory", updates.subcategory);
-        else newParams.delete("subcategory");
-      }
-      if (updates.sort !== undefined) {
-        if (updates.sort) newParams.set("sort", updates.sort);
-        else newParams.delete("sort");
-      }
-      if (updates.page !== undefined) {
-        newParams.set("page", String(updates.page));
-      }
-      setSearchParams(newParams);
-    },
-    [searchParams, setSearchParams]
-  );
+ const updateFilters = useCallback(
+  (updates: {
+    category?: string | null;
+    subcategory?: string | null;
+    sort?: "price-asc" | "price-desc" | null;
+    minPrice?: number;
+    maxPrice?: number;
+    page?: number;
+  }) => {
+    // Save scroll position before URL change
+    scrollPositionRef.current = window.scrollY;
+
+    const newParams = new URLSearchParams(searchParams);
+
+    if (updates.category !== undefined) {
+      if (updates.category) newParams.set("category", updates.category);
+      else newParams.delete("category");
+    }
+
+    if (updates.subcategory !== undefined) {
+      if (updates.subcategory) newParams.set("subcategory", updates.subcategory);
+      else newParams.delete("subcategory");
+    }
+
+    if (updates.sort !== undefined) {
+      if (updates.sort) newParams.set("sort", updates.sort);
+      else newParams.delete("sort");
+    }
+
+    if (updates.minPrice !== undefined) {
+      if (updates.minPrice > 0)
+        newParams.set("minPrice", String(updates.minPrice));
+      else newParams.delete("minPrice");
+    }
+
+    if (updates.maxPrice !== undefined) {
+      if (updates.maxPrice < 50000000)
+        newParams.set("maxPrice", String(updates.maxPrice));
+      else newParams.delete("maxPrice");
+    }
+
+    if (updates.page !== undefined) {
+      newParams.set("page", String(updates.page));
+    }
+
+    setSearchParams(newParams);
+  },
+  [searchParams, setSearchParams]
+);
 
   const setSelectedCategory = useCallback(
     (category: string | null) => {
@@ -177,8 +202,6 @@ export default function Catalog() {
       const newPage =
         typeof page === "function" ? page(currentPage) : page;
       updateFilters({ page: newPage });
-      // Scroll to top when changing pages
-      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     },
     [currentPage, updateFilters]
   );
@@ -195,9 +218,25 @@ export default function Catalog() {
     setFiltersOpen(mediaQuery.matches);
     mediaQuery.addEventListener("change", handleChange);
 
+    // Disable automatic scroll restoration
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
     return () =>
       mediaQuery.removeEventListener("change", handleChange);
   }, []);
+
+  useEffect(() => {
+  if (!isInitialMount.current) {
+    window.scrollTo({
+      top: scrollPositionRef.current,
+      behavior: "auto",
+    });
+  } else {
+    isInitialMount.current = false;
+  }
+}, [searchParams]);
 
   const filteredProducts = useMemo(() => {
     let list = [...products];
@@ -210,6 +249,12 @@ export default function Catalog() {
       list = list.filter((p) => p.subcategoryId === selectedSubcategory);
     }
 
+    // Filter by price range
+    list = list.filter((p) => {
+      const price = p.basePrice;
+      return price >= minPrice && price <= maxPrice;
+    });
+
     if (sort === "price-asc") {
       list.sort((a, b) => a.basePrice - b.basePrice);
     }
@@ -219,7 +264,7 @@ export default function Catalog() {
     }
 
     return list;
-  }, [products, selectedCategory, selectedSubcategory, sort]);
+  }, [products, selectedCategory, selectedSubcategory, sort, minPrice, maxPrice]);
 
 
 
@@ -401,7 +446,7 @@ export default function Catalog() {
 
           <div className="md:flex gap-8 items-start">
             <aside
-              className={`filters-panel ${
+              className={`filters-panel ${      
                 isDesktop
                   ? "filters-desktop"
                   : filtersOpen
@@ -516,12 +561,92 @@ export default function Catalog() {
                 </div>
               </div>
 
+              <div className="filters-section">
+                <h3 className="filter-section-title">
+                  {t("catalog.priceRange") || "Price Range"}
+                </h3>
+                <div className="filter-group">
+                  <div className="price-slider-wrapper">
+                    <div className="price-slider-track">
+                      <input
+                        type="range"
+                        min="0"
+                        max="50000000"
+                        value={minPrice}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (value <= maxPrice) {
+                            updateFilters({ minPrice: value });
+                          }
+                        }}
+                        className="price-slider price-slider-min"
+                      />
+                      <input
+                        type="range"
+                        min="0"
+                        max="50000000"
+                        value={maxPrice}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (value >= minPrice) {
+                            updateFilters({ maxPrice: value });
+                          }
+                        }}
+                        className="price-slider price-slider-max"
+                      />
+                    </div>
+                    <div className="price-display">
+                      <div className="price-display-item">
+                        <span className="price-label">{t("catalog.from") || "From"}</span>
+                        <div className="price-input-wrapper">
+                          <input
+                            type="number"
+                            value={minPrice}
+                            onChange={(e) => {
+                              const value = Math.max(0, parseInt(e.target.value) || 0);
+                              if (value <= maxPrice) {
+                                updateFilters({ minPrice: value });
+                              }
+                            }}
+                            className="price-display-input"
+                            min="0"
+                            max={maxPrice}
+                          />
+                          <span className="price-display-unit">UZS</span>
+                        </div>
+                      </div>
+                      <div className="price-display-item">
+                        <span className="price-label">{t("catalog.to") || "To"}</span>
+                        <div className="price-input-wrapper">
+                          <input
+                            type="number"
+                            value={maxPrice}
+                            onChange={(e) => {
+                              const value = Math.max(0, parseInt(e.target.value) || 50000000);
+                              if (value >= minPrice) {
+                                updateFilters({ maxPrice: value });
+                              }
+                            }}
+                            className="price-display-input"
+                            min={minPrice}
+                            max="50000000"
+                          />
+                          <span className="price-display-unit">UZS</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <button
                 onClick={() => {
                   updateFilters({
                     category: null,
                     subcategory: null,
                     sort: null,
+                    minPrice: 0,
+                    maxPrice: 50000000,
                     page: 1,
                   });
                 }}
@@ -555,7 +680,7 @@ export default function Catalog() {
                             {t(product.nameKey)}
                           </div>
                           <div className="product-card__price">
-                            €{(selectedVariant?.price || product.basePrice).toLocaleString()}
+                            {(selectedVariant?.price || product.basePrice).toLocaleString()} UZS
                           </div>
                         </div>
                       </Link>

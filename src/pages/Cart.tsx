@@ -1,11 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { motion } from "framer-motion";
-import { ShoppingBag, Trash2, Plus, Minus } from "lucide-react";
+import { ShoppingBag, Trash2, Plus, Minus, AlertCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { getImageUrl } from "@/data/catalogData";
+import { apiFetch } from "@/lib/api";
 
 interface CartItem {
   id: string;
@@ -18,10 +20,30 @@ interface CartItem {
   size?: string;
 }
 
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+}
+
 export default function Cart() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const token = localStorage.getItem("authToken");
+
+  const { data: userData } = useQuery({
+    queryKey: ["me"],
+    queryFn: () =>
+      apiFetch<{ success: boolean; user: User }>("/api/users/me"),
+    enabled: !!token,
+    retry: false,
+  });
+
+  const user = userData?.user;
 
   useEffect(() => {
     try {
@@ -117,7 +139,7 @@ export default function Cart() {
                           </p>
                         )}
                         <p className="cart-price-each">
-                          €{item.price.toLocaleString()}
+                          {item.price.toLocaleString()} UZS
                           {(item.color || item.size) && ` ${t("cart.each") || "each"}`}
                         </p>
                       </div>
@@ -149,7 +171,7 @@ export default function Cart() {
                     {/* Price + Remove */}
                     <div className="cart-side">
                       <p className="cart-total">
-                        €{(item.price * item.quantity).toLocaleString()}
+                        {(item.price * item.quantity).toLocaleString()} UZS
                       </p>
 
                       <button
@@ -170,23 +192,45 @@ export default function Cart() {
                 <div className="order-summary-details">
                   <div className="order-summary-row">
                     <span className="order-summary-label">{t("cart.subtotal") || "Subtotal"}</span>
-                    <span>€{subtotal.toLocaleString()}</span>
+                    <span>{subtotal.toLocaleString()} UZS</span>
                   </div>
 
                   <div className="order-summary-row">
                     <span className="order-summary-label">{t("cart.tax") || "Tax (12%)"}</span>
-                    <span>€{tax.toLocaleString()}</span>
+                    <span>{tax.toLocaleString()} UZS</span>
                   </div>
                 </div>
 
                 <div className="order-summary-total">
                   <span>{t("cart.total") || "Total"}</span>
-                  <span>€{total.toLocaleString()}</span>
+                  <span>{total.toLocaleString()} UZS</span>
                 </div>
 
-                <button className="checkout-btn btn-luxury">
-                  {t("cart.checkout") || "Proceed to Checkout"}
-                </button>
+                {token && user && (!user.phone || !user.address) ? (
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3 p-4 bg-rose-500/10 border border-rose-500/30 rounded-lg">
+                      <AlertCircle className="w-5 h-5 text-rose-600 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold text-sm text-rose-900 dark:text-rose-400">
+                          Complete Your Profile
+                        </p>
+                        <p className="text-xs text-rose-800 dark:text-rose-300 mt-1">
+                          {!user.phone && "Phone number"} {!user.phone && !user.address && "and"} {!user.address && "delivery address"} required
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => navigate("/account", { state: { tab: "profile" } })}
+                      className="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-all"
+                    >
+                      Go to Profile Settings
+                    </button>
+                  </div>
+                ) : (
+                  <button className="checkout-btn btn-luxury">
+                    {t("cart.checkout") || "Proceed to Checkout"}
+                  </button>
+                )}
 
                 <Link to="/" className="continue-shopping">
                   {t("cart.continueShopping") || "Continue Shopping"}

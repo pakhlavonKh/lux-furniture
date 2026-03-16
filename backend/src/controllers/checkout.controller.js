@@ -25,6 +25,35 @@ export const checkout = async (req, res, next) => {
     }
 
     /* ===========================
+       VALIDATE USER DATA
+    ============================ */
+
+    const user = await mongoose.model('User').findById(req.user_id).session(session);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (!user.phone) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number is required to proceed with checkout",
+        code: "MISSING_PHONE",
+      });
+    }
+
+    if (!user.address) {
+      return res.status(400).json({
+        success: false,
+        message: "Delivery address is required to proceed with checkout",
+        code: "MISSING_ADDRESS",
+      });
+    }
+
+    /* ===========================
        VALIDATE PAYMENT METHOD
     ============================ */
 

@@ -57,11 +57,17 @@ export const login = async (req, res) => {
     }
 
     user.last_login_at = new Date();
+    
+    // Ensure is_admin is synced with role field
+    if (user.role === "admin") {
+      user.is_admin = true;
+    }
+    
     await user.save();
 
     const token = generateToken(user._id);
 
-    return res.status(200).json({
+    const responseData = {
       success: true,
       token,
       user: {
@@ -69,9 +75,14 @@ export const login = async (req, res) => {
         email: user.email,
         name: user.name,
         phone: user.phone || null,
-        is_admin: user.is_admin,
+        address: user.address || null,
+        is_admin: user.is_admin || user.role === "admin",
       },
-    });
+    };
+
+    console.log("DEBUG - Login response:", JSON.stringify(responseData, null, 2));
+
+    return res.status(200).json(responseData);
   } catch (error) {
     console.error("Login error:", error);
 
@@ -121,35 +132,11 @@ export const register = async (req, res) => {
       });
     }
 
-    /* ===== Admin key logic ===== */
-
-    let isAdmin = false;
-
-    if (admin_key) {
-      const ADMIN_KEY = process.env.ADMIN_KEY;
-
-      if (!ADMIN_KEY) {
-        return res.status(500).json({
-          success: false,
-          message: "Admin key not configured",
-        });
-      }
-
-      if (admin_key !== ADMIN_KEY) {
-        return res.status(403).json({
-          success: false,
-          message: "Invalid admin key",
-        });
-      }
-
-      isAdmin = true;
-    }
-
     const user = new User({
       email: normalizedEmail,
       password,
       name: name.trim(),
-      is_admin: isAdmin,
+      is_admin: false,
     });
 
     await user.save();
@@ -176,6 +163,7 @@ export const register = async (req, res) => {
         email: user.email,
         name: user.name,
         phone: user.phone || null,
+        address: user.address || null,
         is_admin: user.is_admin,
       },
     });

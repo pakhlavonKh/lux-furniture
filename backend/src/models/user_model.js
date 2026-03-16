@@ -19,6 +19,12 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
+    address: {
+      type: String,
+      sparse: true,
+      trim: true,
+    },
+
     name: {
       type: String,
       required: true,
@@ -35,6 +41,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+      index: true,
+    },
+
+    is_admin: {
+      type: Boolean,
+      default: false,
       index: true,
     },
 

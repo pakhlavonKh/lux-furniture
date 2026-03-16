@@ -1,13 +1,25 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, LogIn } from "lucide-react";
+import { Eye, EyeOff, LogIn, Plus, X, Edit2, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import {
   CatalogProduct,
   getProducts,
 } from "@/data/catalogData";
+import {
+  News as NewsType,
+  Discount as DiscountType,
+  getAllNews,
+  createNews,
+  updateNews,
+  deleteNews,
+  getAllDiscounts,
+  createDiscount,
+  updateDiscount,
+  deleteDiscount,
+} from "@/lib/api";
 
 interface User {
   email: string;
@@ -23,15 +35,43 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState<"inventory" | "news" | "discounts">("inventory");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    adminKey: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [inventory, setInventory] = useState<CatalogProduct[]>([]);
   const [stockInputs, setStockInputs] = useState<Record<string, string>>({});
+
+  // News management
+  const [news, setNews] = useState<NewsType[]>([]);
+  const [newsList, setNewsList] = useState<NewsType[]>([]);
+  const [showNewsForm, setShowNewsForm] = useState(false);
+  const [editingNews, setEditingNews] = useState<NewsType | null>(null);
+  const [newsFormData, setNewsFormData] = useState<Partial<NewsType>>({
+    title: "",
+    description: "",
+    content: "",
+    isActive: true,
+    order: 0,
+  });
+  const [newsLoading, setNewsLoading] = useState(false);
+
+  // Discounts management
+  const [discounts, setDiscounts] = useState<DiscountType[]>([]);
+  const [showDiscountForm, setShowDiscountForm] = useState(false);
+  const [editingDiscount, setEditingDiscount] = useState<DiscountType | null>(null);
+  const [discountFormData, setDiscountFormData] = useState<Partial<DiscountType>>({
+    title: "",
+    description: "",
+    percentage: 0,
+    productIds: [],
+    isActive: true,
+    order: 0,
+  });
+  const [discountLoading, setDiscountLoading] = useState(false);
 
   const buildStockInputs = (products: CatalogProduct[]): Record<string, string> => {
     const next: Record<string, string> = {};
@@ -40,7 +80,8 @@ const Admin = () => {
       // Only track variant stock in the new model
       if (product.variants) {
         for (const variant of product.variants) {
-          next[variant.id] = variant.stock.toString();
+          // Note: Stock property not yet implemented in model, defaulting to 0
+          next[variant.id] = "0";
         }
       }
     }
@@ -54,23 +95,69 @@ const Admin = () => {
     setStockInputs(buildStockInputs(products));
   }, []);
 
+  const loadNewsAndDiscounts = useCallback(async () => {
+    try {
+      const [newsData, discountsData] = await Promise.all([
+        getAllNews(false),
+        getAllDiscounts(false),
+      ]);
+      setNewsList(newsData);
+      setDiscounts(discountsData);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load news and discounts",
+        variant: "destructive",
+      });
+    }
+  }, [toast]);
+
   useEffect(() => {
+    // Check for admin user in localStorage
+    // First check for saved adminUser (from old Admin login system)
     const savedUser = localStorage.getItem("adminUser");
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+        setLoading(false);
+        return;
       } catch {
         localStorage.removeItem("adminUser");
       }
     }
+
+    // Then check for regular user logged in via Login.tsx/Signup.tsx
+    const regularUser = localStorage.getItem("user");
+    if (regularUser) {
+      try {
+        const parsedUser = JSON.parse(regularUser);
+        // Check if this user is an admin
+        if (parsedUser.is_admin) {
+          setUser(parsedUser);
+          setLoading(false);
+          return;
+        } else {
+          // Non-admin user trying to access admin page
+          navigate("/account", { replace: true });
+          setLoading(false);
+          return;
+        }
+      } catch {
+        localStorage.removeItem("user");
+      }
+    }
+
+    // No user found, show login form
     setLoading(false);
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (user) {
       loadInventory();
+      loadNewsAndDiscounts();
     }
-  }, [user, loadInventory]);
+  }, [user, loadInventory, loadNewsAndDiscounts]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -128,6 +215,12 @@ const Admin = () => {
         }
 
         const data = await response.json();
+        
+        // Check if user is admin
+        if (!data.user?.is_admin) {
+          throw new Error("You do not have admin access.");
+        }
+
         const userData: User = { 
           email: formData.email, 
           id: data.user?.id || data.userId,
@@ -162,7 +255,6 @@ const Admin = () => {
             email: formData.email,
             password: formData.password,
             name: formData.email.split("@")[0],
-            admin_key: formData.adminKey || undefined,
           }),
         });
 
@@ -172,6 +264,12 @@ const Admin = () => {
         }
 
         const data = await response.json();
+        
+        // Check if user is admin
+        if (!data.user?.is_admin) {
+          throw new Error("You do not have admin access.");
+        }
+
         const userData: User = { 
           email: formData.email, 
           id: data.user?.id || data.userId,
@@ -203,14 +301,156 @@ const Admin = () => {
 
   const handleLogout = async () => {
     localStorage.removeItem("adminUser");
+    localStorage.removeItem("user");
     localStorage.removeItem("authToken");
     setUser(null);
-    setFormData({ email: "", password: "", confirmPassword: "", adminKey: "" });
+    setFormData({ email: "", password: "", confirmPassword: "" });
     toast({
       title: "Logged out",
       description: "You have been logged out successfully.",
     });
     navigate("/");
+  };
+
+  // News handlers
+  const handleSaveNews = async () => {
+    try {
+      if (!newsFormData.title || !newsFormData.description) {
+        toast({
+          title: "Error",
+          description: "Title and description are required",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setNewsLoading(true);
+      if (editingNews) {
+        await updateNews(editingNews._id || editingNews.id || "", newsFormData);
+      } else {
+        await createNews(newsFormData as NewsType);
+      }
+
+      await loadNewsAndDiscounts();
+      setShowNewsForm(false);
+      setEditingNews(null);
+      setNewsFormData({
+        title: "",
+        description: "",
+        content: "",
+        isActive: true,
+        order: 0,
+      });
+
+      toast({
+        title: "Success",
+        description: editingNews ? "News updated successfully" : "News created successfully",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to save news",
+        variant: "destructive",
+      });
+    } finally {
+      setNewsLoading(false);
+    }
+  };
+
+  const handleDeleteNews = async (id: string) => {
+    try {
+      await deleteNews(id);
+      await loadNewsAndDiscounts();
+      toast({
+        title: "Success",
+        description: "News deleted successfully",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to delete news",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleEditNews = (newsItem: NewsType) => {
+    setEditingNews(newsItem);
+    setNewsFormData(newsItem);
+    setShowNewsForm(true);
+  };
+
+  // Discount handlers
+  const handleSaveDiscount = async () => {
+    try {
+      if (!discountFormData.title || !discountFormData.description || discountFormData.percentage === undefined) {
+        toast({
+          title: "Error",
+          description: "Title, description, and percentage are required",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setDiscountLoading(true);
+      if (editingDiscount) {
+        await updateDiscount(editingDiscount._id || editingDiscount.id || "", discountFormData);
+      } else {
+        await createDiscount(discountFormData as DiscountType);
+      }
+
+      await loadNewsAndDiscounts();
+      setShowDiscountForm(false);
+      setEditingDiscount(null);
+      setDiscountFormData({
+        title: "",
+        description: "",
+        percentage: 0,
+        productIds: [],
+        isActive: true,
+        order: 0,
+      });
+
+      toast({
+        title: "Success",
+        description: editingDiscount ? "Discount updated successfully" : "Discount created successfully",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to save discount",
+        variant: "destructive",
+      });
+    } finally {
+      setDiscountLoading(false);
+    }
+  };
+
+  const handleDeleteDiscount = async (id: string) => {
+    try {
+      await deleteDiscount(id);
+      await loadNewsAndDiscounts();
+      toast({
+        title: "Success",
+        description: "Discount deleted successfully",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to delete discount",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleEditDiscount = (discount: DiscountType) => {
+    setEditingDiscount(discount);
+    setDiscountFormData(discount);
+    setShowDiscountForm(true);
   };
 
   if (loading) {
@@ -226,50 +466,94 @@ const Admin = () => {
 
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b border-border">
-          <div className="container-luxury py-4 flex items-center justify-between">
-            <h1 className="font-serif text-xl tracking-[0.1em]">Manaku</h1>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">{user.email}</span>
-              <button
-                onClick={handleLogout}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </header>
+        {/* Floating Logout Button */}
+        <div className="fixed top-4 right-4 z-50 flex items-center gap-3 bg-card border border-border p-3 rounded-lg">
+          <span className="text-xs text-muted-foreground truncate max-w-[150px]">{user.email}</span>
+          <button
+            onClick={handleLogout}
+            className="text-xs px-3 py-2 bg-destructive/10 hover:bg-destructive/20 text-destructive rounded transition-colors"
+          >
+            Logout
+          </button>
+        </div>
 
-        <main className="container-luxury py-12">
+        <main className="w-full max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="heading-section mb-8">Admin Dashboard</h2>
+            <div className="mb-12">
+              <h1 className="font-serif text-3xl md:text-4xl tracking-[0.1em] mb-2">Admin Dashboard</h1>
+              <p className="text-muted-foreground">Manage inventory, news, and promotional content</p>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               {[
-                { label: "Total Products", value: String(inventory.length) },
-                { label: "Categories", value: String(categoryCount) },
-                { label: "Collections", value: "4" },
-                { label: "Inquiries", value: "12" },
+                { label: "Total Products", value: String(inventory.length), icon: "📦" },
+                { label: "Categories", value: String(categoryCount), icon: "🏷️" },
+                { label: "News Items", value: String(newsList.length), icon: "📰" },
+                { label: "Discounts", value: String(discounts.length), icon: "💰" },
               ].map((stat) => (
-                <div key={stat.label} className="bg-card border border-border p-6">
-                  <p className="text-caption mb-2">{stat.label}</p>
-                  <p className="font-serif text-3xl">{stat.value}</p>
-                </div>
+                <motion.div 
+                  key={stat.label}
+                  whileHover={{ translateY: -4 }}
+                  className="bg-card border border-border p-6 rounded-lg hover:border-foreground/20 transition-colors"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <p className="text-caption text-muted-foreground mb-2">{stat.label}</p>
+                      <p className="font-serif text-3xl md:text-4xl font-light">{stat.value}</p>
+                    </div>
+                    <span className="text-xl opacity-50">{stat.icon}</span>
+                  </div>
+                </motion.div>
               ))}
             </div>
 
-            <div className="bg-card border border-border p-8 mb-8">
-              <h3 className="heading-card mb-6">Inventory Management</h3>
+            {/* Enhanced Tab Navigation */}
+            <div className="mb-8 border-b border-border">
+              <div className="flex gap-2 md:gap-8">
+                {["inventory", "news", "discounts"].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab as "inventory" | "news" | "discounts")}
+                    className={`px-4 md:px-6 py-3 font-medium transition-all border-b-2 capitalize ${
+                      activeTab === tab
+                        ? "text-foreground border-foreground"
+                        : "text-muted-foreground hover:text-foreground border-transparent hover:border-foreground/30"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Inventory Tab */}
+            {activeTab === "inventory" && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-card border border-border p-6 md:p-8 rounded-lg"
+            >
+              <div className="mb-8 pb-6 border-b border-border">
+                <h3 className="heading-card mb-1">Inventory Management</h3>
+                <p className="text-sm text-muted-foreground">Manage product stock levels for all variants</p>
+              </div>
+
               <div className="space-y-6">
                 {inventory.map((product) => (
-                  <div key={product.id} className="border border-border p-5 rounded-sm">
+                  <motion.div 
+                    key={product.id} 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="border border-border p-5 rounded-lg hover:border-foreground/20 transition-colors"
+                  >
                     <div className="flex flex-col gap-2 mb-4">
-                      <p className="font-medium">{t(product.nameKey)}</p>
+                      <p className="font-medium text-lg">{t(product.nameKey)}</p>
+                      <p className="text-xs text-muted-foreground">{product.variants?.length || 0} variants</p>
                     </div>
 
                     {product.variants && product.variants.length > 0 && (
@@ -278,28 +562,30 @@ const Admin = () => {
                           const variantLabel = variant.color || variant.material || variant.size || variant.id;
 
                           return (
-                            <div key={variant.id} className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                              <p className="text-sm">Variant: {variantLabel}</p>
-                              <div className="flex items-end gap-3">
-                                <div>
-                                  <label htmlFor={`variant-stock-${variant.id}`} className="text-caption mb-2 block">
-                                    Variant stock
-                                  </label>
+                            <div key={variant.id} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-secondary/30 p-3 rounded">
+                              <p className="text-sm font-medium">
+                                Variant: <span className="text-foreground">{variantLabel}</span>
+                              </p>
+                              <div className="flex items-center gap-3">
+                                <div className="flex-1 sm:flex-none">
+                                  <label htmlFor={`variant-stock-${variant.id}`} className="text-caption mb-2 block">Stock</label>
                                   <input
                                     id={`variant-stock-${variant.id}`}
                                     type="number"
                                     min={0}
                                     value={stockInputs[variant.id] ?? "0"}
                                     onChange={(e) => handleStockInputChange(variant.id, e.target.value)}
-                                    className="w-28 px-3 py-2 border border-border bg-transparent"
+                                    className="w-24 px-3 py-2 border border-border bg-transparent rounded text-center font-medium"
                                   />
                                 </div>
-                                <button
+                                <motion.button
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
                                   onClick={() => handleSaveVariantStock(variant.id)}
-                                  className="btn-outline-luxury h-[42px]"
+                                  className="btn-luxury text-sm h-[42px] whitespace-nowrap"
                                 >
                                   Save
-                                </button>
+                                </motion.button>
                               </div>
                             </div>
                           );
@@ -307,16 +593,393 @@ const Admin = () => {
                       </div>
                     )}
                     {(!product.variants || product.variants.length === 0) && (
-                      <p className="text-sm text-muted-foreground">No variants available</p>
+                      <p className="text-sm text-muted-foreground bg-secondary/20 p-3 rounded">No variants available</p>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+              <p className="text-muted-foreground text-xs mt-6 p-3 bg-secondary/20 rounded">
+                ℹ️ Stock is persisted locally and shared between catalog and admin views
+              </p>
+            </motion.div>
+            )}
 
-            <p className="text-muted-foreground text-sm">
-              Stock is now persisted in localStorage and shared by catalog/admin views.
-            </p>
+            {/* News Tab */}
+            {activeTab === "news" && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-card border border-border p-6 md:p-8 rounded-lg"
+            >
+              {/* Add News Header */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-border">
+                <div>
+                  <h3 className="heading-card mb-1">News Management</h3>
+                  <p className="text-sm text-muted-foreground">Create and manage news articles and announcements</p>
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    setShowNewsForm(true);
+                    setEditingNews(null);
+                    setNewsFormData({
+                      title: "",
+                      description: "",
+                      content: "",
+                      isActive: true,
+                      order: 0,
+                    });
+                  }}
+                  className="btn-luxury flex items-center gap-2 text-sm whitespace-nowrap"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add News
+                </motion.button>
+              </div>
+
+              {/* News Form */}
+              {showNewsForm && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="border border-primary/20 p-6 mb-8 rounded-lg bg-primary/5 mb-8"
+                >
+                  <h4 className="font-medium mb-6">{editingNews ? "Edit News" : "Create New News"}</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="text-caption mb-2 block font-medium">Title *</label>
+                      <input
+                        type="text"
+                        value={newsFormData.title || ""}
+                        onChange={(e) => setNewsFormData({ ...newsFormData, title: e.target.value })}
+                        className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                        placeholder="Enter news title"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-caption mb-2 block font-medium">Display Order</label>
+                      <input
+                        type="number"
+                        value={newsFormData.order || 0}
+                        onChange={(e) => setNewsFormData({ ...newsFormData, order: parseInt(e.target.value) })}
+                        className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="text-caption mb-2 block font-medium">Description *</label>
+                    <textarea
+                      value={newsFormData.description || ""}
+                      onChange={(e) => setNewsFormData({ ...newsFormData, description: e.target.value })}
+                      className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                      placeholder="Enter news description (appears in news cards)"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="text-caption mb-2 block font-medium">Content</label>
+                    <textarea
+                      value={newsFormData.content || ""}
+                      onChange={(e) => setNewsFormData({ ...newsFormData, content: e.target.value })}
+                      className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                      placeholder="Enter full content (optional)"
+                      rows={4}
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3 mb-6">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={newsFormData.isActive || false}
+                        onChange={(e) => setNewsFormData({ ...newsFormData, isActive: e.target.checked })}
+                        className="w-4 h-4 border border-border rounded cursor-pointer"
+                      />
+                      <span className="text-sm font-medium">Publish Now</span>
+                    </label>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleSaveNews}
+                      disabled={newsLoading}
+                      className="btn-luxury flex-1 text-sm disabled:opacity-50"
+                    >
+                      {newsLoading ? "Saving..." : editingNews ? "Update News" : "Create News"}
+                    </motion.button>
+                    <button
+                      onClick={() => {
+                        setShowNewsForm(false);
+                        setEditingNews(null);
+                        setNewsFormData({
+                          title: "",
+                          description: "",
+                          content: "",
+                          isActive: true,
+                          order: 0,
+                        });
+                      }}
+                      className="btn-outline-luxury flex-1 text-sm"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* News List */}
+              <div className="space-y-4">
+                {newsList.length === 0 ? (
+                  <div className="py-12 text-center">
+                    <p className="text-muted-foreground mb-2">No news items yet</p>
+                    <p className="text-xs text-muted-foreground">Click "Add News" button to create your first news item</p>
+                  </div>
+                ) : (
+                  newsList.map((newsItem) => (
+                    <motion.div 
+                      key={newsItem._id || newsItem.id}
+                      whileHover={{ backgroundColor: "var(--color-secondary)" }}
+                      className="border border-border p-5 rounded-lg flex items-start justify-between gap-4 group transition-colors"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h4 className="font-medium">{newsItem.title}</h4>
+                          {newsItem.isActive && <span className="text-xs bg-green-500/20 text-green-600 px-2 py-1 rounded">Active</span>}
+                        </div>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{newsItem.description}</p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          {newsItem.publishedAt ? new Date(newsItem.publishedAt).toLocaleDateString() : "Not published"}
+                        </p>
+                      </div>
+                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          onClick={() => handleEditNews(newsItem)}
+                          className="p-2 hover:bg-secondary rounded transition-colors"
+                          title="Edit"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          onClick={() => handleDeleteNews(newsItem._id || newsItem.id || "")}
+                          className="p-2 hover:bg-destructive/10 rounded transition-colors text-destructive"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+            </motion.div>
+            )}
+
+            {/* Discounts Tab */}
+            {activeTab === "discounts" && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-card border border-border p-6 md:p-8 rounded-lg"
+            >
+              {/* Add Discount Header */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-border">
+                <div>
+                  <h3 className="heading-card mb-1">Discounts Management</h3>
+                  <p className="text-sm text-muted-foreground">Create and manage promotional discounts and offers</p>
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    setShowDiscountForm(true);
+                    setEditingDiscount(null);
+                    setDiscountFormData({
+                      title: "",
+                      description: "",
+                      percentage: 0,
+                      productIds: [],
+                      isActive: true,
+                      order: 0,
+                    });
+                  }}
+                  className="btn-luxury flex items-center gap-2 text-sm whitespace-nowrap"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Discount
+                </motion.button>
+              </div>
+
+              {/* Discount Form */}
+              {showDiscountForm && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="border border-primary/20 p-6 mb-8 rounded-lg bg-primary/5"
+                >
+                  <h4 className="font-medium mb-6">{editingDiscount ? "Edit Discount" : "Create New Discount"}</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <label className="text-caption mb-2 block font-medium">Title *</label>
+                      <input
+                        type="text"
+                        value={discountFormData.title || ""}
+                        onChange={(e) => setDiscountFormData({ ...discountFormData, title: e.target.value })}
+                        className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                        placeholder="e.g., Spring Sale"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-caption mb-2 block font-medium">Discount % *</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={discountFormData.percentage || 0}
+                        onChange={(e) => setDiscountFormData({ ...discountFormData, percentage: parseInt(e.target.value) })}
+                        className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                        placeholder="0-100"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-caption mb-2 block font-medium">Display Order</label>
+                      <input
+                        type="number"
+                        value={discountFormData.order || 0}
+                        onChange={(e) => setDiscountFormData({ ...discountFormData, order: parseInt(e.target.value) })}
+                        className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="text-caption mb-2 block font-medium">Description *</label>
+                    <textarea
+                      value={discountFormData.description || ""}
+                      onChange={(e) => setDiscountFormData({ ...discountFormData, description: e.target.value })}
+                      className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                      placeholder="Enter discount description"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="text-caption mb-2 block font-medium">Discount Code</label>
+                    <input
+                      type="text"
+                      value={discountFormData.code || ""}
+                      onChange={(e) => setDiscountFormData({ ...discountFormData, code: e.target.value })}
+                      className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
+                      placeholder="e.g., SUMMER20"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3 mb-6">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={discountFormData.isActive || false}
+                        onChange={(e) => setDiscountFormData({ ...discountFormData, isActive: e.target.checked })}
+                        className="w-4 h-4 border border-border rounded cursor-pointer"
+                      />
+                      <span className="text-sm font-medium">Active Now</span>
+                    </label>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handleSaveDiscount}
+                      disabled={discountLoading}
+                      className="btn-luxury flex-1 text-sm disabled:opacity-50"
+                    >
+                      {discountLoading ? "Saving..." : editingDiscount ? "Update Discount" : "Create Discount"}
+                    </motion.button>
+                    <button
+                      onClick={() => {
+                        setShowDiscountForm(false);
+                        setEditingDiscount(null);
+                        setDiscountFormData({
+                          title: "",
+                          description: "",
+                          percentage: 0,
+                          productIds: [],
+                          isActive: true,
+                          order: 0,
+                        });
+                      }}
+                      className="btn-outline-luxury flex-1 text-sm"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Discounts List */}
+              <div className="space-y-4">
+                {discounts.length === 0 ? (
+                  <div className="py-12 text-center">
+                    <p className="text-muted-foreground mb-2">No discounts yet</p>
+                    <p className="text-xs text-muted-foreground">Click "Add Discount" button to create your first promotional offer</p>
+                  </div>
+                ) : (
+                  discounts.map((discount) => (
+                    <motion.div 
+                      key={discount._id || discount.id}
+                      whileHover={{ backgroundColor: "var(--color-secondary)" }}
+                      className="border border-border p-5 rounded-lg flex items-start justify-between gap-4 group transition-colors"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h4 className="font-medium">{discount.title}</h4>
+                          <span className="text-sm font-bold text-green-600 bg-green-500/20 px-2 py-1 rounded">
+                            {discount.percentage}% OFF
+                          </span>
+                          {discount.isActive && <span className="text-xs bg-blue-500/20 text-blue-600 px-2 py-1 rounded">Active</span>}
+                        </div>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{discount.description}</p>
+                        {discount.code && (
+                          <p className="text-xs text-muted-foreground mt-2">
+                            Code: <span className="font-mono font-semibold">{discount.code}</span>
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          onClick={() => handleEditDiscount(discount)}
+                          className="p-2 hover:bg-secondary rounded transition-colors"
+                          title="Edit"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          onClick={() => handleDeleteDiscount(discount._id || discount.id || "")}
+                          className="p-2 hover:bg-destructive/10 rounded transition-colors text-destructive"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+            </motion.div>
+            )}
           </motion.div>
         </main>
       </div>
@@ -398,23 +1061,7 @@ const Admin = () => {
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="adminKey" className="text-caption mb-2 block">
-                    Admin Key (Optional)
-                  </label>
-                  <input
-                    type="password"
-                    id="adminKey"
-                    name="adminKey"
-                    value={formData.adminKey}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-transparent focus:outline-none focus:border-foreground transition-colors"
-                    placeholder="Leave blank for regular user"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Enter admin key to create an admin account
-                  </p>
-                </div>
+
               </>
             )}
 
