@@ -1,7 +1,7 @@
 // src/lib/api.ts
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5002";
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 /* ===========================
    GENERATE IDEMPOTENCY KEY
@@ -69,14 +69,23 @@ export async function apiFetch<T = any>(
 }
 
 /* ===========================
+   LOCALIZED STRING TYPE
+=========================== */
+export interface LocalizedString {
+  en: string;
+  ru: string;
+  uz: string;
+}
+
+/* ===========================
    NEWS API
 =========================== */
 export interface News {
   _id?: string;
   id?: string;
-  title: string;
-  description: string;
-  content?: string;
+  title: LocalizedString;
+  description: LocalizedString;
+  content?: LocalizedString;
   image?: {
     url?: string;
     public_id?: string;
@@ -136,8 +145,9 @@ export async function deleteNews(id: string): Promise<void> {
 export interface Discount {
   _id?: string;
   id?: string;
-  title: string;
-  description: string;
+  code?: string;
+  title: LocalizedString;
+  description: LocalizedString;
   percentage: number;
   productIds: string[];
   image?: {
@@ -148,7 +158,6 @@ export interface Discount {
   isActive: boolean;
   startDate?: string;
   endDate?: string;
-  code?: string;
   order?: number;
 }
 
@@ -162,6 +171,13 @@ export async function getAllDiscounts(activeOnly = true): Promise<Discount[]> {
 export async function getDiscountById(id: string): Promise<Discount> {
   const response = await apiFetch<{ success: boolean; data: Discount }>(
     `/api/discounts/${id}`
+  );
+  return response.data;
+}
+
+export async function getDiscountForProduct(productId: string): Promise<Discount | null> {
+  const response = await apiFetch<{ success: boolean; data: Discount | null }>(
+    `/api/discounts/product/${encodeURIComponent(productId)}`
   );
   return response.data;
 }
@@ -195,4 +211,133 @@ export async function deleteDiscount(id: string): Promise<void> {
   await apiFetch(`/api/discounts/${id}`, {
     method: "DELETE",
   });
+}
+
+/* ===========================
+   PRODUCTS API
+=========================== */
+
+export interface ProductImage {
+  url: string;
+  public_id: string;
+  alt?: string;
+  isPrimary?: boolean;
+}
+
+export interface ProductVariantData {
+  sku: string;
+  color?: string;
+  size?: string;
+  material?: string;
+  price: number;
+  stock: number;
+  isActive?: boolean;
+}
+
+export interface ProductData {
+  _id?: string;
+  name: LocalizedString;
+  slug: string;
+  description?: LocalizedString;
+  shortDescription?: LocalizedString;
+  category: string;
+  collections?: string[];
+  basePrice: number;
+  vatPercent?: number;
+  availability?: "in_stock" | "preorder" | "made_to_order";
+  images: ProductImage[];
+  variants: ProductVariantData[];
+  materials?: { frame?: string; upholstery?: string; legs?: string };
+  dimensions?: { width?: number; height?: number; depth?: number };
+  weight?: number;
+  shippingClass?: string;
+  productionTimeDays?: number;
+  warrantyMonths?: number;
+  assemblyAvailable?: boolean;
+  assemblyPrice?: number;
+  assemblyTimeDays?: number;
+  customizable?: boolean;
+  seo?: { title?: LocalizedString; description?: LocalizedString };
+  isFeatured?: boolean;
+  isActive?: boolean;
+  totalStock?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export async function getApiProducts(params?: {
+  category?: string;
+  collection?: string;
+  active?: boolean;
+  featured?: boolean;
+  search?: string;
+}): Promise<ProductData[]> {
+  const query = new URLSearchParams();
+  if (params?.category) query.set("category", params.category);
+  if (params?.collection) query.set("collection", params.collection);
+  if (params?.active !== undefined) query.set("active", String(params.active));
+  if (params?.featured !== undefined) query.set("featured", String(params.featured));
+  if (params?.search) query.set("search", params.search);
+  const qs = query.toString();
+  const response = await apiFetch<{ success: boolean; data: ProductData[] }>(
+    `/api/products${qs ? `?${qs}` : ""}`
+  );
+  return response.data || [];
+}
+
+export async function getApiProductById(id: string): Promise<ProductData> {
+  const response = await apiFetch<{ success: boolean; data: ProductData }>(
+    `/api/products/${id}`
+  );
+  return response.data;
+}
+
+export async function createApiProduct(product: Omit<ProductData, "_id">): Promise<ProductData> {
+  const response = await apiFetch<{ success: boolean; data: ProductData }>(
+    "/api/products",
+    { method: "POST", body: JSON.stringify(product) }
+  );
+  return response.data;
+}
+
+export async function updateApiProduct(id: string, product: Partial<ProductData>): Promise<ProductData> {
+  const response = await apiFetch<{ success: boolean; data: ProductData }>(
+    `/api/products/${id}`,
+    { method: "PUT", body: JSON.stringify(product) }
+  );
+  return response.data;
+}
+
+export async function deleteApiProduct(id: string): Promise<void> {
+  await apiFetch(`/api/products/${id}`, { method: "DELETE" });
+}
+
+export async function updateVariantStock(
+  productId: string,
+  sku: string,
+  stock: number
+): Promise<ProductData> {
+  const response = await apiFetch<{ success: boolean; data: ProductData }>(
+    `/api/products/${productId}/variants/${encodeURIComponent(sku)}/stock`,
+    { method: "PATCH", body: JSON.stringify({ stock }) }
+  );
+  return response.data;
+}
+
+export async function uploadImages(files: File[]): Promise<ProductImage[]> {
+  const formData = new FormData();
+  for (const file of files) {
+    formData.append("images", file);
+  }
+  
+  try {
+    const results = await apiFetch<ProductImage[]>("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    return results;
+  } catch (error) {
+    console.error("Upload error:", error);
+    throw error;
+  }
 }

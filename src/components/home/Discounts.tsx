@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { getAllDiscounts, Discount as DiscountType } from "@/lib/api";
-import { getProducts, CatalogProduct } from "@/data/catalogData";
+import { getProducts, getImageUrl, CatalogProduct } from "@/data/catalogData";
+import { useLanguage } from "@/contexts/useLanguageHook";
+import { InfiniteCarousel, CarouselItem } from "@/components/ui/InfiniteCarousel";
 
 interface ProductWithDiscount {
   id: string;
+  slug: string;
   name: string;
   price: number;
   image: string;
@@ -13,6 +17,7 @@ interface ProductWithDiscount {
 }
 
 export function Discounts() {
+  const { language, t } = useLanguage();
   const [discounts, setDiscounts] = useState<DiscountType[]>([]);
   const [products, setProducts] = useState<ProductWithDiscount[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,16 +42,17 @@ export function Discounts() {
             const discount = discountsData.find((d: DiscountType) =>
               d.productIds.includes(product.id)
             );
+            const price = product.basePrice;
             return {
               id: product.id,
+              slug: product.slug,
               name: product.nameKey,
-              price: product.variants?.[0]?.price || 0,
-              image: product.images?.[0] || "",
+              price,
+              image: product.images?.[0] ? getImageUrl(product.images[0]) : "",
               discount,
               discountedPrice: discount
-                ? (product.variants?.[0]?.price || 0) *
-                  (1 - (discount.percentage || 0) / 100)
-                : product.variants?.[0]?.price || 0,
+                ? price * (1 - (discount.percentage || 0) / 100)
+                : price,
             };
           });
 
@@ -87,49 +93,23 @@ export function Discounts() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="heading-section mb-6">Special Offers</h2>
+          <h2 className="heading-section mb-12">{t("discounts.discountedProducts") || "Discounted Products"}</h2>
 
-          {discounts.length > 0 && (
-            <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {discounts.slice(0, 2).map((discount, index) => (
-                <motion.div
-                  key={discount._id || discount.id || index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-card border border-border p-8 relative overflow-hidden"
-                >
-                  <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/10 rounded-full" />
-                  <div className="relative z-10">
-                    <div className="inline-block bg-primary text-primary-foreground px-4 py-2 text-caption font-semibold mb-4">
-                      {discount.percentage}% OFF
-                    </div>
-                    <h3 className="heading-card mb-3">{discount.title}</h3>
-                    <p className="text-muted-foreground mb-4">
-                      {discount.description}
-                    </p>
-                    {discount.code && (
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm">Code:</span>
-                        <code className="bg-background px-3 py-1 font-mono text-sm border border-border">
-                          {discount.code}
-                        </code>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
-
+          {/* Discounted Products Carousel */}
           {products.length > 0 && (
-            <div>
-              <h3 className="heading-card mb-6">Discounted Products</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {products.map((product, index) => (
+            <InfiniteCarousel
+              opts={{ loop: true, align: "start" }}
+              showDots={true}
+              showArrows={true}
+              itemsPerRow={4}
+              className="px-0"
+            >
+              {products.map((product, index) => (
+                <CarouselItem
+                  key={product.id}
+                  flex="0 0 calc(25% - 1.5rem)"
+                >
                   <motion.div
-                    key={product.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{
@@ -137,13 +117,13 @@ export function Discounts() {
                       delay: (index % 4) * 0.1,
                     }}
                     viewport={{ once: true }}
-                    className="group bg-card border border-border hover:border-foreground transition-colors"
+                    className="group bg-card border border-border hover:border-foreground transition-colors h-full flex flex-col"
                   >
                     {product.image && (
                       <div className="relative w-full aspect-square overflow-hidden bg-secondary">
                         <img
                           src={product.image}
-                          alt={product.name}
+                          alt={t(product.name)}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         {product.discount && (
@@ -154,37 +134,37 @@ export function Discounts() {
                       </div>
                     )}
 
-                    <div className="p-4">
+                    <div className="p-4 flex flex-col flex-grow">
                       <h4 className="font-medium text-sm mb-2 line-clamp-2">
-                        {product.name}
+                        {t(product.name)}
                       </h4>
 
-                      <div className="flex items-center gap-2 mb-3">
+                      <div className="flex items-center gap-2 mb-3 flex-grow">
                         {product.discount && (
                           <>
                             <span className="text-muted-foreground text-sm line-through">
-                              ${product.price.toFixed(2)}
+                              {product.price.toLocaleString()} UZS
                             </span>
                             <span className="text-primary font-semibold">
-                              ${product.discountedPrice?.toFixed(2)}
+                              {product.discountedPrice?.toLocaleString()} UZS
                             </span>
                           </>
                         )}
                         {!product.discount && (
                           <span className="font-semibold">
-                            ${product.price.toFixed(2)}
+                            {product.price.toLocaleString()} UZS
                           </span>
                         )}
                       </div>
 
-                      <button className="w-full btn-outline-luxury text-xs py-2">
-                        View Details
-                      </button>
+                      <Link to={`/product/${product.slug}`} className="block w-full btn-outline-luxury text-xs py-2 text-center mt-auto">
+                        {t("discounts.viewDetails") || "View Details"}
+                      </Link>
                     </div>
                   </motion.div>
-                ))}
-              </div>
-            </div>
+                </CarouselItem>
+              ))}
+            </InfiniteCarousel>
           )}
         </motion.div>
       </div>

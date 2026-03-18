@@ -38,6 +38,7 @@ import checkoutRoutes from "./routes/checkout.routes.js";
 import ordersRoutes from "./routes/orders.routes.js";
 import newsRoutes from "./routes/news.routes.js";
 import discountsRoutes from "./routes/discounts.routes.js";
+import productsRoutes from "./routes/products.routes.js";
 
 import { error_handler } from "./middleware/error_handler.js";
 import { request_logger } from "./middleware/request_logger.js";
@@ -148,6 +149,7 @@ app.use("/api/orders", ordersRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/discounts", discountsRoutes);
+app.use("/api/products", productsRoutes);
 
 /* ==============================
    HEALTH CHECK

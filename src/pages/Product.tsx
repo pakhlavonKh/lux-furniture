@@ -4,7 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import { toast } from "sonner";
-import { getProductBySlug, getImageUrl, ProductVariant } from "@/data/catalogData";
+import { getProductBySlug, getImageUrl, ProductVariant, getDiscountedPrice } from "@/data/catalogData";
+import { getDiscountForProduct } from "@/lib/api";
 import { ProductVariantSelector } from "@/components/ProductVariantSelector";
 import { motion } from "framer-motion";
 import {
@@ -27,6 +28,19 @@ const Product = () => {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
 
   const product = slug ? getProductBySlug(slug) : null;
+
+  const [discountPercentage, setDiscountPercentage] = useState<number | undefined>();
+
+  const productId = product?.id;
+
+  useEffect(() => {
+    if (!productId) return;
+    getDiscountForProduct(productId)
+      .then((d) => {
+        if (d && d.percentage > 0) setDiscountPercentage(d.percentage);
+      })
+      .catch(() => {});
+  }, [productId]);
 
   const images = useMemo(() => product?.images || [], [product?.images]);
   
@@ -139,6 +153,7 @@ const Product = () => {
   }, [selectedVariant, allGalleryImages, currentImageIndex]);
   
   const displayPrice = selectedVariant?.price || product?.basePrice;
+  const finalPrice = displayPrice ? getDiscountedPrice(displayPrice, discountPercentage) : undefined;
 
   // Determine which image is currently active/highlighted
   const activeImageIndex = useMemo(() => {
@@ -259,9 +274,17 @@ const Product = () => {
             >
               <p className="text-caption mb-4">{product.categoryId}</p>
               <h1 className="heading-section mb-4">{t(product.nameKey)}</h1>
-              <p className="font-serif text-3xl mb-8">
-                {displayPrice?.toLocaleString()} UZS
-              </p>
+              <div className="mb-8">
+                {discountPercentage && displayPrice ? (
+                  <div className="flex items-center gap-3">
+                    <span className="font-serif text-3xl">{finalPrice?.toLocaleString()} UZS</span>
+                    <span className="font-serif text-xl text-muted-foreground line-through">{displayPrice.toLocaleString()} UZS</span>
+                    <span className="text-sm font-bold text-green-600 bg-green-500/20 px-2 py-1 rounded">-{discountPercentage}%</span>
+                  </div>
+                ) : (
+                  <p className="font-serif text-3xl">{displayPrice?.toLocaleString()} UZS</p>
+                )}
+              </div>
 
               {product.descriptionKey && (
                 <div className="prose prose-stone max-w-none mb-8">
@@ -329,6 +352,7 @@ const Product = () => {
                         : product.id;
                       const existingItem = cart.find((item) => item.id === variantKey);
                       const itemPrice = ('price' in variant && variant.price) || product.basePrice;
+                      const itemFinalPrice = getDiscountedPrice(itemPrice, discountPercentage);
                       const itemImage = displayImageName || images[0];
                       
                       if (existingItem) {
@@ -338,7 +362,7 @@ const Product = () => {
                           id: variantKey,
                           slug: product.slug,
                           name: t(product.nameKey),
-                          price: itemPrice,
+                          price: itemFinalPrice,
                           image: itemImage,
                           quantity,
                           ...(variant?.color && { color: variant.color }),

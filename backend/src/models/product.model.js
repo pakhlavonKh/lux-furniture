@@ -2,6 +2,28 @@
 import mongoose from "mongoose";
 
 /* ===========================
+   LOCALIZED STRING SCHEMAS
+=========================== */
+
+const LocalizedStringSchema = new mongoose.Schema(
+  {
+    en: { type: String, required: [true, "English text is required"], trim: true },
+    ru: { type: String, required: [true, "Russian text is required"], trim: true },
+    uz: { type: String, required: [true, "Uzbek text is required"], trim: true },
+  },
+  { _id: false }
+);
+
+const LocalizedStringOptionalSchema = new mongoose.Schema(
+  {
+    en: { type: String, trim: true, default: "" },
+    ru: { type: String, trim: true, default: "" },
+    uz: { type: String, trim: true, default: "" },
+  },
+  { _id: false }
+);
+
+/* ===========================
    IMAGE SCHEMA
 =========================== */
 
@@ -83,9 +105,8 @@ const ProductSchema = new mongoose.Schema(
   {
     /* Basic */
     name: {
-      type: String,
+      type: LocalizedStringSchema,
       required: true,
-      trim: true,
     },
 
     slug: {
@@ -98,13 +119,11 @@ const ProductSchema = new mongoose.Schema(
     },
 
     description: {
-      type: String,
-      trim: true,
+      type: LocalizedStringOptionalSchema,
     },
 
     shortDescription: {
-      type: String,
-      trim: true,
+      type: LocalizedStringOptionalSchema,
     },
 
     /* Classification */
@@ -229,8 +248,8 @@ const ProductSchema = new mongoose.Schema(
 
     /* SEO */
     seo: {
-      title: String,
-      description: String,
+      title: LocalizedStringOptionalSchema,
+      description: LocalizedStringOptionalSchema,
     },
 
     /* Analytics */

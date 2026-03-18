@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import Cart from "../models/cart.model.js";
 import Order from "../models/order.model.js";
+import Discount from "../models/discount.model.js";
 import { Payment } from "../models/payment_model.js";
 import { reserveStock } from "../services/stock_reservation.service.js";
 
@@ -79,12 +80,30 @@ export const checkout = async (req, res, next) => {
     }
 
     /* ===========================
-       2. CALCULATE ORDER
+       2. LOAD ACTIVE DISCOUNTS
+    ============================ */
+
+    const now = new Date();
+    const activeDiscounts = await Discount.find({
+      isActive: true,
+      startDate: { $lte: now },
+      $or: [
+        { endDate: { $exists: false } },
+        { endDate: null },
+        { endDate: { $gte: now } },
+      ],
+    })
+      .lean()
+      .session(session);
+
+    /* ===========================
+       3. CALCULATE ORDER
     ============================ */
 
     let subtotal = 0;
     let vatAmount = 0;
     let assemblyTotal = 0;
+    let discountAmount = 0;
 
     const orderItems = [];
 
@@ -114,7 +133,22 @@ export const checkout = async (req, res, next) => {
 
       const price = variant.price;
 
-      const itemSubtotal = price * item.quantity;
+      /* ===========================
+         APPLY PRODUCT DISCOUNT
+      ============================ */
+
+      const productId = product._id.toString();
+      const applicableDiscount = activeDiscounts
+        .filter((d) => d.productIds.includes(productId))
+        .sort((a, b) => b.percentage - a.percentage)[0];
+
+      let discountedPrice = price;
+      if (applicableDiscount) {
+        discountedPrice = Math.round(price * (1 - applicableDiscount.percentage / 100));
+        discountAmount += (price - discountedPrice) * item.quantity;
+      }
+
+      const itemSubtotal = discountedPrice * item.quantity;
 
       let assemblyPrice = 0;
 
@@ -130,7 +164,7 @@ export const checkout = async (req, res, next) => {
       orderItems.push({
         product: product._id,
         nameSnapshot: product.name,
-        priceSnapshot: price,
+        priceSnapshot: discountedPrice,
         variantSnapshot: {
           sku: variant.sku,
           color: variant.color,
@@ -156,13 +190,13 @@ export const checkout = async (req, res, next) => {
       assemblyTotal;
 
     /* ===========================
-       3. RESERVE STOCK
+       4. RESERVE STOCK
     ============================ */
 
     await reserveStock(cart, session);
 
     /* ===========================
-       4. CREATE ORDER
+       5. CREATE ORDER
     ============================ */
 
     const [order] = await Order.create(
@@ -173,6 +207,7 @@ export const checkout = async (req, res, next) => {
           subtotal,
           vatAmount,
           assemblyTotal,
+          discountAmount,
           deliveryPrice: 0,
           grandTotal,
           currency: "UZS",
@@ -186,7 +221,7 @@ export const checkout = async (req, res, next) => {
     );
 
     /* ===========================
-       5. CREATE PAYMENT
+       6. CREATE PAYMENT
     ============================ */
 
     const [payment] = await Payment.create(
@@ -204,7 +239,7 @@ export const checkout = async (req, res, next) => {
     );
 
     /* ===========================
-       6. LINK PAYMENT
+       7. LINK PAYMENT
     ============================ */
 
     order.payment = payment._id;
@@ -212,7 +247,7 @@ export const checkout = async (req, res, next) => {
     await order.save({ session });
 
     /* ===========================
-       7. CLEAR CART
+       8. CLEAR CART
     ============================ */
 
     cart.items = [];

@@ -1,18 +1,29 @@
 // backend/src/models/discount.model.js
 import mongoose from "mongoose";
 
+const LocalizedStringSchema = new mongoose.Schema(
+  {
+    en: { type: String, required: [true, "English text is required"], trim: true },
+    ru: { type: String, required: [true, "Russian text is required"], trim: true },
+    uz: { type: String, required: [true, "Uzbek text is required"], trim: true },
+  },
+  { _id: false }
+);
+
 const DiscountSchema = new mongoose.Schema(
   {
     title: {
-      type: String,
+      type: LocalizedStringSchema,
       required: [true, "Title is required"],
-      trim: true,
-      maxlength: [200, "Title cannot exceed 200 characters"],
     },
     description: {
-      type: String,
+      type: LocalizedStringSchema,
       required: [true, "Description is required"],
+    },
+    code: {
+      type: String,
       trim: true,
+      uppercase: true,
     },
     percentage: {
       type: Number,
@@ -51,12 +62,6 @@ const DiscountSchema = new mongoose.Schema(
     endDate: {
       type: Date,
       required: false,
-    },
-    code: {
-      type: String,
-      trim: true,
-      unique: true,
-      sparse: true,
     },
     order: {
       type: Number,

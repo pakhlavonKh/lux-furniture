@@ -1104,6 +1104,57 @@
     "checkout": "Proceed to Checkout"
   },
 
+  "discounts": {
+    "specialOffers": "Special Offers",
+    "discountedProducts": "Discounted Products",
+    "viewDetails": "View Details",
+    "off": "OFF"
+  },
+
+  "news": {
+    "title": "Latest News",
+    "readMore": "Read more"
+  },
+
+  "admin": {
+    "title": "Admin Dashboard",
+    "description": "Manage products, inventory, news, and promotional content",
+    "dbProducts": "DB Products",
+    "catalogProducts": "Catalog Products",
+    "categories": "Categories",
+    "newsItems": "News Items",
+    "discountsCount": "Discounts",
+    "logout": "Logout",
+    "adminEmail": "Admin Email",
+    "products": "Products",
+    "inventory": "Inventory",
+    "news": "News",
+    "discounts": "Discounts",
+    "productsManagement": "Products Management",
+    "productsDesc": "Create and manage products with variants, images, and stock",
+    "inventoryManagement": "Inventory Management",
+    "inventoryDesc": "Manage product stock levels for all variants",
+    "newsManagement": "News Management",
+    "newsDesc": "Create and manage news articles",
+    "discountsManagement": "Discounts Management",
+    "discountsDesc": "Create and manage promotional discounts",
+    "addProduct": "Add Product",
+    "addNews": "Add News",
+    "addDiscount": "Add Discount",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "noProducts": "No products in database yet",
+    "noProductsDesc": "Click \"Add Product\" to create your first product",
+    "searchProducts": "Search products...",
+    "allCategories": "All Categories",
+    "deleteConfirm": "Are you sure?",
+    "yes": "Yes, delete",
+    "no": "No, keep it"
+  },
+
   "errors": {
     "notFound": "Page Not Found",
     "notFoundDesc": "The page you're looking for doesn't exist",

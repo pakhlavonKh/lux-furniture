@@ -1,22 +1,36 @@
 // backend/src/models/news.model.js
 import mongoose from "mongoose";
 
+const LocalizedStringSchema = new mongoose.Schema(
+  {
+    en: { type: String, required: [true, "English text is required"], trim: true },
+    ru: { type: String, required: [true, "Russian text is required"], trim: true },
+    uz: { type: String, required: [true, "Uzbek text is required"], trim: true },
+  },
+  { _id: false }
+);
+
+const LocalizedStringOptionalSchema = new mongoose.Schema(
+  {
+    en: { type: String, trim: true, default: "" },
+    ru: { type: String, trim: true, default: "" },
+    uz: { type: String, trim: true, default: "" },
+  },
+  { _id: false }
+);
+
 const NewsSchema = new mongoose.Schema(
   {
     title: {
-      type: String,
+      type: LocalizedStringSchema,
       required: [true, "Title is required"],
-      trim: true,
-      maxlength: [200, "Title cannot exceed 200 characters"],
     },
     description: {
-      type: String,
+      type: LocalizedStringSchema,
       required: [true, "Description is required"],
-      trim: true,
     },
     content: {
-      type: String,
-      trim: true,
+      type: LocalizedStringOptionalSchema,
     },
     image: {
       url: {

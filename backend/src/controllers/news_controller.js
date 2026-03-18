@@ -61,10 +61,16 @@ export const createNews = async (req, res) => {
   try {
     const { title, description, content, image, isActive, order } = req.body;
 
-    if (!title || !description) {
+    if (!title?.en || !title?.ru || !title?.uz) {
       return res.status(400).json({
         success: false,
-        message: "Title and description are required",
+        message: "Title is required in all 3 languages (en, ru, uz)",
+      });
+    }
+    if (!description?.en || !description?.ru || !description?.uz) {
+      return res.status(400).json({
+        success: false,
+        message: "Description is required in all 3 languages (en, ru, uz)",
       });
     }
 

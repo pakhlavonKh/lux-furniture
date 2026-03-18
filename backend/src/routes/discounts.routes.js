@@ -3,6 +3,7 @@ import express from "express";
 import {
   getAllDiscounts,
   getDiscountById,
+  getDiscountForProduct,
   createDiscount,
   updateDiscount,
   deleteDiscount,
@@ -13,6 +14,7 @@ const router = express.Router();
 
 // Public routes
 router.get("/", getAllDiscounts);
+router.get("/product/:productId", getDiscountForProduct);
 router.get("/:id", getDiscountById);
 
 // Protected routes (admin only)

@@ -1187,6 +1187,57 @@
     "viewBasket": "Savatni ko'rish"
   },
 
+  "discounts": {
+    "specialOffers": "Maxsus takliflar",
+    "discountedProducts": "Chegirmali mahsulotlar",
+    "viewDetails": "Batafsil",
+    "off": "CHEGIRMA"
+  },
+
+  "news": {
+    "title": "So'nggi yangiliklar",
+    "readMore": "Batafsil"
+  },
+
+  "admin": {
+    "title": "Admin paneli",
+    "description": "Mahsulotlar, inventar, yangiliklar va tashviqot kontentini boshqaring",
+    "dbProducts": "DBdagi mahsulotlar",
+    "catalogProducts": "Katalog mahsulotlari",
+    "categories": "Toifalar",
+    "newsItems": "Yangilik maqolalari",
+    "discountsCount": "Chegirmalar",
+    "logout": "Chiqish",
+    "adminEmail": "Admin elektron pochta",
+    "products": "Mahsulotlar",
+    "inventory": "Inventar",
+    "news": "Yangiliklar",
+    "discounts": "Chegirmalar",
+    "productsManagement": "Mahsulotlarni boshqarish",
+    "productsDesc": "Variantlar, rasmlar va inventar bilan mahsulotlarni yaratish va boshqarish",
+    "inventoryManagement": "Inventarni boshqarish",
+    "inventoryDesc": "Barcha variantlar uchun mahsulot inventar darajalarini boshqaring",
+    "newsManagement": "Yangiliklarni boshqarish",
+    "newsDesc": "Yangilik maqolalarini yaratish va boshqarish",
+    "discountsManagement": "Chegirmalarni boshqarish",
+    "discountsDesc": "Tashviqot chegirmalarini yaratish va boshqarish",
+    "addProduct": "Mahsulot qo'shish",
+    "addNews": "Yangilk qo'shish",
+    "addDiscount": "Chegirma qo'shish",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "loading": "Yuklanmoqda...",
+    "noProducts": "DBda mahsulotlar yo'q",
+    "noProductsDesc": "Birinchi mahsulotni yaratish uchun \"Mahsulot qo'shish\" tugmasini bosing",
+    "searchProducts": "Mahsulot qidirish...",
+    "allCategories": "Barcha toifalar",
+    "deleteConfirm": "Ishonch bajarasizmi?",
+    "yes": "Ha, o'chir",
+    "no": "Yo'q, saqlab qol"
+  },
+
   "errors": {
     "notFound": "Sahifa topilmadi",
     "notFoundDesc": "Siz izlayotgan sahifa mavjud emas",

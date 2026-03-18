@@ -59,12 +59,31 @@ export const getDiscountById = async (req, res) => {
 =========================== */
 export const createDiscount = async (req, res) => {
   try {
-    const { title, description, percentage, productIds, image, isActive, startDate, endDate, code, order } = req.body;
+    const { title, description, percentage, productIds, image, isActive, startDate, endDate, order } = req.body;
 
-    if (!title || !description || percentage === undefined) {
+    if (!title?.en || !title?.ru || !title?.uz) {
       return res.status(400).json({
         success: false,
-        message: "Title, description, and percentage are required",
+        message: "Title is required in all 3 languages (en, ru, uz)",
+      });
+    }
+    if (!description?.en || !description?.ru || !description?.uz) {
+      return res.status(400).json({
+        success: false,
+        message: "Description is required in all 3 languages (en, ru, uz)",
+      });
+    }
+    if (percentage === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "Discount percentage is required",
+      });
+    }
+
+    if (!productIds || productIds.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "At least one product ID is required",
       });
     }
 
@@ -72,12 +91,11 @@ export const createDiscount = async (req, res) => {
       title,
       description,
       percentage,
-      productIds: productIds || [],
+      productIds,
       image,
       isActive,
       startDate,
       endDate,
-      code,
       order,
     });
 
@@ -127,6 +145,43 @@ export const updateDiscount = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error updating discount",
+      error: error.message,
+    });
+  }
+};
+
+/* ===========================
+   DELETE DISCOUNT
+=========================== */
+/* ===========================
+   GET DISCOUNT FOR PRODUCT
+=========================== */
+export const getDiscountForProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const now = new Date();
+
+    const discount = await Discount.findOne({
+      productIds: productId,
+      isActive: true,
+      startDate: { $lte: now },
+      $or: [
+        { endDate: { $exists: false } },
+        { endDate: null },
+        { endDate: { $gte: now } },
+      ],
+    })
+      .sort({ percentage: -1 })
+      .lean();
+
+    res.status(200).json({
+      success: true,
+      data: discount || null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching discount for product",
       error: error.message,
     });
   }
