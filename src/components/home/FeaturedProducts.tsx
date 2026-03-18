@@ -39,7 +39,7 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
   };
 
   return (
-    <section className="section-padding bg-secondary/30">
+    <section className="bg-secondary/30 featured-section">
       <div className="container-luxury">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
@@ -67,11 +67,11 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
           {products.map((product) => (
             <motion.div key={product.id} variants={itemVariants}>
               <Link to={`/product/${product.slug}`} className="group block">
-                <div className="aspect-[4/5] mb-6 bg-muted">
+                <div className="aspect-[4/5] mb-6 bg-white">
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="product-image w-full h-full object-cover transition-transform duration-700"
+                    className="product-image w-full h-full object-contain transition-transform duration-700"
                   />
                   <div className="product-overlay absolute inset-0 bg-foreground/5 opacity-0 transition-opacity duration-300" />
                 </div>
@@ -80,7 +80,7 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
                   {product.title}
                 </h3>
                 <p className="font-sans text-muted-foreground text-sm">
-                  €{product.price.toLocaleString()}
+                  {product.price.toLocaleString()} UZS
                 </p>
               </Link>
             </motion.div>

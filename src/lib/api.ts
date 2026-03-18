@@ -15,7 +15,7 @@ function generateIdempotencyKey(): string {
    API FETCH (PRODUCTION SAFE)
 =========================== */
 
-export async function apiFetch<T = any>(
+export async function apiFetch<T = unknown>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {

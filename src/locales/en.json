@@ -842,16 +842,6 @@
     "experienceDesc": "Visit our Tashkent showroom to experience our materials and craftsmanship firsthand.",
     "scheduleVisit": "Schedule a Visit"
   },
-
-  "admin": {
-    "dashboard": "Admin Dashboard",
-    "totalProducts": "Total Products",
-    "categories": "Categories",
-    "collections": "Collections",
-    "inquiries": "Inquiries",
-    "logout": "Logout",
-    "loading": "Loading..."
-  },
   "catalog": {
     "title": "Catalog",
     "subtitle": "Our Collection",

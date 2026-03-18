@@ -986,15 +986,6 @@
     "experienceDesc": "Toshkentdagi shourumimizga tashrif buyurib, sifatni shaxsan baholang.",
     "scheduleVisit": "Tashrifni rejalashtirish"
   },
-  "admin": {
-    "dashboard": "Admin paneli",
-    "totalProducts": "Jami mahsulotlar",
-    "categories": "Kategoriyalar",
-    "collections": "Kolleksiyalar",
-    "inquiries": "So'rovlar",
-    "logout": "Chiqish",
-    "loading": "Yuklanmoqda..."
-  },
   "catalog": {
     "title": "Katalog",
     "subtitle": "Bizning Kolleksiya",

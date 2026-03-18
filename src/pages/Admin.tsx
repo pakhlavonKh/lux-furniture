@@ -14,6 +14,7 @@ import {
   Discount as DiscountType,
   ProductData,
   LocalizedString,
+  ProductImage,
   getAllNews,
   createNews,
   updateNews,
@@ -27,6 +28,7 @@ import {
 } from "@/lib/api";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { MultiLangInput } from "@/components/admin/MultiLangInput";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 interface User {
   email: string;
@@ -35,6 +37,48 @@ interface User {
 }
 
 const emptyLocalized = (): LocalizedString => ({ en: "", ru: "", uz: "" });
+
+// Mock data for development
+const MOCK_NEWS: NewsType[] = [
+  {
+    _id: "1",
+    title: { en: "New Spring Collection", ru: "Новая весенняя коллекция", uz: "Yangi bahor kolleksiyasi" },
+    description: { en: "Spring collection description", ru: "Описание весенней коллекции", uz: "Bahor kolleksiyasining tavsifi" },
+    content: { en: "Full spring collection content", ru: "Полное содержание весенней коллекции", uz: "Bahor kolleksiyasining to'liq mundarijasi" },
+    isActive: true,
+    order: 1,
+    image: { url: "https://res.cloudinary.com/demo/image/upload/v1/spring.jpg", public_id: "spring", alt: "Spring" },
+  },
+  {
+    _id: "2",
+    title: { en: "Design Workshop", ru: "Семинар по дизайну", uz: "Dizayn seminari" },
+    description: { en: "Workshop description", ru: "Описание семинара", uz: "Seminar tavsifi" },
+    content: { en: "Join our design workshop", ru: "Присоединитесь к нашему семинару", uz: "Bizning seminariga qo'shiling" },
+    isActive: true,
+    order: 2,
+  },
+];
+
+const MOCK_DISCOUNTS: DiscountType[] = [
+  {
+    _id: "1",
+    title: { en: "Office Desk Sale", ru: "Распродажа офисного стола", uz: "Ofis stoli sotuvlari" },
+    description: { en: "15% off office desks", ru: "15% скидка на офисные столы", uz: "Ofis stolov bo'yicha 15% chegirma" },
+    percentage: 15,
+    productIds: ["1", "2"],
+    isActive: true,
+    order: 1,
+  },
+  {
+    _id: "2",
+    title: { en: "Cabinet Collection", ru: "Коллекция шкафов", uz: "Kabinet kolleksiyasi" },
+    description: { en: "20% off cabinets", ru: "20% скидка на шкафы", uz: "Shkaflari bo'yicha 20% chegirma" },
+    percentage: 20,
+    productIds: ["3", "4"],
+    isActive: true,
+    order: 2,
+  },
+];
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -780,38 +824,39 @@ const Admin = () => {
                     animate={{ opacity: 1 }}
                     className="border border-border p-5 rounded-lg hover:border-foreground/20 transition-colors"
                   >
-                    <div className="flex flex-col gap-2 mb-4">
-                      <p className="font-medium text-lg">{t(product.nameKey)}</p>
-                      <p className="text-xs text-muted-foreground">{product.variants?.length || 0} variants</p>
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <p className="font-medium text-lg">{t(product.nameKey)}</p>
+                        <p className="text-xs text-muted-foreground">{product.variants?.length || 0} variants</p>
+                      </div>
+                      <Edit2 className="w-5 h-5 text-muted-foreground opacity-50" />
                     </div>
 
                     {product.variants && product.variants.length > 0 && (
                       <div className="space-y-3">
                         {product.variants.map((variant) => {
-                          const variantLabel = variant.color || variant.material || variant.size || variant.id;
+                          const variantLabel = `${variant.color ? `Color: ${variant.color}` : ''} ${variant.size ? `Size: ${variant.size}` : ''} ${variant.material ? `Material: ${variant.material}` : ''}`.trim() || variant.id;
 
                           return (
-                            <div key={variant.id} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-secondary/30 p-3 rounded">
-                              <p className="text-sm font-medium">
-                                Variant: <span className="text-foreground">{variantLabel}</span>
-                              </p>
-                              <div className="flex items-center gap-3">
-                                <div className="flex-1 sm:flex-none">
-                                  <label htmlFor={`variant-stock-${variant.id}`} className="text-caption mb-2 block">Stock</label>
+                            <div key={variant.id} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-secondary/30 p-4 rounded border border-border/50">
+  
+                              <div className="flex items-center gap-3 flex-shrink-0">
+                                <div className="flex flex-col items-center">
+                                  <label htmlFor={`variant-stock-${variant.id}`} className="text-caption mb-2 block text-center font-medium">Stock</label>
                                   <input
                                     id={`variant-stock-${variant.id}`}
                                     type="number"
                                     min={0}
                                     value={stockInputs[variant.id] ?? "0"}
                                     onChange={(e) => handleStockInputChange(variant.id, e.target.value)}
-                                    className="w-24 px-3 py-2 border border-border bg-transparent rounded text-center font-medium"
+                                    className="w-20 px-3 py-2 border border-border bg-transparent rounded text-center font-bold text-lg"
                                   />
                                 </div>
                                 <motion.button
                                   whileHover={{ scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}
                                   onClick={() => handleSaveVariantStock(variant.id)}
-                                  className="btn-luxury text-sm h-[42px] whitespace-nowrap"
+                                  className="btn-luxury text-sm h-[42px] whitespace-nowrap px-4"
                                 >
                                   Save
                                 </motion.button>
@@ -899,6 +944,26 @@ const Admin = () => {
                   </div>
 
                   <div className="mb-4">
+                    <ImageUploader
+                      images={newsFormData.image && newsFormData.image.url && newsFormData.image.public_id ? [{
+                        url: newsFormData.image.url,
+                        public_id: newsFormData.image.public_id,
+                        alt: newsFormData.image.alt,
+                      }] : []}
+                      onChange={(images) => setNewsFormData({ 
+                        ...newsFormData, 
+                        image: images[0] ? {
+                          url: images[0].url,
+                          public_id: images[0].public_id,
+                          alt: images[0].alt,
+                        } : undefined 
+                      })}
+                      multiple={false}
+                      label="News Image"
+                    />
+                  </div>
+
+                  <div className="mb-4">
                     <MultiLangInput
                       value={newsFormData.description || emptyLocalized()}
                       onChange={(v) => setNewsFormData({ ...newsFormData, description: v })}
@@ -975,7 +1040,7 @@ const Admin = () => {
                     <motion.div 
                       key={newsItem._id || newsItem.id}
                       whileHover={{ backgroundColor: "var(--color-secondary)" }}
-                      className="border border-border p-5 rounded-lg flex items-start justify-between gap-4 group transition-colors"
+                      className="border border-border p-5 rounded-lg flex items-start justify-between gap-4 transition-colors"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
@@ -987,7 +1052,23 @@ const Admin = () => {
                           {newsItem.publishedAt ? new Date(newsItem.publishedAt).toLocaleDateString() : "Not published"}
                         </p>
                       </div>
-                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex gap-2">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          onClick={async () => {
+                            try {
+                              await updateNews(newsItem._id || newsItem.id || "", { isActive: !newsItem.isActive });
+                              await loadNewsAndDiscounts();
+                              toast({ title: "Success", description: "News status updated", duration: 2000 });
+                            } catch (error) {
+                              toast({ title: "Error", description: "Failed to update status", variant: "destructive" });
+                            }
+                          }}
+                          className="p-2 hover:bg-secondary rounded transition-colors"
+                          title={newsItem.isActive ? "Deactivate" : "Activate"}
+                        >
+                          {newsItem.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
+                        </motion.button>
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           onClick={() => handleEditNews(newsItem)}
@@ -1057,7 +1138,7 @@ const Admin = () => {
                   className="border border-primary/20 p-6 mb-8 rounded-lg bg-primary/5"
                 >
                   <h4 className="font-medium mb-6">{editingDiscount ? "Edit Discount" : "Create New Discount"}</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div>
                       <MultiLangInput
                         value={discountFormData.title || emptyLocalized()}
@@ -1077,16 +1158,6 @@ const Admin = () => {
                         onChange={(e) => setDiscountFormData({ ...discountFormData, percentage: parseInt(e.target.value) })}
                         className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors"
                         placeholder="0-100"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-caption mb-2 block font-medium">Discount Code *</label>
-                      <input
-                        type="text"
-                        value={discountFormData.code || ""}
-                        onChange={(e) => setDiscountFormData({ ...discountFormData, code: e.target.value.toUpperCase() })}
-                        className="w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors uppercase"
-                        placeholder="e.g., SPRING20"
                       />
                     </div>
                     <div>
@@ -1195,7 +1266,7 @@ const Admin = () => {
                     <motion.div 
                       key={discount._id || discount.id}
                       whileHover={{ backgroundColor: "var(--color-secondary)" }}
-                      className="border border-border p-5 rounded-lg flex items-start justify-between gap-4 group transition-colors"
+                      className="border border-border p-5 rounded-lg flex items-start justify-between gap-4 transition-colors"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
@@ -1203,11 +1274,6 @@ const Admin = () => {
                           <span className="text-sm font-bold text-green-600 bg-green-500/20 px-2 py-1 rounded">
                             {discount.percentage}% OFF
                           </span>
-                          {discount.code && (
-                            <span className="text-xs bg-slate-500/20 text-slate-600 px-2 py-1 rounded font-mono">
-                              {discount.code}
-                            </span>
-                          )}
                           {discount.isActive && <span className="text-xs bg-blue-500/20 text-blue-600 px-2 py-1 rounded">Active</span>}
                         </div>
                         <p className="text-sm text-muted-foreground line-clamp-2">{discount.description?.[language] || discount.description?.en}</p>
@@ -1220,7 +1286,23 @@ const Admin = () => {
                           </p>
                         )}
                       </div>
-                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex gap-2">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          onClick={async () => {
+                            try {
+                              await updateDiscount(discount._id || discount.id || "", { isActive: !discount.isActive });
+                              await loadNewsAndDiscounts();
+                              toast({ title: "Success", description: "Discount status updated", duration: 2000 });
+                            } catch (error) {
+                              toast({ title: "Error", description: "Failed to update status", variant: "destructive" });
+                            }
+                          }}
+                          className="p-2 hover:bg-secondary rounded transition-colors"
+                          title={discount.isActive ? "Deactivate" : "Activate"}
+                        >
+                          {discount.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
+                        </motion.button>
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           onClick={() => handleEditDiscount(discount)}

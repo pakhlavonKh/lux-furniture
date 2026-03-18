@@ -1,10 +1,40 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { getAllDiscounts, Discount as DiscountType } from "@/lib/api";
+import { Discount as DiscountType } from "@/lib/api";
 import { getProducts, getImageUrl, CatalogProduct } from "@/data/catalogData";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import { InfiniteCarousel, CarouselItem } from "@/components/ui/InfiniteCarousel";
+
+const MOCK_DISCOUNTS: DiscountType[] = [
+  {
+    _id: "1",
+    title: { en: "Office Desk Sale", ru: "Распродажа офисного стола", uz: "Ofis stoli sotuvlari" },
+    description: { en: "15% off premium office desks", ru: "15% скидка на премиальные офисные столы", uz: "Premium ofis stolov bo'yicha 15% chegirma" },
+    percentage: 15,
+    productIds: ["1", "2"],
+    isActive: true,
+    order: 1,
+  },
+  {
+    _id: "2",
+    title: { en: "Cabinet Collection", ru: "Коллекция шкафов", uz: "Kabinet kolleksiyasi" },
+    description: { en: "20% off luxury cabinets", ru: "20% скидка на люксосные шкафы", uz: "Luxury shkaflari bo'yicha 20% chegirma" },
+    percentage: 20,
+    productIds: ["3", "4"],
+    isActive: true,
+    order: 2,
+  },
+  {
+    _id: "3",
+    title: { en: "Lighting Special", ru: "Специальное предложение на освещение", uz: "Yoritish maxsus taklifi" },
+    description: { en: "25% off lighting fixtures", ru: "25% скидка на световые приборы", uz: "Yoritgichlar bo'yicha 25% chegirma" },
+    percentage: 25,
+    productIds: ["5"],
+    isActive: true,
+    order: 3,
+  },
+];
 
 interface ProductWithDiscount {
   id: string;
@@ -17,31 +47,55 @@ interface ProductWithDiscount {
 }
 
 export function Discounts() {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const [discounts, setDiscounts] = useState<DiscountType[]>([]);
   const [products, setProducts] = useState<ProductWithDiscount[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
-        const discountsData = await getAllDiscounts(true);
+
+        const discountsData = MOCK_DISCOUNTS;
         const catalogData = getProducts() as CatalogProduct[];
 
-        // Apply discounts to products
         const productsWithDiscounts = catalogData
-          .filter((p: CatalogProduct) => {
-            const disc = discountsData.find((d) =>
-              d.productIds.includes(p.id)
-            );
-            return !!disc;
-          })
-          .map((product: CatalogProduct) => {
-            const discount = discountsData.find((d: DiscountType) =>
+          .filter((p) =>
+            discountsData.some((d) => d.productIds.includes(p.id))
+          )
+          .map((product) => {
+            const discount = discountsData.find((d) =>
               d.productIds.includes(product.id)
             );
+
+            const price = product.basePrice;
+
+            return {
+              id: product.id,
+              slug: product.slug,
+              name: product.nameKey,
+              price,
+              image: product.images?.[0]
+                ? getImageUrl(product.images[0])
+                : "",
+              discount,
+              discountedPrice: discount
+                ? Math.round(price * (1 - (discount.percentage || 0) / 100))
+                : price,
+            };
+          });
+
+        setDiscounts(discountsData);
+        setProducts(productsWithDiscounts);
+      } catch (error) {
+        console.error("Error loading discounts:", error);
+        setDiscounts(MOCK_DISCOUNTS);
+        const catalogData = getProducts() as CatalogProduct[];
+        const fallbackProducts = catalogData
+          .filter((p) => MOCK_DISCOUNTS.some((d) => d.productIds.includes(p.id)))
+          .map((product) => {
+            const discount = MOCK_DISCOUNTS.find((d) => d.productIds.includes(product.id));
             const price = product.basePrice;
             return {
               id: product.id,
@@ -50,122 +104,101 @@ export function Discounts() {
               price,
               image: product.images?.[0] ? getImageUrl(product.images[0]) : "",
               discount,
-              discountedPrice: discount
-                ? price * (1 - (discount.percentage || 0) / 100)
-                : price,
+              discountedPrice: discount ? Math.round(price * (1 - (discount.percentage || 0) / 100)) : price,
             };
           });
-
-        setDiscounts(discountsData);
-        setProducts(productsWithDiscounts);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch data");
-        setDiscounts([]);
-        setProducts([]);
+        setProducts(fallbackProducts);
       } finally {
         setLoading(false);
       }
     }
+
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="py-section bg-background">
-        <div className="container-luxury text-center">
-          <div className="inline-block w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
-        </div>
-      </section>
-    );
-  }
-
-  if (error || (discounts.length === 0 && products.length === 0)) {
-    return null;
-  }
+  if (loading || products.length === 0) return null;
 
   return (
-    <section className="py-section bg-secondary/30">
-      <div className="container-luxury">
+    <section className="discounts-section">
+      <div className="discounts-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="heading-section mb-12">{t("discounts.discountedProducts") || "Discounted Products"}</h2>
+          <h2 className="discounts-title">
+            {t("discounts.discountedProducts") || "Discounted Products"}
+          </h2>
 
-          {/* Discounted Products Carousel */}
-          {products.length > 0 && (
-            <InfiniteCarousel
-              opts={{ loop: true, align: "start" }}
-              showDots={true}
-              showArrows={true}
-              itemsPerRow={4}
-              className="px-0"
-            >
-              {products.map((product, index) => (
-                <CarouselItem
-                  key={product.id}
-                  flex="0 0 calc(25% - 1.5rem)"
+          <InfiniteCarousel
+            opts={{ loop: true, align: "start" }}
+            showDots
+            showArrows
+          >
+            {products.map((product, index) => (
+              <CarouselItem
+                key={product.id}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: (index % 4) * 0.08,
+                  }}
+                  viewport={{ once: true }}
+                  className="product-card"
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.6,
-                      delay: (index % 4) * 0.1,
-                    }}
-                    viewport={{ once: true }}
-                    className="group bg-card border border-border hover:border-foreground transition-colors h-full flex flex-col"
-                  >
-                    {product.image && (
-                      <div className="relative w-full aspect-square overflow-hidden bg-secondary">
-                        <img
-                          src={product.image}
-                          alt={t(product.name)}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        {product.discount && (
-                          <div className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 text-xs font-semibold">
-                            -{product.discount.percentage}%
-                          </div>
-                        )}
-                      </div>
-                    )}
+                  {product.image && (
+                    <div className="product-image-wrapper">
+                      <img
+                        src={product.image}
+                        alt={t(product.name)}
+                        className="product-image"
+                      />
 
-                    <div className="p-4 flex flex-col flex-grow">
-                      <h4 className="font-medium text-sm mb-2 line-clamp-2">
-                        {t(product.name)}
-                      </h4>
+                      {product.discount && (
+                        <div className="discount-badge">
+                          -{product.discount.percentage}%
+                        </div>
+                      )}
+                    </div>
+                  )}
 
-                      <div className="flex items-center gap-2 mb-3 flex-grow">
-                        {product.discount && (
-                          <>
-                            <span className="text-muted-foreground text-sm line-through">
-                              {product.price.toLocaleString()} UZS
-                            </span>
-                            <span className="text-primary font-semibold">
-                              {product.discountedPrice?.toLocaleString()} UZS
-                            </span>
-                          </>
-                        )}
-                        {!product.discount && (
-                          <span className="font-semibold">
+                  <div className="product-content">
+                    <h4 className="product-title">
+                      {t(product.name)}
+                    </h4>
+
+                    <div className="product-price">
+                      {product.discount ? (
+                        <>
+                          <span className="price-old">
                             {product.price.toLocaleString()} UZS
                           </span>
-                        )}
-                      </div>
-
-                      <Link to={`/product/${product.slug}`} className="block w-full btn-outline-luxury text-xs py-2 text-center mt-auto">
-                        {t("discounts.viewDetails") || "View Details"}
-                      </Link>
+                          <span className="price-new">
+                            {product.discountedPrice?.toLocaleString()} UZS
+                          </span>
+                        </>
+                      ) : (
+                        <span className="price-new">
+                          {product.price.toLocaleString()} UZS
+                        </span>
+                      )}
                     </div>
-                  </motion.div>
-                </CarouselItem>
-              ))}
-            </InfiniteCarousel>
-          )}
+
+                    <Link
+                      to={`/product/${product.slug}`}
+                      className="product-button"
+                    >
+                      {t("discounts.viewDetails") || "View Details"}
+                    </Link>
+                  </div>
+                </motion.div>
+              </CarouselItem>
+            ))}
+          </InfiniteCarousel>
         </motion.div>
       </div>
     </section>
