@@ -1,5 +1,17 @@
 // backend/src/controllers/upload.controller.js
-import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { v4 as uuidv4 } from "uuid";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.resolve(__dirname, "../../uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 export const uploadImages = async (req, res) => {
   try {
@@ -12,37 +24,34 @@ export const uploadImages = async (req, res) => {
       });
     }
 
-    const uploadPromises = files.map(
-      (file) =>
-        new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            {
-              folder: "manaku/products",
-              resource_type: "image",
-            },
-            (error, result) => {
-              if (error) return reject(error);
+    const results = files.map((file) => {
+      // Generate unique filename
+      const uniqueName = `${uuidv4()}-${Date.now()}${path.extname(file.originalname)}`;
+      const filePath = path.join(uploadsDir, uniqueName);
 
-              resolve({
-                url: result.secure_url,
-                public_id: result.public_id,
-              });
-            }
-          );
+      // Save file to disk
+      fs.writeFileSync(filePath, file.buffer);
 
-          stream.end(file.buffer);
-        })
-    );
+      // Return file info
+      return {
+        url: `/uploads/${uniqueName}`,
+        public_id: uniqueName,
+        originalName: file.originalname,
+        size: file.size,
+      };
+    });
 
-    const results = await Promise.all(uploadPromises);
-
-    res.status(200).json(results);
+    res.status(200).json({
+      success: true,
+      data: results,
+    });
   } catch (error) {
     console.error("Upload error:", error);
 
     res.status(500).json({
       success: false,
       message: "Upload failed",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 };

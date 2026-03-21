@@ -241,6 +241,7 @@ export interface ProductData {
   description?: LocalizedString;
   shortDescription?: LocalizedString;
   category: string;
+  subcategory?: string;
   collections?: string[];
   basePrice: number;
   vatPercent?: number;
@@ -331,13 +332,50 @@ export async function uploadImages(files: File[]): Promise<ProductImage[]> {
   }
   
   try {
-    const results = await apiFetch<ProductImage[]>("/api/upload", {
+    const response = await apiFetch<{ success: boolean; data: ProductImage[] }>("/api/upload", {
       method: "POST",
       body: formData,
     });
-    return results;
+    return response.data || [];
   } catch (error) {
     console.error("Upload error:", error);
     throw error;
   }
+}
+
+/* ===========================
+   COLLECTIONS API
+=========================== */
+export interface Collection {
+  _id?: string;
+  name: string;
+  displayName: string;
+  description?: string;
+  image?: {
+    url?: string;
+    public_id?: string;
+  };
+  order?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export async function getAllCollections(activeOnly = false): Promise<Collection[]> {
+  const qs = activeOnly ? "?active=true" : "";
+  const response = await apiFetch<{ success: boolean; data: Collection[] }>(
+    `/api/collections${qs}`
+  );
+  return response.data || [];
+}
+
+export async function createCollection(collection: Omit<Collection, "_id" | "createdAt" | "updatedAt">): Promise<Collection> {
+  const response = await apiFetch<{ success: boolean; data: Collection }>(
+    "/api/collections",
+    {
+      method: "POST",
+      body: JSON.stringify(collection),
+    }
+  );
+  return response.data;
 }

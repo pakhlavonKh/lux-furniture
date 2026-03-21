@@ -14,9 +14,6 @@ interface VariantEditorProps {
   basePrice: number;
 }
 
-const inputCls =
-  "w-full px-3 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors";
-
 function VariantRowEditor({
   variant,
   index,
@@ -36,99 +33,112 @@ function VariantRowEditor({
   );
 
   return (
-    <div className="border border-border rounded-lg p-4 bg-secondary/10 space-y-3">
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-sm font-medium text-muted-foreground">
-          Variant #{index + 1}
-        </span>
+    <div className="variant-row">
+      <div className="variant-row-header">
+        <span className="variant-title">Variant #{index + 1}</span>
+
         <button
           type="button"
           onClick={() => onRemove(index)}
-          className="p-1.5 hover:bg-destructive/10 rounded transition-colors text-destructive"
-          title="Remove variant"
+          className="variant-remove"
         >
-          <Trash2 className="w-4 h-4" />
+          <Trash2 size={16} />
         </button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div>
-          <label className="text-xs text-muted-foreground mb-1 block">SKU *</label>
+      <div className="variant-grid">
+        <div className="variant-field">
+          <label>SKU *</label>
           <input
-            type="text"
             value={variant.sku}
-            onChange={(e) => onUpdate(index, { sku: e.target.value })}
-            className={inputCls}
-            placeholder="e.g. CHAIR-BLK-M"
+            onChange={(e) =>
+              onUpdate(index, { sku: e.target.value })
+            }
+            className="variant-input"
           />
         </div>
-        <div>
-          <label className="text-xs text-muted-foreground mb-1 block">Color</label>
+
+        <div className="variant-field">
+          <label>Color</label>
           <input
-            type="text"
             value={variant.color || ""}
-            onChange={(e) => onUpdate(index, { color: e.target.value })}
-            className={inputCls}
-            placeholder="e.g. Black"
+            onChange={(e) =>
+              onUpdate(index, { color: e.target.value })
+            }
+            className="variant-input"
           />
         </div>
-        <div>
-          <label className="text-xs text-muted-foreground mb-1 block">Size</label>
+
+        <div className="variant-field">
+          <label>Size</label>
           <input
-            type="text"
             value={variant.size || ""}
-            onChange={(e) => onUpdate(index, { size: e.target.value })}
-            className={inputCls}
-            placeholder="e.g. Medium"
+            onChange={(e) =>
+              onUpdate(index, { size: e.target.value })
+            }
+            className="variant-input"
           />
         </div>
-        <div>
-          <label className="text-xs text-muted-foreground mb-1 block">Material</label>
+
+        <div className="variant-field">
+          <label>Material</label>
           <input
-            type="text"
             value={variant.material || ""}
-            onChange={(e) => onUpdate(index, { material: e.target.value })}
-            className={inputCls}
-            placeholder="e.g. Oak"
+            onChange={(e) =>
+              onUpdate(index, { material: e.target.value })
+            }
+            className="variant-input"
           />
         </div>
-        <div>
-          <label className="text-xs text-muted-foreground mb-1 block">Price *</label>
+
+        <div className="variant-field">
+          <label>Price *</label>
           <input
             type="number"
-            min="0"
             value={variant.price}
-            onChange={(e) => onUpdate(index, { price: Number(e.target.value) || 0 })}
-            className={inputCls}
+            onChange={(e) =>
+              onUpdate(index, {
+                price: Number(e.target.value) || 0,
+              })
+            }
+            className="variant-input"
           />
         </div>
-        <div>
-          <label className="text-xs text-muted-foreground mb-1 block">Stock</label>
+
+        <div className="variant-field">
+          <label>Stock</label>
           <input
             type="number"
-            min="0"
             value={variant.stock}
-            onChange={(e) => onUpdate(index, { stock: Number(e.target.value) || 0 })}
-            className={inputCls}
+            onChange={(e) =>
+              onUpdate(index, {
+                stock: Number(e.target.value) || 0,
+              })
+            }
+            className="variant-input"
           />
         </div>
       </div>
 
-      <div className="flex items-end gap-4">
+      <div className="variant-bottom">
         <ImageUploader
           images={variant._image ? [variant._image] : []}
           onChange={handleImageChange}
           multiple={false}
           label="Variant Image"
         />
-        <label className="flex items-center gap-2 cursor-pointer mb-1">
+
+        <label className="variant-checkbox">
           <input
             type="checkbox"
             checked={variant.isActive !== false}
-            onChange={(e) => onUpdate(index, { isActive: e.target.checked })}
-            className="w-4 h-4 border border-border rounded cursor-pointer"
+            onChange={(e) =>
+              onUpdate(index, {
+                isActive: e.target.checked,
+              })
+            }
           />
-          <span className="text-sm">Active</span>
+          Active
         </label>
       </div>
     </div>
@@ -137,10 +147,16 @@ function VariantRowEditor({
 
 const MemoizedVariantRow = memo(VariantRowEditor);
 
-function VariantEditorInner({ variants, onChange, basePrice }: VariantEditorProps) {
+function VariantEditorInner({
+  variants,
+  onChange,
+  basePrice,
+}: VariantEditorProps) {
   const handleUpdate = useCallback(
     (index: number, patch: Partial<VariantRow>) => {
-      const next = variants.map((v, i) => (i === index ? { ...v, ...patch } : v));
+      const next = variants.map((v, i) =>
+        i === index ? { ...v, ...patch } : v
+      );
       onChange(next);
     },
     [variants, onChange]
@@ -165,38 +181,35 @@ function VariantEditorInner({ variants, onChange, basePrice }: VariantEditorProp
       isActive: true,
       _image: null,
     };
+
     onChange([...variants, newVariant]);
   }, [variants, onChange, basePrice]);
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-3">
-        <label className="text-caption font-medium">
+    <div className="variant-editor">
+      <div className="variant-header">
+        <label className="variant-label">
           Variants ({variants.length})
         </label>
+
         <button
-          type="button"
           onClick={handleAdd}
-          className="flex items-center gap-1.5 text-sm px-3 py-1.5 border border-border rounded hover:bg-secondary transition-colors"
+          className="variant-add-btn"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus size={14} />
           Add Variant
         </button>
       </div>
 
       {variants.length === 0 ? (
-        <div className="py-8 text-center border border-dashed border-border rounded-lg">
-          <p className="text-sm text-muted-foreground mb-2">No variants yet</p>
-          <button
-            type="button"
-            onClick={handleAdd}
-            className="text-sm text-foreground underline hover:no-underline"
-          >
+        <div className="variant-empty">
+          <p>No variants yet</p>
+          <button className="admin-btn" onClick={handleAdd}>
             Add your first variant
           </button>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="variant-list">
           {variants.map((variant, i) => (
             <MemoizedVariantRow
               key={variant._tempId || variant.sku || i}

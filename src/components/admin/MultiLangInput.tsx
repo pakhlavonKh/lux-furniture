@@ -2,6 +2,7 @@ import { useState, memo } from "react";
 import type { LocalizedString } from "@/lib/api";
 
 const LANGS = ["en", "ru", "uz"] as const;
+
 const LANG_LABELS: Record<string, string> = {
   en: "EN",
   ru: "RU",
@@ -27,10 +28,8 @@ export const MultiLangInput = memo(function MultiLangInput({
   rows = 3,
   placeholder,
 }: MultiLangInputProps) {
-  const [activeLang, setActiveLang] = useState<(typeof LANGS)[number]>("en");
-
-  const inputCls =
-    "w-full px-4 py-2 border border-border bg-transparent text-sm rounded focus:border-foreground focus:outline-none transition-colors";
+  const [activeLang, setActiveLang] =
+    useState<(typeof LANGS)[number]>("en");
 
   const handleChange = (text: string) => {
     onChange({ ...value, [activeLang]: text });
@@ -40,24 +39,21 @@ export const MultiLangInput = memo(function MultiLangInput({
     required && !value[lang]?.trim();
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
-        <label className="text-caption font-medium">
+    <div className="ml-input">
+      <div className="ml-header">
+        <label className="ml-label">
           {label} {required && "*"}
         </label>
-        <div className="flex border border-border rounded overflow-hidden">
+
+        <div className="ml-tabs">
           {LANGS.map((lang) => (
             <button
               key={lang}
               type="button"
               onClick={() => setActiveLang(lang)}
-              className={`px-2.5 py-1 text-xs font-medium transition-colors ${
-                activeLang === lang
-                  ? "bg-foreground text-background"
-                  : isMissing(lang)
-                  ? "bg-red-500/10 text-red-500 hover:bg-red-500/20"
-                  : "hover:bg-secondary"
-              }`}
+              className={`ml-tab 
+                ${activeLang === lang ? "active" : ""} 
+                ${isMissing(lang) ? "missing" : ""}`}
             >
               {LANG_LABELS[lang]}
               {isMissing(lang) && " !"}
@@ -65,34 +61,45 @@ export const MultiLangInput = memo(function MultiLangInput({
           ))}
         </div>
       </div>
+
       {multiline ? (
         <textarea
           value={value[activeLang] || ""}
           onChange={(e) => handleChange(e.target.value)}
-          className={inputCls}
+          className="ml-field"
           rows={rows}
-          placeholder={placeholder ? `${placeholder} (${LANG_LABELS[activeLang]})` : `Enter in ${LANG_LABELS[activeLang]}`}
+          placeholder={
+            placeholder
+              ? `${placeholder} (${LANG_LABELS[activeLang]})`
+              : `Enter in ${LANG_LABELS[activeLang]}`
+          }
         />
       ) : (
         <input
           type="text"
           value={value[activeLang] || ""}
           onChange={(e) => handleChange(e.target.value)}
-          className={inputCls}
-          placeholder={placeholder ? `${placeholder} (${LANG_LABELS[activeLang]})` : `Enter in ${LANG_LABELS[activeLang]}`}
+          className="ml-field"
+          placeholder={
+            placeholder
+              ? `${placeholder} (${LANG_LABELS[activeLang]})`
+              : `Enter in ${LANG_LABELS[activeLang]}`
+          }
         />
       )}
-      <div className="flex gap-1 mt-1">
+
+      <div className="ml-status">
         {LANGS.map((lang) => (
           <span
             key={lang}
-            className={`text-[10px] px-1.5 py-0.5 rounded ${
+            className={`ml-status-item ${
               value[lang]?.trim()
-                ? "bg-green-500/10 text-green-600"
-                : "bg-muted text-muted-foreground"
+                ? "ml-status-ok"
+                : "ml-status-empty"
             }`}
           >
-            {LANG_LABELS[lang]}: {value[lang]?.trim() ? "✓" : "—"}
+            {LANG_LABELS[lang]}:{" "}
+            {value[lang]?.trim() ? "✓" : "—"}
           </span>
         ))}
       </div>

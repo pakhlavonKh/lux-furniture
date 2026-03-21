@@ -17,14 +17,18 @@ interface PendingImage {
   error?: string;
 }
 
-function ImageUploaderInner({ images, onChange, multiple = true, label = "Images" }: ImageUploaderProps) {
+function ImageUploaderInner({
+  images,
+  onChange,
+  multiple = true,
+  label = "Images",
+}: ImageUploaderProps) {
   const [pending, setPending] = useState<PendingImage[]>([]);
 
   const handleFiles = useCallback(async (fileList: FileList) => {
     const files = Array.from(fileList);
     if (!files.length) return;
 
-    // If single mode, take only the last file
     const toUpload = multiple ? files : [files[files.length - 1]];
 
     const newPending: PendingImage[] = toUpload.map((file) => ({
@@ -39,7 +43,6 @@ function ImageUploaderInner({ images, onChange, multiple = true, label = "Images
     try {
       const uploaded = await uploadImages(toUpload);
 
-      // Map uploaded results to ProductImage and mark first as primary if none exist
       const newImages = uploaded.map((img, i) => ({
         ...img,
         isPrimary: images.length === 0 && i === 0,
@@ -48,12 +51,14 @@ function ImageUploaderInner({ images, onChange, multiple = true, label = "Images
       const nextImages = multiple ? [...images, ...newImages] : newImages;
       onChange(nextImages);
 
-      // Revoke object URLs
       newPending.forEach((p) => URL.revokeObjectURL(p.preview));
-      setPending((prev) => prev.filter((p) => !newPending.some((np) => np.id === p.id)));
+      setPending((prev) =>
+        prev.filter((p) => !newPending.some((np) => np.id === p.id))
+      );
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : "Upload failed - check console for details";
-      console.error("Image upload error:", error);
+      const errorMsg =
+        error instanceof Error ? error.message : "Upload failed";
+
       setPending((prev) =>
         prev.map((p) =>
           newPending.some((np) => np.id === p.id)
@@ -66,8 +71,7 @@ function ImageUploaderInner({ images, onChange, multiple = true, label = "Images
 
   const removeImage = useCallback((index: number) => {
     const next = images.filter((_, i) => i !== index);
-    // If we removed the primary, make first one primary
-    if (next.length > 0 && !next.some((img) => img.isPrimary)) {
+    if (next.length && !next.some((img) => img.isPrimary)) {
       next[0] = { ...next[0], isPrimary: true };
     }
     onChange(next);
@@ -90,72 +94,84 @@ function ImageUploaderInner({ images, onChange, multiple = true, label = "Images
   }, []);
 
   return (
-    <div>
-      <label className="text-caption mb-2 block font-medium">{label}</label>
-      <div className="flex flex-wrap gap-3">
-        {/* Uploaded images */}
+    <div className="image-uploader">
+      <label className="image-uploader-label">{label}</label>
+
+      <div className="image-grid">
+        {/* Uploaded */}
         {images.map((img, i) => (
           <div
             key={img.public_id || i}
-            className={`relative group w-24 h-24 rounded border-2 overflow-hidden ${
-              img.isPrimary ? "border-blue-500" : "border-border"
-            }`}
+            className={`image-item ${img.isPrimary ? "primary" : ""}`}
           >
-            <img src={img.url} alt={img.alt || ""} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
+            <img 
+              src={img.url.startsWith('http') ? img.url : `${import.meta.env.VITE_API_URL}${img.url}`}
+              alt={img.alt || "Product"}
+              className="image-img"
+              crossOrigin="anonymous"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                console.error('Image failed to load:', img.url, 'Error: Unknown error');
+                target.style.opacity = '0.5';
+                target.style.filter = 'grayscale(1)';
+              }}
+              onLoad={() => {
+                console.log('Image loaded successfully:', img.url);
+              }}
+            />
+
+            <div className="image-overlay">
               {multiple && (
                 <button
-                  type="button"
                   onClick={() => setPrimary(i)}
-                  className="text-[10px] text-white bg-blue-600 px-1.5 py-0.5 rounded"
-                  title="Set as primary"
+                  className="image-btn image-btn-primary"
                 >
                   ★
                 </button>
               )}
+
               <button
-                type="button"
                 onClick={() => removeImage(i)}
-                className="p-1 bg-red-600 rounded"
-                title="Remove"
+                className="image-btn image-btn-danger"
               >
-                <X className="w-3 h-3 text-white" />
+                <X size={12} />
               </button>
             </div>
+
             {img.isPrimary && (
-              <span className="absolute top-0.5 left-0.5 text-[9px] bg-blue-500 text-white px-1 rounded">
-                Primary
-              </span>
+              <span className="image-primary-badge">Primary</span>
             )}
           </div>
         ))}
 
-        {/* Pending uploads */}
+        {/* Pending */}
         {pending.map((p) => (
-          <div key={p.id} className="relative w-24 h-24 rounded border-2 border-dashed border-border overflow-hidden">
-            <img src={p.preview} alt="" className="w-full h-full object-cover opacity-50" />
-            <div className="absolute inset-0 flex items-center justify-center">
+          <div key={p.id} className="image-pending">
+            <img src={p.preview} />
+
+            <div className="image-pending-center">
               {p.uploading ? (
-                <Loader2 className="w-5 h-5 animate-spin text-foreground" />
-              ) : p.error ? (
-                <button type="button" onClick={() => removePending(p.id)} className="text-xs text-red-500 px-2 text-center">
+                <Loader2 size={20} />
+              ) : (
+                <button onClick={() => removePending(p.id)}>
                   {p.error} ✕
                 </button>
-              ) : null}
+              )}
             </div>
           </div>
         ))}
 
-        {/* Upload button */}
+        {/* Upload */}
         {(multiple || images.length === 0) && (
-          <label className="w-24 h-24 rounded border-2 border-dashed border-border hover:border-foreground/40 transition-colors flex flex-col items-center justify-center cursor-pointer gap-1">
-            <Upload className="w-5 h-5 text-muted-foreground" />
-            <span className="text-[10px] text-muted-foreground">Upload</span>
+          <label className="image-upload">
+            <Upload size={18} />
+            <span className="image-upload-text">Upload</span>
+
             <input
               type="file"
               accept="image/*"
               multiple={multiple}
-              className="hidden"
+              hidden
               onChange={(e) => {
                 if (e.target.files) handleFiles(e.target.files);
                 e.target.value = "";

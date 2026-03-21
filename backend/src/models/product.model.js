@@ -134,6 +134,12 @@ const ProductSchema = new mongoose.Schema(
       index: true,
     },
 
+    subcategory: {
+      type: String,
+      trim: true,
+      index: true,
+    },
+
     collections: [
       {
         type: String,

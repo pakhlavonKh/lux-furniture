@@ -38,6 +38,7 @@ import checkoutRoutes from "./routes/checkout.routes.js";
 import ordersRoutes from "./routes/orders.routes.js";
 import newsRoutes from "./routes/news.routes.js";
 import discountsRoutes from "./routes/discounts.routes.js";
+import collectionRoutes from "./routes/collection.routes.js";
 import productsRoutes from "./routes/products.routes.js";
 
 import { error_handler } from "./middleware/error_handler.js";
@@ -73,10 +74,15 @@ if (NODE_ENV === "production") {
           connectSrc: ["'self'", "https:", "wss:"],
         },
       },
+      crossOriginResourcePolicy: false, // Disable helmet's CORP header globally; we set it per-route
     })
   );
 } else {
-  app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: false, // Disable helmet's CORP header globally; we set it per-route
+    })
+  );
 }
 
 app.use(compression());
@@ -136,6 +142,59 @@ app.use(morgan(NODE_ENV === "production" ? "combined" : "dev"));
 app.use(request_logger);
 
 /* ==============================
+   STATIC FILES (UPLOADS) - CORS FOR IMAGES
+============================== */
+
+// Middleware to add image-specific CORS & cross-origin headers
+// These headers are REQUIRED for <img> tags to load images from cross-origin sources
+app.use("/uploads", (req, res, next) => {
+  // CORS Header: Allow the requesting origin to access the resource
+  // This header tells the browser "yes, you (the frontend) can use this image"
+  // Required for XMLHttpRequest/fetch; <img> tags also check this
+  res.set("Access-Control-Allow-Origin", "*");
+
+  // Cross-Origin-Resource-Policy Header: Explicitly allow cross-origin resource access
+  // This is the KEY header for <img> tag cross-origin loading (modern browsers)
+  // Values: "cross-origin" (allow all), "same-site" (same site only), "same-origin" (same origin only)
+  res.set("Cross-Origin-Resource-Policy", "cross-origin");
+
+  // CORS Preflight: Handle OPTIONS requests from browsers
+  // Browsers send OPTIONS before GET on cross-origin requests
+  if (req.method === "OPTIONS") {
+    res.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type, Accept, Range");
+    res.set("Access-Control-Max-Age", "86400"); // Cache preflight for 24h
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// Serve static files with proper caching
+app.use(
+  "/uploads",
+  express.static(path.resolve(__dirname, "../uploads"), {
+    maxAge: "7d", // Browser caches images for 7 days
+    etag: false, // Disable ETag for better caching with maxAge
+    lastModified: false,
+    setHeaders: (res, filePath) => {
+      // Set proper Content-Type based on file extension
+      const ext = filePath.split(".").pop();
+      const contentTypes = {
+        webp: "image/webp",
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        gif: "image/gif",
+        svg: "image/svg+xml",
+      };
+      const mimeType = contentTypes[ext?.toLowerCase()] || "application/octet-stream";
+      res.set("Content-Type", mimeType);
+    },
+  })
+);
+
+/* ==============================
    ROUTES
 ============================== */
 
@@ -149,6 +208,7 @@ app.use("/api/orders", ordersRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/discounts", discountsRoutes);
+app.use("/api/collections", collectionRoutes);
 app.use("/api/products", productsRoutes);
 
 /* ==============================

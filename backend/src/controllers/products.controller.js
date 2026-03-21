@@ -76,7 +76,7 @@ export const createProduct = async (req, res) => {
   try {
     const {
       name, slug, description, shortDescription,
-      category, collections,
+      category, subcategory, collections,
       basePrice, vatPercent,
       availability,
       images, variants,
@@ -112,7 +112,7 @@ export const createProduct = async (req, res) => {
 
     const product = await Product.create({
       name, slug, description, shortDescription,
-      category, collections: collections || [],
+      category, subcategory, collections: collections || [],
       basePrice, vatPercent,
       availability,
       images, variants,
