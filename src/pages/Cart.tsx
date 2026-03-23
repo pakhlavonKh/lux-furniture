@@ -73,8 +73,10 @@ export default function Cart() {
   };
 
   const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-  const tax = Math.round(subtotal * 0.12);
-  const total = subtotal + tax;
+  // VAT is already included in item prices. We only show it in the bill
+  // without increasing the final total.
+  const tax = Math.round(subtotal * (0.12 / 1.12));
+  const total = subtotal;
 
   if (isLoading) {
     return (
@@ -220,14 +222,17 @@ export default function Cart() {
                       </div>
                     </div>
                     <button
-                      onClick={() => navigate("/account", { state: { tab: "profile" } })}
+                      onClick={() => navigate("/profile", { state: { focus: "address" } })}
                       className="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-all"
                     >
-                      Go to Profile Settings
+                      Edit my address
                     </button>
                   </div>
                 ) : (
-                  <button className="checkout-btn btn-luxury">
+                  <button
+                    className="checkout-btn btn-luxury"
+                    onClick={() => navigate("/checkout")}
+                  >
                     {t("cart.checkout") || "Proceed to Checkout"}
                   </button>
                 )}

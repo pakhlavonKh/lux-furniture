@@ -114,6 +114,11 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
+      const isDevLocalhostOrigin =
+        NODE_ENV !== "production" &&
+        typeof origin === "string" &&
+        /^http:\/\/(localhost|127\.0\.0\.1):\d+$/i.test(origin);
+
       if (
         !origin ||
         allowedOrigins.some((allowed) =>
@@ -124,7 +129,11 @@ app.use(
       ) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        if (isDevLocalhostOrigin) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
       }
     },
     credentials: true,

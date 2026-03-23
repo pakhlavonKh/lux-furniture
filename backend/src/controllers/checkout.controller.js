@@ -182,12 +182,11 @@ export const checkout = async (req, res, next) => {
        VAT CALCULATION
     ============================ */
 
-    vatAmount = Math.round(subtotal * 0.12);
+    // Product prices already include VAT (12%).
+    // So we compute only the VAT portion for display, but we do NOT add VAT again.
+    vatAmount = Math.round(subtotal * (0.12 / 1.12));
 
-    const grandTotal =
-      subtotal +
-      vatAmount +
-      assemblyTotal;
+    const grandTotal = subtotal + assemblyTotal;
 
     /* ===========================
        4. RESERVE STOCK

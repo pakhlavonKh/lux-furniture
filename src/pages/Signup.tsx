@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function Signup() {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const API_BASE = import.meta.env.DEV ? "" : import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,7 +42,7 @@ export default function Signup() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/register`,
+        `${API_BASE}/api/auth/register`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

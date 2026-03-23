@@ -42,6 +42,9 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Account from "./pages/Account/AccountPage";
+import Profile from "./pages/Profile/ProfilePage";
+import OrderDetailsPage from "./pages/Profile/OrderDetailsPage";
+import CheckoutPage from "./pages/Checkout/CheckoutPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -80,6 +83,9 @@ function AppWithLanguage() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/orders/:id" element={<OrderDetailsPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

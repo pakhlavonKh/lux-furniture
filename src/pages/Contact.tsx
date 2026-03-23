@@ -9,6 +9,7 @@ import { SEO } from "@/components/SEO";
 const Contact = () => {
   const { toast } = useToast();
   const { t } = useLanguage();
+  const API_BASE = import.meta.env.DEV ? "" : import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,7 +32,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/telegram/contact`, {
+      const response = await fetch(`${API_BASE}/api/telegram/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

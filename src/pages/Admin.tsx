@@ -56,6 +56,7 @@ const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t, language } = useLanguage();
+  const API_BASE = import.meta.env.DEV ? "" : import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(true);
@@ -306,7 +307,7 @@ const Admin = () => {
     try {
       if (isLogin) {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/login`,
+          `${API_BASE}/api/auth/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -357,7 +358,7 @@ const Admin = () => {
         }
 
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/register`,
+          `${API_BASE}/api/auth/register`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

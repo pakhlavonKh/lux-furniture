@@ -1,7 +1,8 @@
 // src/lib/api.ts
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000";
+// In dev, route through Vite to avoid cross-origin/CORS issues.
+// In production, keep absolute URL so it works behind different hosts/ports.
+const API_URL = import.meta.env.DEV ? "" : import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 /* ===========================
    GENERATE IDEMPOTENCY KEY
@@ -37,7 +38,7 @@ export async function apiFetch<T = unknown>(
      ADD IDEMPOTENCY FOR CHECKOUT
   ============================ */
 
-  if (endpoint.includes("/checkout")) {
+  if (endpoint.includes("/checkout") || endpoint.includes("/payments/create")) {
     headers["Idempotency-Key"] = generateIdempotencyKey();
   }
 
