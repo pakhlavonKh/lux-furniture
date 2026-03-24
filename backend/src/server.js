@@ -114,11 +114,14 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      const isDevLocalhostOrigin =
+      // Allow all localhost ports in development
+      if (
         NODE_ENV !== "production" &&
         typeof origin === "string" &&
-        /^http:\/\/(localhost|127\.0\.0\.1):\d+$/i.test(origin);
-
+        /^http:\/\/(localhost|127\.0\.0\.1):\d+$/i.test(origin)
+      ) {
+        return callback(null, true);
+      }
       if (
         !origin ||
         allowedOrigins.some((allowed) =>
@@ -127,14 +130,9 @@ app.use(
             : allowed === origin
         )
       ) {
-        callback(null, true);
-      } else {
-        if (isDevLocalhostOrigin) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
+        return callback(null, true);
       }
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })

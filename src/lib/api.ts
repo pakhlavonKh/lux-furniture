@@ -2,7 +2,7 @@
 
 // In dev, route through Vite to avoid cross-origin/CORS issues.
 // In production, keep absolute URL so it works behind different hosts/ports.
-const API_URL = import.meta.env.DEV ? "" : import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5002";
 
 /* ===========================
    GENERATE IDEMPOTENCY KEY
