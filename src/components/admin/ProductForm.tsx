@@ -183,16 +183,15 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
 
   const validate = useCallback((): FormErrors => {
     const errs: FormErrors = {};
-    if (!name.en.trim() || !name.ru.trim() || !name.uz.trim())
-      errs.name = "Name is required in all 3 languages";
+    if (!name.en.trim()) errs.name_en = "Name (EN) is required";
+    if (!name.ru.trim()) errs.name_ru = "Name (RU) is required";
+    if (!name.uz.trim()) errs.name_uz = "Name (UZ) is required";
     if (!slug.trim()) errs.slug = "Slug is required";
     if (!category) errs.category = "Category is required";
     if (basePrice <= 0) errs.basePrice = "Base price must be greater than 0";
     if (images.length === 0) errs.images = "At least one image is required";
-    if (variants.length === 0)
-      errs.variants = "At least one variant is required";
 
-    // Validate each variant
+    // Validate variants only if user added any
     for (let i = 0; i < variants.length; i++) {
       const v = variants[i];
       if (!v.sku.trim())
@@ -232,15 +231,22 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
       basePrice,
       vatPercent,
       images,
-      variants: variants.map((v) => ({
-        sku: v.sku.trim(),
-        color: v.color?.trim() || undefined,
-        size: v.size?.trim() || undefined,
-        material: v.material?.trim() || undefined,
-        price: v.price,
-        stock: v.stock,
-        isActive: v.isActive !== false,
-      })),
+      variants: variants.length > 0
+        ? variants.map((v) => ({
+            sku: v.sku.trim(),
+            color: v.color?.trim() || undefined,
+            size: v.size?.trim() || undefined,
+            material: v.material?.trim() || undefined,
+            price: v.price,
+            stock: v.stock,
+            isActive: v.isActive !== false,
+          }))
+        : [{
+            sku: slug.trim() || "default",
+            price: basePrice,
+            stock: 1,
+            isActive: true,
+          }],
       materials:
         materialFrame || materialUpholstery || materialLegs
           ? {
@@ -324,12 +330,16 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
   }, [newCollectionName, collectionsData, collections, toast]);
 
   const handleSubmit = useCallback(async () => {
+    console.log("=== SAVE CLICKED ===");
     const errs = validate();
+    console.log("Validation errors:", errs);
     setErrors(errs);
     if (Object.keys(errs).length > 0) {
+      const missing = Object.values(errs).join("; ");
+      console.log("Validation failed:", missing);
       toast({
-        title: "Validation Error",
-        description: Object.values(errs)[0],
+        title: "Missing required fields",
+        description: missing,
         variant: "destructive",
       });
       return;
@@ -338,14 +348,19 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
     setSaving(true);
     try {
       const payload = buildPayload();
+      console.log("Payload:", JSON.stringify(payload, null, 2));
       if (isEditing && productId) {
+        console.log("Updating product:", productId);
         await updateApiProduct(productId, payload);
+        console.log("Product updated successfully");
         toast({
           title: "Success",
           description: "Product updated successfully",
         });
       } else {
-        await createApiProduct(payload);
+        console.log("Creating new product...");
+        const result = await createApiProduct(payload);
+        console.log("Product created successfully:", result);
         toast({
           title: "Success",
           description: "Product created successfully",
@@ -354,6 +369,7 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
       onSaved();
       onClose();
     } catch (err: unknown) {
+      console.error("Save failed:", err);
       const message =
         err instanceof Error ? err.message : "Failed to save product";
       toast({ title: "Error", description: message, variant: "destructive" });

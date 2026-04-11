@@ -7,10 +7,11 @@ export default defineConfig({
   server: {
     host: "::",
     port: 8080,
+    strictPort: false,
     proxy: {
       // Forward API calls to the backend to avoid CORS during local development.
       "/api": {
-        target: process.env.VITE_API_URL || "http://localhost:5002",
+        target: process.env.VITE_API_URL || "http://localhost:5001",
         changeOrigin: true,
         secure: false,
         configure: (proxy) => {
@@ -23,7 +24,7 @@ export default defineConfig({
         },
       },
       "/uploads": {
-        target: process.env.VITE_API_URL || "http://localhost:5002",
+        target: process.env.VITE_API_URL || "http://localhost:5001",
         changeOrigin: true,
         secure: false,
         configure: (proxy) => {

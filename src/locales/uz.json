@@ -906,28 +906,28 @@
     "explore": "Tadqiq qiling",
     "items": {
       "artVision": {
-        "name": "ArtVision Kolleksiyasi",
-        "description": "Haykaltaroshlik va badiiy mebel narsalari"
+        "name": "Art Vision Kolleksiyasi",
+        "description": "ART VISION — ish zonalarini jihozlash uchun zamonaviy ofis mebeli tizimi. Kolleksiya modulli tamoyilga asoslangan va turli xil makon konfiguratsiyalarini shakllantirishga imkon beradi. Konstruksiya ashipmaya chidamli qirrali LDSP/LMDF dan tayyorlangan va original geometrik shakldagi metall tayanchlarga o'rnatilgan. Seriya ish stollarini, bench-tizimlarni, tumbalarni va rahbar kabineti yechimlarini o'z ichiga oladi, bu esa ofisni yagona arxitektura uslubida jihozlash imkonini beradi."
       },
       "drive": {
         "name": "Drive Kolleksiyasi",
-        "description": "Dinamik va funktsional yechimlar"
+        "description": "DRIVE — rahbar kabineti, xodimlar ish joylari va muzokara zonalarini kompleks jihozlash uchun ofis mebeli seriyasi. Kolleksiyaning o'ziga xos xususiyati — trapetsiyasimon metall tayanchlar va stol yuzalarining qat'iy geometriyasi bo'lib, zamonaviy ishbilarmonlik interyerini shakllantiradi. Ish yuzalari qalinlashtirilgan mebel plitasidan tayyorlangan va simlarni qulay tartibga solish uchun kabel chiqishlari bilan jihozlangan. Konstruksiya yuqori mustahkamlikdagi metall tayanchlar va har qanday pol qoplamalarida barqarorlik uchun sozlanuvchi oyoqlarni o'z ichiga oladi. Seriya saqlash tizimlari va operativ mebel bilan oson integratsiyalanadi, ofisni yagona uslubda jihozlash imkonini beradi — rahbar kabinetidan open-space zonalarigacha."
       },
       "genesis": {
         "name": "Genesis Kolleksiyasi",
-        "description": "Zamonaviy joylashgan hol uchun zamonaviy dizaynlar"
+        "description": "GENESIS — boshqaruv makonlari uchun zamonaviy Hi-Tech arxitekturadagi kabinet seriyasi. Aniq geometriya, trapetsiyasimon metall tayanchlar va \"suzuvchi\" stol yuzasi effekti ifodali zamonaviy interyerni shakllantiradi. Ish yuzalari qiyshiq frezerlangan qirrali LMDF/LDSP dan tayyorlangan bo'lib, ko'rinadigan qirrasiz yaxlit monolitik geometriyani ta'minlaydi. Metall karkasi konstruksiya mustahkamligini va kundalik foydalanishdagi barqarorlikni oshiradi. Seriya kabinet va muzokara zonasini yagona uslubda to'liq jihozlash imkonini beradi. Zamonaviy mebel arxitekturasi, funksionallik va uzoq muddatli foydalanish muhim bo'lgan loyihalar uchun yechim."
       },
       "alto": {
         "name": "Alto Kolleksiyasi",
-        "description": "Saqlangan o'tirish va turish mebeli"
+        "description": "ALTO — korporativ va boshqaruv makonlari uchun kabinet seriyasi. Ikki rangli dizayn qat'iy, zamonaviy ishbilarmonlik uslubini shakllantiradi. Konstruksiya aşınmaya chidamli qoplamali LDSP/LMDF dan tayyorlangan, qalinlashtirilgan stol yuzalari kundalik yuklamada mustahkamlik va barqarorlikni ta'minlaydi. Metall furnitura va sozlanuvchi tayanchlar uzoq muddatli foydalanish uchun mo'ljallangan. Seriya stollar, muzokara yechimlari, tumba va shkaf guruhlarini o'z ichiga oladi — kabinet yagona uslubda to'liq jihozlanadi. Ishonchlilik va nazorat qilinadigan byudjetga yo'naltirilgan kompaniyalar uchun oqilona tanlov."
       },
       "metar": {
         "name": "Metar Kolleksiyasi",
-        "description": "Minimalist va nafis dizaynlar"
+        "description": "METAR — premium darajadagi boshqaruv makonlari uchun kabinet seriyasi. Aniq arxitektura shakllari va ifodali geometriya kuchli vizual urg'u yaratadi va obro'li ishbilarmonlik interyerini shakllantiradi. Konstruksiya qimmatbaho yog'och shponi bilan MDF va metall elementlarni birlashtiradi, konstruksiya mustahkamligi va uzoq muddatli foydalanishni ta'minlaydi. Kolleksiyaning o'ziga xos detali — o'rnatilgan kabel-menejment va USB chiqishlari bilan jihozlangan stol yuzasining xarakterli chizig'i. Seriya kabinet va muhokama zonasini yagona arxitekturada tashkil etish imkonini beradi. Kabinet vakolatxona darajasi, funksionallik va taniqli dizayn muhim bo'lgan kompaniyalar uchun yechim."
       },
       "negoziatore": {
         "name": "Negoziatore Kolleksiyasi",
-        "description": "Premium ofis va biznes mebeli"
+        "description": "NEGOZIATORE — mustahkam metall karkasli LDSP/LMDF ni birlashtiradigan zamonaviy modulli muzokara stollari kolleksiyasi. Minimalistik dizayn, ranglarning keng tanlovi va o'rnatilgan rozetkalar hamda kabel-menejmentni o'z ichiga olgan funksionallik bilan ajralib turadi. Har qanday kattalikdagi muzokara xonalari uchun mos."
       },
       "vestar": {
         "name": "Vestar Kolleksiyasi",
@@ -1192,6 +1192,7 @@
 
   "admin": {
     "title": "Admin paneli",
+    "dashboard": "Boshqaruv paneli",
     "description": "Mahsulotlar, inventar, yangiliklar va tashviqot kontentini boshqaring",
     "dbProducts": "DBdagi mahsulotlar",
     "catalogProducts": "Katalog mahsulotlari",

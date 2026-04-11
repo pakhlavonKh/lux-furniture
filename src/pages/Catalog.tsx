@@ -3,8 +3,8 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router-do
 import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
-import { getImageUrl, getProducts, ProductVariant } from "@/data/catalogData";
-import { ProductVariantSelector } from "@/components/ProductVariantSelector";
+import { useApiProducts, getApiImageUrl } from "@/hooks/useApiProducts";
+import type { ProductData } from "@/lib/api";
 import {
   StorageIcon,
   KitchenIcon,
@@ -104,8 +104,8 @@ const categories = [
 ];
 
 export default function Catalog() {
-  const { t } = useLanguage();
-  const products = getProducts();
+  const { t, language } = useLanguage();
+  const { products, loading: productsLoading } = useApiProducts();
   const [searchParams, setSearchParams] = useSearchParams();
   const minPrice = parseInt(searchParams.get("minPrice") || "0", 10);
   const maxPrice = parseInt(searchParams.get("maxPrice") || "50000000", 10);
@@ -114,7 +114,6 @@ export default function Catalog() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
-  const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
 
   const isInitialMount = useRef(true);
   const scrollPositionRef = useRef(0);
@@ -242,11 +241,11 @@ export default function Catalog() {
     let list = [...products];
 
     if (selectedCategory) {
-      list = list.filter((p) => p.categoryId === selectedCategory);
+      list = list.filter((p) => p.category === selectedCategory);
     }
 
     if (selectedSubcategory) {
-      list = list.filter((p) => p.subcategoryId === selectedSubcategory);
+      list = list.filter((p) => p.subcategory === selectedSubcategory);
     }
 
     // Filter by price range
@@ -658,12 +657,15 @@ export default function Catalog() {
 
             <div className="flex-1">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {paginatedProducts.map((product) => {
-                  const selectedVariant = selectedVariants[product.id];
-                  const displayImage = selectedVariant?.image || product.images[0];
+                {productsLoading ? (
+                  <div className="col-span-full py-20 flex items-center justify-center">
+                    <div className="animate-spin w-6 h-6 border-2 border-foreground border-t-transparent rounded-full" />
+                  </div>
+                ) : paginatedProducts.map((product) => {
+                  const imageUrl = getApiImageUrl(product);
 
                   return (
-                    <div key={product.id} className="group">
+                    <div key={product._id || product.slug} className="group">
                       <Link
                         to={`/product/${product.slug}`}
                         className="block"
@@ -671,27 +673,19 @@ export default function Catalog() {
                         <div className="product-card">
                           <div className="product-card__image-wrap">
                             <img
-                              src={getImageUrl(displayImage)}
-                              alt={t(product.nameKey)}
+                              src={imageUrl}
+                              alt={product.name?.[language] || product.name?.en || product.slug}
                               className="product-card__image group-hover:scale-105 transition"
                             />
                           </div>
                           <div className="product-card__title">
-                            {t(product.nameKey)}
+                            {product.name?.[language] || product.name?.en || product.slug}
                           </div>
                           <div className="product-card__price">
-                            {(selectedVariant?.price || product.basePrice).toLocaleString()} UZS
+                            {product.basePrice.toLocaleString()} UZS
                           </div>
                         </div>
                       </Link>
-                      {product.variants && product.variants.length > 0 && (
-                        <div
-                          className="variant-selector-wrap"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          
-                        </div>
-                      )}
                     </div>
                   );
                 })}

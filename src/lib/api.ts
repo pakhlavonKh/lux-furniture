@@ -1,8 +1,10 @@
 // src/lib/api.ts
 
-// In dev, route through Vite to avoid cross-origin/CORS issues.
-// In production, keep absolute URL so it works behind different hosts/ports.
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5002";
+// In dev, use empty string so requests go through the Vite proxy.
+// In production, use the full API URL.
+const API_URL = import.meta.env.DEV
+  ? ""
+  : (import.meta.env.VITE_API_URL || "http://localhost:5001");
 
 /* ===========================
    GENERATE IDEMPOTENCY KEY
@@ -290,6 +292,13 @@ export async function getApiProducts(params?: {
 export async function getApiProductById(id: string): Promise<ProductData> {
   const response = await apiFetch<{ success: boolean; data: ProductData }>(
     `/api/products/${id}`
+  );
+  return response.data;
+}
+
+export async function getApiProductBySlug(slug: string): Promise<ProductData> {
+  const response = await apiFetch<{ success: boolean; data: ProductData }>(
+    `/api/products/slug/${encodeURIComponent(slug)}`
   );
   return response.data;
 }

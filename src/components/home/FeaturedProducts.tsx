@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/useLanguageHook";
-import { getImageUrl } from "@/data/catalogData";
+import "./FeaturedProducts.css";
 
 interface Product {
   id: string;
@@ -19,69 +19,94 @@ interface FeaturedProductsProps {
 
 export function FeaturedProducts({ products }: FeaturedProductsProps) {
   const { t } = useLanguage();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.12,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 60 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 },
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
     },
   };
 
   return (
-    <section className="bg-secondary/30 featured-section">
+    <section className="featured-products">
       <div className="container-luxury">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+        {/* Header */}
+        <div className="featured-products__header">
           <div>
-            <p className="text-caption mb-4">{t("featured.title")}</p>
-            <h2 className="heading-section">{t("featured.subtitle")}</h2>
+            <p className="featured-products__label">
+              {t("featured.title")}
+            </p>
+            <h2 className="featured-products__title">
+              {t("featured.subtitle")}
+            </h2>
           </div>
-          <Link
-            to="/"
-            className="link-underline text-sm uppercase tracking-[0.15em] font-medium inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          >
+
+          <Link to="/" className="featured-products__view-all">
             {t("featured.viewAll")}
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight />
           </Link>
         </div>
 
-        {/* Products Grid */}
+        {/* Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10"
+          className="featured-products__grid"
         >
           {products.map((product) => (
             <motion.div key={product.id} variants={itemVariants}>
-              <Link to={`/product/${product.slug}`} className="group block">
-                <div className="aspect-[4/5] mb-6 bg-white">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="product-image w-full h-full object-contain transition-transform duration-700"
-                  />
-                  <div className="product-overlay absolute inset-0 bg-foreground/5 opacity-0 transition-opacity duration-300" />
+              <Link
+                to={`/product/${product.slug}`}
+                className="featured-products__link"
+              >
+                {/* Image Card */}
+                <div className="featured-products__card">
+                  <div className="featured-products__image-wrap">
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className="featured-products__image"
+                    />
+                  </div>
+
+                  {/* Overlay */}
+                  <div className="featured-products__overlay" />
+
+                  {/* Gradient effect */}
+                  <div className="featured-products__gradient" />
                 </div>
-                <p className="text-caption mb-2 text-muted-foreground !important">{product.category}</p>
-                <h3 className="heading-card mb-2 group-hover:text-muted-foreground transition-colors text-foreground !important">
-                  {product.title}
-                </h3>
-                <p className="font-sans text-muted-foreground text-sm">
-                  {product.price.toLocaleString()} UZS
-                </p>
+
+                {/* Text */}
+                <div className="featured-products__info">
+                  <p className="featured-products__category">
+                    {product.category}
+                  </p>
+
+                  <h3 className="featured-products__name">
+                    {product.title}
+                  </h3>
+
+                  <p className="featured-products__price">
+                    {product.price.toLocaleString()} UZS
+                  </p>
+                </div>
               </Link>
             </motion.div>
           ))}

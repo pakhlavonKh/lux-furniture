@@ -13,8 +13,8 @@ export function Collections({ collections }: CollectionsProps) {
   const { t } = useLanguage();
 
   return (
-    <section className="section-padding bg-primary text-primary-foreground">
-      <div className="container-luxury">
+    <section className="bg-primary text-primary-foreground">
+      <div className="container-collections">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="text-caption mb-4 text-primary-foreground/60">
@@ -42,7 +42,7 @@ export function Collections({ collections }: CollectionsProps) {
             >
               <Link
                 to={`/collections/${collection.slug}`}
-                className="group block relative aspect-[16/10] overflow-hidden"
+                className="collection-card group block relative overflow-hidden"
               >
                 <img
                   src={collection.image}
@@ -59,7 +59,7 @@ export function Collections({ collections }: CollectionsProps) {
                         {t(collection.nameKey)}
                       </h3>
 
-                      <p className="text-white/70 text-sm max-w-xs">
+                      <p className="text-white/70 text-sm max-w-xs line-clamp-2">
                         {t(collection.descriptionKey)}
                       </p>
                     </div>

@@ -884,27 +884,27 @@
     "items": {
       "artVision": {
         "name": "Art Vision Collection",
-        "description": "Sculptural and artistic furniture pieces"
+        "description": "ART VISION is a modern office furniture system for equipping work zones. The collection is built on a modular principle and allows forming various space configurations. The structure is made of laminated particleboard/MDF with a wear-resistant edge and mounted on metal supports of an original geometric shape. The series includes workstations, bench systems, pedestals, and executive office solutions, allowing you to furnish an office in a unified architectural style."
       },
       "drive": {
         "name": "Drive Collection",
-        "description": "Dynamic and functional furniture solutions"
+        "description": "DRIVE is an office furniture series for comprehensive outfitting of executive offices, staff workstations, and conference areas. The collection's hallmark is trapezoidal metal supports and strict tabletop geometry that shape a modern business interior. Work surfaces are made of extra-thick furniture board and equipped with cable outlets for convenient wire management. The structure features high-rigidity metal supports and adjustable feet for stability on any floor surface. The series integrates seamlessly with storage systems and operational furniture, allowing you to furnish an entire office in a unified style — from the executive suite to open-space zones."
       },
       "genesis": {
         "name": "Genesis Collection",
-        "description": "Contemporary designs for modern spaces"
+        "description": "GENESIS is a cabinet series in contemporary Hi-Tech architecture for executive spaces. Clean geometry, trapezoidal metal supports, and a floating tabletop effect create an expressive modern interior. Work surfaces are made of MDF/laminated particleboard with a beveled routed edge, providing a seamless monolithic geometry with no visible edging. The metal frame enhances structural rigidity and stability under daily use. The series allows you to fully furnish an office and conference area in a unified style. A solution for projects where modern furniture architecture, functionality, and long-term durability matter."
       },
       "alto": {
         "name": "Alto Collection",
-        "description": "Refined seating and standing furniture"
+        "description": "ALTO is a cabinet series designed for corporate and executive spaces. The two-tone finish creates a strict, modern business aesthetic. The structure is made of laminated particleboard/MDF with a wear-resistant coating; thickened tabletops ensure rigidity and stability under daily use. Metal hardware and adjustable supports are built for long-term operation. The range includes desks, conference solutions, pedestals, and storage units — a complete office furnished in a unified style. A practical choice for companies focused on reliability and a controlled budget."
       },
       "metar": {
         "name": "Metar Collection",
-        "description": "Minimalist and elegant designs"
+        "description": "METAR is a cabinet series for premium-level executive spaces. Clean architectural forms and expressive geometry create a strong visual accent and shape a prestigious business interior. The structure combines MDF with precious wood veneer and metal elements, ensuring structural rigidity and long-term durability. The collection's signature detail is a distinctive tabletop line with built-in cable management and USB outlets. The series allows you to organize an office and discussion area in a unified architecture. A solution for companies where the executive level of the office, functionality, and recognizable design matter."
       },
       "negoziatore": {
         "name": "Negoziatore Collection",
-        "description": "Premium office and business furniture"
+        "description": "NEGOZIATORE is a modern modular collection of conference tables combining laminated particleboard/MDF with a sturdy metal frame. Distinguished by minimalist design, a wide range of colors, and functionality including built-in power outlets and cable management. Suitable for conference rooms of any size."
       },
       "vestar": {
         "name": "Vestar Collection",
@@ -1108,6 +1108,7 @@
 
   "admin": {
     "title": "Admin Dashboard",
+    "dashboard": "Dashboard",
     "description": "Manage products, inventory, news, and promotional content",
     "dbProducts": "DB Products",
     "catalogProducts": "Catalog Products",

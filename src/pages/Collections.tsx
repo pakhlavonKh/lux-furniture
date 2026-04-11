@@ -56,11 +56,11 @@ const CollectionsPage = () => {
                     <Link to={`/collections/${collection.slug}`}>
 
                       {/* Image */}
-                      <div className="relative overflow-hidden aspect-square mb-6">
+                      <div className="relative overflow-hidden aspect-[16/5] rounded-3xl mb-6 bg-muted/30">
                         <img
                           src={collection.image}
                           alt={t(collection.nameKey)}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                       </div>
@@ -72,7 +72,7 @@ const CollectionsPage = () => {
                           {t(collection.nameKey)}
                         </h2>
 
-                        <p className="text-body text-muted-foreground">
+                        <p className="text-body text-muted-foreground line-clamp-2">
                           {t(collection.descriptionKey)}
                         </p>
 
