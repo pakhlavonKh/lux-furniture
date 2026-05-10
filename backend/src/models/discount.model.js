@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 
 const LocalizedStringSchema = new mongoose.Schema(
   {
-    en: { type: String, required: [true, "English text is required"], trim: true },
-    ru: { type: String, required: [true, "Russian text is required"], trim: true },
-    uz: { type: String, required: [true, "Uzbek text is required"], trim: true },
+    en: { type: String, trim: true, default: "" },
+    ru: { type: String, trim: true, default: "" },
+    uz: { type: String, trim: true, default: "" },
   },
   { _id: false }
 );
@@ -14,11 +14,11 @@ const DiscountSchema = new mongoose.Schema(
   {
     title: {
       type: LocalizedStringSchema,
-      required: [true, "Title is required"],
+      default: { en: "", ru: "", uz: "" },
     },
     description: {
       type: LocalizedStringSchema,
-      required: [true, "Description is required"],
+      default: { en: "", ru: "", uz: "" },
     },
     code: {
       type: String,

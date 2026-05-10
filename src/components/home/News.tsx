@@ -91,20 +91,6 @@ export function News() {
                   viewport={{ once: true }}
                   className="news-card"
                 >
-                  {item.image?.url && (
-                    <div className="news-image-wrapper">
-                      <img
-                        src={item.image.url}
-                        alt={
-                          item.image.alt ||
-                          item.title?.[language] ||
-                          item.title?.en
-                        }
-                        className="news-image"
-                      />
-                    </div>
-                  )}
-
                   <div className="news-content">
                     <time className="news-date">
                       {item.publishedAt

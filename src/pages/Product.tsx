@@ -246,7 +246,7 @@ const Product = () => {
                       
                       const cartKey = product._id || product.slug;
                       const existingItem = cart.find((item) => item.id === cartKey);
-                      const itemPrice = getDiscountedPrice(product.basePrice, discountPercentage);
+                      const itemPrice = product.basePrice; // Store base price, discount will be applied in cart
                       const itemImage = images[0] || "";
                       
                       if (existingItem) {

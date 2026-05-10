@@ -4,7 +4,8 @@ import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/useLanguageHook";
 import { useApiProducts, getApiImageUrl } from "@/hooks/useApiProducts";
-import type { ProductData } from "@/lib/api";
+import type { ProductData, Discount } from "@/lib/api";
+import { getAllDiscounts } from "@/lib/api";
 import {
   StorageIcon,
   KitchenIcon,
@@ -114,6 +115,7 @@ export default function Catalog() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [discounts, setDiscounts] = useState<Discount[]>([]);
 
   const isInitialMount = useRef(true);
   const scrollPositionRef = useRef(0);
@@ -280,6 +282,36 @@ export default function Catalog() {
       }
     }
   }, [selectedSubcategory]);
+
+  // Fetch active discounts for display
+  useEffect(() => {
+    getAllDiscounts(true)
+      .then((data) => {
+        console.log("=".repeat(60));
+        console.log("🎯 DISCOUNTS FETCHED FOR CATALOG");
+        console.log("=".repeat(60));
+        console.log("Total discounts:", data.length);
+        data.forEach((d, i) => {
+          console.log(`\nDiscount ${i + 1}:`);
+          console.log("  Title:", d.title?.en);
+          console.log("  Percentage:", d.percentage);
+          console.log("  Active:", d.isActive);
+          console.log("  Product IDs in discount:", d.productIds);
+          console.log("    - Type:", typeof d.productIds);
+          console.log("    - Is Array:", Array.isArray(d.productIds));
+          console.log("    - Length:", d.productIds?.length);
+          if (d.productIds && d.productIds.length > 0) {
+            console.log("    - First ID:", d.productIds[0], "- Type:", typeof d.productIds[0]);
+          }
+        });
+        console.log("=".repeat(60));
+        setDiscounts(data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch discounts:", error);
+        setDiscounts([]);
+      });
+  }, []);
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -661,8 +693,44 @@ export default function Catalog() {
                   <div className="col-span-full py-20 flex items-center justify-center">
                     <div className="animate-spin w-6 h-6 border-2 border-foreground border-t-transparent rounded-full" />
                   </div>
-                ) : paginatedProducts.map((product) => {
+                ) : paginatedProducts.map((product, productIndex) => {
                   const imageUrl = getApiImageUrl(product);
+                  const productId = product._id;
+                  
+                  // Debug only for first 3 products on first page
+                  const shouldDebug = currentPage === 1 && productIndex < 3;
+                  
+                  const discount = productId && discounts.find((d) => {
+                    const ids = Array.isArray(d.productIds) ? d.productIds : [];
+                    
+                    if (shouldDebug) {
+                      console.log(`\n📦 Product ${productIndex + 1}: ${product.slug || product.name || "unknown"}`);
+                      console.log("  Product._id:", productId, "- Type:", typeof productId);
+                      console.log("  Discount to check:", d.title?.en);
+                      console.log("  Discount.productIds:", ids);
+                    }
+                    
+                    const found = ids.some((id) => {
+                      const strId = String(id);
+                      const strProductId = String(productId);
+                      const matches = strId === strProductId;
+                      
+                      if (shouldDebug && ids.length > 0) {
+                        console.log(`    Comparing: "${strId}" === "${strProductId}" → ${matches}`);
+                      }
+                      return matches;
+                    }) && d.isActive;
+                    
+                    if (found && shouldDebug) {
+                      console.log("  ✅ MATCH FOUND!");
+                    }
+                    
+                    return found;
+                  });
+                  const discountedPrice = discount
+                    ? Math.round(product.basePrice * (1 - (discount.percentage || 0) / 100))
+                    : product.basePrice;
+                  const showDiscount = discount && discount.percentage > 0;
 
                   return (
                     <div key={product._id || product.slug} className="group">
@@ -677,12 +745,38 @@ export default function Catalog() {
                               alt={product.name?.[language] || product.name?.en || product.slug}
                               className="product-card__image group-hover:scale-105 transition"
                             />
+                            {showDiscount && (
+                              <div style={{
+                                position: "absolute",
+                                top: 12,
+                                right: 12,
+                                backgroundColor: "#e53e3e",
+                                color: "white",
+                                padding: "4px 8px",
+                                borderRadius: 4,
+                                fontSize: 12,
+                                fontWeight: 600
+                              }}>
+                                -{discount.percentage}%
+                              </div>
+                            )}
                           </div>
                           <div className="product-card__title">
                             {product.name?.[language] || product.name?.en || product.slug}
                           </div>
                           <div className="product-card__price">
-                            {product.basePrice.toLocaleString()} UZS
+                            {showDiscount ? (
+                              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                <span style={{ textDecoration: "line-through", color: "#999", fontSize: 12 }}>
+                                  {product.basePrice.toLocaleString()} UZS
+                                </span>
+                                <span style={{ fontWeight: 600, color: "#e53e3e" }}>
+                                  {discountedPrice.toLocaleString()} UZS
+                                </span>
+                              </div>
+                            ) : (
+                              product.basePrice.toLocaleString() + " UZS"
+                            )}
                           </div>
                         </div>
                       </Link>

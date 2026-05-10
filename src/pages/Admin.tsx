@@ -94,14 +94,10 @@ const Admin = () => {
   const [showDiscountForm, setShowDiscountForm] = useState(false);
   const [editingDiscount, setEditingDiscount] = useState<DiscountType | null>(null);
   const [discountFormData, setDiscountFormData] = useState<Partial<DiscountType>>({
-    title: emptyLocalized(),
-    description: emptyLocalized(),
     percentage: 0,
-    productIds: [],
-    code: "",
     isActive: true,
-    order: 0,
   });
+  const [selectedProductsForDiscount, setSelectedProductsForDiscount] = useState<string[]>([]);
 
   // === Data loading ===
 
@@ -109,6 +105,13 @@ const Admin = () => {
     setDbProductsLoading(true);
     try {
       const data = await getApiProducts();
+      console.log("📦 PRODUCTS LOADED IN ADMIN:");
+      console.log("  - Total:", data.length);
+      if (data.length > 0) {
+        console.log("  - First product:", data[0]);
+        console.log("    - _id:", data[0]._id);
+        console.log("    - Type of _id:", typeof data[0]._id);
+      }
       setDbProducts(data);
       const categories = Array.from(
         new Set(data.map((p) => p.category).filter(Boolean)),
@@ -328,7 +331,7 @@ const Admin = () => {
       }
       setShowNewsForm(false);
       setEditingNews(null);
-      setNewsFormData({ title: emptyLocalized(), description: emptyLocalized(), content: emptyLocalized(), isActive: true, order: 0 });
+      setNewsFormData({ title: emptyLocalized(), description: emptyLocalized(), content: emptyLocalized(), image: { url: "", public_id: "", alt: "" }, isActive: true, order: 0 });
       await loadNewsAndDiscounts();
     } catch (error) {
       toast({ title: "Error", description: error instanceof Error ? error.message : "Failed to save news", variant: "destructive" });
@@ -355,28 +358,39 @@ const Admin = () => {
 
   const handleSaveDiscount = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      !discountFormData.title?.en || !discountFormData.title?.ru || !discountFormData.title?.uz ||
-      !discountFormData.description?.en || !discountFormData.description?.ru || !discountFormData.description?.uz
-    ) {
-      toast({ title: "Error", description: "Title and description are required in all 3 languages", variant: "destructive" });
+    if ((discountFormData.percentage || 0) <= 0 || (discountFormData.percentage || 0) > 100) {
+      toast({ title: "Error", description: "Please enter a valid percentage (1-100)", variant: "destructive" });
+      return;
+    }
+    if (selectedProductsForDiscount.length === 0) {
+      toast({ title: "Error", description: "Please select at least one product", variant: "destructive" });
       return;
     }
     setNewsLoading(true);
     try {
+      const discountData = {
+        title: { en: "", ru: "", uz: "" },
+        description: { en: "", ru: "", uz: "" },
+        percentage: discountFormData.percentage || 0,
+        productIds: selectedProductsForDiscount,
+        isActive: discountFormData.isActive ?? true,
+      };
+      console.log("💾 SAVING DISCOUNT:");
+      console.log("  - Discount data object:", discountData);
+      console.log("  - JSON stringified:", JSON.stringify(discountData));
       if (editingDiscount?._id) {
-        await updateDiscount(editingDiscount._id, discountFormData as DiscountType);
+        await updateDiscount(editingDiscount._id, discountData as DiscountType);
         toast({ title: "Success", description: "Discount updated successfully", duration: 3000 });
       } else {
-        await createDiscount(discountFormData as DiscountType);
+        await createDiscount(discountData as DiscountType);
         toast({ title: "Success", description: "Discount created successfully", duration: 3000 });
       }
       setShowDiscountForm(false);
       setEditingDiscount(null);
-      setDiscountFormData({ title: emptyLocalized(), description: emptyLocalized(), percentage: 0, productIds: [], code: "", isActive: true, order: 0 });
+      setSelectedProductsForDiscount([]);
+      setDiscountFormData({ percentage: 0, productIds: [], isActive: true });
       await loadNewsAndDiscounts();
-    } catch (error) {
-      toast({ title: "Error", description: error instanceof Error ? error.message : "Failed to save discount", variant: "destructive" });
+    } catch (error) {      console.error("❌ Error saving discount:", error);      toast({ title: "Error", description: error instanceof Error ? error.message : "Failed to save discount", variant: "destructive" });
     } finally {
       setNewsLoading(false);
     }
@@ -384,7 +398,8 @@ const Admin = () => {
 
   const handleEditDiscount = (discount: DiscountType) => {
     setEditingDiscount(discount);
-    setDiscountFormData(discount);
+    setDiscountFormData({ percentage: discount.percentage, isActive: discount.isActive });
+    setSelectedProductsForDiscount(discount.productIds || []);
     setShowDiscountForm(true);
   };
 
@@ -471,12 +486,71 @@ const Admin = () => {
         )}
 
         {activeTab === "discounts" && (
-          <AdminDiscounts
-            discounts={discounts}
-            onAdd={() => setShowDiscountForm(true)}
-            onEdit={handleEditDiscount}
-            onDelete={handleDeleteDiscount}
-          />
+          <>
+            <AdminDiscounts
+              discounts={discounts}
+              onAdd={() => setShowDiscountForm(true)}
+              onEdit={handleEditDiscount}
+              onDelete={handleDeleteDiscount}
+            />
+            {/* Debug Info */}
+            <div style={{
+              marginTop: 20,
+              padding: 12,
+              backgroundColor: "#f0f0f0",
+              borderRadius: 4,
+              fontSize: 12,
+              fontFamily: "monospace",
+              color: "#666"
+            }}>
+              <details>
+                <summary style={{ cursor: "pointer", fontWeight: 600, marginBottom: 8 }}>🔍 Debug Info & Product IDs</summary>
+                <div>
+                  <p><strong>Products loaded:</strong> {dbProducts.length}</p>
+                  <p><strong>Discounts loaded:</strong> {discounts.length}</p>
+                  
+                  {dbProducts.length > 0 && (
+                    <div style={{ marginTop: 12, marginBottom: 12, padding: 10, backgroundColor: "white", borderRadius: 3 }}>
+                      <p style={{ fontWeight: 600, marginBottom: 8, color: "#e53e3e" }}>⚠️ ACTUAL PRODUCT IDs (use these for discounts):</p>
+                      {dbProducts.map((p, i) => (
+                        <div key={p._id} style={{ marginBottom: 6 }}>
+                          <p>
+                            <strong>{i + 1}.</strong> {typeof p.name === "string" ? p.name : p.name?.en}
+                          </p>
+                          <p style={{ marginLeft: 12, fontSize: 11, color: "#999", wordBreak: "break-all" }}>
+                            _id: {p._id}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {discounts.length > 0 && (
+                    <div>
+                      <p style={{ fontWeight: 600, marginBottom: 8 }}>Discount details:</p>
+                      {discounts.map((d, i) => (
+                        <div key={d._id} style={{ marginLeft: 12, marginBottom: 8, padding: 8, backgroundColor: "white", borderRadius: 3 }}>
+                          <p><strong>{i + 1}. {d.title?.en}</strong></p>
+                          <p>  Percentage: {d.percentage}%</p>
+                          <p>  Active: {d.isActive ? "Yes" : "No"}</p>
+                          <p>  Product IDs in discount: {d.productIds?.length || 0} items</p>
+                          {d.productIds && d.productIds.length > 0 && (
+                            <div style={{ fontSize: 11, color: "#999", marginLeft: 12 }}>
+                              {d.productIds.map((pid, j) => (
+                                <p key={j} style={{ wordBreak: "break-all", margin: "2px 0" }}>
+                                  [{j + 1}] {pid}
+                                </p>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </details>
+            </div>
+          </>
         )}
 
         {/* Product Form Modal */}
@@ -519,7 +593,7 @@ const Admin = () => {
                   onClick={() => {
                     setShowNewsForm(false);
                     setEditingNews(null);
-                    setNewsFormData({ title: emptyLocalized(), description: emptyLocalized(), content: emptyLocalized(), isActive: true, order: 0 });
+                    setNewsFormData({ title: emptyLocalized(), description: emptyLocalized(), content: emptyLocalized(), image: { url: "", public_id: "", alt: "" }, isActive: true, order: 0 });
                   }}
                   className="modal-close"
                 >
@@ -595,7 +669,8 @@ const Admin = () => {
                   onClick={() => {
                     setShowDiscountForm(false);
                     setEditingDiscount(null);
-                    setDiscountFormData({ title: emptyLocalized(), description: emptyLocalized(), percentage: 0, productIds: [], isActive: true, order: 0 });
+                    setSelectedProductsForDiscount([]);
+                    setDiscountFormData({ percentage: 0, isActive: true });
                   }}
                   className="modal-close"
                 >
@@ -604,32 +679,74 @@ const Admin = () => {
               </div>
               <div className="modal-body">
                 <form onSubmit={handleSaveDiscount}>
-                  <MultiLangInput
-                    label={t("admin.title")}
-                    value={discountFormData.title || emptyLocalized()}
-                    onChange={(value) => setDiscountFormData({ ...discountFormData, title: value })}
-                    required
-                  />
-                  <MultiLangInput
-                    label={t("admin.description")}
-                    value={discountFormData.description || emptyLocalized()}
-                    onChange={(value) => setDiscountFormData({ ...discountFormData, description: value })}
-                    multiline
-                    rows={3}
-                  />
                   <div>
                     <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#5a6a7a", marginBottom: 8 }}>
                       {t("admin.discountPercentage")}
                     </label>
                     <input
                       type="number"
-                      min="0"
+                      min="1"
                       max="100"
                       value={discountFormData.percentage ?? 0}
                       onChange={(e) => setDiscountFormData({ ...discountFormData, percentage: Number(e.target.value) })}
                       className="admin-input"
+                      placeholder="e.g., 15"
                       required
                     />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#5a6a7a", marginBottom: 8 }}>
+                      Select Products
+                    </label>
+                    <div style={{ 
+                      border: "1px solid #ddd", 
+                      borderRadius: 4, 
+                      maxHeight: "250px", 
+                      overflowY: "auto",
+                      padding: "8px"
+                    }}>
+                      {dbProducts.length === 0 ? (
+                        <p style={{ fontSize: 13, color: "#999", margin: 0 }}>No products available</p>
+                      ) : (
+                        dbProducts.map((product) => (
+                          <label
+                            key={product._id}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                              padding: "6px 4px",
+                              cursor: "pointer",
+                              fontSize: 13,
+                            }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedProductsForDiscount.includes(product._id || "")}
+                              onChange={(e) => {
+                                const id = product._id || "";
+                                if (e.target.checked) {
+                                  setSelectedProductsForDiscount([...selectedProductsForDiscount, id]);
+                                } else {
+                                  setSelectedProductsForDiscount(selectedProductsForDiscount.filter(pid => pid !== id));
+                                }
+                              }}
+                              style={{ width: 14, height: 14, accentColor: "#13789a" }}
+                            />
+                            <span>
+                              {typeof product.name === "string"
+                                ? product.name
+                                : product.name?.[language as keyof LocalizedString] || "Unnamed Product"}
+                            </span>
+                          </label>
+                        ))
+                      )}
+                    </div>
+                    {selectedProductsForDiscount.length > 0 && (
+                      <p style={{ fontSize: 12, color: "#666", marginTop: 6 }}>
+                        {selectedProductsForDiscount.length} product(s) selected
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
@@ -651,7 +768,8 @@ const Admin = () => {
                       onClick={() => {
                         setShowDiscountForm(false);
                         setEditingDiscount(null);
-                        setDiscountFormData({ title: emptyLocalized(), description: emptyLocalized(), percentage: 0, productIds: [], code: "", isActive: true, order: 0 });
+                        setSelectedProductsForDiscount([]);
+                        setDiscountFormData({ percentage: 0, isActive: true });
                       }}
                       className="admin-btn"
                     >

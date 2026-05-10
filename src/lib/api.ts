@@ -63,8 +63,14 @@ export async function apiFetch<T = unknown>(
       : null;
 
   if (!response.ok) {
+    console.error("❌ API Error:", {
+      endpoint,
+      status: response.status,
+      statusText: response.statusText,
+      data,
+    });
     throw new Error(
-      data?.message || "API request failed"
+      data?.message || `API request failed: ${response.statusText}`
     );
   }
 

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getImageUrl } from "@/data/catalogData";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, getAllDiscounts, type Discount } from "@/lib/api";
 
 interface CartItem {
   id: string;
@@ -33,6 +33,7 @@ export default function Cart() {
   const navigate = useNavigate();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [discounts, setDiscounts] = useState<Discount[]>([]);
   const token = localStorage.getItem("authToken");
 
   const { data: userData } = useQuery({
@@ -52,7 +53,17 @@ export default function Cart() {
     } catch {
       setCart([]);
     }
-    setIsLoading(false);
+    
+    // Fetch active discounts
+    getAllDiscounts(true)
+      .then(setDiscounts)
+      .catch((error) => {
+        console.error("Failed to fetch discounts:", error);
+        setDiscounts([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const updateQuantity = (id: string, newQuantity: number) => {
@@ -72,7 +83,16 @@ export default function Cart() {
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
-  const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+  const subtotal = cart.reduce((s, i) => {
+    const discount = discounts.find((d) => {
+      const ids = Array.isArray(d.productIds) ? d.productIds : [];
+      return ids.some((id) => String(id) === String(i.id)) && d.isActive;
+    });
+    const itemPrice = discount 
+      ? Math.round(i.price * (1 - (discount.percentage || 0) / 100))
+      : i.price;
+    return s + itemPrice * i.quantity;
+  }, 0);
   // VAT is already included in item prices. We only show it in the bill
   // without increasing the final total.
   const tax = Math.round(subtotal * (0.12 / 1.12));
@@ -119,72 +139,94 @@ export default function Cart() {
             <div className="flex flex-col md:flex-row md:items-start gap-8 lg:gap-10">
               {/* LEFT: Products */}
               <div className="space-y-4 md:min-w-0" style={{ flex: 3 }}>
-                {cart.map((item) => (
-                  <motion.div key={item.id} layout className="cart-item">
-                    {/* Thumbnail */}
-                    <Link to={`/product/${item.slug}`} className="cart-thumb">
-                      <img src={getImageUrl(item.image)} alt={item.name} />
-                    </Link>
+                {cart.map((item) => {
+                  const discount = discounts.find((d) => {
+                    const ids = Array.isArray(d.productIds) ? d.productIds : [];
+                    return ids.some((id) => String(id) === String(item.id)) && d.isActive;
+                  });
+                  const discountedPrice = discount
+                    ? Math.round(item.price * (1 - (discount.percentage || 0) / 100))
+                    : item.price;
+                  const showDiscount = discount && discount.percentage > 0;
 
-                    {/* Info */}
-                    <div className="cart-info">
-                      <div>
-                        <Link
-                          to={`/product/${item.slug}`}
-                          className="cart-title"
-                        >
-                          {item.name}
-                        </Link>
-                        {(item.color || item.size) && (
-                          <p className="text-sm text-muted-foreground">
-                            {[item.color, item.size].filter(Boolean).join(" • ")}
+                  return (
+                    <motion.div key={item.id} layout className="cart-item">
+                      {/* Thumbnail */}
+                      <Link to={`/product/${item.slug}`} className="cart-thumb">
+                        <img src={getImageUrl(item.image)} alt={item.name} />
+                      </Link>
+
+                      {/* Info */}
+                      <div className="cart-info">
+                        <div>
+                          <Link
+                            to={`/product/${item.slug}`}
+                            className="cart-title"
+                          >
+                            {item.name}
+                          </Link>
+                          {(item.color || item.size) && (
+                            <p className="text-sm text-muted-foreground">
+                              {[item.color, item.size].filter(Boolean).join(" • ")}
+                            </p>
+                          )}
+                          <p className="cart-price-each">
+                            {showDiscount ? (
+                              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                <span style={{ textDecoration: "line-through", color: "#999", fontSize: 12 }}>
+                                  {item.price.toLocaleString()} UZS
+                                </span>
+                                <span style={{ fontWeight: 600, color: "#e53e3e" }}>
+                                  {discountedPrice.toLocaleString()} UZS
+                                </span>
+                              </div>
+                            ) : (
+                              item.price.toLocaleString() + " UZS"
+                            )}
+                            {(item.color || item.size) && ` ${t("cart.each") || "each"}`}
                           </p>
-                        )}
-                        <p className="cart-price-each">
-                          {item.price.toLocaleString()} UZS
-                          {(item.color || item.size) && ` ${t("cart.each") || "each"}`}
+                        </div>
+
+                        {/* Quantity */}
+                        <div className="cart-qty">
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity - 1)
+                            }
+                            className="icon-btn"
+                          >
+                            <Minus className="icon" />
+                          </button>
+
+                          <span className="cart-qty-value">{item.quantity}</span>
+
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity + 1)
+                            }
+                            className="icon-btn"
+                          >
+                            <Plus className="icon" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Price + Remove */}
+                      <div className="cart-side">
+                        <p className="cart-total">
+                          {(discountedPrice * item.quantity).toLocaleString()} UZS
                         </p>
-                      </div>
-
-                      {/* Quantity */}
-                      <div className="cart-qty">
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
-                          }
-                          className="icon-btn"
-                        >
-                          <Minus className="icon" />
-                        </button>
-
-                        <span className="cart-qty-value">{item.quantity}</span>
 
                         <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="icon-btn"
+                          onClick={() => removeItem(item.id)}
+                          className="remove-btn"
                         >
-                          <Plus className="icon" />
+                          <Trash2 className="icon icon-remove" />
                         </button>
                       </div>
-                    </div>
-
-                    {/* Price + Remove */}
-                    <div className="cart-side">
-                      <p className="cart-total">
-                        {(item.price * item.quantity).toLocaleString()} UZS
-                      </p>
-
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="remove-btn"
-                      >
-                        <Trash2 className="icon icon-remove" />
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  );
+                })}
               </div>
 
               {/* RIGHT: Summary */}
