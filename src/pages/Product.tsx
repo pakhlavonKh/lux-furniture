@@ -247,7 +247,8 @@ const Product = () => {
                       const cartKey = product._id || product.slug;
                       const existingItem = cart.find((item) => item.id === cartKey);
                       const itemPrice = product.basePrice; // Store base price, discount will be applied in cart
-                      const itemImage = images[0] || "";
+                      // Capture image from product - try multiple sources
+                      const itemImage = images && images.length > 0 ? images[0] : (product.image || "");
                       
                       if (existingItem) {
                         existingItem.quantity += quantity;

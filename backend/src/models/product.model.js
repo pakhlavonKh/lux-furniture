@@ -148,6 +148,21 @@ const ProductSchema = new mongoose.Schema(
       },
     ],
 
+    /* Classification - Uzbekistan Requirements */
+    ikpu: {
+      type: String,
+      required: [true, "IKPU (Product Classification) is required"],
+      trim: true,
+      index: true,
+    },
+
+    packageNumber: {
+      type: String,
+      required: [true, "Package Number is required"],
+      trim: true,
+      index: true,
+    },
+
     /* Pricing */
     basePrice: {
       type: Number,

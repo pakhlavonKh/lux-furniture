@@ -132,11 +132,24 @@ export const register = async (req, res) => {
       });
     }
 
+    // Check if trying to register as admin
+    let isAdmin = false;
+    if (admin_key) {
+      if (admin_key === config.ADMIN_REGISTRATION_KEY) {
+        isAdmin = true;
+      } else {
+        return res.status(403).json({
+          success: false,
+          message: "Invalid admin registration key",
+        });
+      }
+    }
+
     const user = new User({
       email: normalizedEmail,
       password,
       name: name.trim(),
-      is_admin: false,
+      is_admin: isAdmin,
     });
 
     await user.save();

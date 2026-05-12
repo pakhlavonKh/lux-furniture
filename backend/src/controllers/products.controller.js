@@ -104,6 +104,7 @@ export const createProduct = async (req, res) => {
     const {
       name, slug, description, shortDescription,
       category, subcategory, collections,
+      ikpu, packageNumber,
       basePrice, vatPercent,
       availability,
       images, variants,
@@ -129,6 +130,20 @@ export const createProduct = async (req, res) => {
       });
     }
 
+    if (!ikpu || !ikpu.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "IKPU (Product Classification) is required",
+      });
+    }
+
+    if (!packageNumber || !packageNumber.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Package Number is required",
+      });
+    }
+
     const existing = await Product.findOne({ slug });
     if (existing) {
       return res.status(409).json({
@@ -140,6 +155,7 @@ export const createProduct = async (req, res) => {
     const product = await Product.create({
       name, slug, description, shortDescription,
       category, subcategory, collections: collections || [],
+      ikpu: ikpu.trim(), packageNumber: packageNumber.trim(),
       basePrice, vatPercent,
       availability,
       images, variants,

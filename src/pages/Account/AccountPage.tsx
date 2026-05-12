@@ -80,11 +80,9 @@ export default function AccountPage() {
 
   return (
     <Layout>
-      {/* HERO */}
-      <AccountHero user={user} />
 
       {/* MAIN CONTENT */}
-      <section className="account-main">
+      <section className="account-main pt-28">
         <div className="account-container">
           {/* Action Buttons */}
           <div className="account-view-basket">
@@ -99,17 +97,11 @@ export default function AccountPage() {
 
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "profile" | "orders")} className="account-tabs">
             {/* TAB NAVIGATION */}
-            <TabsList className="account-tab-list">
-              <TabsTrigger 
-                value="profile"
-                className="account-tab-trigger"
-              >
+            <TabsList className="account-tab-list" data-state={activeTab}>
+              <TabsTrigger value="profile" className="account-tab-trigger">
                 {t("account.profile")}
               </TabsTrigger>
-              <TabsTrigger 
-                value="orders"
-                className="account-tab-trigger"
-              >
+              <TabsTrigger value="orders" className="account-tab-trigger">
                 {t("account.orders")}
               </TabsTrigger>
             </TabsList>

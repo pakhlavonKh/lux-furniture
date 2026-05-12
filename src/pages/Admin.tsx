@@ -57,6 +57,7 @@ const Admin = () => {
     password: "",
     confirmPassword: "",
   });
+  const [adminKey, setAdminKey] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Layout state
@@ -147,36 +148,70 @@ const Admin = () => {
 
   // === Auth ===
 
+  const verifyAdminToken = useCallback(async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/api/auth/admin/verify`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.ok) {
+        // Token invalid or expired
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("adminUser");
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      setUser(data.user);
+      setLoading(false);
+    } catch {
+      // Network error or endpoint doesn't respond
+      setLoading(false);
+    }
+  }, [API_BASE]);
+
   useEffect(() => {
     const savedUser = localStorage.getItem("adminUser");
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
-        setLoading(false);
-        return;
+        const parsedUser = JSON.parse(savedUser);
+        // Verify token with backend before setting user
+        verifyAdminToken();
+        // Don't return - let verification complete
       } catch {
         localStorage.removeItem("adminUser");
+        setLoading(false);
       }
-    }
-    const regularUser = localStorage.getItem("user");
-    if (regularUser) {
-      try {
-        const parsedUser = JSON.parse(regularUser);
-        if (parsedUser.is_admin) {
-          setUser(parsedUser);
+    } else {
+      const regularUser = localStorage.getItem("user");
+      if (regularUser) {
+        try {
+          const parsedUser = JSON.parse(regularUser);
+          if (parsedUser.is_admin) {
+            // Verify token with backend
+            verifyAdminToken();
+            // Don't return - let verification complete
+          } else {
+            navigate("/account", { replace: true });
+            setLoading(false);
+          }
+        } catch {
+          localStorage.removeItem("user");
           setLoading(false);
-          return;
-        } else {
-          navigate("/account", { replace: true });
-          setLoading(false);
-          return;
         }
-      } catch {
-        localStorage.removeItem("user");
+      } else {
+        setLoading(false);
       }
     }
-    setLoading(false);
-  }, [navigate]);
+  }, [navigate, verifyAdminToken]);
 
   useEffect(() => {
     if (user) {
@@ -184,6 +219,17 @@ const Admin = () => {
       loadDbProducts();
     }
   }, [user, loadNewsAndDiscounts, loadDbProducts]);
+
+  // Listen for unauthorized errors from API
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setUser(null);
+      toast({ title: "Session expired", description: "Please log in again.", variant: "destructive" });
+    };
+
+    window.addEventListener("unauthorized", handleUnauthorized);
+    return () => window.removeEventListener("unauthorized", handleUnauthorized);
+  }, [toast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -232,6 +278,7 @@ const Admin = () => {
             email: formData.email,
             password: formData.password,
             name: formData.email.split("@")[0],
+            ...(adminKey && { admin_key: adminKey }),
           }),
         });
         if (!response.ok) {
@@ -240,7 +287,7 @@ const Admin = () => {
         }
         const data = await response.json();
         if (!data.user?.is_admin) {
-          throw new Error("You do not have admin access.");
+          throw new Error("Admin registration key is invalid or not provided. Contact an existing admin for the correct key.");
         }
         const userData: User = {
           email: formData.email,
@@ -250,7 +297,7 @@ const Admin = () => {
         localStorage.setItem("adminUser", JSON.stringify(userData));
         localStorage.setItem("authToken", data.token);
         setUser(userData);
-        toast({ title: "Account created!", description: "You have successfully registered.", duration: 4000 });
+        toast({ title: "Account created!", description: "You have successfully registered as an admin.", duration: 4000 });
       }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "An error occurred";
@@ -266,6 +313,7 @@ const Admin = () => {
     localStorage.removeItem("authToken");
     setUser(null);
     setFormData({ email: "", password: "", confirmPassword: "" });
+    setAdminKey("");
     toast({ title: "Logged out", description: "You have been logged out successfully." });
     navigate("/");
   };
@@ -840,17 +888,34 @@ const Admin = () => {
             </div>
 
             {!isLogin && (
-              <div className="admin-auth-field">
-                <label htmlFor="confirmPassword">{t("admin.confirmPassword")}</label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                />
-              </div>
+              <>
+                <div className="admin-auth-field">
+                  <label htmlFor="confirmPassword">{t("admin.confirmPassword")}</label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    required
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="admin-auth-field">
+                  <label htmlFor="adminKey">Admin Registration Key</label>
+                  <input
+                    type="password"
+                    id="adminKey"
+                    name="adminKey"
+                    placeholder="Enter admin key to create admin account"
+                    value={adminKey}
+                    onChange={(e) => setAdminKey(e.target.value)}
+                  />
+                  <small style={{ color: "#999", marginTop: 4, display: "block" }}>
+                    Required to create an admin account. Ask existing admin for the key.
+                  </small>
+                </div>
+              </>
             )}
 
             <button type="submit" disabled={isSubmitting} className="admin-auth-submit">
@@ -866,7 +931,10 @@ const Admin = () => {
           </form>
 
           <div className="admin-auth-switch">
-            <button onClick={() => setIsLogin(!isLogin)}>
+            <button onClick={() => {
+              setIsLogin(!isLogin);
+              setAdminKey("");
+            }}>
               {isLogin
                 ? t("admin.noAccount") + " " + t("admin.signup")
                 : t("admin.alreadyHaveAccount") + " " + t("admin.login")}

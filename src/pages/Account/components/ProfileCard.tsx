@@ -27,12 +27,14 @@ export default function ProfileCard({ user }: Props) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
+  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
   useEffect(() => {
     if (user) {
+      setEmail(user.email || "");
       setName(user.name || "");
       setPhone(user.phone || "");
       setAddress(user.address || "");
@@ -43,7 +45,7 @@ export default function ProfileCard({ user }: Props) {
     mutationFn: async () => {
       return apiFetch("/api/users/me", {
         method: "PUT",
-        body: JSON.stringify({ name, phone, address }),
+        body: JSON.stringify({ email, name, phone, address }),
       });
     },
     onSuccess: () => {
@@ -77,12 +79,6 @@ export default function ProfileCard({ user }: Props) {
 
   return (
     <div className="profile-section">
-      {/* Email Display Card */}
-      <div className="profile-email-card">
-        <p className="profile-email-label">{t("account.email")}</p>
-        <p className="profile-email-text">{user.email}</p>
-      </div>
-
       {/* Form Card */}
       <div className="profile-form-card">
         <div className="profile-form-header">
@@ -91,6 +87,17 @@ export default function ProfileCard({ user }: Props) {
         </div>
 
         <div className="profile-form-fields">
+          {/* Email Field */}
+          <div className="profile-form-field">
+            <label className="profile-form-label">{t("account.email")}</label>
+            <input
+              className="profile-form-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
           {/* Name Field */}
           <div className="profile-form-field">
             <label className="profile-form-label">{t("account.fullName")}</label>
@@ -114,6 +121,8 @@ export default function ProfileCard({ user }: Props) {
               placeholder={t("account.phonePlaceholder")}
             />
           </div>
+
+
 
           {/* Address Field */}
           <div className="profile-form-field">

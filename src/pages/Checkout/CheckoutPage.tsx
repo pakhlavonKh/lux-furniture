@@ -186,13 +186,17 @@ export default function CheckoutPage() {
   if (!token) {
     return (
       <Layout>
-        <div className="px-4 py-12 max-w-md mx-auto">
-          <Card className="p-5 space-y-3">
-            <p className="font-medium">Please log in</p>
-            <Button size="lg" className="w-full justify-center" onClick={() => navigate("/login")}>
-              Go to login
-            </Button>
-          </Card>
+        <div className="pt-28 pb-12 min-h-screen bg-gradient-to-br from-background to-background/50">
+          <div className="container-luxury">
+            <div className="max-w-md mx-auto">
+              <Card className="p-6 space-y-4">
+                <p className="font-semibold text-lg">{t("checkout.loginRequired") || "Please log in"}</p>
+                <Button size="lg" className="w-full justify-center h-12 text-base font-semibold" onClick={() => navigate("/login")}>
+                  {t("checkout.goToLogin") || "Go to login"}
+                </Button>
+              </Card>
+            </div>
+          </div>
         </div>
       </Layout>
     );
@@ -201,8 +205,12 @@ export default function CheckoutPage() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="px-4 py-12 max-w-md mx-auto">
-          <div className="text-center text-muted-foreground">Loading...</div>
+        <div className="pt-28 pb-12 min-h-screen bg-gradient-to-br from-background to-background/50">
+          <div className="container-luxury">
+            <div className="max-w-md mx-auto text-center">
+              <div className="text-muted-foreground">Loading...</div>
+            </div>
+          </div>
         </div>
       </Layout>
     );
@@ -211,13 +219,17 @@ export default function CheckoutPage() {
   if (!user) {
     return (
       <Layout>
-        <div className="px-4 py-12 max-w-md mx-auto">
-          <Card className="p-5 space-y-3">
-            <p className="font-medium">Could not load your profile</p>
-            <Button size="lg" className="w-full justify-center" onClick={() => navigate("/profile")}>
-              My profile
-            </Button>
-          </Card>
+        <div className="pt-28 pb-12 min-h-screen bg-gradient-to-br from-background to-background/50">
+          <div className="container-luxury">
+            <div className="max-w-md mx-auto">
+              <Card className="p-6 space-y-4">
+                <p className="font-semibold text-lg">{t("checkout.profileNotLoaded") || "Could not load your profile"}</p>
+                <Button size="lg" className="w-full justify-center h-12 text-base font-semibold" onClick={() => navigate("/profile")}>
+                  {t("checkout.myProfile") || "My profile"}
+                </Button>
+              </Card>
+            </div>
+          </div>
         </div>
       </Layout>
     );
@@ -225,88 +237,105 @@ export default function CheckoutPage() {
 
   return (
     <Layout>
-      <div className="px-4 py-8 max-w-md mx-auto space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold">Checkout</h1>
-          <p className="text-sm text-muted-foreground">Choose a payment method. We’ll prepare your order.</p>
-        </div>
-
-        {!canCheckout ? (
-          <Card className="p-5 space-y-3">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-rose-600 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-semibold">Complete your profile</p>
-                <p className="text-sm text-muted-foreground">
-                  Add phone and delivery address to continue.
-                </p>
-              </div>
-            </div>
-            <Button
-              size="lg"
-              className="w-full justify-center"
-              onClick={() => navigate("/profile", { state: { focus: "address" } })}
-              disabled={isProcessing}
-            >
-              Edit my address
-            </Button>
-          </Card>
-        ) : (
-          <>
-            <Card className="p-5 space-y-4">
-              <p className="font-semibold">Delivery address</p>
-              <p className="text-sm text-muted-foreground">
-                {user.address}
+      <div className="pt-28 pb-12 min-h-screen bg-gradient-to-br from-background to-background/50">
+        <div className="container-luxury">
+          <div className="max-w-2xl mx-auto space-y-8">
+            {/* Header */}
+            <div className="text-center space-y-2 mb-12">
+              <h1 className="heading-section">{t("checkout.title") || "Checkout"}</h1>
+              <p className="text-muted-foreground text-lg">
+                {t("checkout.description") || "Choose a payment method. We'll prepare your order."}
               </p>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Comment (optional)</label>
-                <Textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Any extra note for delivery (optional)"
-                  className="min-h-[90px]"
+            </div>
+
+            {!canCheckout ? (
+              <Card className="p-8 space-y-6 border-rose-200 bg-rose-50/50 dark:bg-rose-950/20">
+                <div className="flex items-start gap-4">
+                  <AlertCircle className="w-6 h-6 text-rose-600 mt-0.5 flex-shrink-0" />
+                  <div className="space-y-2">
+                    <p className="font-semibold text-lg text-foreground">
+                      {t("checkout.completeProfile") || "Complete your profile"}
+                    </p>
+                    <p className="text-muted-foreground">
+                      {t("checkout.profileRequired") || "Add phone and delivery address to continue."}
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  size="lg"
+                  className="w-full justify-center h-12 text-base font-semibold"
+                  onClick={() => navigate("/profile", { state: { focus: "address" } })}
                   disabled={isProcessing}
-                />
-              </div>
-            </Card>
+                >
+                  {t("checkout.editAddress") || "Edit my address"}
+                </Button>
+              </Card>
+            ) : (
+              <>
+                {/* Delivery Address Card */}
+                <Card className="p-6 space-y-4 border-primary/20 hover:border-primary/40 transition-colors">
+                  <p className="font-semibold text-lg">{t("checkout.deliveryAddress") || "Delivery address"}</p>
+                  <div className="p-4 bg-background/50 rounded-lg border border-border">
+                    <p className="text-foreground whitespace-pre-wrap text-sm leading-relaxed">
+                      {user.address}
+                    </p>
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium block">{t("checkout.commentLabel") || "Comment (optional)"}</label>
+                    <Textarea
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      placeholder={t("checkout.commentPlaceholder") || "Any extra note for delivery (optional)"}
+                      className="min-h-[100px] resize-none border-border focus:border-primary"
+                      disabled={isProcessing}
+                    />
+                  </div>
+                </Card>
 
-            <Card className="p-5 space-y-4">
-              <p className="font-semibold">Payment method</p>
-              <div className="grid grid-cols-1 gap-2">
-                {(["click", "payme", "uzum"] as PaymentMethod[]).map((m) => (
-                  <Button
-                    key={m}
-                    size="lg"
-                    className="w-full justify-center"
-                    variant={selectedPayment === m ? "default" : "outline"}
-                    onClick={() => startPayment(m)}
-                    disabled={isProcessing}
-                  >
-                    {paymentLabel(m)}
-                  </Button>
-                ))}
-              </div>
-            </Card>
+                {/* Payment Method Card */}
+                <Card className="p-6 space-y-4 border-primary/20 hover:border-primary/40 transition-colors">
+                  <p className="font-semibold text-lg">{t("checkout.paymentMethod") || "Payment method"}</p>
+                  <div className="grid grid-cols-1 gap-3">
+                    {(["click", "payme", "uzum"] as PaymentMethod[]).map((m) => (
+                      <Button
+                        key={m}
+                        size="lg"
+                        className="w-full justify-center h-12 text-base font-semibold rounded-lg transition-all"
+                        variant={selectedPayment === m ? "default" : "outline"}
+                        onClick={() => startPayment(m)}
+                        disabled={isProcessing}
+                      >
+                        {paymentLabel(m)}
+                      </Button>
+                    ))}
+                  </div>
+                </Card>
 
-            {isProcessing && (
-              <div className="text-center text-sm text-muted-foreground">
-                Preparing payment...
-              </div>
+                {/* Loading State */}
+                {isProcessing && (
+                  <div className="flex items-center justify-center gap-3 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
+                    <div className="w-4 h-4 rounded-full bg-blue-600 animate-pulse" />
+                    <p className="text-sm font-medium text-blue-900 dark:text-blue-400">
+                      {t("checkout.preparing") || "Preparing payment..."}
+                    </p>
+                  </div>
+                )}
+
+                {/* Back to Cart Button */}
+                <Button
+                  size="lg"
+                  className="w-full justify-center h-12 text-base font-semibold"
+                  variant="outline"
+                  onClick={() => navigate("/cart")}
+                  disabled={isProcessing}
+                >
+                  {t("checkout.backToCart") || "Back to cart"}
+                </Button>
+              </>
             )}
-
-            <Button
-              size="lg"
-              className="w-full justify-center"
-              variant="outline"
-              onClick={() => navigate("/cart")}
-              disabled={isProcessing}
-            >
-              Back to cart
-            </Button>
-          </>
-        )}
+          </div>
+        </div>
       </div>
     </Layout>
   );
 }
-

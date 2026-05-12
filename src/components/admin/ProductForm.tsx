@@ -66,6 +66,8 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [subcategory, setSubcategory] = useState("");
   const [collections, setCollections] = useState<string[]>([]);
+  const [ikpu, setIkpu] = useState("");
+  const [packageNumber, setPackageNumber] = useState("");
   const [basePrice, setBasePrice] = useState(0);
   const [vatPercent, setVatPercent] = useState(12);
   const [images, setImages] = useState<ProductImage[]>([]);
@@ -139,6 +141,8 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
         setCategory(p.category);
         setSubcategory(p.subcategory || "");
         setCollections(p.collections || []);
+        setIkpu(p.ikpu || "");
+        setPackageNumber(p.packageNumber || "");
         setBasePrice(p.basePrice);
         setVatPercent(p.vatPercent ?? 12);
         setImages(p.images || []);
@@ -188,6 +192,8 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
     if (!name.uz.trim()) errs.name_uz = "Name (UZ) is required";
     if (!slug.trim()) errs.slug = "Slug is required";
     if (!category) errs.category = "Category is required";
+    if (!ikpu.trim()) errs.ikpu = "IKPU (Product Classification) is required";
+    if (!packageNumber.trim()) errs.packageNumber = "Package Number is required";
     if (basePrice <= 0) errs.basePrice = "Base price must be greater than 0";
     if (images.length === 0) errs.images = "At least one image is required";
 
@@ -206,7 +212,7 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
     if (dupes.length > 0) errs.variants_dup = `Duplicate SKU: ${dupes[0]}`;
 
     return errs;
-  }, [name, slug, category, basePrice, images, variants]);
+  }, [name, slug, category, ikpu, packageNumber, basePrice, images, variants]);
 
   const buildPayload = useCallback((): Omit<ProductData, "_id"> => {
     const trimLocalized = (v: LocalizedString): LocalizedString => ({
@@ -228,6 +234,8 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
       category,
       subcategory: subcategory.trim() || undefined,
       collections: collections.length > 0 ? collections : undefined,
+      ikpu: ikpu.trim(),
+      packageNumber: packageNumber.trim(),
       basePrice,
       vatPercent,
       images,
@@ -279,6 +287,8 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
     category,
     subcategory,
     collections,
+    ikpu,
+    packageNumber,
     basePrice,
     vatPercent,
     images,
@@ -470,6 +480,32 @@ export function ProductForm({ productId, onClose, onSaved }: ProductFormProps) {
               placeholder="e.g., Leather, Wood"
               className="product-input"
             />
+          </div>
+        </div>
+
+        <div className="product-grid product-grid-2">
+          <div className="product-field">
+            <label>IKPU (Product Classification) *</label>
+            <input
+              value={ikpu}
+              onChange={(e) => setIkpu(e.target.value)}
+              placeholder="e.g., 94.01"
+              className="product-input"
+              required
+            />
+            {errors.ikpu && <p className="product-error">{errors.ikpu}</p>}
+          </div>
+
+          <div className="product-field">
+            <label>Package Number *</label>
+            <input
+              value={packageNumber}
+              onChange={(e) => setPackageNumber(e.target.value)}
+              placeholder="e.g., PKG-001"
+              className="product-input"
+              required
+            />
+            {errors.packageNumber && <p className="product-error">{errors.packageNumber}</p>}
           </div>
         </div>
       </section>

@@ -63,6 +63,15 @@ export async function apiFetch<T = unknown>(
       : null;
 
   if (!response.ok) {
+    // Handle unauthorized - clear auth and redirect
+    if (response.status === 401) {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("adminUser");
+      localStorage.removeItem("user");
+      // Dispatch custom event so admin panel can listen and redirect
+      window.dispatchEvent(new CustomEvent("unauthorized"));
+    }
+
     console.error("❌ API Error:", {
       endpoint,
       status: response.status,
@@ -252,6 +261,8 @@ export interface ProductData {
   category: string;
   subcategory?: string;
   collections?: string[];
+  ikpu: string;
+  packageNumber: string;
   basePrice: number;
   vatPercent?: number;
   availability?: "in_stock" | "preorder" | "made_to_order";

@@ -30,6 +30,8 @@ export const config = {
 
   MONGO_URI: process.env.MONGO_URI,
 
+  ADMIN_REGISTRATION_KEY: process.env.ADMIN_REGISTRATION_KEY || "change-me-in-production",
+
   payments: {
     payme: {
       merchantId: process.env.PAYME_MERCHANT_ID || "",

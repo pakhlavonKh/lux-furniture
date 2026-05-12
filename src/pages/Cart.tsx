@@ -9,6 +9,22 @@ import { useQuery } from "@tanstack/react-query";
 import { getImageUrl } from "@/data/catalogData";
 import { apiFetch, getAllDiscounts, type Discount } from "@/lib/api";
 
+// Helper to resolve image URLs - handles both local assets and backend uploads
+function resolveImageUrl(imagePath: string): string {
+  if (!imagePath) return "";
+  // Already a full HTTP URL (Cloudinary, etc)
+  if (imagePath.startsWith("http")) return imagePath;
+  // Backend upload path - needs full backend URL
+  if (imagePath.startsWith("/uploads/")) {
+    const backendUrl = import.meta.env.DEV
+      ? "http://localhost:5001"
+      : (import.meta.env.VITE_API_URL || "http://localhost:5001");
+    return `${backendUrl}${imagePath}`;
+  }
+  // Local asset - use the asset mapping
+  return getImageUrl(imagePath);
+}
+
 interface CartItem {
   id: string;
   slug: string;
@@ -153,7 +169,24 @@ export default function Cart() {
                     <motion.div key={item.id} layout className="cart-item">
                       {/* Thumbnail */}
                       <Link to={`/product/${item.slug}`} className="cart-thumb">
-                        <img src={getImageUrl(item.image)} alt={item.name} />
+                        {item.image ? (
+                          <img 
+                            src={resolveImageUrl(item.image)} 
+                            alt={item.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              console.log("Image load failed:", { src: target.src, item: item.name });
+                            }}
+                            onLoad={() => {
+                              console.log("Image loaded successfully:", item.name);
+                            }}
+                          />
+                        ) : (
+                          <div style={{ width: '100%', height: '100%', backgroundColor: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: '12px' }}>
+                            No image
+                          </div>
+                        )}
                       </Link>
 
                       {/* Info */}
@@ -238,11 +271,6 @@ export default function Cart() {
                     <span className="order-summary-label">{t("cart.subtotal") || "Subtotal"}</span>
                     <span>{subtotal.toLocaleString()} UZS</span>
                   </div>
-
-                  <div className="order-summary-row">
-                    <span className="order-summary-label">{t("cart.tax") || "Tax (12%)"}</span>
-                    <span>{tax.toLocaleString()} UZS</span>
-                  </div>
                 </div>
 
                 <div className="order-summary-total">
@@ -252,22 +280,26 @@ export default function Cart() {
 
                 {token && user && (!user.phone || !user.address) ? (
                   <div className="space-y-3">
-                    <div className="flex items-start gap-3 p-4 bg-rose-500/10 border border-rose-500/30 rounded-lg">
+                    <div className="flex rounded-full items-start gap-3 p-4 bg-rose-500/10 border border-rose-500/30 rounded-lg">
                       <AlertCircle className="w-5 h-5 text-rose-600 mt-0.5 flex-shrink-0" />
                       <div>
                         <p className="font-semibold text-sm text-rose-900 dark:text-rose-400">
-                          Complete Your Profile
+                          {t("checkout.completeProfile") || "Complete Your Profile"}
                         </p>
                         <p className="text-xs text-rose-800 dark:text-rose-300 mt-1">
-                          {!user.phone && "Phone number"} {!user.phone && !user.address && "and"} {!user.address && "delivery address"} required
+                          {!user.phone && !user.address
+                            ? t("checkout.profileRequired") || "Add phone and delivery address to continue."
+                            : !user.phone
+                            ? t("checkout.phoneRequired") || "Phone number required"
+                            : t("checkout.addressRequired") || "Delivery address required"}
                         </p>
                       </div>
                     </div>
                     <button
                       onClick={() => navigate("/profile", { state: { focus: "address" } })}
-                      className="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-all"
+                      className="w-full rounded-full py-4 mb-4 px-6 bg-primary hover:bg-primary/90 text-white transition-all"
                     >
-                      Edit my address
+                      {t("checkout.editAddress") || "Edit my address"}
                     </button>
                   </div>
                 ) : (

@@ -1089,9 +1089,28 @@
     "each": "each",
     "orderSummary": "Order Summary",
     "subtotal": "Subtotal",
-    "tax": "Tax (12%)",
     "total": "Total",
     "checkout": "Proceed to Checkout"
+  },
+
+  "checkout": {
+    "title": "Checkout",
+    "description": "Choose a payment method. We'll prepare your order.",
+    "completeProfile": "Complete your profile",
+    "profileRequired": "Phone number and delivery address are required",
+    "editAddress": "Edit my address",
+    "deliveryAddress": "Delivery address",
+    "commentLabel": "Comment (optional)",
+    "commentPlaceholder": "Any extra note for delivery (optional)",
+    "paymentMethod": "Payment method",
+    "preparing": "Preparing payment...",
+    "backToCart": "Back to cart",
+    "loginRequired": "Please log in",
+    "goToLogin": "Go to login",
+    "profileNotLoaded": "Could not load your profile",
+    "myProfile": "My profile",
+    "phoneRequired": "Phone number required",
+    "addressRequired": "Delivery address required"
   },
 
   "discounts": {
